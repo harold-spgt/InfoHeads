@@ -1,0 +1,31 @@
+########################################################
+#                  InfoHeads V1.0.0                    #
+# - Author: Harry0198                                  #
+# - License: FREE!                                     #
+#                                                      #
+#                 Enjoy the Plugin!                    #
+########################################################
+# All of your InfoHeads Will be located here!
+# PlaceHolderAPI Support coming in later releases
+#
+# Placeholders: {player-x} {player-y} {player-z} {block-x} {block-y} {block-z} {player-name}
+# PlaceHolderAPI Support coming soon
+#
+# All of your valid configuration names MUST be placed here to register
+# On creation this is done automatically but if you create manually it's
+# up to you.
+Names:
+  - "Example"
+#
+#
+# Formatting:
+#
+# Name: Example
+Example:
+  name: Example
+  message: 'Your message here!'
+  command: 'Your command here!'
+  x: 0 # x coordinate  
+  y: 0 # y coordinate
+  z: 0 # z coordinate
+

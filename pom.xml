@@ -1,0 +1,42 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>me.harry0198.infoheads</groupId>
+    <artifactId>InfoHeads</artifactId>
+    <name>InfoHeads parent</name>
+
+    <packaging>pom</packaging>
+    <!-- Packaging? POM -->
+    <version>parent</version>
+    <!-- I keep my versions of the internal projects static, so I don't have
+        to rename them all the time. -->
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>Plugin-IH</module>
+        <module>legacy</module>
+        <module>versioninterface</module>
+        <module>1_8</module>
+        <module>1_13</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

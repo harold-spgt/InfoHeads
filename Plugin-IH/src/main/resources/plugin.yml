@@ -1,0 +1,12 @@
+name: InfoHeads
+main: me.harry0198.infoheads.InfoHeads
+version: 1.0
+author: Harry0198
+api-version: 1.13
+description: InfoHeads plugin!
+commands:
+  infoheads:
+    aliases: [if]
+    description: The InfoHeads setup wizard command.
+    usage: /Infoheads
+ 
