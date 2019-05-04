@@ -9,6 +9,7 @@ import java.util.logging.Level;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -195,6 +196,7 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
 
     private void createCommand(CommandSender sender, Command cmd, String s, String[] args) {
         Inventory iv = new Inventory(this);
+        if (InfoHeads.getPermissions().playerHas((Player) sender, Constants.ADMIN_PERM) == false) { sender.sendMessage(ChatColor.RED + "No permission");return;} // perms check
         if (!(Bukkit.getVersion().contains("1.8"))) { // 1.8 clients does not support inventory storage
             iv.storeAndClearInventory((Player) sender);
         }
