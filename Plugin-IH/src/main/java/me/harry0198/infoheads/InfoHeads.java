@@ -45,13 +45,10 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
 
     //Interfaces
     public VersionInterface versionHandler;
-    public VersionInterface soundsVersion;
 
     // Inventory Storage
-    public Map<UUID, ItemStack[]> items = new HashMap<UUID, ItemStack[]>();
-    public Map<UUID, ItemStack[]> armor = new HashMap<UUID, ItemStack[]>();
-
-    public static String version;
+    public Map<UUID, ItemStack[]> items = new HashMap<>();
+    public Map<UUID, ItemStack[]> armor = new HashMap<>();
 
     // Vault
     private static Permission perms = null;
@@ -169,6 +166,15 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
                 .addConversationAbandonedListener(this);
     }
 
+    /**
+     * WILL BE MOVED TO COMMANDS & HANDLERS
+     *
+     * @param sender
+     * @param cmd
+     * @param s
+     * @param args
+     * @return
+     */
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
         if (sender instanceof Conversable) {
             if (getPermissions().playerHas((Player) sender, Constants.ADMIN_PERM) == true) {
@@ -181,7 +187,7 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
                     }
                 }
 
-            }
+            } else { sender.sendMessage(ChatColor.RED + "No permission"); }
         } else {
             return false;
         }
@@ -195,8 +201,9 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     }
 
     private void createCommand(CommandSender sender, Command cmd, String s, String[] args) {
+
         Inventory iv = new Inventory(this);
-        if (InfoHeads.getPermissions().playerHas((Player) sender, Constants.ADMIN_PERM) == false) { sender.sendMessage(ChatColor.RED + "No permission");return;} // perms check
+
         if (!(Bukkit.getVersion().contains("1.8"))) { // 1.8 clients does not support inventory storage
             iv.storeAndClearInventory((Player) sender);
         }
