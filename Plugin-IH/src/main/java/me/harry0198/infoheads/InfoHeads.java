@@ -216,6 +216,12 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     private void editCommand(CommandSender sender, Command cmd, String s, String[] args) {
 
     }
+    
+    /**
+    * This gets the server version and applies the specific code to the version field.
+    * Then it defines which module to use via the interface thus using the correct
+    * version method
+    */
 
     private void setupVersions() {
         String version;
