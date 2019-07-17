@@ -7,26 +7,32 @@ import org.bukkit.entity.Player;
 
 import me.harry0198.infoheads.InfoHeads;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExecutedPrompt extends MessagePrompt {
 	
-	protected InfoHeads b;
+	protected InfoHeads infoHeads;
 
-	public ExecutedPrompt(InfoHeads b) {
-		this.b = b;
+	public ExecutedPrompt(InfoHeads infoHeads) {
+		this.infoHeads = infoHeads;
 
 	}
 
 	public String getPromptText(ConversationContext context) {
-		String name = (String) context.getSessionData("name");
 		String command = (String) context.getSessionData("command");
 		String message = (String) context.getSessionData("message");
-		
-		b.namedComplete.add((Player) context.getForWhom());
-		b.getConfig().set("# InfoHead: " + name, name);
-		b.getConfig().set(name + ".name", name);
-		b.getConfig().set(name + ".message", message);
-		b.getConfig().set(name + ".command", command);
-		b.saveConfig();
+
+		List<String> msg = new ArrayList<>();
+		msg.add(message);
+
+		List<String> cmd = new ArrayList<>();
+		cmd.add(command);
+
+		infoHeads.namedComplete.add((Player) context.getForWhom());
+		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".messages", msg);
+		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".commands", cmd);
+		infoHeads.saveConfig();
 
 		return "Now you may place your infohead / desired block!";
 	}

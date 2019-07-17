@@ -1,9 +1,9 @@
 name: InfoHeads
 main: me.harry0198.infoheads.InfoHeads
-version: 1.1
+version: 1.2
 author: Harry0198
-api-version: 1.8
 description: InfoHeads plugin!
+api-version: 1.13
 commands:
   infoheads:
     aliases: [if]

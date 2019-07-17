@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.harry0198.infoheads.InfoHeads;
-import me.harry0198.infoheads.utils.Items;
 
 public class Inventory {
 	

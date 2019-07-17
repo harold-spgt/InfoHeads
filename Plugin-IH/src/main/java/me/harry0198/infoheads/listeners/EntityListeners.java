@@ -1,9 +1,9 @@
 package me.harry0198.infoheads.listeners;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.ObjectUtils;
+import me.harry0198.infoheads.utils.LoadedLocations;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,14 +14,13 @@ import me.harry0198.infoheads.InfoHeads;
 import me.harry0198.infoheads.inventorys.Inventory;
 import me.harry0198.infoheads.utils.Constants;
 import me.harry0198.infoheads.utils.Utils;
-import org.bukkit.inventory.EquipmentSlot;
 
 public class EntityListeners implements Listener {
 	
-	protected InfoHeads b;
+	protected InfoHeads infoHeads;
 
-	public EntityListeners(InfoHeads b) {
-		this.b = b;
+	public EntityListeners(InfoHeads infoHeads) {
+		this.infoHeads = infoHeads;
 
 	}
 	
@@ -32,29 +31,31 @@ public class EntityListeners implements Listener {
 	 * 
 	 * @param e
 	 */
-	private List<String> names = new ArrayList<>();
-	
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
-		if (!(b.namedComplete.contains(e.getPlayer()))) {return;}
+		if (!(infoHeads.namedComplete.contains(e.getPlayer()))) return;
 		Utils.sendMessage(e.getPlayer(), "&aInfoHeads Wizard: &fReceived Placement!");
+
+		World world = e.getPlayer().getWorld();
+		int x = e.getBlockPlaced().getX();
+		int y = e.getBlockPlaced().getY();
+		int z = e.getBlockPlaced().getZ();
+
+		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".location.x", x);
+		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".location.y", y);
+		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".location.z", z);
+		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".location.world", world.getName());
+		infoHeads.saveConfig();
+
+		addToList(world);
+		
+		new Inventory(infoHeads).restoreInventory(e.getPlayer());
+		infoHeads.namedComplete.remove(e.getPlayer());
+		infoHeads.name.remove(e.getPlayer());
+
 		Utils.sendMessage(e.getPlayer(), "&aInfoHeads Wizard: &fCreation complete!");
-		
-		String name = b.name.get(e.getPlayer());
-		
-		b.getConfig().set(name + ".x", e.getBlockPlaced().getX());
-		b.getConfig().set(name + ".y", e.getBlockPlaced().getY());
-		b.getConfig().set(name + ".z", e.getBlockPlaced().getZ());
-		addToList(name);
-		b.saveConfig();
-		
-		
-		new Inventory(b).restoreInventory(e.getPlayer());
-		b.namedComplete.remove(e.getPlayer());
-		b.name.remove(e.getPlayer());
-		
 		// Update the holdings list
-		b.infoHeadsData();
+	 	infoHeads.setup();
 	}
 	
 	/**
@@ -66,35 +67,30 @@ public class EntityListeners implements Listener {
 	@EventHandler
 	public void onInteractEvent(PlayerInteractEvent e) {
 		// Check for one click registered via reflection
-        if (b.versionHandler.triggerOnce(e) == false) { return;}
+        if (infoHeads.versionHandler.triggerOnce(e) == false) { return;}
 		//if (e.getHand() == EquipmentSlot.OFF_HAND) { return;} // So only one click is registered
 		if (InfoHeads.getPermissions().playerHas(e.getPlayer(), Constants.BASE_PERM + "use") == false) { return;} // perms check
 		// Check if they've clicked a valid block
 		try {
-			b.x.containsValue(e.getClickedBlock().getX());
-		} catch (NullPointerException npe) { return; }
-		// Check if we have the block
-		if (!(b.x.containsValue(e.getClickedBlock().getX()))) { return; } 
-		if (!(b.y.containsValue(e.getClickedBlock().getY()))) { return; }
-		if (!(b.z.containsValue(e.getClickedBlock().getZ()))) { return; }
-		
+			e.getClickedBlock().getLocation().getBlockX();
+		} catch (NullPointerException npe) {
+		}
+
 		// Check if block is registered in maps
-		for (String get : b.infoheads) {
-			if (!(b.x.get(get) == e.getClickedBlock().getX())) { continue;}
-			if (!(b.y.get(get) == e.getClickedBlock().getY())) { continue;}
-			if (!(b.z.get(get) == e.getClickedBlock().getZ())) { continue;}
-			
-			String message = b.messages.get(get);
-			String command = b.commands.get(get);
-			
-			// Dispatch command and message!
-			if (!(command.length() == 0)) {
-				b.getServer().dispatchCommand(b.getServer().getConsoleSender(), placeHolderMessage(command, e.getPlayer(), e));
+		for (LoadedLocations each : infoHeads.loadedLoc) {
+			if (!(each.getLocation().equals(e.getClickedBlock().getLocation()))) continue;
+			Player player = e.getPlayer();
+
+			if (each.getCommand() != null) {
+				for (String cmds : each.getCommand()) infoHeads.getServer().dispatchCommand(infoHeads.getServer().getConsoleSender(), placeHolderMessage(cmds, player, e));
 			}
-			if (!(message.length() == 0)) {
-				Utils.sendMessage(e.getPlayer(), placeHolderMessage(message, e.getPlayer(), e));
-			}	
-		}	
+
+			if (each.getMessage() != null) {
+				for (String msg : each.getMessage()) {
+					Utils.sendMessage(player, placeHolderMessage(msg, player, e));
+				}
+			}
+		}
 	}
 	
 	/**
@@ -105,7 +101,6 @@ public class EntityListeners implements Listener {
 	 * @param e
 	 * @return msg The new message
 	 */
-	
 	private String placeHolderMessage(String message, Player player, PlayerInteractEvent e) {
 		//{player-x} {player-y} {player-z} {block-x} {block-y} {block-z} {player-name}
 		String msg = message;
@@ -113,7 +108,7 @@ public class EntityListeners implements Listener {
 		msg = msg.replace("{player-x}", "" + player.getLocation().getBlockX()); // "" so it validates as a string
 		msg = msg.replace("{player-y}", "" + player.getLocation().getBlockY());
 		msg = msg.replace("{player-z}", "" + player.getLocation().getBlockZ());
-		msg = msg.replace("{player-name}", player.getName().toString());
+		msg = msg.replace("{player-name}", player.getName());
 		
 		// Block Variables
 		msg = msg.replace("{block-x}", "" + e.getClickedBlock().getX());
@@ -122,17 +117,22 @@ public class EntityListeners implements Listener {
 		
 		return msg;
 	}
-	/**
-	 * Add the name to the registered list in config.yml
-	 * 
-	 * @param name
-	 */
-	
-	private void addToList(String name) {
-		for (String s : b.getConfig().getStringList("Names")) {
-			names.add(s);
-		}
-		names.add(name);
-		b.getConfig().set("Names", names);
+
+	// Adds to builder class
+	private void addToList(World world) {
+		ConfigurationSection section = infoHeads.getConfig().getConfigurationSection("Infoheads");
+
+		String key = (infoHeads.keys + 1) + "";
+
+		int x = section.getInt(key + ".location.x");
+		int y = section.getInt(key + ".location.y");
+		int z = section.getInt(key + ".location.z");
+
+		infoHeads.loadedLoc.add(LoadedLocations.builder()
+				.location(new Location(world, x, y, z))
+				.message(section.getStringList(key + "messages"))
+				.command(section.getStringList(key + "commands"))
+				.build());
+
 	}
 }

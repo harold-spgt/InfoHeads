@@ -17,7 +17,6 @@ public class VersionHandler implements VersionInterface {
     public void items(Player player){
         Items items = new Items();
 
-        //TODO Change to streams / lambda
         addItem(player, items.questionSkull()); // THIS MUST BE FIRST TO REGISTER VERSION
         addItem(player, items.exclamationSkull());
         addItem(player, items.arrowUpSkull());
