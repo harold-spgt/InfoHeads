@@ -168,15 +168,15 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     /**
      * WILL BE MOVED TO COMMANDS & HANDLERS
      *
-     * @param sender
-     * @param cmd
-     * @param s
-     * @param args
-     * @return
+     * @param sender Sender of command
+     * @param cmd Command
+     * @param s String
+     * @param args Arguments
+     * @return boolean
      */
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
         if (sender instanceof Conversable) {
-            if (getPermissions().playerHas((Player) sender, Constants.ADMIN_PERM) == true) {
+            if (getPermissions().playerHas((Player) sender, Constants.ADMIN_PERM)) {
                 if (args.length == 0) {
                     createCommand(sender, cmd, s, args);
                 }
@@ -208,7 +208,6 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
         }
         iv.infoHeadsInventory((Player) sender);
         conversationFactory.buildConversation((Conversable) sender).begin();
-        return;
 
     }
 
