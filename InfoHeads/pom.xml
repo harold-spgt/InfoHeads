@@ -20,6 +20,10 @@
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
     <dependencies>
         <!-- Spigot 1.8.8 API -> Built in this -->
@@ -35,6 +39,13 @@
             <artifactId>bstats-bukkit</artifactId>
             <version>1.4</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- PAPI -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.3</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

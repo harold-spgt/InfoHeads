@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.listeners;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.harry0198.infoheads.utils.LoadedLocations;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -102,14 +103,13 @@ public class EntityListeners implements Listener {
 	/**
 	 * Replaces all placeholders in the messages / commands
 	 * 
-	 * @param message String passed through to decode
+	 * @param msg String passed through to decode
 	 * @param player Player Entity
 	 * @param e PlayerInteractEvent
 	 * @return msg The new message
 	 */
-	private String placeHolderMessage(String message, Player player, PlayerInteractEvent e) {
+	private String placeHolderMessage(String msg, Player player, PlayerInteractEvent e) {
 		//{player-x} {player-y} {player-z} {block-x} {block-y} {block-z} {player-name}
-		String msg = message;
 		// Player Variables
 		msg = msg.replace("{player-x}", "" + player.getLocation().getBlockX()); // "" so it validates as a string
 		msg = msg.replace("{player-y}", "" + player.getLocation().getBlockY());
@@ -120,6 +120,9 @@ public class EntityListeners implements Listener {
 		msg = msg.replace("{block-x}", "" + e.getClickedBlock().getX());
 		msg = msg.replace("{block-y}", "" + e.getClickedBlock().getY());
 		msg = msg.replace("{block-z}", "" + e.getClickedBlock().getZ());
+
+		if (infoHeads.isPapi())
+			msg = infoHeads.papiMethod.execute(player, msg);
 		
 		return msg;
 	}

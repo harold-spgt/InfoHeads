@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import lombok.Getter;
 import me.harry0198.infoheads.commands.general.conversations.CommandPrompt;
 import me.harry0198.infoheads.inventorys.HeadStacks;
 import me.harry0198.infoheads.utils.LoadedLocations;
+import me.harry0198.infoheads.utils.PapiMethod;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,6 +43,9 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     public List<Player> namedComplete = new ArrayList<>();
     public List<LoadedLocations> loadedLoc = new ArrayList<>();
     public HeadStacks headStacks = new HeadStacks();
+    public PapiMethod papiMethod = new PapiMethod();
+    @Getter
+    public boolean papi = false;
 
     // Data Storage lists & Maps
     public List<String> infoheads = new ArrayList<>();
@@ -60,6 +65,10 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     @Override
     public void onEnable() {
 
+        // Checking for PAPI
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            papi = true;
+        }
         setupPermissions();
         // Metrics
         @SuppressWarnings("unused")
@@ -80,12 +89,10 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     /**
      * Vault API Hook
      *
-     * @return perms
      */
-    private boolean setupPermissions() {
+    private void setupPermissions() {
         RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
         perms = rsp.getProvider();
-        return perms != null;
     }
 
     public static Permission getPermissions() {
