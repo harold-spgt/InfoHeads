@@ -23,7 +23,7 @@ public class CommandPrompt extends StringPrompt {
 	@Override
 	public Prompt acceptInput(ConversationContext context, String s) {
 		if (s.equals("-")) {
-			context.setSessionData("command", "");
+			context.setSessionData("command", null);
 			return new MessagePrompt(b);
 		}
 		context.setSessionData("command", s);

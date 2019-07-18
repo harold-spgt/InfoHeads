@@ -22,7 +22,7 @@ public class MessagePrompt extends StringPrompt {
 	@Override
 	public Prompt acceptInput(ConversationContext context, String s) {
 		if (s.equals("-")) {
-			context.setSessionData("message", "");
+			context.setSessionData("message", null);
 			return new ExecutedPrompt(b);
 		}
 		context.setSessionData("message", s);

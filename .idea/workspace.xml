@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="59f05802-e29a-44c1-9d75-9d485a6efed0" name="Default Changelist" comment="Converted from reflection for materials to universal Enum Class" />
+    <list default="true" id="59f05802-e29a-44c1-9d75-9d485a6efed0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/InfoHeads.class" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/InfoHeads.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/inventorys/HeadStacks.class" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/inventorys/HeadStacks.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/inventorys/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/inventorys/Inventory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/listeners/EntityListeners.class" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/listeners/EntityListeners.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/target/original-InfoHeads-parent.jar" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/original-InfoHeads-parent.jar" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/Plugin-IH/target/" />
     <ignored path="$PROJECT_DIR$/versioninterface/target/" />
@@ -22,54 +32,34 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java">
+        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="43" column="54" selection-start-line="43" selection-start-column="54" selection-end-line="43" selection-end-column="54" />
+            <state relative-caret-position="281">
+              <caret line="78" column="9" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="61" lean-forward="true" selection-start-line="29" selection-start-column="61" selection-end-line="30" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#369#370#0" expanded="true" />
-                <element signature="e#405#406#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1200">
-              <caret line="104" column="14" selection-start-line="104" selection-start-column="14" selection-end-line="104" selection-end-column="14" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/pom.xml">
+        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
-              <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/Inventory.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
-              <caret line="79" selection-start-line="79" selection-end-line="79" />
+              <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -110,12 +100,14 @@
         <option value="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/inventorys/Inventory.java" />
         <option value="$PROJECT_DIR$/Plugin-IH/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java" />
         <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/utils/MaterialUtils.java" />
-        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/Inventory.java" />
         <option value="$PROJECT_DIR$/InfoHeads/pom.xml" />
-        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java" />
+        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java" />
         <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java" />
+        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/Inventory.java" />
+        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java" />
+        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.java" />
+        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.java" />
       </list>
     </option>
   </component>
@@ -288,7 +280,28 @@
       <option name="project" value="LOCAL" />
       <updated>1563370236757</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Tweaks">
+      <created>1563465360042</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1563465360042</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Patched up Main class">
+      <created>1563465459023</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1563465459023</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Resolved NPE when punching air">
+      <created>1563466149705</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1563466149705</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -303,19 +316,19 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32905483" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32905483" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="8" side_tool="true" visible="true" weight="0.32905483" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32905483" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven" order="4" weight="0.32967034" />
+      <window_info active="true" anchor="right" id="Maven" order="4" visible="true" weight="0.32967034" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
@@ -325,7 +338,10 @@
     <MESSAGE value="Removed ambiguous config calls&#10;All locations &amp; messages / commands etc are loaded upon startup.&#10;Location check is now strictly location. (No more if x = x, if y = x..." />
     <MESSAGE value="Minor code cleanup" />
     <MESSAGE value="Converted from reflection for materials to universal Enum Class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Converted from reflection for materials to universal Enum Class" />
+    <MESSAGE value="Tweaks" />
+    <MESSAGE value="Patched up Main class" />
+    <MESSAGE value="Resolved NPE when punching air" />
+    <option name="LAST_COMMIT_MESSAGE" value="Resolved NPE when punching air" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/utils/Items.java" />
@@ -334,16 +350,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="14" column="56" selection-start-line="14" selection-start-column="56" selection-end-line="14" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/utils/LoadedLocations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -395,23 +401,6 @@
     <entry file="file://$PROJECT_DIR$/Legacy/pom.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/InfoHeads/.classpath">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -429,34 +418,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/Inventory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="79" selection-start-line="79" selection-end-line="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="104" column="14" selection-start-line="104" selection-start-column="14" selection-end-line="104" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -471,22 +436,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java">
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/utils/LoadedLocations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="43" column="54" selection-start-line="43" selection-start-column="54" selection-end-line="43" selection-end-column="54" />
+        <state relative-caret-position="240">
+          <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/Inventory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="18" column="7" lean-forward="true" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#282#283#0" expanded="true" />
+            <element signature="e#315#316#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="61" lean-forward="true" selection-start-line="29" selection-start-column="61" selection-end-line="30" selection-end-column="39" />
+        <state relative-caret-position="90">
+          <caret line="10" column="72" selection-start-line="10" selection-start-column="72" selection-end-line="10" selection-end-column="72" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#369#370#0" expanded="true" />
-            <element signature="e#405#406#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-450">
+          <caret line="39" column="54" lean-forward="true" selection-start-line="39" selection-start-column="54" selection-end-line="39" selection-end-column="54" />
+          <folding>
+            <element signature="e#2131#2158#1" expanded="true" />
+            <element signature="e#3689#3690#0" expanded="true" />
+            <element signature="e#3717#3718#0" expanded="true" />
+            <element signature="e#5913#5914#0" expanded="true" />
+            <element signature="e#5956#5957#0" expanded="true" />
+            <element signature="e#6105#6106#0" expanded="true" />
+            <element signature="e#6141#6142#0" expanded="true" />
+            <element signature="e#6293#6294#0" expanded="true" />
+            <element signature="e#6332#6333#0" expanded="true" />
+            <element signature="e#6485#6486#0" expanded="true" />
+            <element signature="e#6523#6524#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="78" column="9" selection-start-line="78" selection-start-column="9" selection-end-line="78" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
         </state>
       </provider>
     </entry>
