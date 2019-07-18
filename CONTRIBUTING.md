@@ -20,15 +20,17 @@ Are my commit messages descriptive?
 # Brackets
 
 This is GOOD:
-
+```
 if (var.func(param1, param2)) {
     // do things
 }
+```
 This is EXTREMELY BAD:
-
+```
 if(var.func( param1, param2 ))
 {
     // do things
 }
+```
 
 Note: Most of this Contributing text was taken from WorldEdit's Contributing page. However, in no way is this plugin affiliated with WorldEdit and/or it's creators.
