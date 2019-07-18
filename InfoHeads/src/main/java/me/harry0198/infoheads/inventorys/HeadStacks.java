@@ -10,10 +10,6 @@ public class HeadStacks {
 
     private Material material = MaterialUtils.PLAYER_HEAD.getMaterial();
 
-    public HeadStacks() {
-        System.out.println(MaterialUtils.PLAYER_HEAD.getMaterial());
-    }
-
     private ItemStack questionSkull() {
 
         ItemStack playerSkull = new ItemStack(material, 1, (short) 3);

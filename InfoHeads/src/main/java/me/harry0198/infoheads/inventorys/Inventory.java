@@ -1,7 +1,6 @@
 package me.harry0198.infoheads.inventorys;
 
 import java.util.UUID;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,19 +8,17 @@ import me.harry0198.infoheads.InfoHeads;
 
 public class Inventory {
 	
-	protected InfoHeads infoHeads;
+	private InfoHeads infoHeads;
 
 	public Inventory(InfoHeads infoHeads) {
 		this.infoHeads = infoHeads;
-
 	}
 	
 	/**
 	 * Store the inventory
 	 * 
-	 * @param player
+	 * @param player Player Entity
 	 */
-	
 	public void storeAndClearInventory(Player player){
 	    UUID uuid = player.getUniqueId();
 
@@ -42,9 +39,8 @@ public class Inventory {
 	/**
 	 * Restore original inventory
 	 * 
-	 * @param player
+	 * @param player Player entity
 	 */
-	
 	public void restoreInventory(Player player){
 	    UUID uuid = player.getUniqueId();
 

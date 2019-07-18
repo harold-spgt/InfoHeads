@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import me.harry0198.infoheads.commands.general.conversations.CommandPrompt;
+import me.harry0198.infoheads.inventorys.HeadStacks;
 import me.harry0198.infoheads.utils.LoadedLocations;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -39,6 +40,7 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     public Map<Player, String> name = new HashMap<>();
     public List<Player> namedComplete = new ArrayList<>();
     public List<LoadedLocations> loadedLoc = new ArrayList<>();
+    public HeadStacks headStacks = new HeadStacks();
 
     // Data Storage lists & Maps
     public List<String> infoheads = new ArrayList<>();
@@ -54,42 +56,6 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     // Conversations
     private ConversationFactory conversationFactory;
 
-    /**
-     * Log any message to console with any level.
-     *
-     * @param level the log level to log on.
-     * @param msg   the message to log.
-     */
-    public void log(Level level, String msg) {
-        getLogger().log(level, msg);
-    }
-
-    /**
-     * Log a message to console on INFO level.
-     *
-     * @param msg the msg you want to log.
-     */
-    public void info(String msg) {
-        log(Level.INFO, msg);
-    }
-
-    /**
-     * Log a message to console on WARNING level.
-     *
-     * @param msg the msg you want to log.
-     */
-    public void warn(String msg) {
-        log(Level.WARNING, msg);
-    }
-
-    /**
-     * Log a message to console on SEVERE level.
-     *
-     * @param msg the msg you want to log.
-     */
-    public void severe(String msg) {
-        log(Level.SEVERE, msg);
-    }
 
     @Override
     public void onEnable() {
@@ -202,6 +168,43 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
         iv.infoHeadsInventory((Player) sender);
         conversationFactory.buildConversation((Conversable) sender).begin();
 
+    }
+
+    /**
+     * Log any message to console with any level.
+     *
+     * @param level the log level to log on.
+     * @param msg   the message to log.
+     */
+    public void log(Level level, String msg) {
+        getLogger().log(level, msg);
+    }
+
+    /**
+     * Log a message to console on INFO level.
+     *
+     * @param msg the msg you want to log.
+     */
+    public void info(String msg) {
+        log(Level.INFO, msg);
+    }
+
+    /**
+     * Log a message to console on WARNING level.
+     *
+     * @param msg the msg you want to log.
+     */
+    public void warn(String msg) {
+        log(Level.WARNING, msg);
+    }
+
+    /**
+     * Log a message to console on SEVERE level.
+     *
+     * @param msg the msg you want to log.
+     */
+    public void severe(String msg) {
+        log(Level.SEVERE, msg);
     }
 
 }

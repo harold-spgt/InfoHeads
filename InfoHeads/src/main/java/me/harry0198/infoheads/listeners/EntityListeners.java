@@ -18,7 +18,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class EntityListeners implements Listener {
 	
-	protected InfoHeads infoHeads;
+	private InfoHeads infoHeads;
 	private boolean offHand;
 
 	public EntityListeners(InfoHeads infoHeads, boolean offHand) {
@@ -28,11 +28,10 @@ public class EntityListeners implements Listener {
 	}
 	
 	/**
-	 * Triggered Every time a block is placed
 	 * Triggered pass after player hits 'PlaceBlockPrompt' and
 	 * they're added to the map for naming
 	 * 
-	 * @param e
+	 * @param e BlockPlaceEvent
 	 */
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
@@ -64,7 +63,7 @@ public class EntityListeners implements Listener {
 	/**
 	 * Triggered Every time a player interacts with something
 	 * 
-	 * @param e
+	 * @param e PlayerInteractEvent
 	 */
 	
 	@EventHandler
@@ -73,13 +72,15 @@ public class EntityListeners implements Listener {
         if (offHand) {
 			if (e.getHand() == EquipmentSlot.OFF_HAND) return;
 		}
-
-		if (InfoHeads.getPermissions().playerHas(e.getPlayer(), Constants.BASE_PERM + "use") == false) { return;} // perms check
-		// Check if they've clicked a valid block
 		try {
-			e.getClickedBlock().getLocation().getBlockX();
+			e.getClickedBlock().getLocation();
 		} catch (NullPointerException npe) {
+			return;
 		}
+        // Perm check
+		if (!(InfoHeads.getPermissions().playerHas(e.getPlayer(), Constants.BASE_PERM + "use"))) { return;}
+		// Check if they've clicked a valid block
+
 
 		// Check if block is registered in maps
 		for (LoadedLocations each : infoHeads.loadedLoc) {
@@ -101,9 +102,9 @@ public class EntityListeners implements Listener {
 	/**
 	 * Replaces all placeholders in the messages / commands
 	 * 
-	 * @param message
-	 * @param player
-	 * @param e
+	 * @param message String passed through to decode
+	 * @param player Player Entity
+	 * @param e PlayerInteractEvent
 	 * @return msg The new message
 	 */
 	private String placeHolderMessage(String message, Player player, PlayerInteractEvent e) {
