@@ -1,7 +1,7 @@
 # Infoheads-mvn
 Repository / SourceCode for the plugin Infoheads
 
-Find the wiki here:
+Find the wiki here: https://github.com/harry0198/InfoHeads-mvn/wiki
 
 Developers! Please ensure you include reference to this source code if you decide to directly use any of the code. This can be done by adding a tag @Author.
 
