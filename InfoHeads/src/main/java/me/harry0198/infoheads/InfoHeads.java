@@ -43,9 +43,6 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     // Data Storage lists & Maps
     public List<String> infoheads = new ArrayList<>();
 
-    //Interfaces
-    public VersionInterface versionHandler;
-
     // Inventory Storage
     public Map<UUID, ItemStack[]> items = new HashMap<>();
     public Map<UUID, ItemStack[]> armor = new HashMap<>();
@@ -98,7 +95,6 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     public void onEnable() {
 
         setupPermissions();
-        setupVersions();
         // Metrics
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this);
@@ -106,8 +102,10 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         setup();
+        boolean offHand = true;
+        if (Bukkit.getServer().getVersion().contains("1.8")) offHand = false;
 
-        getServer().getPluginManager().registerEvents(new EntityListeners(this), this);
+        getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
 
         getCommand("infoheads").setExecutor(this);
 
@@ -180,11 +178,6 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
                 if (args.length == 0) {
                     createCommand(sender, cmd, s, args);
                 }
-                if (args.length == 1) {
-                    if (args[1].equals("edit")) {
-                        editCommand(sender, cmd, s, args);
-                    }
-                }
 
             } else { sender.sendMessage(ChatColor.RED + "No permission"); }
         } else {
@@ -210,50 +203,5 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
         conversationFactory.buildConversation((Conversable) sender).begin();
 
     }
-
-    private void editCommand(CommandSender sender, Command cmd, String s, String[] args) {
-
-    }
-    
-    /**
-    * This gets the server version and applies the specific code to the version field.
-    * Then it defines which module to use via the interface thus using the correct
-    * version method
-    */
-
-    private void setupVersions() {
-        String version;
-
-        if (Bukkit.getVersion().contains("1.8")) {
-            version = "V1_8";
-        } else if (Bukkit.getVersion().contains("1.9")
-                || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")
-                || Bukkit.getVersion().contains("1.12")) {
-            version = "legacy"; // Legacy = 1.9 > 1.12.2
-        } else if (Bukkit.getVersion().contains("1.13")|| Bukkit.getVersion().contains("1.14")) {
-        version = "V1_13";
-
-        } else {
-            version = "failure";
-            info("InfoHeads: ");
-            severe("onEnable version check failure. ");
-            severe("Your server version is not available for this plugin. ");
-            severe("This plugin only supports clients 1.8.8-1.14 ");
-        }
-        // Get the last element of the package
-
-        try {
-            final Class<?> clazz = Class.forName("me.harry0198.infoheads." + version + ".VersionHandler");
-            // Checking for Version interface
-            if (VersionInterface.class.isAssignableFrom(clazz)) { // Make sure it's going to implement it
-                this.versionHandler = (VersionInterface) clazz.getConstructor().newInstance(); // Set handler
-            }
-        } catch (final Exception e) {
-            e.printStackTrace();
-            severe("Could not find support for this Version.");
-            setEnabled(false);
-        }
-    }
-
 
 }

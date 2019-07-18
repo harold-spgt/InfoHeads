@@ -1,93 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="59f05802-e29a-44c1-9d75-9d485a6efed0" name="Default Changelist" comment="Converted from reflection for materials to universal Enum Class">
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/utils/MaterialUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/InfoHeads.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/listeners/EntityListeners.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/target/original-Plugin-IH-parent.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/1_13.iml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/Infoheads.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/V1_13.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/src/main/java/me/harry0198/infoheads/V1_13/Items.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/src/main/java/me/harry0198/infoheads/V1_13/VersionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/target/1_13-1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/target/classes/me/harry0198/infoheads/V1_13/Items.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/target/classes/me/harry0198/infoheads/V1_13/VersionHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_13/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/1_8.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/src/main/java/me/harry0198/infoheads/V1_8/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/src/main/java/me/harry0198/infoheads/V1_8/VersionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/target/1_8-1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/target/classes/me/harry0198/infoheads/V1_8/Items.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/target/classes/me/harry0198/infoheads/V1_8/VersionHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/1_8/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads.iml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads-Parent.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/.project" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/.project" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/.settings/org.eclipse.m2e.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/.settings/org.eclipse.m2e.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/Plugin-IH.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/InfoHeads.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/commands/general/conversations/ExecutedPrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/ExecutedPrompt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/commands/general/conversations/InfoHeadsConversationPrefix.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/InfoHeadsConversationPrefix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/inventorys/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/utils/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/utils/LoadedLocations.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/utils/LoadedLocations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/resources/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/InfoHeads.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/commands/admin/CommandHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/commands/admin/CommandInterface.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/commands/admin/CreateCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/commands/general/conversations/CommandPrompt.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/commands/general/conversations/ExecutedPrompt.class" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/commands/general/conversations/ExecutedPrompt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/commands/general/conversations/InfoHeadsConversationPrefix.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/commands/general/conversations/MessagePrompt.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/inventorys/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/inventorys/Inventory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/listeners/EntityListeners.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/utils/Constants.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/me/harry0198/infoheads/utils/Utils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugin-IH/target/original-Plugin-IH-parent.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/legacy.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/me/harry0198/infoheads/legacy/Items.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/src/main/java/me/harry0198/infoheads/legacy/VersionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/target/classes/me/harry0198/infoheads/legacy/Items.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/target/classes/me/harry0198/infoheads/legacy/VersionHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/target/legacy-1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/legacy/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versioninterface/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/versioninterface/src/main/java/me/harry0198/infoheads/VersionInterface.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/versioninterface/versioninterface.iml" beforeDir="false" />
-    </list>
+    <list default="true" id="59f05802-e29a-44c1-9d75-9d485a6efed0" name="Default Changelist" comment="Converted from reflection for materials to universal Enum Class" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/Plugin-IH/target/" />
     <ignored path="$PROJECT_DIR$/versioninterface/target/" />
@@ -112,19 +26,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
               <caret line="43" column="54" selection-start-line="43" selection-start-column="54" selection-end-line="43" selection-end-column="54" />
-              <folding>
-                <element signature="e#2292#2293#0" expanded="true" />
-                <element signature="e#2335#2336#0" expanded="true" />
-                <element signature="e#2484#2485#0" expanded="true" />
-                <element signature="e#2520#2521#0" expanded="true" />
-                <element signature="e#2672#2673#0" expanded="true" />
-                <element signature="e#2711#2712#0" expanded="true" />
-                <element signature="e#2864#2865#0" expanded="true" />
-                <element signature="e#2902#2903#0" expanded="true" />
-                <element signature="e#3029#3056#1" expanded="true" />
-                <element signature="e#3689#3690#0" expanded="true" />
-                <element signature="e#3717#3718#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -132,8 +33,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="66" selection-start-line="13" selection-start-column="66" selection-end-line="13" selection-end-column="66" />
+            <state relative-caret-position="435">
+              <caret line="29" column="61" lean-forward="true" selection-start-line="29" selection-start-column="61" selection-end-line="30" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#369#370#0" expanded="true" />
@@ -348,7 +249,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.annotationProcessors" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -392,9 +293,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="949" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22954823" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22954823" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -403,13 +303,13 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32905483" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32905483" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="8" side_tool="true" visible="true" weight="0.32905483" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -575,26 +475,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="43" column="54" selection-start-line="43" selection-start-column="54" selection-end-line="43" selection-end-column="54" />
-          <folding>
-            <element signature="e#2292#2293#0" expanded="true" />
-            <element signature="e#2335#2336#0" expanded="true" />
-            <element signature="e#2484#2485#0" expanded="true" />
-            <element signature="e#2520#2521#0" expanded="true" />
-            <element signature="e#2672#2673#0" expanded="true" />
-            <element signature="e#2711#2712#0" expanded="true" />
-            <element signature="e#2864#2865#0" expanded="true" />
-            <element signature="e#2902#2903#0" expanded="true" />
-            <element signature="e#3029#3056#1" expanded="true" />
-            <element signature="e#3689#3690#0" expanded="true" />
-            <element signature="e#3717#3718#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="66" selection-start-line="13" selection-start-column="66" selection-end-line="13" selection-end-column="66" />
+        <state relative-caret-position="435">
+          <caret line="29" column="61" lean-forward="true" selection-start-line="29" selection-start-column="61" selection-end-line="30" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#369#370#0" expanded="true" />
