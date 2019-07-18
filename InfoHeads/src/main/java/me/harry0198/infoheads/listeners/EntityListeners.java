@@ -1,6 +1,5 @@
 package me.harry0198.infoheads.listeners;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.harry0198.infoheads.utils.LoadedLocations;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -79,7 +78,7 @@ public class EntityListeners implements Listener {
 			return;
 		}
         // Perm check
-		if (!(InfoHeads.getPermissions().playerHas(e.getPlayer(), Constants.BASE_PERM + "use"))) { return;}
+		if (!(InfoHeads.getPerms().playerHas(e.getPlayer(), Constants.BASE_PERM + "use"))) { return;}
 		// Check if they've clicked a valid block
 
 
@@ -89,13 +88,14 @@ public class EntityListeners implements Listener {
 			Player player = e.getPlayer();
 
 			if (each.getCommand() != null) {
-				for (String cmds : each.getCommand()) infoHeads.getServer().dispatchCommand(infoHeads.getServer().getConsoleSender(), placeHolderMessage(cmds, player, e));
+				for (String cmds : each.getCommand())
+					infoHeads.getServer().dispatchCommand(infoHeads.getServer().getConsoleSender(), placeHolderMessage(cmds, player, e));
 			}
 
 			if (each.getMessage() != null) {
-				for (String msg : each.getMessage()) {
+				for (String msg : each.getMessage())
 					Utils.sendMessage(player, placeHolderMessage(msg, player, e));
-				}
+
 			}
 		}
 	}

@@ -1,12 +1,19 @@
 name: InfoHeads
 main: me.harry0198.infoheads.InfoHeads
-version: 1.3
+version: 1.3.2
 author: Harry0198
 description: InfoHeads plugin!
 api-version: 1.13
+depend: [Vault]
+softdepend: [PlaceholderAPI]
 commands:
   infoheads:
     aliases: [if]
     description: The InfoHeads setup wizard command.
     usage: /Infoheads
+    permission: infoheads.admin
+permissions:
+  infoheads.admin:
+    description: Allows usage of the InfoHeads Wizard
+    default: op
  
