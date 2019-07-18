@@ -1,0 +1,14 @@
+me/harry0198/infoheads/utils/Utils.class
+me/harry0198/infoheads/utils/LoadedLocations.class
+me/harry0198/infoheads/commands/general/conversations/CommandPrompt.class
+me/harry0198/infoheads/InfoHeads.class
+me/harry0198/infoheads/commands/general/conversations/InfoHeadsConversationPrefix.class
+me/harry0198/infoheads/utils/LoadedLocations$LoadedLocationsBuilder.class
+me/harry0198/infoheads/utils/MaterialUtils$MaterialVersion.class
+me/harry0198/infoheads/utils/MaterialUtils.class
+me/harry0198/infoheads/inventorys/HeadStacks.class
+me/harry0198/infoheads/commands/general/conversations/MessagePrompt.class
+me/harry0198/infoheads/commands/general/conversations/ExecutedPrompt.class
+me/harry0198/infoheads/utils/Constants.class
+me/harry0198/infoheads/inventorys/Inventory.class
+me/harry0198/infoheads/listeners/EntityListeners.class

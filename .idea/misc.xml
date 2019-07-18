@@ -12,6 +12,15 @@
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/1_13/pom.xml" />
+        <option value="$PROJECT_DIR$/1_8/pom.xml" />
+        <option value="$PROJECT_DIR$/Legacy/pom.xml" />
+        <option value="$PROJECT_DIR$/legacy/pom.xml" />
+        <option value="$PROJECT_DIR$/versioninterface/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

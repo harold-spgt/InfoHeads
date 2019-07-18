@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.harry0198.infoheads</groupId>
-    <artifactId>InfoHeads</artifactId>
+    <artifactId>InfoHeads-parent</artifactId>
     <name>InfoHeads parent</name>
 
     <packaging>pom</packaging>
@@ -17,11 +17,7 @@
     </properties>
 
     <modules>
-        <module>Plugin-IH</module>
-        <module>legacy</module>
-        <module>versioninterface</module>
-        <module>1_8</module>
-        <module>1_13</module>
+        <module>InfoHeads</module>
     </modules>
 
     <repositories>

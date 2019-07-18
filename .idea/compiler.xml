@@ -6,17 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Plugin-IH" />
-        <module name="1_8" />
-        <module name="1_13" />
-        <module name="legacy" />
-        <module name="versioninterface" />
+        <module name="Infoheads" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="1_13" target="1.8" />
+      <module name="1_8" target="1.8" />
+      <module name="legacy" target="1.8" />
+      <module name="Legacy" target="1.8" />
+      <module name="versioninterface" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Plugin-IH" options="-parameters" />
+      <module name="Infoheads" options="-parameters" />
     </option>
   </component>
 </project>
