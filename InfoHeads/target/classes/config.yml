@@ -6,10 +6,9 @@
 #                 Enjoy the Plugin!                    #
 ########################################################
 # All of your InfoHeads Will be located here!
-# PlaceHolderAPI Support coming in later releases
 #
 # Placeholders: {player-x} {player-y} {player-z} {block-x} {block-y} {block-z} {player-name}
-# PlaceHolderAPI Support coming soon
+# PlaceHolderAPI: You can use placeholders provided by PAPI.
 #
 # All of your infoheads will appear here. You can edit them but beware when doing so.
 Infoheads:
