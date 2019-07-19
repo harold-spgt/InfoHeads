@@ -1,31 +1,35 @@
 package me.harry0198.infoheads.commands.general.conversations;
 
+import me.harry0198.infoheads.utils.Utils;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
+import org.bukkit.entity.Player;
 
-import me.harry0198.infoheads.InfoHeads;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessagePrompt extends StringPrompt {
-	
-	protected InfoHeads b;
-
-	public MessagePrompt(InfoHeads b) {
-		this.b = b;
-
-	}
 
     public String getPromptText(ConversationContext context) {
-        return "What message would you like it to say? If nothing, type '-'";
+        return "Type the next line of your message. Once ready to move on, type '-'.";
     }
 
 	@Override
 	public Prompt acceptInput(ConversationContext context, String s) {
+		List<String> currentSession = (List<String>) context.getSessionData("messages");
+		if (currentSession == null) currentSession = new ArrayList<>();
+
 		if (s.equals("-")) {
-			context.setSessionData("message", null);
-			return new ExecutedPrompt(b);
+			context.setSessionData("messages", currentSession);
+			return new ExecutedPrompt();
 		}
-		context.setSessionData("message", s);
-        return new ExecutedPrompt(b);
+
+		currentSession.add(s);
+		context.setSessionData("messages", currentSession);
+		Player player = (Player) context.getForWhom();
+		for (String each : currentSession)
+			Utils.sendMessage(player, each);
+		return new MessagePrompt();
 	}
 }

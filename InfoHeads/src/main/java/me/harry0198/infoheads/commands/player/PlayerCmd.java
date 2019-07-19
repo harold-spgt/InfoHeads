@@ -1,24 +1,26 @@
 package me.harry0198.infoheads.commands.player;
 
+import com.google.common.collect.Lists;
 import me.harry0198.infoheads.InfoHeads;
 import me.harry0198.infoheads.inventorys.Inventory;
 import me.harry0198.infoheads.utils.Constants;
+import me.harry0198.infoheads.utils.LoadedLocations;
 import me.harry0198.infoheads.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.conversations.Conversable;
 import org.bukkit.entity.Player;
 
-public class PlayerCmd implements CommandExecutor {
+import java.util.Arrays;
+import java.util.List;
 
-    private InfoHeads infoHeads;
-
-    public PlayerCmd(InfoHeads infoHeads) {
-        this.infoHeads = infoHeads;
-    }
+public class PlayerCmd implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -26,25 +28,31 @@ public class PlayerCmd implements CommandExecutor {
         if (!(sender instanceof Player)) return false;
 
         Player player = (Player) sender;
-        if (infoHeads.getPerms().playerHas((Player) sender, Constants.ADMIN_PERM)) {
+        if (InfoHeads.getPerms().playerHas((Player) sender, Constants.ADMIN_PERM)) {
             switch (args.length) {
                 case 0:
-                    createCommand(sender);
+                   Utils.showHelp(player);
                     break;
                 case 1:
                     switch (args[0]) {
+                        case "wizard":
+                            Utils.sendMessage(player, "&lYou are in wizard mode, type 'cancel' to exit at any time.");
+                            createCommand(sender);
+                            break;
                         case "reload":
-                            infoHeads.reloadCommand();
+                            getInstance().reloadCommand();
                             Utils.sendMessage(player, "&aInfoHeads: &fConfig reloaded!");
                             break;
                         case "delete":
-                            if (infoHeads.deleteMode.get(player)) {
-                                infoHeads.deleteMode.remove(player);
-                                Utils.sendMessage(player, "&aInfoHeads: &fExit deletion mode");
-                            } else {
-                                infoHeads.deleteMode.put(player, true);
-                                Utils.sendMessage(player, "&aInfoHeads: &fInteract with the block you wish to delete!");
-                            }
+                            Block b = player.getTargetBlock(null, 5);
+                            Location targetLoc = b.getLocation();
+                            if (!checkLocationExists(targetLoc, player)) break;
+                            getInstance().getConfig().set("Infoheads.1", null);
+                            deleteInfoHead(targetLoc);
+                            Utils.sendMessage(player, "InfoHead successfully deleted");
+                            break;
+                        case "help":
+                            Utils.showHelp(player);
                             break;
                         default:
                             Utils.sendMessage(player, "&aInfoHeads: &fThat is not a valid argument!");
@@ -59,19 +67,61 @@ public class PlayerCmd implements CommandExecutor {
         } else {
             sender.sendMessage(ChatColor.RED + "No permission");
         }
-        return false;
+        return true;
 
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        List<String> a1 = Arrays.asList("reload", "wizard", "help", "delete");
+        List<String> fList = Lists.newArrayList();
+
+        switch (args.length) {
+            case 1:
+                for (String each : a1) {
+                    if (each.toLowerCase().startsWith(args[0].toLowerCase())) {
+                        fList.add(each);
+                    }
+                }
+                return fList;
+        }
+        return null;
     }
 
     private void createCommand(CommandSender sender) {
 
-        Inventory iv = new Inventory(infoHeads);
+        Inventory iv = new Inventory();
 
         if (!(Bukkit.getVersion().contains("1.8"))) { // 1.8 clients does not support inventory storage
             iv.storeAndClearInventory((Player) sender);
         }
-        iv.infoHeadsInventory((Player) sender);
-        infoHeads.getConversationFactory().buildConversation((Conversable) sender).begin();
+        Bukkit.getScheduler().runTaskAsynchronously(getInstance(), () ->
+            iv.infoHeadsInventory((Player) sender));
+
+        getInstance().getConversationFactory().buildConversation((Conversable) sender).begin();
+    }
+
+    private boolean checkLocationExists(Location location, Player player) {
+        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
+            if (location.equals(loc.getLocation())) return true;
+        }
+        Utils.sendMessage(player, "There is no infohead at this location.");
+        return false;
+    }
+
+    private void deleteInfoHead(Location location) {
+        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
+            if (location.equals(loc.getLocation())) {
+                getInstance().getConfig().set("Infoheads." + loc.getKey(), null);
+                getInstance().saveConfig();
+                getInstance().setup();
+                return;
+            }
+        }
+    }
+
+    private InfoHeads getInstance() {
+        return InfoHeads.getInstance();
     }
 
 }

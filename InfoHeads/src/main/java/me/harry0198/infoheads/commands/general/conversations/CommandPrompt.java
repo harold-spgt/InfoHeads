@@ -1,33 +1,37 @@
 package me.harry0198.infoheads.commands.general.conversations;
 
+import me.harry0198.infoheads.utils.Utils;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
+import org.bukkit.entity.Player;
 
-import me.harry0198.infoheads.InfoHeads;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandPrompt extends StringPrompt {
 	
-	private InfoHeads b;
-
-	public CommandPrompt(InfoHeads b) {
-		this.b = b;
-
-	}
-	
 	public String getPromptText(ConversationContext context) {
-		// Doesn't actually matter what is typed besides 'cancel'
-        return "What command would you like this to run? If nothing, type '-'. PlaceHolders in Config.yml";
+		return "Type the next line for your commands (without /). Once ready to move on, type '-'.";
     }
 
 	@Override
 	public Prompt acceptInput(ConversationContext context, String s) {
+
+		List<String> currentSession = (List<String>) context.getSessionData("commands");
+		if (currentSession == null) currentSession = new ArrayList<>();
+
 		if (s.equals("-")) {
-			context.setSessionData("command", null);
-			return new MessagePrompt(b);
+			context.setSessionData("commands", currentSession);
+			return new MessagePrompt();
 		}
-		context.setSessionData("command", s);
-        return new MessagePrompt(b);
+
+		currentSession.add(s);
+		context.setSessionData("commands", currentSession);
+		Player player = (Player) context.getForWhom();
+		for (String each : currentSession)
+			Utils.sendMessage(player, each);
+        return new CommandPrompt();
         
 	}
 }

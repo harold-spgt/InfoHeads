@@ -51,12 +51,10 @@ public class EntityListeners implements Listener {
 
 		addToList(world);
 		
-		new Inventory(infoHeads).restoreInventory(e.getPlayer());
+		new Inventory().restoreInventory(e.getPlayer());
 		infoHeads.namedComplete.remove(e.getPlayer());
-		infoHeads.name.remove(e.getPlayer());
 
-		Utils.sendMessage(e.getPlayer(), "&aInfoHeads Wizard: &fCreation complete!");
-		// Update the holdings list
+		Utils.sendMessage(e.getPlayer(), "&a[Wizard] &fCreation complete!");
 	 	infoHeads.setup();
 	}
 	
@@ -83,18 +81,18 @@ public class EntityListeners implements Listener {
 
 
 		// Check if block is registered in maps
-		for (LoadedLocations each : infoHeads.loadedLoc) {
+		for (LoadedLocations each : infoHeads.getLoadedLoc()) {
 			if (!(each.getLocation().equals(e.getClickedBlock().getLocation()))) continue;
 			Player player = e.getPlayer();
 
-			if (each.getCommand() != null) {
-				for (String cmds : each.getCommand())
+			if (each.getCommands() != null) {
+				for (String cmds : each.getCommands())
 					infoHeads.getServer().dispatchCommand(infoHeads.getServer().getConsoleSender(), placeHolderMessage(cmds, player, e));
 			}
 
-			if (each.getMessage() != null) {
-				for (String msg : each.getMessage())
-					Utils.sendMessage(player, placeHolderMessage(msg, player, e));
+			if (each.getMessages() != null) {
+				for (String msg : each.getMessages())
+					Utils.sendMessage(player, placeHolderMessage(msg, player, e), false);
 
 			}
 		}
@@ -121,7 +119,7 @@ public class EntityListeners implements Listener {
 		msg = msg.replace("{block-y}", "" + e.getClickedBlock().getY());
 		msg = msg.replace("{block-z}", "" + e.getClickedBlock().getZ());
 
-		if (infoHeads.isPapi())
+		if (infoHeads.papi)
 			msg = infoHeads.papiMethod.execute(player, msg);
 		
 		return msg;
@@ -137,10 +135,10 @@ public class EntityListeners implements Listener {
 		int y = section.getInt(key + ".location.y");
 		int z = section.getInt(key + ".location.z");
 
-		infoHeads.loadedLoc.add(LoadedLocations.builder()
-				.location(new Location(world, x, y, z))
-				.message(section.getStringList(key + "messages"))
-				.command(section.getStringList(key + "commands"))
+		infoHeads.getLoadedLoc().add(new LoadedLocations.Builder()
+				.setLocation(new Location(world, x, y, z))
+				.setMessage(section.getStringList(key + "messages"))
+				.setCommand(section.getStringList(key + "commands"))
 				.build());
 
 	}

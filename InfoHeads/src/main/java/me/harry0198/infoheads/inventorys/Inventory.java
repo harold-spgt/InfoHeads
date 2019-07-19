@@ -8,12 +8,6 @@ import me.harry0198.infoheads.InfoHeads;
 
 public class Inventory {
 	
-	private InfoHeads infoHeads;
-
-	public Inventory(InfoHeads infoHeads) {
-		this.infoHeads = infoHeads;
-	}
-	
 	/**
 	 * Store the inventory
 	 * 
@@ -25,8 +19,8 @@ public class Inventory {
 	    ItemStack[] contents = player.getInventory().getContents();
 	    ItemStack[] armorContents = player.getInventory().getArmorContents();
 
-	    infoHeads.items.put(uuid, contents);
-	    infoHeads.armor.put(uuid, armorContents);
+	    getInstance().items.put(uuid, contents);
+	    getInstance().armor.put(uuid, armorContents);
 
 	    player.getInventory().clear();
 
@@ -44,8 +38,8 @@ public class Inventory {
 	public void restoreInventory(Player player){
 	    UUID uuid = player.getUniqueId();
 
-	    ItemStack[] contents = infoHeads.items.get(uuid);
-	    ItemStack[] armorContents = infoHeads.armor.get(uuid);
+	    ItemStack[] contents = getInstance().items.get(uuid);
+	    ItemStack[] armorContents = getInstance().armor.get(uuid);
 
 	    if(contents != null){
 	        player.getInventory().setContents(contents);
@@ -67,9 +61,11 @@ public class Inventory {
 	
 	public void infoHeadsInventory(Player player) {
 
-		infoHeads.headStacks.giveItems(player);
+		getInstance().headStacks.giveItems(player);
 		
 	}
 
-
+	private InfoHeads getInstance() {
+		return InfoHeads.getInstance();
+	}
 }

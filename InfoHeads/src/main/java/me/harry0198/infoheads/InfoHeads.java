@@ -5,19 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
 
-import lombok.Getter;
 import me.harry0198.infoheads.commands.general.conversations.CommandPrompt;
 import me.harry0198.infoheads.commands.player.PlayerCmd;
 import me.harry0198.infoheads.inventorys.HeadStacks;
+import me.harry0198.infoheads.inventorys.Inventory;
 import me.harry0198.infoheads.utils.LoadedLocations;
 import me.harry0198.infoheads.utils.PapiMethod;
+import me.harry0198.infoheads.utils.Utils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -34,17 +33,15 @@ import me.harry0198.infoheads.commands.general.conversations.InfoHeadsConversati
 import me.harry0198.infoheads.listeners.EntityListeners;
 import net.milkbowl.vault.permission.Permission;
 
-public class InfoHeads extends JavaPlugin implements CommandExecutor, ConversationAbandonedListener {
-
-    // Creation process Lists & Maps
-    public Map<Player, String> name = new HashMap<>();
+public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener {
+//TODO escape method from conversationAPI
     public List<Player> namedComplete = new ArrayList<>();
-    public List<LoadedLocations> loadedLoc = new ArrayList<>();
+    private List<LoadedLocations> loadedLoc = new ArrayList<>();
     public HeadStacks headStacks = new HeadStacks();
     public PapiMethod papiMethod = new PapiMethod();
-    public Map<Player, Boolean> deleteMode = new HashMap<>(); // in progress
-    @Getter
     public boolean papi = false;
+    private static InfoHeads instance;
+
 
     // Data Storage lists & Maps
     public List<String> infoheads = new ArrayList<>();
@@ -53,25 +50,32 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     public Map<UUID, ItemStack[]> items = new HashMap<>();
     public Map<UUID, ItemStack[]> armor = new HashMap<>();
     public int keys;
-    public boolean offHand = true;
-    private EntityListeners entityListeners;
+    private boolean offHand = true;
 
     // Vault
-    @Getter
     private static Permission perms = null;
 
     // Conversations
-    @Getter
-    public ConversationFactory conversationFactory;
+    private ConversationFactory conversationFactory;
 
+    /**
+     * Class constructor -- loads the conversation factory
+     */
+    public InfoHeads() {
+        this.conversationFactory = new ConversationFactory(this).withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new CommandPrompt())
+                .withEscapeSequence("cancel").withTimeout(60)
+                .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
+                .addConversationAbandonedListener(this);
+    }
 
     @Override
     public void onEnable() {
-
+        instance = this;
         // Checking for PAPI
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
             papi = true;
-        }
+
         setupPermissions();
         // Metrics
         @SuppressWarnings("unused")
@@ -84,12 +88,9 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
         setup();
         if (Bukkit.getServer().getVersion().contains("1.8")) offHand = false;
 
-        entityListeners = new EntityListeners(this, offHand);
+        getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
 
-        getServer().getPluginManager().registerEvents(entityListeners, this);
-
-        getCommand("infoheads").setExecutor(new PlayerCmd(this));
-
+        getCommand("infoheads").setExecutor(new PlayerCmd());
     }
 
     private void setupPermissions() {
@@ -98,16 +99,9 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
     }
 
     /**
-     * Class constructor -- loads the conversation factory
+     * Loads all of the config values into the Builder class 'LoadedLocations'
+     * Also sets how many sub sections the config file has where subsections = '0:', '1:' etc.
      */
-    public InfoHeads() {
-        this.conversationFactory = new ConversationFactory(this).withModality(true)
-                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new CommandPrompt(this))
-                .withEscapeSequence("/quit").withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
-                .addConversationAbandonedListener(this);
-    }
-
     public void setup() {
         loadedLoc.clear();
         keys = -1;
@@ -120,10 +114,11 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
             int y = section.getInt(each + ".location.y");
             int z = section.getInt(each + ".location.z");
 
-            loadedLoc.add(LoadedLocations.builder()
-                    .location(new Location(world, x, y, z))
-                    .command(section.getStringList(each + ".commands"))
-                    .message(section.getStringList(each + ".messages"))
+            loadedLoc.add(new LoadedLocations.Builder()
+                    .setLocation(new Location(world, x, y, z))
+                    .setCommand(section.getStringList(each + ".commands"))
+                    .setMessage(section.getStringList(each + ".messages"))
+                    .setKey(each)
                     .build());
             keys = keys + 1;
         }
@@ -139,48 +134,28 @@ public class InfoHeads extends JavaPlugin implements CommandExecutor, Conversati
         getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
     }
 
+    public static InfoHeads getInstance() {
+        return instance;
+    }
+
     public void conversationAbandoned(ConversationAbandonedEvent abandonedEvent) {
-        if (abandonedEvent.gracefulExit()) {
-            //TODO
+        Player player = (Player) abandonedEvent.getContext().getForWhom();
+        // If exit using abandon keyword
+        if (!(abandonedEvent.gracefulExit())) {
+            Utils.sendMessage(player, "Exit the Infoheads wizard.");
+            new Inventory().restoreInventory(player);
         }
     }
 
-
-    /**
-     * Log any message to console with any level.
-     *
-     * @param level the log level to log on.
-     * @param msg   the message to log.
-     */
-    public void log(Level level, String msg) {
-        getLogger().log(level, msg);
+    public static Permission getPerms() {
+        return perms;
     }
 
-    /**
-     * Log a message to console on INFO level.
-     *
-     * @param msg the msg you want to log.
-     */
-    public void info(String msg) {
-        log(Level.INFO, msg);
+    public ConversationFactory getConversationFactory() {
+        return conversationFactory;
     }
-
-    /**
-     * Log a message to console on WARNING level.
-     *
-     * @param msg the msg you want to log.
-     */
-    public void warn(String msg) {
-        log(Level.WARNING, msg);
-    }
-
-    /**
-     * Log a message to console on SEVERE level.
-     *
-     * @param msg the msg you want to log.
-     */
-    public void severe(String msg) {
-        log(Level.SEVERE, msg);
+    public List<LoadedLocations> getLoadedLoc() {
+        return loadedLoc;
     }
 
 }
