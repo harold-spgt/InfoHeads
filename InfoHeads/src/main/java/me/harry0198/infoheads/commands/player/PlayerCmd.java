@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import me.harry0198.infoheads.InfoHeads;
 import me.harry0198.infoheads.inventorys.Inventory;
 import me.harry0198.infoheads.utils.Constants;
-import me.harry0198.infoheads.utils.LoadedLocations;
 import me.harry0198.infoheads.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,26 +40,27 @@ public class PlayerCmd implements CommandExecutor, TabCompleter {
                             break;
                         case "reload":
                             getInstance().reloadCommand();
-                            Utils.sendMessage(player, "&aInfoHeads: &fConfig reloaded!");
+                            Utils.sendMessage(player, "&fConfig reloaded!");
                             break;
                         case "delete":
                             Block b = player.getTargetBlock(null, 5);
                             Location targetLoc = b.getLocation();
-                            if (!checkLocationExists(targetLoc, player)) break;
-                            getInstance().getConfig().set("Infoheads.1", null);
-                            deleteInfoHead(targetLoc);
+                            if (!getInstance().checkLocationExists(targetLoc, player)) {
+                                Utils.sendMessage(player, "There is no infohead at this location.");
+                                break; }
+                            getInstance().deleteInfoHead(targetLoc);
                             Utils.sendMessage(player, "InfoHead successfully deleted");
                             break;
                         case "help":
                             Utils.showHelp(player);
                             break;
                         default:
-                            Utils.sendMessage(player, "&aInfoHeads: &fThat is not a valid argument!");
+                            Utils.sendMessage(player, "&fThat is not a valid argument!");
                             break;
                     }
                     break;
                 default:
-                    Utils.sendMessage(player, "&aInfoHeads: &fThat is not a valid argument!");
+                    Utils.sendMessage(player, "&fThat is not a valid argument!");
                     break;
             }
 
@@ -99,25 +99,6 @@ public class PlayerCmd implements CommandExecutor, TabCompleter {
             iv.infoHeadsInventory((Player) sender));
 
         getInstance().getConversationFactory().buildConversation((Conversable) sender).begin();
-    }
-
-    private boolean checkLocationExists(Location location, Player player) {
-        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
-            if (location.equals(loc.getLocation())) return true;
-        }
-        Utils.sendMessage(player, "There is no infohead at this location.");
-        return false;
-    }
-
-    private void deleteInfoHead(Location location) {
-        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
-            if (location.equals(loc.getLocation())) {
-                getInstance().getConfig().set("Infoheads." + loc.getKey(), null);
-                getInstance().saveConfig();
-                getInstance().setup();
-                return;
-            }
-        }
     }
 
     private InfoHeads getInstance() {

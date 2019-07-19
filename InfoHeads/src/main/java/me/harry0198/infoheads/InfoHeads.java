@@ -34,7 +34,7 @@ import me.harry0198.infoheads.listeners.EntityListeners;
 import net.milkbowl.vault.permission.Permission;
 
 public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener {
-//TODO escape method from conversationAPI
+
     public List<Player> namedComplete = new ArrayList<>();
     private List<LoadedLocations> loadedLoc = new ArrayList<>();
     public HeadStacks headStacks = new HeadStacks();
@@ -122,7 +122,6 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
                     .build());
             keys = keys + 1;
         }
-
     }
 
     public void reloadCommand() {
@@ -134,8 +133,22 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
         getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
     }
 
-    public static InfoHeads getInstance() {
-        return instance;
+    public boolean checkLocationExists(Location location, Player player) {
+        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
+            if (location.equals(loc.getLocation())) return true;
+        }
+        return false;
+    }
+
+    public void deleteInfoHead(Location location) {
+        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
+            if (location.equals(loc.getLocation())) {
+                getInstance().getConfig().set("Infoheads." + loc.getKey(), null);
+                getInstance().saveConfig();
+                getInstance().setup();
+                return;
+            }
+        }
     }
 
     public void conversationAbandoned(ConversationAbandonedEvent abandonedEvent) {
@@ -154,8 +167,13 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public ConversationFactory getConversationFactory() {
         return conversationFactory;
     }
+
     public List<LoadedLocations> getLoadedLoc() {
         return loadedLoc;
+    }
+
+    public static InfoHeads getInstance() {
+        return instance;
     }
 
 }

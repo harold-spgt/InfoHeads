@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -96,6 +97,15 @@ public class EntityListeners implements Listener {
 
 			}
 		}
+	}
+
+	//TODO Refine this
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent e) {
+		if (!(InfoHeads.getPerms().playerHas(e.getPlayer(), Constants.ADMIN_PERM))) { return;}
+		if (!infoHeads.checkLocationExists(e.getBlock().getLocation(), e.getPlayer())) return;
+		infoHeads.deleteInfoHead(e.getBlock().getLocation());
+		Utils.sendMessage(e.getPlayer(), "InfoHead deleted");
 	}
 	
 	/**
