@@ -16,8 +16,13 @@ public class ExecutedPrompt extends MessagePrompt {
 		List<String> messages = (List<String>) context.getSessionData("messages");
 
 		getInstance().namedComplete.add((Player) context.getForWhom());
-		getInstance().getConfig().set("Infoheads." + (getInstance().keys + 1) + ".messages", messages);
-		getInstance().getConfig().set("Infoheads." + (getInstance().keys + 1) + ".commands", commands);
+
+		String uuid = java.util.UUID.randomUUID().toString();
+		uuid = uuid.substring(0, Math.min(uuid.length(), 5));
+		getInstance().uuid.put((Player) context.getForWhom(), uuid);
+
+		getInstance().getConfig().set("Infoheads." + uuid + ".messages", messages);
+		getInstance().getConfig().set("Infoheads." + uuid + ".commands", commands);
 		getInstance().saveConfig();
 
 		return "Now you may place your infohead / desired block!";

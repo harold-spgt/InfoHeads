@@ -40,7 +40,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public HeadStacks headStacks = new HeadStacks();
     public PapiMethod papiMethod = new PapiMethod();
     public boolean papi = false;
-    private static InfoHeads instance;
+    public Map<Player, String> uuid = new HashMap<>();
 
 
     // Data Storage lists & Maps
@@ -71,7 +71,6 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
 
     @Override
     public void onEnable() {
-        instance = this;
         // Checking for PAPI
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
             papi = true;
@@ -133,7 +132,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
         getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
     }
 
-    public boolean checkLocationExists(Location location, Player player) {
+    public boolean checkLocationExists(Location location) {
         for (LoadedLocations loc : getInstance().getLoadedLoc()) {
             if (location.equals(loc.getLocation())) return true;
         }
@@ -173,7 +172,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     }
 
     public static InfoHeads getInstance() {
-        return instance;
+        return getPlugin(InfoHeads.class);
     }
 
 }

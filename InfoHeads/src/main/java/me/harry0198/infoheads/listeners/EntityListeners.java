@@ -44,13 +44,15 @@ public class EntityListeners implements Listener {
 		int y = e.getBlockPlaced().getY();
 		int z = e.getBlockPlaced().getZ();
 
-		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".location.x", x);
-		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".location.y", y);
-		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".location.z", z);
-		infoHeads.getConfig().set("Infoheads." + (infoHeads.keys + 1) + ".location.world", world.getName());
+		String uuid = infoHeads.uuid.get(e.getPlayer());
+
+		infoHeads.getConfig().set("Infoheads." + uuid + ".location.x", x);
+		infoHeads.getConfig().set("Infoheads." + uuid + ".location.y", y);
+		infoHeads.getConfig().set("Infoheads." + uuid + ".location.z", z);
+		infoHeads.getConfig().set("Infoheads." + uuid + ".location.world", world.getName());
 		infoHeads.saveConfig();
 
-		addToList(world);
+		addToList(world, uuid);
 		
 		new Inventory().restoreInventory(e.getPlayer());
 		infoHeads.namedComplete.remove(e.getPlayer());
@@ -103,7 +105,7 @@ public class EntityListeners implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		if (!(InfoHeads.getPerms().playerHas(e.getPlayer(), Constants.ADMIN_PERM))) { return;}
-		if (!infoHeads.checkLocationExists(e.getBlock().getLocation(), e.getPlayer())) return;
+		if (!infoHeads.checkLocationExists(e.getBlock().getLocation())) return;
 		infoHeads.deleteInfoHead(e.getBlock().getLocation());
 		Utils.sendMessage(e.getPlayer(), "InfoHead deleted");
 	}
@@ -136,19 +138,19 @@ public class EntityListeners implements Listener {
 	}
 
 	// Adds to builder class
-	private void addToList(World world) {
+	private void addToList(World world, String uuid) {
 		ConfigurationSection section = infoHeads.getConfig().getConfigurationSection("Infoheads");
 
-		String key = (infoHeads.keys + 1) + "";
 
-		int x = section.getInt(key + ".location.x");
-		int y = section.getInt(key + ".location.y");
-		int z = section.getInt(key + ".location.z");
+
+		int x = section.getInt(uuid + ".location.x");
+		int y = section.getInt(uuid + ".location.y");
+		int z = section.getInt(uuid + ".location.z");
 
 		infoHeads.getLoadedLoc().add(new LoadedLocations.Builder()
 				.setLocation(new Location(world, x, y, z))
-				.setMessage(section.getStringList(key + "messages"))
-				.setCommand(section.getStringList(key + "commands"))
+				.setMessage(section.getStringList(uuid + "messages"))
+				.setCommand(section.getStringList(uuid + "commands"))
 				.build());
 
 	}

@@ -45,7 +45,7 @@ public class PlayerCmd implements CommandExecutor, TabCompleter {
                         case "delete":
                             Block b = player.getTargetBlock(null, 5);
                             Location targetLoc = b.getLocation();
-                            if (!getInstance().checkLocationExists(targetLoc, player)) {
+                            if (!getInstance().checkLocationExists(targetLoc)) {
                                 Utils.sendMessage(player, "There is no infohead at this location.");
                                 break; }
                             getInstance().deleteInfoHead(targetLoc);
