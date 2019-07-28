@@ -9,7 +9,7 @@ softdepend: [PlaceholderAPI]
 commands:
   infoheads:
     aliases: [if]
-    description: The InfoHeads setup wizard command.
+    description: The central command for Infoheads.
     usage: /Infoheads
     permission: infoheads.admin
 permissions:

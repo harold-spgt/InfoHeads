@@ -20,6 +20,10 @@ public class Utils {
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + message));
 	}
 
+	public static void sendMessage(CommandSender sender, String message) {
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + message));
+	}
+
 	public static void sendMessage(Player player, String message, boolean prefix) {
 		if (prefix)
 		player.sendMessage(ChatColor.translateAlternateColorCodes('&', PREFIX + message));

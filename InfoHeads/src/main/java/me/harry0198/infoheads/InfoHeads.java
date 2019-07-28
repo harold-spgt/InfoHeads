@@ -49,7 +49,6 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     // Inventory Storage
     public Map<UUID, ItemStack[]> items = new HashMap<>();
     public Map<UUID, ItemStack[]> armor = new HashMap<>();
-    public int keys;
     private boolean offHand = true;
 
     // Vault
@@ -103,7 +102,6 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
      */
     public void setup() {
         loadedLoc.clear();
-        keys = -1;
 
         ConfigurationSection section = getConfig().getConfigurationSection("Infoheads");
         for (String each : section.getKeys(false)) {
@@ -119,7 +117,6 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
                     .setMessage(section.getStringList(each + ".messages"))
                     .setKey(each)
                     .build());
-            keys = keys + 1;
         }
     }
 
@@ -132,6 +129,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
         getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean checkLocationExists(Location location) {
         for (LoadedLocations loc : getInstance().getLoadedLoc()) {
             if (location.equals(loc.getLocation())) return true;
