@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import me.harry0198.infoheads.commands.general.conversations.CommandPrompt;
 import me.harry0198.infoheads.commands.player.PlayerCmd;
@@ -42,7 +43,6 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public boolean papi = false;
     public Map<Player, String> uuid = new HashMap<>();
 
-
     // Data Storage lists & Maps
     public List<String> infoheads = new ArrayList<>();
 
@@ -70,60 +70,63 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
 
     @Override
     public void onEnable() {
-        // Checking for PAPI
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
-            papi = true;
-
-        setupPermissions();
         // Metrics
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this);
+        // Checking for PAPI
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+            papi = true;
 
         FileConfiguration config = getConfig();
         config.options().copyDefaults(true);
         saveDefaultConfig();
 
-        setup();
+        Stream.of(Registerables.PERMISSIONS, Registerables.INFOHEADS, Registerables.LISTENERS, Registerables.COMMANDS).forEach(this::register);
+
         if (Bukkit.getServer().getVersion().contains("1.8")) offHand = false;
-
-        getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
-
-        getCommand("infoheads").setExecutor(new PlayerCmd());
     }
 
-    private void setupPermissions() {
-        RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-        perms = rsp.getProvider();
-    }
+    public void register(Registerables registerable) {
+        switch (registerable) {
+            case COMMANDS: //TODO Change
+                getCommand("infoheads").setExecutor(new PlayerCmd());
+                break;
 
-    /**
-     * Loads all of the config values into the Builder class 'LoadedLocations'
-     * Also sets how many sub sections the config file has where subsections = '0:', '1:' etc.
-     */
-    public void setup() {
-        loadedLoc.clear();
+            case INFOHEADS:
+                loadedLoc.clear();
 
-        ConfigurationSection section = getConfig().getConfigurationSection("Infoheads");
-        for (String each : section.getKeys(false)) {
+                ConfigurationSection section = getConfig().getConfigurationSection("Infoheads");
+                for (String each : section.getKeys(false)) {
 
-            World world = Bukkit.getWorld(section.getString(each + ".location.world"));
-            int x = section.getInt(each + ".location.x");
-            int y = section.getInt(each + ".location.y");
-            int z = section.getInt(each + ".location.z");
+                    World world = Bukkit.getWorld(section.getString(each + ".location.world"));
+                    int x = section.getInt(each + ".location.x");
+                    int y = section.getInt(each + ".location.y");
+                    int z = section.getInt(each + ".location.z");
 
-            loadedLoc.add(new LoadedLocations.Builder()
-                    .setLocation(new Location(world, x, y, z))
-                    .setCommand(section.getStringList(each + ".commands"))
-                    .setMessage(section.getStringList(each + ".messages"))
-                    .setKey(each)
-                    .build());
+                    loadedLoc.add(new LoadedLocations.Builder()
+                            .setLocation(new Location(world, x, y, z))
+                            .setCommand(section.getStringList(each + ".commands"))
+                            .setMessage(section.getStringList(each + ".messages"))
+                            .setKey(each)
+                            .build());
+                }
+                break;
+
+            case LISTENERS:
+                getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
+                break;
+
+            case PERMISSIONS:
+                RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+                perms = rsp.getProvider();
+                break;
         }
     }
 
     public void reloadCommand() {
         this.reloadConfig();
 
-        setup();
+        register(Registerables.INFOHEADS);
         BlockPlaceEvent.getHandlerList().unregister(this);
         PlayerInteractEvent.getHandlerList().unregister(this);
         getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
@@ -142,7 +145,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
             if (location.equals(loc.getLocation())) {
                 getInstance().getConfig().set("Infoheads." + loc.getKey(), null);
                 getInstance().saveConfig();
-                getInstance().setup();
+                register(Registerables.INFOHEADS);
                 return;
             }
         }
@@ -171,6 +174,10 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
 
     public static InfoHeads getInstance() {
         return getPlugin(InfoHeads.class);
+    }
+
+    public enum Registerables {
+        COMMANDS, INFOHEADS, LISTENERS, PERMISSIONS
     }
 
 }

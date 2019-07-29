@@ -58,7 +58,7 @@ public class EntityListeners implements Listener {
 		infoHeads.namedComplete.remove(e.getPlayer());
 
 		Utils.sendMessage(e.getPlayer(), "&a[Wizard] &fCreation complete!");
-	 	infoHeads.setup();
+	 	infoHeads.register(InfoHeads.Registerables.INFOHEADS);
 	}
 	
 	/**
