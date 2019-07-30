@@ -22,17 +22,23 @@
 
     <repositories>
         <repository>
-            <id>vault-repo</id>
-            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+            <id>guice</id>
+            <url>https://mvnrepository.com/artifact/com.google.inject/guice</url>
         </repository>
+
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>net.milkbowl.vault</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
-        </dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.0</version>
+            <exclusions>
+            <exclusion>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
     </dependencies>
 </project>

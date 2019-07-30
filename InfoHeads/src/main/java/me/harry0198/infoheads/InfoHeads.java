@@ -1,14 +1,14 @@
 package me.harry0198.infoheads;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import me.harry0198.infoheads.commands.CommandManager;
+import me.harry0198.infoheads.commands.Commands;
 import me.harry0198.infoheads.commands.general.conversations.CommandPrompt;
-import me.harry0198.infoheads.commands.player.PlayerCmd;
+import me.harry0198.infoheads.guice.BinderModule;
 import me.harry0198.infoheads.inventorys.HeadStacks;
 import me.harry0198.infoheads.inventorys.Inventory;
 import me.harry0198.infoheads.utils.LoadedLocations;
@@ -24,18 +24,14 @@ import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.conversations.ConversationAbandonedListener;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.harry0198.infoheads.commands.general.conversations.InfoHeadsConversationPrefix;
 import me.harry0198.infoheads.listeners.EntityListeners;
-import net.milkbowl.vault.permission.Permission;
 
 public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener {
-
+    // Array to check if naming / assignment is complete in wizard
     public List<Player> namedComplete = new ArrayList<>();
     private List<LoadedLocations> loadedLoc = new ArrayList<>();
     public HeadStacks headStacks = new HeadStacks();
@@ -49,10 +45,9 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     // Inventory Storage
     public Map<UUID, ItemStack[]> items = new HashMap<>();
     public Map<UUID, ItemStack[]> armor = new HashMap<>();
-    private boolean offHand = true;
-
-    // Vault
-    private static Permission perms = null;
+    public boolean offHand = true;
+    @Inject private CommandManager commandManager;
+    private Injector injector;
 
     // Conversations
     private ConversationFactory conversationFactory;
@@ -81,15 +76,22 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
         config.options().copyDefaults(true);
         saveDefaultConfig();
 
-        Stream.of(Registerables.PERMISSIONS, Registerables.INFOHEADS, Registerables.LISTENERS, Registerables.COMMANDS).forEach(this::register);
+        Stream.of(Registerables.GUICE, Registerables.INFOHEADS, Registerables.LISTENERS, Registerables.COMMANDS).forEach(this::register);
 
         if (Bukkit.getServer().getVersion().contains("1.8")) offHand = false;
     }
 
     public void register(Registerables registerable) {
         switch (registerable) {
-            case COMMANDS: //TODO Change
-                getCommand("infoheads").setExecutor(new PlayerCmd());
+            case GUICE:
+                injector = new BinderModule(this).createInjector();
+                injector.injectMembers(this);
+                break;
+
+            case COMMANDS:
+                Objects.requireNonNull(getCommand("infoheads"))
+                        .setExecutor(commandManager);
+                Arrays.stream(Commands.values()).map(Commands::getClazz).map(injector::getInstance).forEach(commandManager.getCommands()::add);
                 break;
 
             case INFOHEADS:
@@ -113,41 +115,8 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
                 break;
 
             case LISTENERS:
-                getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
+                getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand, commandManager), this);
                 break;
-
-            case PERMISSIONS:
-                RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-                perms = rsp.getProvider();
-                break;
-        }
-    }
-
-    public void reloadCommand() {
-        this.reloadConfig();
-
-        register(Registerables.INFOHEADS);
-        BlockPlaceEvent.getHandlerList().unregister(this);
-        PlayerInteractEvent.getHandlerList().unregister(this);
-        getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand), this);
-    }
-
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean checkLocationExists(Location location) {
-        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
-            if (location.equals(loc.getLocation())) return true;
-        }
-        return false;
-    }
-
-    public void deleteInfoHead(Location location) {
-        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
-            if (location.equals(loc.getLocation())) {
-                getInstance().getConfig().set("Infoheads." + loc.getKey(), null);
-                getInstance().saveConfig();
-                register(Registerables.INFOHEADS);
-                return;
-            }
         }
     }
 
@@ -158,10 +127,6 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
             Utils.sendMessage(player, "Exit the Infoheads wizard.");
             new Inventory().restoreInventory(player);
         }
-    }
-
-    public static Permission getPerms() {
-        return perms;
     }
 
     public ConversationFactory getConversationFactory() {
@@ -177,7 +142,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     }
 
     public enum Registerables {
-        COMMANDS, INFOHEADS, LISTENERS, PERMISSIONS
+        COMMANDS, INFOHEADS, LISTENERS, GUICE
     }
 
 }

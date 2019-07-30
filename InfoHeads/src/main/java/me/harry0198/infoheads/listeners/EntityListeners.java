@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.listeners;
 
+import me.harry0198.infoheads.commands.CommandManager;
 import me.harry0198.infoheads.utils.LoadedLocations;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -17,15 +18,18 @@ import me.harry0198.infoheads.utils.Constants;
 import me.harry0198.infoheads.utils.Utils;
 import org.bukkit.inventory.EquipmentSlot;
 
+import static me.harry0198.infoheads.InfoHeads.getInstance;
+
 public class EntityListeners implements Listener {
 	
 	private InfoHeads infoHeads;
 	private boolean offHand;
+	private CommandManager commandManager;
 
-	public EntityListeners(InfoHeads infoHeads, boolean offHand) {
+	public EntityListeners(InfoHeads infoHeads, boolean offHand, CommandManager commandManager) {
 		this.infoHeads = infoHeads;
 		this.offHand = offHand;
-
+		this.commandManager = commandManager;
 	}
 	
 	/**
@@ -53,12 +57,12 @@ public class EntityListeners implements Listener {
 		infoHeads.saveConfig();
 
 		addToList(world, uuid);
-		
+
 		new Inventory().restoreInventory(e.getPlayer());
 		infoHeads.namedComplete.remove(e.getPlayer());
 
 		Utils.sendMessage(e.getPlayer(), "&a[Wizard] &fCreation complete!");
-	 	infoHeads.register(InfoHeads.Registerables.INFOHEADS);
+		infoHeads.register(InfoHeads.Registerables.INFOHEADS);
 	}
 	
 	/**
@@ -79,10 +83,9 @@ public class EntityListeners implements Listener {
 			return;
 		}
         // Perm check
-		if (!(InfoHeads.getPerms().playerHas(e.getPlayer(), Constants.BASE_PERM + "use"))) { return;}
-		// Check if they've clicked a valid block
-
-
+		System.out.print("perm");
+		if (!e.getPlayer().hasPermission(Constants.BASE_PERM + "use")) { return;} //TODO perms issue?
+		System.out.print("passed");
 		// Check if block is registered in maps
 		for (LoadedLocations each : infoHeads.getLoadedLoc()) {
 			if (!(each.getLocation().equals(e.getClickedBlock().getLocation()))) continue;
@@ -104,10 +107,12 @@ public class EntityListeners implements Listener {
 	//TODO Refine this
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		if (!(InfoHeads.getPerms().playerHas(e.getPlayer(), Constants.ADMIN_PERM))) { return;}
-		if (!infoHeads.checkLocationExists(e.getBlock().getLocation())) return;
-		infoHeads.deleteInfoHead(e.getBlock().getLocation());
-		Utils.sendMessage(e.getPlayer(), "InfoHead deleted");
+		if (!e.getPlayer().hasPermission(Constants.ADMIN_PERM)) { return;}
+		if (!checkValidLoc(e.getBlock().getLocation())) return; //TODO link to delete cmd
+		commandManager.getCommands().forEach(cmd -> {
+			if (cmd.getCommand().equals("delete")) cmd.run(e.getPlayer(), new String[]{});
+		});
+
 	}
 	
 	/**
@@ -153,5 +158,12 @@ public class EntityListeners implements Listener {
 				.setCommand(section.getStringList(uuid + "commands"))
 				.build());
 
+	}
+
+	private boolean checkValidLoc(Location location) {
+		for (LoadedLocations loc : getInstance().getLoadedLoc()) {
+			if (location.equals(loc.getLocation())) return true;
+		}
+		return false;
 	}
 }
