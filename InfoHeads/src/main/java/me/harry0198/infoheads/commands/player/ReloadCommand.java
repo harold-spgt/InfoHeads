@@ -6,6 +6,7 @@ import me.harry0198.infoheads.commands.Command;
 import me.harry0198.infoheads.commands.CommandManager;
 import me.harry0198.infoheads.listeners.EntityListeners;
 import me.harry0198.infoheads.utils.Constants;
+import me.harry0198.infoheads.utils.Utils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -28,6 +29,7 @@ public class ReloadCommand extends Command {
         PlayerInteractEvent.getHandlerList().unregister(infoHeads);
         infoHeads.getServer().getPluginManager().registerEvents(new EntityListeners(infoHeads, infoHeads.offHand, commandManager), infoHeads);
 
+        Utils.sendMessage(sender, "&fConfig reloaded!");
         return true;
     }
 }

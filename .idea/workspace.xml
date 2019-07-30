@@ -2,27 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59f05802-e29a-44c1-9d75-9d485a6efed0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/Command.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/CommandManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/Commands.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/DeleteCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/HelpCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/ReloadCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/WizardCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/guice/BinderModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/PlayerCmd.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/InfoHeads.class" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/InfoHeads.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/listeners/EntityListeners.class" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/me/harry0198/infoheads/listeners/EntityListeners.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/classes/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/target/original-InfoHeads.jar" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/target/original-InfoHeads.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/HelpCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/ReloadCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/ReloadCommand.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/Plugin-IH/target/" />
@@ -46,104 +27,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
+            <state relative-caret-position="615">
+              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/guice/BinderModule.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#507#508#0" expanded="true" />
-                <element signature="e#566#567#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/Command.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/Commands.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#258#259#0" expanded="true" />
-                <element signature="e#292#293#0" expanded="true" />
-                <element signature="e#342#343#0" expanded="true" />
-                <element signature="e#370#371#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="64" column="60" selection-start-line="64" selection-start-column="60" selection-end-line="64" selection-end-column="60" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/DeleteCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="24" column="40" lean-forward="true" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#176#177#0" expanded="true" />
-                <element signature="e#256#257#0" expanded="true" />
-                <element signature="e#1270#1320#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/ReloadCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" column="128" selection-start-line="28" selection-start-column="128" selection-end-line="28" selection-end-column="128" />
+            <state relative-caret-position="435">
+              <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#224#225#0" expanded="true" />
-                <element signature="e#310#311#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/HelpCommand.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#477#478#0" expanded="true" />
-                <element signature="e#563#564#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -216,13 +115,13 @@
         <option value="$PROJECT_DIR$/InfoHeads/pom.xml" />
         <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/CommandManager.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/HelpCommand.java" />
         <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/DeleteCommand.java" />
         <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/Commands.java" />
-        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/ReloadCommand.java" />
         <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/WizardCommand.java" />
         <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java" />
         <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java" />
+        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/HelpCommand.java" />
+        <option value="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/ReloadCommand.java" />
       </list>
     </option>
   </component>
@@ -300,7 +199,18 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="infoheads" type="462c0819:PsiDirectoryNode" />
-              <item name="guice" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="InfoHeads" type="b2602c69:ProjectViewProjectNode" />
+              <item name="InfoHeads-mvn" type="462c0819:PsiDirectoryNode" />
+              <item name="InfoHeads" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="infoheads" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
+              <item name="player" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -438,7 +348,14 @@
       <option name="project" value="LOCAL" />
       <updated>1564390484821</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Converted to new Command Handler">
+      <created>1564508665759</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1564508665759</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView">
@@ -454,7 +371,7 @@
     <frame x="0" y="23" width="1680" height="947" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25702077" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25702077" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -463,7 +380,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32982457" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4993895" weight="0.2011696" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4993895" visible="true" weight="0.2011696" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -476,7 +393,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven" order="4" weight="0.11599512" />
+      <window_info anchor="right" id="Maven" order="4" visible="true" weight="0.11599512" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
@@ -525,7 +442,8 @@
     <MESSAGE value="Replaced static class reference" />
     <MESSAGE value="Updated project to use 5 character uuid for config" />
     <MESSAGE value="Implemented Registerable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented Registerable" />
+    <MESSAGE value="Converted to new Command Handler" />
+    <option name="LAST_COMMIT_MESSAGE" value="Converted to new Command Handler" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Plugin-IH/src/main/java/me/harry0198/infoheads/utils/Items.java" />
@@ -704,38 +622,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/ReloadCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="128" selection-start-line="28" selection-start-column="128" selection-end-line="28" selection-end-column="128" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#224#225#0" expanded="true" />
-            <element signature="e#310#311#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/Command.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/DeleteCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="24" column="40" lean-forward="true" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#176#177#0" expanded="true" />
-            <element signature="e#256#257#0" expanded="true" />
-            <element signature="e#1270#1320#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/WizardCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -748,36 +634,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/HelpCommand.java">
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#477#478#0" expanded="true" />
-            <element signature="e#563#564#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
+        <state relative-caret-position="960">
+          <caret line="64" column="60" selection-start-line="64" selection-start-column="60" selection-end-line="64" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/guice/BinderModule.java">
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/DeleteCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+          <caret line="24" column="40" lean-forward="true" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#507#508#0" expanded="true" />
-            <element signature="e#566#567#0" expanded="true" />
+            <element signature="e#176#177#0" expanded="true" />
+            <element signature="e#256#257#0" expanded="true" />
+            <element signature="e#1270#1320#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -796,10 +671,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/EntityListeners.java">
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/Command.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="64" column="60" selection-start-line="64" selection-start-column="60" selection-end-line="64" selection-end-column="60" />
+        <state relative-caret-position="90">
+          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/guice/BinderModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#566#567#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/HelpCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#477#478#0" expanded="true" />
+            <element signature="e#563#564#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/commands/player/ReloadCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
