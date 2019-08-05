@@ -7,7 +7,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.harry0198.infoheads.commands.CommandManager;
 import me.harry0198.infoheads.commands.Commands;
-import me.harry0198.infoheads.commands.general.conversations.CommandPrompt;
+import me.harry0198.infoheads.commands.general.conversations.editspecific.LineSelectPrompt;
+import me.harry0198.infoheads.commands.general.conversations.wizard.CommandPrompt;
+import me.harry0198.infoheads.commands.player.EditCommand;
 import me.harry0198.infoheads.guice.BinderModule;
 import me.harry0198.infoheads.inventorys.HeadStacks;
 import me.harry0198.infoheads.inventorys.Inventory;
@@ -27,10 +29,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.harry0198.infoheads.commands.general.conversations.InfoHeadsConversationPrefix;
+import me.harry0198.infoheads.commands.general.conversations.wizard.InfoHeadsConversationPrefix;
 import me.harry0198.infoheads.listeners.EntityListeners;
 
-public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener {
+public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener { //TODO API -> ex: getHeadAtLocation()
     // Array to check if naming / assignment is complete in wizard
     public List<Player> namedComplete = new ArrayList<>();
     private List<LoadedLocations> loadedLoc = new ArrayList<>();
@@ -48,9 +50,12 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public boolean offHand = true;
     @Inject private CommandManager commandManager;
     private Injector injector;
+    private Map<Player, EditCommand.Types> typesMap = new HashMap<>();
+    public Map<Player, LoadedLocations> typesMapClass = new HashMap<>();
 
     // Conversations
     private ConversationFactory conversationFactory;
+    private ConversationFactory editFactory;
 
     /**
      * Class constructor -- loads the conversation factory
@@ -58,6 +63,11 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public InfoHeads() {
         this.conversationFactory = new ConversationFactory(this).withModality(true)
                 .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new CommandPrompt())
+                .withEscapeSequence("cancel").withTimeout(60)
+                .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
+                .addConversationAbandonedListener(this);
+        this.editFactory = new ConversationFactory(this).withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new LineSelectPrompt())
                 .withEscapeSequence("cancel").withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
                 .addConversationAbandonedListener(this);
@@ -132,7 +142,10 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public ConversationFactory getConversationFactory() {
         return conversationFactory;
     }
-
+    public ConversationFactory getEditFactory() {
+        return editFactory;
+    }
+    public Map<Player, EditCommand.Types> getCurrentEditType() { return typesMap; }
     public List<LoadedLocations> getLoadedLoc() {
         return loadedLoc;
     }

@@ -9,7 +9,7 @@
     </parent>
     <artifactId>InfoHeads</artifactId>
     <name>InfoHeads</name>
-    <version>1.3.42</version>
+    <version>1.3.5</version>
 
     <repositories>
         <!-- Spigot Repository -->

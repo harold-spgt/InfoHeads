@@ -1,4 +1,4 @@
-package me.harry0198.infoheads.commands.general.conversations;
+package me.harry0198.infoheads.commands.general.conversations.wizard;
 
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.MessagePrompt;

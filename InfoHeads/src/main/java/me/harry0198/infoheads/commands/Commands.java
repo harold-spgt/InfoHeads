@@ -1,16 +1,14 @@
 package me.harry0198.infoheads.commands;
 
-import me.harry0198.infoheads.commands.player.DeleteCommand;
-import me.harry0198.infoheads.commands.player.HelpCommand;
-import me.harry0198.infoheads.commands.player.ReloadCommand;
-import me.harry0198.infoheads.commands.player.WizardCommand;
+import me.harry0198.infoheads.commands.player.*;
 
 public enum Commands {
 
     HELP(HelpCommand.class),
     WIZARD(WizardCommand.class),
     RELOAD(ReloadCommand.class),
-    DELETE(DeleteCommand.class);
+    DELETE(DeleteCommand.class),
+    EDIT(EditCommand.class);
 
     private final Class<? extends Command> clazz;
 

@@ -1,4 +1,4 @@
-package me.harry0198.infoheads.commands.general.conversations;
+package me.harry0198.infoheads.commands.general.conversations.wizard;
 
 import me.harry0198.infoheads.utils.Utils;
 import org.bukkit.ChatColor;

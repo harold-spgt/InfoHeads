@@ -82,13 +82,11 @@ public class EntityListeners implements Listener {
 		} catch (NullPointerException npe) {
 			return;
 		}
-        // Perm check
-		System.out.print("perm");
-		if (!e.getPlayer().hasPermission(Constants.BASE_PERM + "use")) { return;} //TODO perms issue?
-		System.out.print("passed");
+
 		// Check if block is registered in maps
 		for (LoadedLocations each : infoHeads.getLoadedLoc()) {
 			if (!(each.getLocation().equals(e.getClickedBlock().getLocation()))) continue;
+			if (!e.getPlayer().hasPermission(Constants.BASE_PERM + "use")) { return;}
 			Player player = e.getPlayer();
 
 			if (each.getCommands() != null) {
@@ -108,7 +106,7 @@ public class EntityListeners implements Listener {
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		if (!e.getPlayer().hasPermission(Constants.ADMIN_PERM)) { return;}
-		if (!checkValidLoc(e.getBlock().getLocation())) return; //TODO link to delete cmd
+		if (!checkValidLoc(e.getBlock().getLocation())) return;
 		commandManager.getCommands().forEach(cmd -> {
 			if (cmd.getCommand().equals("delete")) cmd.run(e.getPlayer(), new String[]{});
 		});

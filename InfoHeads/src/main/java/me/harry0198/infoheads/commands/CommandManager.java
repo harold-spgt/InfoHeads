@@ -67,7 +67,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-        List<String> a1 = Arrays.asList("reload", "wizard", "help", "delete");
+        List<String> a1 = Arrays.asList("reload", "wizard", "help", "delete", "edit");
         List<String> fList = Lists.newArrayList();
 
         switch (args.length) {
