@@ -3,6 +3,7 @@ package me.harry0198.infoheads.commands;
 import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
 import me.harry0198.infoheads.commands.player.HelpCommand;
+import me.harry0198.infoheads.utils.Utils;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -30,7 +31,7 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
 
                 if (text.toLowerCase().startsWith(cmd.toLowerCase())) {
                     if (c.isPlayerOnly() && !(sender instanceof Player)) {
-                        sender.sendMessage("Console can't use this command");
+                        Utils.sendMessage(sender, "Console can't use this command");
                         return true;
                     }
 
@@ -40,17 +41,17 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
                         String[] args = args(text);
 
                         if (!c.run(sender, args)) {
-                            sender.sendMessage("§cIncorrect usage: " + command + " " + c.getUsage());
+                            Utils.sendMessage(sender, "§cIncorrect usage: " + command + " " + c.getUsage());
                         }
                     } else {
-                        sender.sendMessage("§cNo permission");
+                        Utils.sendMessage(sender, "§cNo permission");
                     }
 
                     return true;
                 }
             }
 
-            sender.sendMessage("§cUnknown command");
+            Utils.sendMessage(sender, "§cUnknown command");
         }
 
         helpCommand.run(sender, new String[]{});

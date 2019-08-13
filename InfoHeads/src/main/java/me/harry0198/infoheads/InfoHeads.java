@@ -31,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.harry0198.infoheads.commands.general.conversations.wizard.InfoHeadsConversationPrefix;
 import me.harry0198.infoheads.listeners.EntityListeners;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener { //TODO API -> ex: getHeadAtLocation()
     // Array to check if naming / assignment is complete in wizard
