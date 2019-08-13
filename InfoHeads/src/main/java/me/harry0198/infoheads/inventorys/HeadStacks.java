@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class HeadStacks {
@@ -30,8 +29,6 @@ public class HeadStacks {
 
         return list;
     }
-
-
 
     void giveItems(Player player) {
 
