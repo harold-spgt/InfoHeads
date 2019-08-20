@@ -102,11 +102,10 @@ public class EntityListeners implements Listener {
 		}
 	}
 
-	//TODO Refine this
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		if (!e.getPlayer().hasPermission(Constants.ADMIN_PERM)) { return;}
 		if (!checkValidLoc(e.getBlock().getLocation())) return;
+		if (!e.getPlayer().hasPermission(Constants.ADMIN_PERM)) { return;}
 		commandManager.getCommands().forEach(cmd -> {
 			if (cmd.getCommand().equals("delete")) cmd.run(e.getPlayer(), new String[]{});
 		});
@@ -143,8 +142,6 @@ public class EntityListeners implements Listener {
 	// Adds to builder class
 	private void addToList(World world, String uuid) {
 		ConfigurationSection section = infoHeads.getConfig().getConfigurationSection("Infoheads");
-
-
 
 		int x = section.getInt(uuid + ".location.x");
 		int y = section.getInt(uuid + ".location.y");

@@ -31,7 +31,7 @@ public class Inventory {
 	}
 
 	/**
-	 * Restore original inventory
+	 * Restore original inventory before wizard setup.
 	 * 
 	 * @param player Player entity
 	 */
@@ -41,17 +41,14 @@ public class Inventory {
 	    ItemStack[] contents = getInstance().items.get(uuid);
 	    ItemStack[] armorContents = getInstance().armor.get(uuid);
 
-	    if(contents != null){
-	        player.getInventory().setContents(contents);
-	    }
-	    else{ // if inventorycontents is empty, clear inv
-	        player.getInventory().clear();
-	    }
+	    if(contents != null) player.getInventory().setContents(contents);
 
-	    if(armorContents != null){
+	    else player.getInventory().clear();
+
+	    if(armorContents != null)
 	        player.getInventory().setArmorContents(armorContents);
-	    }
-	    else{ //If the player was not wearing armour, clear it
+
+	    else {
 	        player.getInventory().setHelmet(null);
 	        player.getInventory().setChestplate(null);
 	        player.getInventory().setLeggings(null);
@@ -60,9 +57,7 @@ public class Inventory {
 	}
 	
 	public void infoHeadsInventory(Player player) {
-
 		getInstance().headStacks.giveItems(player);
-		
 	}
 
 	private InfoHeads getInstance() {

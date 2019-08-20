@@ -12,7 +12,8 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.conversations.Conversable;
 import org.bukkit.entity.Player;
-    //todo block
+
+//todo block
 public class EditCommand extends Command {
     @Inject private InfoHeads infoHeads;
 
@@ -25,7 +26,8 @@ public class EditCommand extends Command {
         Player player = (Player) sender;
 
         if (args.length == 0) {//TODO getcommand
-            Utils.sendMessage(player, "Incorrect Syntax! /Infoheads edit [cmd/msg/block]");
+            Utils.sendMessage(sender,ChatColor.GRAY + "/Infoheads " + getCommand() + " " + getUsage() + ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + getDescription() );
+
             return true;
         }
         Types type;
@@ -45,7 +47,7 @@ public class EditCommand extends Command {
                 break;*/
 
             default:
-                Utils.sendMessage(player, "Incorrect Syntax! /Infoheads edit [cmd/msg");
+                Utils.sendMessage(sender,ChatColor.GRAY + "/Infoheads " + getCommand() + " " + getUsage() + ChatColor.DARK_GRAY + " - " + ChatColor.GRAY + getDescription() );
                 return true;
         }
 
