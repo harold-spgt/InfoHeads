@@ -4,6 +4,7 @@ import me.harry0198.infoheads.commands.CommandManager;
 import me.harry0198.infoheads.utils.LoadedLocations;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,21 +45,23 @@ public class EntityListeners implements Listener {
 		Utils.sendMessage(e.getPlayer(), "&aInfoHeads Wizard: &fReceived Placement!");
 
 		World world = e.getPlayer().getWorld();
-		int x = e.getBlockPlaced().getX();
-		int y = e.getBlockPlaced().getY();
-		int z = e.getBlockPlaced().getZ();
+		Block blockPlaced = e.getBlockPlaced();
+		int x = blockPlaced.getX();
+		int y = blockPlaced.getY();
+		int z = blockPlaced.getZ();
 
 		String uuid = infoHeads.uuid.get(e.getPlayer());
+		ConfigurationSection section = infoHeads.getConfig().getConfigurationSection("Infoheads." + uuid);
 
-		infoHeads.getConfig().set("Infoheads." + uuid + ".location.x", x);
-		infoHeads.getConfig().set("Infoheads." + uuid + ".location.y", y);
-		infoHeads.getConfig().set("Infoheads." + uuid + ".location.z", z);
-		infoHeads.getConfig().set("Infoheads." + uuid + ".location.world", world.getName());
+		section.set(".location.x", x);
+		section.set(".location.y", y);
+		section.set(".location.z", z);
+		section.set(".location.world", world.getName());
 		infoHeads.saveConfig();
 
 		addToList(world, uuid);
 
-		new Inventory().restoreInventory(e.getPlayer());
+		Inventory.restoreInventory(e.getPlayer());
 		infoHeads.namedComplete.remove(e.getPlayer());
 
 		Utils.sendMessage(e.getPlayer(), "&a[Wizard] &fCreation complete!");
@@ -83,33 +86,34 @@ public class EntityListeners implements Listener {
 			return;
 		}
 
-		// Check if block is registered in maps
-		for (LoadedLocations each : infoHeads.getLoadedLoc()) {
-			if (!(each.getLocation().equals(e.getClickedBlock().getLocation()))) continue;
-			if (!e.getPlayer().hasPermission(Constants.BASE_PERM + "use")) { return;}
-			Player player = e.getPlayer();
+		// Check if block exists & permissions
+		if (isValidLoc(e.getClickedBlock().getLocation()) && e.getPlayer().hasPermission(Constants.BASE_PERM + "use")){
+			for (LoadedLocations each : infoHeads.getLoadedLoc()) {
+				if (!(each.getLocation().equals(e.getClickedBlock().getLocation()))) continue;
+				Player player = e.getPlayer();
 
-			if (each.getCommands() != null) {
-				for (String cmds : each.getCommands())
-					infoHeads.getServer().dispatchCommand(infoHeads.getServer().getConsoleSender(), placeHolderMessage(cmds, player, e));
-			}
+				if (each.getCommands() != null) {
+					for (String cmds : each.getCommands())
+						infoHeads.getServer().dispatchCommand(infoHeads.getServer().getConsoleSender(), placeHolderMessage(cmds, player, e));
+				}
 
-			if (each.getMessages() != null) {
-				for (String msg : each.getMessages())
-					Utils.sendMessage(player, placeHolderMessage(msg, player, e), false);
+				if (each.getMessages() != null) {
+					for (String msg : each.getMessages())
+						Utils.sendMessage(player, placeHolderMessage(msg, player, e), false);
 
+				}
 			}
 		}
+
 	}
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		if (!checkValidLoc(e.getBlock().getLocation())) return;
-		if (!e.getPlayer().hasPermission(Constants.ADMIN_PERM)) { return;}
-		commandManager.getCommands().forEach(cmd -> {
-			if (cmd.getCommand().equals("delete")) cmd.run(e.getPlayer(), new String[]{});
-		});
-
+		if (isValidLoc(e.getBlock().getLocation()) && e.getPlayer().hasPermission(Constants.ADMIN_PERM)){
+			commandManager.getCommands().forEach(cmd -> {
+				if (cmd.getCommand().equals("delete")) cmd.run(e.getPlayer(), new String[]{});
+			});
+		}
 	}
 	
 	/**
@@ -155,10 +159,7 @@ public class EntityListeners implements Listener {
 
 	}
 
-	private boolean checkValidLoc(Location location) {
-		for (LoadedLocations loc : getInstance().getLoadedLoc()) {
-			if (location.equals(loc.getLocation())) return true;
-		}
-		return false;
+	private boolean isValidLoc(Location location) {
+		return getInstance().getValidLocations().contains(location);
 	}
 }

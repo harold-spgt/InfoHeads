@@ -1,5 +1,6 @@
 package me.harry0198.infoheads;
 
+import java.lang.instrument.Instrumentation;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -26,17 +27,16 @@ import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.conversations.ConversationAbandonedListener;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.harry0198.infoheads.commands.general.conversations.wizard.InfoHeadsConversationPrefix;
 import me.harry0198.infoheads.listeners.EntityListeners;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener { //TODO API -> ex: getHeadAtLocation()
+public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener {
     // Array to check if naming / assignment is complete in wizard
     public List<Player> namedComplete = new ArrayList<>();
-    private List<LoadedLocations> loadedLoc = new ArrayList<>();
+    private Set<LoadedLocations> loadedLoc = new HashSet<>();
+    private Set<Location> validLocations = new HashSet<>();
     public HeadStacks headStacks = new HeadStacks();
     public PapiMethod papiMethod = new PapiMethod();
     public boolean papi = false;
@@ -45,9 +45,6 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     // Data Storage lists & Maps
     public List<String> infoheads = new ArrayList<>();
 
-    // Inventory Storage
-    public Map<UUID, ItemStack[]> items = new HashMap<>();
-    public Map<UUID, ItemStack[]> armor = new HashMap<>();
     public boolean offHand = true;
     @Inject private CommandManager commandManager;
     private Injector injector;
@@ -90,6 +87,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
         Stream.of(Registerables.GUICE, Registerables.INFOHEADS, Registerables.LISTENERS, Registerables.COMMANDS).forEach(this::register);
 
         if (Bukkit.getServer().getVersion().contains("1.8")) offHand = false;
+
     }
 
     public void register(Registerables registerable) {
@@ -116,12 +114,16 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
                     int y = section.getInt(each + ".location.y");
                     int z = section.getInt(each + ".location.z");
 
+                    Location loc = new Location(world, x, y, z);
+
                     loadedLoc.add(new LoadedLocations.Builder()
-                            .setLocation(new Location(world, x, y, z))
+                            .setLocation(loc)
                             .setCommand(section.getStringList(each + ".commands"))
                             .setMessage(section.getStringList(each + ".messages"))
                             .setKey(each)
                             .build());
+
+                    validLocations.add(loc);
                 }
                 break;
 
@@ -136,8 +138,16 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
         // If exit using abandon keyword
         if (!(abandonedEvent.gracefulExit())) {
             Utils.sendMessage(player, "Exit the Infoheads wizard.");
-            new Inventory().restoreInventory(player);
+            Inventory.restoreInventory(player);
         }
+    }
+
+    public Set<Location> getValidLocations() {
+        return validLocations;
+    }
+
+    public void removeValidLocation(Location location) {
+        validLocations.remove(location);
     }
 
     public ConversationFactory getConversationFactory() {
@@ -147,7 +157,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
         return editFactory;
     }
     public Map<Player, EditCommand.Types> getCurrentEditType() { return typesMap; }
-    public List<LoadedLocations> getLoadedLoc() {
+    public Set<LoadedLocations> getLoadedLoc() {
         return loadedLoc;
     }
 

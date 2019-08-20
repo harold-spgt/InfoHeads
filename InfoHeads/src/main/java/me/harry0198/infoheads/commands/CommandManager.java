@@ -71,14 +71,13 @@ public final class CommandManager implements CommandExecutor, TabCompleter {
         List<String> a1 = Arrays.asList("reload", "wizard", "help", "delete", "edit");
         List<String> fList = Lists.newArrayList();
 
-        switch (args.length) {
-            case 1:
-                for (String each : a1) {
-                    if (each.toLowerCase().startsWith(args[0].toLowerCase())) {
-                        fList.add(each);
-                    }
+        if (args.length == 1) {
+            for (String each : a1) {
+                if (each.toLowerCase().startsWith(args[0].toLowerCase())) {
+                    fList.add(each);
                 }
-                return fList;
+            }
+            return fList;
         }
         return null;
     }

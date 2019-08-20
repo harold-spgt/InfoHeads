@@ -35,19 +35,16 @@ public class DeleteCommand extends Command {
         return true;
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean checkLocationExists(Location location) {
-        for (LoadedLocations loc : getInstance().getLoadedLoc()) {
-            if (location.equals(loc.getLocation())) return true;
-        }
-        return false;
+    private boolean checkLocationExists(Location location) {
+        return getInstance().getValidLocations().contains(location);
     }
 
-    public void deleteInfoHead(Location location) {
+    private void deleteInfoHead(Location location) {
         for (LoadedLocations loc : getInstance().getLoadedLoc()) {
             if (location.equals(loc.getLocation())) {
                 getInstance().getConfig().set("Infoheads." + loc.getKey(), null);
                 getInstance().saveConfig();
+                getInstance().removeValidLocation(location);
                 infoHeads.register(InfoHeads.Registerables.INFOHEADS);
                 return;
             }

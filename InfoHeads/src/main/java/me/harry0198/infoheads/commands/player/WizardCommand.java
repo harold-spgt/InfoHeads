@@ -21,13 +21,12 @@ public class WizardCommand extends Command {
 
         Utils.sendMessage(sender, "&lYou are in wizard mode, type 'cancel' to exit at any time.");
 
-        Inventory iv = new Inventory();
 
         if (!(Bukkit.getVersion().contains("1.8"))) { // 1.8 clients does not support inventory storage
-            iv.storeAndClearInventory((Player) sender);
+            Inventory.storeAndClearInventory((Player) sender);
         }
         Bukkit.getScheduler().runTaskAsynchronously(getInstance(), () ->
-                iv.infoHeadsInventory((Player) sender));
+                new Inventory().infoHeadsInventory((Player) sender));
 
         getInstance().getConversationFactory().buildConversation((Conversable) sender).begin();
         return true;
