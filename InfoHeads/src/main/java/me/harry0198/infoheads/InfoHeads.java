@@ -37,7 +37,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public List<Player> namedComplete = new ArrayList<>();
     private Set<LoadedLocations> loadedLoc = new HashSet<>();
     private Set<Location> validLocations = new HashSet<>();
-    public HeadStacks headStacks = new HeadStacks();
+    public HeadStacks headStacks = new HeadStacks(this);
     public PapiMethod papiMethod = new PapiMethod();
     public boolean papi = false;
     public Map<Player, String> uuid = new HashMap<>();
