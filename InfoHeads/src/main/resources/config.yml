@@ -1,7 +1,7 @@
 ########################################################
 #                  InfoHeads V1.0.0                    #
 # - Author: Harry0198                                  #
-# - License: FREE! (Well... Technically Apache-2.0)    #
+# - License: FREE! (Well... Actually it's Apache-2.0)  #
 #                                                      #
 #                 Enjoy the Plugin!                    #
 ########################################################
@@ -10,7 +10,8 @@
 # Placeholders: {player-x} {player-y} {player-z} {block-x} {block-y} {block-z} {player-name}
 # PlaceHolderAPI: You can use placeholders provided by PAPI.
 #
-# Change the default heads that you get with the InfoHead Wizard here.
+# Change the default heads that you receive in the InfoHeads Wizard here.
+# You can use custom heads from HeadDatabase, by using "id:<head id>"
 Heads:
 - 'MHF_Question'
 - 'MHF_Exclamation'

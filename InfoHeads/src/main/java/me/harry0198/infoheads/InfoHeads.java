@@ -1,11 +1,11 @@
 package me.harry0198.infoheads;
 
-import java.lang.instrument.Instrumentation;
 import java.util.*;
 import java.util.stream.Stream;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import me.harry0198.infoheads.commands.CommandManager;
 import me.harry0198.infoheads.commands.Commands;
 import me.harry0198.infoheads.commands.general.conversations.editspecific.LineSelectPrompt;
@@ -40,7 +40,9 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public HeadStacks headStacks = new HeadStacks(this);
     public PapiMethod papiMethod = new PapiMethod();
     public boolean papi = false;
+    private boolean hdbEnabled = false;
     public Map<Player, String> uuid = new HashMap<>();
+    private HeadDatabaseAPI hdbApi = null;
 
     // Data Storage lists & Maps
     public List<String> infoheads = new ArrayList<>();
@@ -160,7 +162,14 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public Set<LoadedLocations> getLoadedLoc() {
         return loadedLoc;
     }
-
+    public HeadDatabaseAPI getHdbApi(){
+        return hdbApi;
+    }
+    
+    public void setHdbApi(HeadDatabaseAPI hdbApi){
+        this.hdbApi = hdbApi;
+    }
+    
     public static InfoHeads getInstance() {
         return getPlugin(InfoHeads.class);
     }
