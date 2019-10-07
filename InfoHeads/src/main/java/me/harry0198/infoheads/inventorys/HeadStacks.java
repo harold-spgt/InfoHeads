@@ -11,12 +11,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.List;
 
 public class HeadStacks {
-    
-    private InfoHeads plugin;
-    
-    public HeadStacks(InfoHeads plugin){
-        this.plugin = plugin;
-    }
 
     private Material material = MaterialUtils.PLAYER_HEAD.getMaterial();
 
@@ -24,7 +18,26 @@ public class HeadStacks {
 
         List<ItemStack> list = Lists.newArrayList();
 
-        for (String each : plugin.getConfig().getStringList("Heads")) {
+        for (String each : InfoHeads.getInstance().getConfig().getStringList("Heads")) {
+            if(each.toLowerCase().startsWith("id:")){
+                // Skip this item if HDB isn't loaded.
+                if(InfoHeads.getInstance().getHdbApi() == null) continue;
+                
+                ItemStack head;
+                try{
+                    head = InfoHeads.getInstance().getHdbApi().getItemHead(each.toLowerCase().replace("id:", ""));
+                }catch(NullPointerException ignored){
+                    head = null;
+                }
+                
+                // Head/ID was invalid. Skipping to next entry.
+                if(head == null) continue;
+                
+                // Add skull to list and move to next entry to prevent issues.
+                list.add(head);
+                continue;
+            }
+            
             ItemStack playerSkull = new ItemStack(material, 1, (short) 3);
             SkullMeta sm = (SkullMeta) playerSkull.getItemMeta();
             sm.setOwner(each);

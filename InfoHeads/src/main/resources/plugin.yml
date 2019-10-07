@@ -5,7 +5,9 @@ author: Harry0198
 description: InfoHeads plugin!
 api-version: 1.13
 depend: [Vault]
-softdepend: [PlaceholderAPI]
+softdepend:
+- PlaceholderAPI
+- HeadDatabase
 commands:
   infoheads:
     aliases: [if]

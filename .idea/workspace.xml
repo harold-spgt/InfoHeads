@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59f05802-e29a-44c1-9d75-9d485a6efed0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/listeners/HDBListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/InfoHeads.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/java/me/harry0198/infoheads/inventorys/HeadStacks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InfoHeads/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/InfoHeads/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -234,7 +233,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

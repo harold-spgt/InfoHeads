@@ -14,6 +14,7 @@ import me.harry0198.infoheads.commands.player.EditCommand;
 import me.harry0198.infoheads.guice.BinderModule;
 import me.harry0198.infoheads.inventorys.HeadStacks;
 import me.harry0198.infoheads.inventorys.Inventory;
+import me.harry0198.infoheads.listeners.HDBListener;
 import me.harry0198.infoheads.utils.LoadedLocations;
 import me.harry0198.infoheads.utils.PapiMethod;
 import me.harry0198.infoheads.utils.Utils;
@@ -37,10 +38,9 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public List<Player> namedComplete = new ArrayList<>();
     private Set<LoadedLocations> loadedLoc = new HashSet<>();
     private Set<Location> validLocations = new HashSet<>();
-    public HeadStacks headStacks = new HeadStacks(this);
+    public HeadStacks headStacks = new HeadStacks();
     public PapiMethod papiMethod = new PapiMethod();
     public boolean papi = false;
-    private boolean hdbEnabled = false;
     public Map<Player, String> uuid = new HashMap<>();
     private HeadDatabaseAPI hdbApi = null;
 
@@ -131,6 +131,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
 
             case LISTENERS:
                 getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand, commandManager), this);
+                getServer().getPluginManager().registerEvents(new HDBListener(), this);
                 break;
         }
     }
