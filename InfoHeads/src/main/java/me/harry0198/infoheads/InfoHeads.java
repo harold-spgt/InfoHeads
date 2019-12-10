@@ -1,6 +1,5 @@
 package me.harry0198.infoheads;
 
-import java.lang.instrument.Instrumentation;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -83,9 +82,10 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
         FileConfiguration config = getConfig();
         config.options().copyDefaults(true);
         saveDefaultConfig();
-        if (Bukkit.getServer().getVersion().contains("1.8")) offHand = false;
 
         Stream.of(Registerables.GUICE, Registerables.INFOHEADS, Registerables.LISTENERS, Registerables.COMMANDS).forEach(this::register);
+
+        if (Bukkit.getServer().getVersion().contains("1.8")) offHand = false;
 
     }
 
