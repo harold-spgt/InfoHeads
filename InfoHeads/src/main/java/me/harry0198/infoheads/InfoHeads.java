@@ -13,6 +13,8 @@ import me.harry0198.infoheads.commands.player.EditCommand;
 import me.harry0198.infoheads.guice.BinderModule;
 import me.harry0198.infoheads.inventorys.HeadStacks;
 import me.harry0198.infoheads.inventorys.Inventory;
+import me.harry0198.infoheads.listeners.HDBListener;
+import me.harry0198.infoheads.utils.HdbApi;
 import me.harry0198.infoheads.utils.LoadedLocations;
 import me.harry0198.infoheads.utils.PapiMethod;
 import me.harry0198.infoheads.utils.Utils;
@@ -53,6 +55,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     // Conversations
     private ConversationFactory conversationFactory;
     private ConversationFactory editFactory;
+    private HdbApi hdbApiModule;
 
     /**
      * Class constructor -- loads the conversation factory
@@ -92,8 +95,9 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public void register(Registerables registerable) {
         switch (registerable) {
             case GUICE:
-                injector = new BinderModule(this).createInjector();
-                injector.injectMembers(this);
+                    injector = new BinderModule(this).createInjector();
+                    injector.injectMembers(this);
+
                 break;
 
             case COMMANDS:
@@ -128,6 +132,7 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
 
             case LISTENERS:
                 getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand, commandManager), this);
+                getServer().getPluginManager().registerEvents(new HDBListener(), this);
                 break;
         }
     }
@@ -159,7 +164,15 @@ public class InfoHeads extends JavaPlugin implements ConversationAbandonedListen
     public Set<LoadedLocations> getLoadedLoc() {
         return loadedLoc;
     }
+    public HdbApi getHdbApiModule(){
+        return hdbApiModule;
+    }
 
+    public void setHdbApiModule(HdbApi hdbApiModule){
+        this.hdbApiModule = hdbApiModule;
+    }
+
+    
     public static InfoHeads getInstance() {
         return getPlugin(InfoHeads.class);
     }

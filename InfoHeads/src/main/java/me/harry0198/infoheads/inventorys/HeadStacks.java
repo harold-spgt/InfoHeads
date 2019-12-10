@@ -1,6 +1,7 @@
 package me.harry0198.infoheads.inventorys;
 
 import com.google.common.collect.Lists;
+import me.harry0198.infoheads.InfoHeads;
 import me.harry0198.infoheads.utils.MaterialUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,13 +13,31 @@ import java.util.List;
 public class HeadStacks {
 
     private Material material = MaterialUtils.PLAYER_HEAD.getMaterial();
-    private static final String[] skulls = {"MHF_Question","MHF_Exclamation", "MHF_Chest", "MHF_Facebook", "MHF_ArrowUp", "MHF_ArrowDown", "MHF_ArrowLeft", "MHF_ArrowRight"};
 
     private List<ItemStack> generateSkulls() {
 
         List<ItemStack> list = Lists.newArrayList();
 
-        for (String each : skulls) {
+        for (String each : InfoHeads.getInstance().getConfig().getStringList("Heads")) {
+            if(each.toLowerCase().startsWith("id:")){
+                // Skip this item if HDB isn't loaded.
+                if(InfoHeads.getInstance().getHdbApiModule() == null || InfoHeads.getInstance().getHdbApiModule().getHdbApi() == null) continue;
+                
+                ItemStack head;
+                try{
+                    head = InfoHeads.getInstance().getHdbApiModule().getHdbApi().getItemHead(each.toLowerCase().replace("id:", ""));
+                }catch(NullPointerException ignored){
+                    head = null;
+                }
+                
+                // Head/ID was invalid. Skipping to next entry.
+                if(head == null) continue;
+                
+                // Add skull to list and move to next entry to prevent issues.
+                list.add(head);
+                continue;
+            }
+            
             ItemStack playerSkull = new ItemStack(material, 1, (short) 3);
             SkullMeta sm = (SkullMeta) playerSkull.getItemMeta();
             sm.setOwner(each);

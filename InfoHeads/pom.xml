@@ -48,6 +48,13 @@
             <version>2.10.3</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.hdb</groupId>
+            <artifactId>Hdb</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/temp/temp.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

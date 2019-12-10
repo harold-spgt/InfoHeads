@@ -1,5 +1,6 @@
 me/harry0198/infoheads/commands/general/conversations/wizard/ExecutedPrompt.class
 me/harry0198/infoheads/utils/Utils.class
+me/harry0198/infoheads/utils/HdbApi.class
 me/harry0198/infoheads/InfoHeads.class
 me/harry0198/infoheads/InfoHeads$1.class
 me/harry0198/infoheads/commands/general/conversations/wizard/MessagePrompt.class
@@ -26,5 +27,6 @@ me/harry0198/infoheads/commands/Command.class
 me/harry0198/infoheads/commands/player/HelpCommand.class
 me/harry0198/infoheads/commands/player/DeleteCommand.class
 me/harry0198/infoheads/inventorys/Inventory.class
+me/harry0198/infoheads/listeners/HDBListener.class
 me/harry0198/infoheads/listeners/EntityListeners.class
 me/harry0198/infoheads/commands/general/conversations/editspecific/LineSelectPrompt.class
