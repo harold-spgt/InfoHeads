@@ -5,16 +5,5 @@ author: Harry0198
 description: InfoHeads plugin!
 api-version: 1.13
 softdepend:
-- PlaceholderAPI
-- HeadDatabase
-commands:
-  infoheads:
-    aliases: [if]
-    description: The central command for Infoheads.
-    usage: /Infoheads
-    permission: infoheads.admin
-permissions:
-  infoheads.admin:
-    description: Allows usage of the InfoHeads Wizard
-    default: op
- 
+  - PlaceholderAPI
+  - HeadDatabase

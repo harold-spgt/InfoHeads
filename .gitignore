@@ -27,4 +27,7 @@ Temporary Items
 Infoheads.iml
 .idea
 InfoHeads-Parent.iml
-InfoHeads/temp
+InfoHeads/temp/
+InfoHeads/.idea/
+InfoHeads/server/
+InfoHeads/InfoHeads.iml

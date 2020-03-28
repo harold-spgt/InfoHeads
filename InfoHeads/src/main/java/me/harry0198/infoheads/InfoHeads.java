@@ -1,184 +1,197 @@
 package me.harry0198.infoheads;
 
-import java.util.*;
-import java.util.stream.Stream;
-
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.harry0198.infoheads.commands.CommandManager;
 import me.harry0198.infoheads.commands.Commands;
-import me.harry0198.infoheads.commands.general.conversations.editspecific.LineSelectPrompt;
-import me.harry0198.infoheads.commands.general.conversations.wizard.CommandPrompt;
-import me.harry0198.infoheads.commands.player.EditCommand;
-import me.harry0198.infoheads.guice.BinderModule;
-import me.harry0198.infoheads.inventorys.HeadStacks;
-import me.harry0198.infoheads.inventorys.Inventory;
-import me.harry0198.infoheads.listeners.HDBListener;
-import me.harry0198.infoheads.utils.HdbApi;
-import me.harry0198.infoheads.utils.LoadedLocations;
-import me.harry0198.infoheads.utils.PapiMethod;
-import me.harry0198.infoheads.utils.Utils;
+import me.harry0198.infoheads.components.hooks.HdbHook;
+import me.harry0198.infoheads.components.hooks.HdbListener;
+import me.harry0198.infoheads.conversations.*;
+import me.harry0198.infoheads.datastore.DataStore;
+import me.harry0198.infoheads.elements.ConsoleCommandElement;
+import me.harry0198.infoheads.elements.Element;
+import me.harry0198.infoheads.elements.MessageElement;
+import me.harry0198.infoheads.listeners.HeadInteract;
+import me.harry0198.infoheads.listeners.HeadPlace;
+import me.harry0198.infoheads.listeners.PlayerJoin;
+import me.mattstudios.mf.base.CommandManager;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.conversations.ConversationAbandonedEvent;
-import org.bukkit.conversations.ConversationAbandonedListener;
 import org.bukkit.conversations.ConversationFactory;
-import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.harry0198.infoheads.commands.general.conversations.wizard.InfoHeadsConversationPrefix;
-import me.harry0198.infoheads.listeners.EntityListeners;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
-public class InfoHeads extends JavaPlugin implements ConversationAbandonedListener {
-    // Array to check if naming / assignment is complete in wizard
-    public List<Player> namedComplete = new ArrayList<>();
-    private Set<LoadedLocations> loadedLoc = new HashSet<>();
-    private Set<Location> validLocations = new HashSet<>();
-    public HeadStacks headStacks = new HeadStacks();
-    public PapiMethod papiMethod = new PapiMethod();
+public final class InfoHeads extends JavaPlugin {
+
+    private DataStore dataStore;
+    private Commands commands;
+
+    /* Hooks */
+    public HdbHook hdb;
     public boolean papi = false;
-    public Map<Player, String> uuid = new HashMap<>();
 
-    // Data Storage lists & Maps
-    public List<String> infoheads = new ArrayList<>();
+    /* Conversation Factory */
+    private ConversationFactory messageFactory;
+    private ConversationFactory commandFactory;
+    private ConversationFactory playerCommandFactory;
+    private ConversationFactory permissionFactory;
+    private ConversationFactory delayFactory;
 
-    public boolean offHand = true;
-    @Inject private CommandManager commandManager;
-    private Injector injector;
-    private Map<Player, EditCommand.Types> typesMap = new HashMap<>();
-    public Map<Player, LoadedLocations> typesMapClass = new HashMap<>();
-
-    // Conversations
-    private ConversationFactory conversationFactory;
-    private ConversationFactory editFactory;
-    private HdbApi hdbApiModule;
-
-    /**
-     * Class constructor -- loads the conversation factory
-     */
-    public InfoHeads() {
-        this.conversationFactory = new ConversationFactory(this).withModality(true)
-                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new CommandPrompt())
+    public void loadConversations() {
+        this.messageFactory = new ConversationFactory(this).withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new MessageInput(this))
                 .withEscapeSequence("cancel").withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
-                .addConversationAbandonedListener(this);
-        this.editFactory = new ConversationFactory(this).withModality(true)
-                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new LineSelectPrompt())
+                .addConversationAbandonedListener(new ConversationAbandoned(this));
+        this.commandFactory = new ConversationFactory(this).withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new ConsoleCommandInput(this))
                 .withEscapeSequence("cancel").withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
-                .addConversationAbandonedListener(this);
+                .addConversationAbandonedListener(new ConversationAbandoned(this));
+        this.playerCommandFactory = new ConversationFactory(this).withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new PlayerCommandInput(this))
+                .withEscapeSequence("cancel").withTimeout(60)
+                .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
+                .addConversationAbandonedListener(new ConversationAbandoned(this));
+        this.permissionFactory = new ConversationFactory(this).withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new PermissionInput(this))
+                .withEscapeSequence("cancel").withTimeout(60)
+                .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
+                .addConversationAbandonedListener(new ConversationAbandoned(this));
+        this.delayFactory = new ConversationFactory(this).withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new DelayInput(this))
+                .withEscapeSequence("cancel").withTimeout(60)
+                .thatExcludesNonPlayersWithMessage("Console is not supported by this command")
+                .addConversationAbandonedListener(new ConversationAbandoned(this));
     }
 
     @Override
     public void onEnable() {
-        // Metrics
+
+        load();
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this);
-        // Checking for PAPI
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
-            papi = true;
 
-        FileConfiguration config = getConfig();
-        config.options().copyDefaults(true);
+        CommandManager cm = new CommandManager(this);
+        commands = new Commands(this);
+        cm.register(commands);
+        cm.hideTabComplete(true);
+
+        if (packagesExists("org.bukkit.util.Consumer"))
+            getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
+    }
+
+    public void load() {
         saveDefaultConfig();
-
-        Stream.of(Registerables.GUICE, Registerables.INFOHEADS, Registerables.LISTENERS, Registerables.COMMANDS).forEach(this::register);
-
-        if (Bukkit.getServer().getVersion().contains("1.8")) offHand = false;
-
+        loadConversations();
+        this.dataStore = new DataStore(this);
+        DataStore.placerMode.clear();
+        getServer().getPluginManager().registerEvents(new HeadInteract(this), this);
+        getServer().getPluginManager().registerEvents(new HeadPlace(this), this);
+        if (packagesExists("me.arcaniax.hdb.api.DatabaseLoadEvent", "me.arcaniax.hdb.api.HeadDatabaseAPI"))
+            getServer().getPluginManager().registerEvents(new HdbListener(this), this);
+        if (packagesExists("me.clip.placeholderapi.PlaceholderAPI"))
+            papi = true;
+        updateConfig();
     }
 
-    public void register(Registerables registerable) {
-        switch (registerable) {
-            case GUICE:
-                    injector = new BinderModule(this).createInjector();
-                    injector.injectMembers(this);
+    @Override
+    public void onDisable() {
+        // Plugin shutdown logic
+    }
 
-                break;
+    /**
+     * Determines if all packages in a String array are within the Classpath
+     * This is the best way to determine if a specific plugin exists and will be
+     * loaded. If the plugin package isn't loaded, we shouldn't bother waiting
+     * for it!
+     * @param packages String Array of package names to check
+     * @return Success or Failure
+     */
+    private static boolean packagesExists(String...packages) {
+        try {
+            for (String pkg : packages) {
+                Class.forName(pkg);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
-            case COMMANDS:
-                Objects.requireNonNull(getCommand("infoheads"))
-                        .setExecutor(commandManager);
-                Arrays.stream(Commands.values()).map(Commands::getClazz).map(injector::getInstance).forEach(commandManager.getCommands()::add);
-                break;
+    private void updateConfig() {
+        if (getConfig().get("config-ver") == null) return;
 
-            case INFOHEADS:
-                loadedLoc.clear();
 
-                ConfigurationSection section = getConfig().getConfigurationSection("Infoheads");
-                for (String each : section.getKeys(false)) {
+        if (getConfig().getInt("config-ver") == 1) {
+            List<InfoHeadConfiguration> configurations = new ArrayList<>();
+            try {
+                ConfigurationSection root = getConfig().getConfigurationSection("Infoheads");
 
-                    World world = Bukkit.getWorld(section.getString(each + ".location.world"));
-                    int x = section.getInt(each + ".location.x");
-                    int y = section.getInt(each + ".location.y");
-                    int z = section.getInt(each + ".location.z");
+                for (String key : root.getKeys(false)) {
 
-                    Location loc = new Location(world, x, y, z);
+                    List<Element> draft = new ArrayList<>();
+                    Location location = new Location(Bukkit.getWorld(root.getString(key + ".location.world")), root.getLong(key + ".location.x"), root.getLong(key + ".location.y"), root.getLong(key + ".location.z"));
 
-                    loadedLoc.add(new LoadedLocations.Builder()
-                            .setLocation(loc)
-                            .setCommand(section.getStringList(each + ".commands"))
-                            .setMessage(section.getStringList(each + ".messages"))
-                            .setKey(each)
-                            .build());
+                    root.getList(key + ".commands").forEach(cmd -> draft.add(new ConsoleCommandElement(cmd.toString())));
+                    root.getList(key + ".messages").forEach(msg -> draft.add(new MessageElement(msg.toString())));
 
-                    validLocations.add(loc);
+
+
+                    configurations.add(new InfoHeadConfiguration(location, draft, null));
+                    root.set(key, null);
                 }
-                break;
-
-            case LISTENERS:
-                getServer().getPluginManager().registerEvents(new EntityListeners(this, offHand, commandManager), this);
-                getServer().getPluginManager().registerEvents(new HDBListener(), this);
-                break;
+            } catch (NullPointerException npe) {
+                warn("An error occured while trying to convert your infoheads config into the new format! It's recommended you backup your current config, delete it. Then reload and manually input your old values. Sorry for the inconvenience ");
+            }
+            getConfig().set("config-ver", 2);
+            configurations.forEach(c -> getDataStore().addInfoHead(c));
+            saveConfig();
+            BlockPlaceEvent.getHandlerList().unregister(this);
+            PlayerInteractEvent.getHandlerList().unregister(this);
+            load();
         }
     }
 
-    public void conversationAbandoned(ConversationAbandonedEvent abandonedEvent) {
-        Player player = (Player) abandonedEvent.getContext().getForWhom();
-        // If exit using abandon keyword
-        if (!(abandonedEvent.gracefulExit())) {
-            Utils.sendMessage(player, "Exit the Infoheads wizard.");
-            Inventory.restoreInventory(player);
-        }
+    public DataStore getDataStore() {
+        return dataStore;
     }
 
-    public Set<Location> getValidLocations() {
-        return validLocations;
+    public ConversationFactory getMessageFactory() {
+        return messageFactory;
     }
 
-    public void removeValidLocation(Location location) {
-        validLocations.remove(location);
+    public ConversationFactory getCommandFactory() {
+        return commandFactory;
     }
 
-    public ConversationFactory getConversationFactory() {
-        return conversationFactory;
-    }
-    public ConversationFactory getEditFactory() {
-        return editFactory;
-    }
-    public Map<Player, EditCommand.Types> getCurrentEditType() { return typesMap; }
-    public Set<LoadedLocations> getLoadedLoc() {
-        return loadedLoc;
-    }
-    public HdbApi getHdbApiModule(){
-        return hdbApiModule;
+    public ConversationFactory getPlayerCommandFactory() {
+        return playerCommandFactory;
     }
 
-    public void setHdbApiModule(HdbApi hdbApiModule){
-        this.hdbApiModule = hdbApiModule;
+    public ConversationFactory getPermissionFactory() {
+        return permissionFactory;
     }
 
-    
+    public ConversationFactory getDelayFactory() {
+        return delayFactory;
+    }
+
+    public Commands getCommands() { return commands; }
+
     public static InfoHeads getInstance() {
         return getPlugin(InfoHeads.class);
     }
 
-    public enum Registerables {
-        COMMANDS, INFOHEADS, LISTENERS, GUICE
+    public void warn(String msg) {
+        getServer().getLogger().log(Level.WARNING, msg);
     }
 
+    public void info(String msg) {
+        getServer().getLogger().log(Level.INFO, msg);
+    }
 }
