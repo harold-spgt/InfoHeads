@@ -1,9 +1,0 @@
-name: InfoHeads
-main: me.harry0198.infoheads.InfoHeads
-version: ${project.version}
-author: Harry0198
-description: InfoHeads plugin!
-api-version: 1.13
-softdepend:
-  - PlaceholderAPI
-  - HeadDatabase

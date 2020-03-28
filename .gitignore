@@ -1,33 +1,26 @@
-# General
-.DS_Store
-.AppleDouble
-.LSOverride
+# Compiled class file
+*.class
 
-# Icon must end with two \r
-Icon
+# Log file
+*.log
 
-# Thumbnails
-._*
+# BlueJ files
+*.ctxt
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-Infoheads.iml
-.idea
-InfoHeads-Parent.iml
-InfoHeads/temp/
-InfoHeads/.idea/
-InfoHeads/server/
-InfoHeads/InfoHeads.iml
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+InfoHeads.iml
+server/
+.idea/
