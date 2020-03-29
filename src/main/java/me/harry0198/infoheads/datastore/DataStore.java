@@ -2,10 +2,7 @@ package me.harry0198.infoheads.datastore;
 
 import me.harry0198.infoheads.InfoHeadConfiguration;
 import me.harry0198.infoheads.InfoHeads;
-import me.harry0198.infoheads.elements.ConsoleCommandElement;
-import me.harry0198.infoheads.elements.Element;
-import me.harry0198.infoheads.elements.MessageElement;
-import me.harry0198.infoheads.elements.PlayerCommandElement;
+import me.harry0198.infoheads.elements.*;
 import me.harry0198.infoheads.gui.AbstractGui;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -82,7 +79,7 @@ public final class DataStore {
         plugin.saveConfig();
     }
 
-    private void readConfig() {
+    public void readConfig() {
 
         ConfigurationSection root = plugin.getConfig().getConfigurationSection("Infoheads");
 
@@ -116,6 +113,9 @@ public final class DataStore {
                             break;
                         case PLAYER_COMMAND:
                             elementList.add(new PlayerCommandElement(elementRoot.getString(k + ".content")));
+                            break;
+                        case DELAY:
+                            elementList.add(new DelayElement(elementRoot.getInt(k + ".content")));
                             break;
                     }
                 }

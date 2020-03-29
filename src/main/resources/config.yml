@@ -23,7 +23,7 @@ Heads:
   - 'MHF_ArrowRight'
 #
 # All of your infoheads will appear here. You can edit them but beware when doing so.
-config-ver: 1
+config-ver: 2
 check-for-update: true
 Infoheads:
   0:

@@ -11,6 +11,7 @@ import me.harry0198.infoheads.elements.MessageElement;
 import me.harry0198.infoheads.listeners.HeadInteract;
 import me.harry0198.infoheads.listeners.HeadPlace;
 import me.harry0198.infoheads.listeners.PlayerJoin;
+import me.harry0198.infoheads.utils.MessageUtil;
 import me.mattstudios.mf.base.CommandManager;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -123,7 +124,7 @@ public final class InfoHeads extends JavaPlugin {
         }
     }
 
-    private void updateConfig() {
+    public void updateConfig() {
         if (getConfig().get("config-ver") == null) return;
 
 
@@ -141,21 +142,25 @@ public final class InfoHeads extends JavaPlugin {
                     root.getList(key + ".messages").forEach(msg -> draft.add(new MessageElement(msg.toString())));
 
 
-
                     configurations.add(new InfoHeadConfiguration(location, draft, null));
                     root.set(key, null);
                 }
-            } catch (NullPointerException npe) {
-                warn("An error occured while trying to convert your infoheads config into the new format! It's recommended you backup your current config, delete it. Then reload and manually input your old values. Sorry for the inconvenience ");
-            }
+
+                configurations.forEach(c -> getDataStore().addInfoHead(c));
+            } catch (NullPointerException ignore) { }
             getConfig().set("config-ver", 2);
-            configurations.forEach(c -> getDataStore().addInfoHead(c));
+            saveDefaultConfig();
             saveConfig();
             BlockPlaceEvent.getHandlerList().unregister(this);
             PlayerInteractEvent.getHandlerList().unregister(this);
             load();
         }
     }
+
+    public void debug(String msg) {
+        getLogger().log(Level.INFO, msg);
+    }
+
 
     public DataStore getDataStore() {
         return dataStore;
