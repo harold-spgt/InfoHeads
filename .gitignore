@@ -24,3 +24,4 @@ hs_err_pid*
 InfoHeads.iml
 server/
 .idea/
+.DS_Store

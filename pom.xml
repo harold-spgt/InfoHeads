@@ -54,11 +54,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.hdb</groupId>
-            <artifactId>Hdb</artifactId>
+            <groupId>com.github.shynixn.headdatabase</groupId>
+            <artifactId>hdb-api</artifactId>
             <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../HeadDatabase.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.mattstudios.utils</groupId>
