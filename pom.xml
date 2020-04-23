@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.harry0198</groupId>
+    <groupId>com.haroldstudios</groupId>
     <artifactId>InfoHeads</artifactId>
-    <version>2.0.3</version>
+    <version>2.1.0</version>
     <packaging>jar</packaging>
 
     <name>InfoHeads</name>
@@ -30,6 +30,7 @@
             <id>placeholderapi</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+
     </repositories>
     <dependencies>
         <!-- Spigot 1.8.8 API -> Built in this -->
@@ -68,6 +69,13 @@
             <artifactId>matt-framework-gui</artifactId>
             <version>LATEST</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -105,7 +113,15 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>me.harry0198.infoheads</shadedPattern>
+                                    <shadedPattern>com.haroldstudios.infoheads</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>me.mattstudios.mfgui</pattern>
+                                    <shadedPattern>com.haroldstudios.infoheads.mfgui</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>me.mattstudios.mf</pattern>
+                                    <shadedPattern>com.haroldstudios.infoheads.mf</shadedPattern>
                                 </relocation>
                             </relocations>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
