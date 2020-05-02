@@ -1,8 +1,8 @@
 package com.haroldstudios.infoheads.gui;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
-import me.mattstudios.mfgui.gui.components.XMaterial;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,9 +20,10 @@ public final class WizardGui extends AbstractGui {
         getGui().setItem(2,6, appendDelay());
         getGui().setItem(3,4, setLocationItem());
         getGui().setItem(3,5, setPermission());
-        getGui().setItem(3,9, placeholdersItem());
+        getGui().setItem(5,6, placeholdersItem());
         getGui().setItem(5,5, cancelItem());
-        getGui().setItem(3,7, editItem());
+        getGui().setItem(3,8, editItem());
+        getGui().setItem(3,6, cooldownItem());
         getGui().getFiller().fill(new GuiItem(new ItemStack(Objects.requireNonNull(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())), event -> event.setCancelled(true)));
     }
 

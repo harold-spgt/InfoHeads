@@ -3,7 +3,11 @@ package com.haroldstudios.infoheads.utils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.TimeUnit;
+
 public final class MessageUtil {
+
+    public static final String timeLeft = "§cYou are currently on cooldown for this for %s days, %s hours, %s minutes and %s seconds.";
 
     private static final ChatColor titleColour = ChatColor.AQUA;
     private static final ChatColor loreColour = ChatColor.GRAY;
@@ -35,11 +39,13 @@ public final class MessageUtil {
     public static final String SET_LOCATION_TITLE = titleColour + "Set Location of InfoHead";
     public static final String[] SET_LOCATION_LORE = {loreColour + "Click to set the location", loreColour + "of the infohead!"};
     public static final String COMPLETE_ITEM_TITLE = titleColour + "Click to complete";
-    public static final String[] COMPLETE_ITEM_LORE = {loreColour + "Click to complete the infohead", loreColour + "creation process"};
+    public static final String[] COMPLETE_ITEM_LORE = {loreColour + "Click to complete the cooldown", loreColour + "creation process"};
     public static final String CLOSE_WIZARD_TITLE = titleColour + "Close Wizard";
     public static final String[] CLOSE_WIZARD_LORE = {loreColour + "Click to close the", loreColour + "infoheads editor wizard menu"};
     public static final String EDIT_GUI_TITLE = titleColour + "Edit the InfoHead";
     public static final String[] EDIT_GUI_LORE = {loreColour + "* Edit the ordering", loreColour + "* Delete Elements", "", titleColour + "Pro Tip: " + loreColour + "You can still edit infoheads", loreColour + "once they're created."};
+    public static final String COOLDOWN_ITEM_TITLE = titleColour + "Cooldown delay";
+    public static final String[] COOLDOWN_ITEM_LORE = {loreColour + "Click to set the cooldown", loreColour + "for when a player can use", loreColour + "the infoheads again after clicking it"};
 
     public static final String INPUT_CONVERSATION = "Input your Value";
 
@@ -58,14 +64,37 @@ public final class MessageUtil {
     public static final String EDIT_ITEM_TITLE = titleColour + "@type";
     public static final String[] EDIT_ITEM_LORE = { "§8@id", loreColour + "Contents: " + titleColour + "@contents", "", errorColour + "Right Click to Delete this Element!", errorColour + "Left Click to Move the Order!"};
 
-    public static final String NEXT_PAGE = titleColour + "&aNext page";
-    public static final String PREV_PAGE = titleColour + "&aPrev page";
+    public static final String NEXT_PAGE = titleColour + "Next page";
+    public static final String PREV_PAGE = titleColour + "Prev page";
+
 
     public static final String BACK = titleColour + "<<< Back to main menu";
+
+    public static final String COOLDOWN_NUM_INC_TITLE = "§a+1";
+    public static final String[] COOLDOWN_NUM_INC_LORE = {"§7Click to increase the cooldown", "§7duration."};
+    public static final String COOLDOWN_NUM_DEC_TITLE = "§c-1";
+    public static final String[] COOLDOWN_NUM_DEC_LORE = {"§7Click to decrease the cooldown", "§7duration."};
 
 
 
     public static void sendMessage(Player player, String string) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', string));
     }
+
+    public static String returnTimeMessage(Long milliseconds, String msg) {
+        final long day = TimeUnit.MILLISECONDS.toDays(milliseconds);
+
+        final long hours = TimeUnit.MILLISECONDS.toHours(milliseconds)
+                - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(milliseconds));
+
+        final long minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+                - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds));
+
+        final long seconds = TimeUnit.MILLISECONDS.toSeconds(milliseconds)
+                - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds));
+
+
+        return ChatColor.translateAlternateColorCodes('&', String.format(msg, day, hours, minutes, seconds));
+    }
+
 }

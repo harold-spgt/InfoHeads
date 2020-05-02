@@ -23,6 +23,7 @@
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/elements/ConsoleCommandElement.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/elements/Element.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/gui/AbstractGui.java
+/Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/gui/CooldownGui.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/elements/MessageElement.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/datastore/DataStore.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/listeners/PlayerJoin.java

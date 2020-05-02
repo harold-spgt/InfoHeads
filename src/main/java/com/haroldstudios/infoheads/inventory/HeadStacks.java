@@ -1,8 +1,8 @@
 package com.haroldstudios.infoheads.inventory;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.Lists;
 import com.haroldstudios.infoheads.InfoHeads;
-import me.mattstudios.mfgui.gui.components.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

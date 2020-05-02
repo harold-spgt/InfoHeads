@@ -4,7 +4,6 @@ import com.haroldstudios.infoheads.commands.Commands;
 import com.haroldstudios.infoheads.components.hooks.HdbListener;
 import com.haroldstudios.infoheads.conversations.*;
 import com.haroldstudios.infoheads.datastore.DataStore;
-import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.elements.ElementType;
 import com.haroldstudios.infoheads.listeners.HeadInteract;
 import com.haroldstudios.infoheads.components.hooks.HdbHook;
@@ -17,8 +16,10 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.*;
 import java.util.logging.Level;
 
+//TODO InfoHeads -> Cooldowns in the modular gui. Reload issue is already fixed. Fix that bug where it would spew edit item if menu is exit, implemented but test it works!.
 public final class InfoHeads extends JavaPlugin {
 
     @Getter private DataStore dataStore;
@@ -52,6 +53,25 @@ public final class InfoHeads extends JavaPlugin {
         this.fileUtil = new FileUtil();
 
         this.dataStore = getFileUtil().getFile(DataStore.class).exists() ? getFileUtil().load(DataStore.class) : new DataStore();
+
+        // InfoHead, (UUID, TimeStamp)
+
+        dataStore.getInfoHeads().values().forEach(configuration -> {
+
+            Set<Map.Entry<UUID, Long>> entrySet = configuration.getTimestamps().entrySet();
+
+            Iterator<Map.Entry<UUID, Long>> iterator = entrySet.iterator();
+
+            while (iterator.hasNext()) {
+                Map.Entry<UUID, Long> entry = iterator.next();
+                Long timestamp = entry.getValue();
+
+                if (timestamp < System.currentTimeMillis()) {
+                    iterator.remove();
+                }
+            }
+        });
+
 
         fileUtil.save(this.dataStore);
 

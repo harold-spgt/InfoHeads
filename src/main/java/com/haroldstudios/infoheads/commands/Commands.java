@@ -6,6 +6,7 @@ import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.*;
 import com.haroldstudios.infoheads.gui.WizardGui;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
+import com.haroldstudios.infoheads.serializer.FileUtil;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import me.mattstudios.mf.annotations.Alias;
@@ -78,6 +79,7 @@ public final class Commands extends CommandBase {
     @Permission(Constants.ADMIN_PERM)
     @SubCommand("reload")
     public void reload(Player player) {
+        plugin.getFileUtil().save(plugin.getDataStore());
         BlockPlaceEvent.getHandlerList().unregister(plugin);
         PlayerInteractEvent.getHandlerList().unregister(plugin);
         plugin.load();
