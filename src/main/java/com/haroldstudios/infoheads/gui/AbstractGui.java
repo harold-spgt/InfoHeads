@@ -141,13 +141,24 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem cooldownItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.REDSTONE_TORCH.parseMaterial()))
+        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.COMPASS.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.COOLDOWN_ITEM_TITLE)
                 .setLore(MessageUtil.COOLDOWN_ITEM_LORE)
                 .build(), event -> {
             event.setCancelled(true);
             new CooldownGui(player, plugin, configuration).open();
+        });
+    }
+
+    protected GuiItem particleItem() {
+        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.REDSTONE.parseMaterial()))
+                .glow(true)
+                .setName(MessageUtil.PARTICLE_ITEM_TITLE)
+                .setLore(MessageUtil.PARTICLE_ITEM_LORE)
+                .build(), event -> {
+            event.setCancelled(true);
+            new ParticleSelectorGui(player, plugin, configuration).open();
         });
     }
 

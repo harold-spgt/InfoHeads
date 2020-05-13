@@ -2,6 +2,7 @@ package com.haroldstudios.infoheads.datastore;
 
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
+import com.haroldstudios.infoheads.components.hooks.BlockParticlesHook;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ public final class DataStore {
     }
 
     public void removeInfoHeadAt(Location location) {
+        BlockParticlesHook.removeParticle(InfoHeads.getInstance().getServer().getConsoleSender(), infoHeads.get(location).getId().toString());
         infoHeads.remove(location);
         InfoHeads.getInstance().getFileUtil().save(this);
     }

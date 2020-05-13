@@ -1,4 +1,5 @@
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/inventory/HeadStacks.java
+/Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/components/hooks/BlockParticlesHook.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/utils/Constants.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/InfoHeads.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/gui/EditGui.java
@@ -8,6 +9,7 @@
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/InfoHeadConfiguration.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/serializer/FileUtil.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/serializer/typeadapter/LocationTypeAdapter.java
+/Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/gui/ParticleSelectorGui.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/listeners/HeadPlace.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/serializer/typeadapter/EnumTypeAdapter.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/gui/WizardGui.java

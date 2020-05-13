@@ -30,6 +30,7 @@ public final class InfoHeads extends JavaPlugin {
     /* Hooks */
     public HdbHook hdb;
     public boolean papi = false;
+    public boolean blockParticles = false;
 
     @Override
     public void onEnable() {
@@ -82,6 +83,8 @@ public final class InfoHeads extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new HdbListener(this), this);
         if (packagesExists("me.clip.placeholderapi.PlaceholderAPI"))
             papi = true;
+        if (packagesExists("me.badbones69.blockparticles.Methods"))
+            blockParticles = true;
     }
 
     @Override

@@ -46,10 +46,12 @@ public final class MessageUtil {
     public static final String[] EDIT_GUI_LORE = {loreColour + "* Edit the ordering", loreColour + "* Delete Elements", "", titleColour + "Pro Tip: " + loreColour + "You can still edit infoheads", loreColour + "once they're created."};
     public static final String COOLDOWN_ITEM_TITLE = titleColour + "Cooldown delay";
     public static final String[] COOLDOWN_ITEM_LORE = {loreColour + "Click to set the cooldown", loreColour + "for when a player can use", loreColour + "the infoheads again after clicking it"};
+    public static final String PARTICLE_ITEM_TITLE = titleColour + "Particles";
+    public static final String[] PARTICLE_GUI_LORE = {loreColour + "Left click to set the particle effect", loreColour + "for this infohead!", loreColour + "Right click to remove a particle."};
+    public static final String[] PARTICLE_ITEM_LORE = {loreColour + "Click to set the particle effect", loreColour + "for this infohead!"};
 
     public static final String INPUT_CONVERSATION = "Input your Value";
 
-    public static final String NO_LOCATION_SET = PREFIX + errorColour + "No location has been set!";
     public static final String NO_INFOHEAD_AT_LOC = PREFIX + errorColour + "No infohead at this location!";
     public static final String INFOHEAD_REMOVED = PREFIX + textColour + "Infohead has been removed";
     public static final String PLACE_INFOHEAD = PREFIX + textColour + "Place your InfoHead";
@@ -69,6 +71,7 @@ public final class MessageUtil {
 
 
     public static final String BACK = titleColour + "<<< Back to main menu";
+    public static final String PARTICLES_GUI_TITLE = "Particle Selector";
 
     public static final String COOLDOWN_NUM_INC_TITLE = "§a+1";
     public static final String[] COOLDOWN_NUM_INC_LORE = {"§7Click to increase the cooldown", "§7duration."};

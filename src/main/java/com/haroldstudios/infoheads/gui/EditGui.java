@@ -29,7 +29,6 @@ public class EditGui {
         gui = new PaginatedGui(InfoHeads.getInstance(), 5, 4 * 9, "Edit Infoheads");
 
         getGui().setOutsideClickAction(event -> event.setCancelled(true));
-        //TODo TEST
         getGui().setCloseGuiAction(event -> {
             if (event.getPlayer().getItemOnCursor() != null) {
                 event.getPlayer().setItemOnCursor(new ItemStack(Material.AIR));

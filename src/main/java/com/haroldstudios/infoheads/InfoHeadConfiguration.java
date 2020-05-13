@@ -15,6 +15,7 @@ public final class InfoHeadConfiguration {
     @Getter @Setter private Location location;
     @Getter @Setter private String permission;
     @Nullable @Getter @Setter private Long cooldown;
+    @Nullable @Getter @Setter private String particle;
     @Getter private final UUID id = UUID.randomUUID();
     // Player UUID, TimeStamp in millis
     @Getter @Setter private Map<UUID, Long> timestamps = new HashMap<>();

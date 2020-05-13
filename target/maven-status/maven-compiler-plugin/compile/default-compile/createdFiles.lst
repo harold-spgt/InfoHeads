@@ -10,6 +10,7 @@ com/haroldstudios/infoheads/InfoHeads.class
 com/haroldstudios/infoheads/serializer/typeadapter/EnumTypeAdapter.class
 com/haroldstudios/infoheads/elements/DelayElement.class
 com/haroldstudios/infoheads/commands/Commands.class
+com/haroldstudios/infoheads/components/hooks/BlockParticlesHook.class
 com/haroldstudios/infoheads/components/IncompleteDraftException.class
 com/haroldstudios/infoheads/conversations/ElementValueInput$1.class
 com/haroldstudios/infoheads/components/hooks/HdbListener.class
@@ -17,6 +18,7 @@ com/haroldstudios/infoheads/InfoHeadConfiguration.class
 com/haroldstudios/infoheads/components/hooks/PapiHook.class
 com/haroldstudios/infoheads/conversations/InfoHeadsConversationPrefix.class
 com/haroldstudios/infoheads/gui/CooldownGui.class
+com/haroldstudios/infoheads/gui/ParticleSelectorGui.class
 com/haroldstudios/infoheads/serializer/typeadapter/EnumTypeAdapter$1.class
 com/haroldstudios/infoheads/conversations/ElementValueInput.class
 com/haroldstudios/infoheads/utils/Constants.class

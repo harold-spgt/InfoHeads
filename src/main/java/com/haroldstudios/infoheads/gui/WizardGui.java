@@ -24,6 +24,7 @@ public final class WizardGui extends AbstractGui {
         getGui().setItem(5,5, cancelItem());
         getGui().setItem(3,8, editItem());
         getGui().setItem(3,6, cooldownItem());
+        if (plugin.blockParticles) getGui().setItem(2,7, particleItem());
         getGui().getFiller().fill(new GuiItem(new ItemStack(Objects.requireNonNull(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())), event -> event.setCancelled(true)));
     }
 
