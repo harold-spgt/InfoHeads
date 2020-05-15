@@ -6,7 +6,7 @@
 
     <groupId>com.haroldstudios</groupId>
     <artifactId>InfoHeads</artifactId>
-    <version>2.2.0</version>
+    <version>v-2.2.0</version>
     <packaging>jar</packaging>
 
     <name>InfoHeads</name>
