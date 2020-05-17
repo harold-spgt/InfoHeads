@@ -46,7 +46,7 @@ public class UpdateChecker {
 
         Bukkit.getScheduler().runTask(InfoHeads.getInstance(), () -> {
             if (!InfoHeads.getInstance().getDescription().getVersion().equalsIgnoreCase(latestVer)) {
-                InfoHeads.getInstance().info("There is a new update available. You can download it at §bhttps://songoda.com/marketplace/product/infoheads-interact-with-your-own-blocks-skulls.362");
+                InfoHeads.getInstance().info("There is a new update available. You can download it at §bhttps://github.com/harry0198/InfoHeads-mvn/releases/");
             }
         });
     }
