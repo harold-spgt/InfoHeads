@@ -14,6 +14,7 @@ import com.haroldstudios.infoheads.utils.UpdateChecker;
 import lombok.Getter;
 import me.mattstudios.mf.base.CommandManager;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,7 +38,7 @@ public final class InfoHeads extends JavaPlugin {
     public void onEnable() {
 
         load();
-        UpdateChecker.checkForUpdate();
+        Bukkit.getScheduler().runTaskAsynchronously(this, UpdateChecker::checkForUpdate);
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this);
 
