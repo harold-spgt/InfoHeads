@@ -1,6 +1,6 @@
 name: InfoHeads
 main: com.haroldstudios.infoheads.InfoHeads
-version: v-2.2.0
+version: 2.2.2
 author: Harolds
 description: InfoHeads plugin!
 api-version: 1.13

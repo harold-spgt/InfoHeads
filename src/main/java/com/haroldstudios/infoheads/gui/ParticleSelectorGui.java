@@ -41,10 +41,13 @@ public class ParticleSelectorGui extends AbstractGui {
                             .setLore(MessageUtil.PARTICLE_GUI_LORE)
                             .build(), event -> {
                         if (event.isLeftClick()) {
-                            if (getPlugin().blockParticles)
+                            if (getPlugin().blockParticles) {
                                 BlockParticlesHook.sendParticle((Player) event.getWhoClicked(), configuration.getId().toString(), each.toString());
+                                configuration.setParticle(each.toString());
+                            }
                         } else {
                             BlockParticlesHook.removeParticle(event.getWhoClicked(), configuration.getId().toString());
+                            configuration.setParticle(null);
                         }
             }));
             slot++;

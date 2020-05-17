@@ -10,6 +10,7 @@ import com.haroldstudios.infoheads.components.hooks.HdbHook;
 import com.haroldstudios.infoheads.listeners.HeadPlace;
 import com.haroldstudios.infoheads.listeners.PlayerJoin;
 import com.haroldstudios.infoheads.serializer.FileUtil;
+import com.haroldstudios.infoheads.utils.UpdateChecker;
 import lombok.Getter;
 import me.mattstudios.mf.base.CommandManager;
 import org.bstats.bukkit.Metrics;
@@ -36,6 +37,7 @@ public final class InfoHeads extends JavaPlugin {
     public void onEnable() {
 
         load();
+        UpdateChecker.checkForUpdate();
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this);
 
@@ -45,7 +47,7 @@ public final class InfoHeads extends JavaPlugin {
         cm.hideTabComplete(true);
 
         if (packagesExists("org.bukkit.util.Consumer"))
-            getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
+            getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
     }
 
     public void load() {
@@ -128,14 +130,14 @@ public final class InfoHeads extends JavaPlugin {
     }
 
     public void warn(String msg) {
-        getServer().getLogger().log(Level.WARNING, msg);
+        getLogger().log(Level.WARNING, msg);
     }
 
     public void info(String msg) {
-        getServer().getLogger().log(Level.INFO, msg);
+        getLogger().log(Level.INFO, msg);
     }
 
     public void error(String msg) {
-        getServer().getLogger().log(Level.SEVERE, msg);
+        getLogger().log(Level.SEVERE, msg);
     }
 }

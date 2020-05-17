@@ -20,6 +20,6 @@ Heads:
   - 'MHF_ArrowDown'
   - 'MHF_ArrowLeft'
   - 'MHF_ArrowRight'
-  -
+
 config-ver: 2
 check-for-update: true

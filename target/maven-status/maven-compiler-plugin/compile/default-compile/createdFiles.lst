@@ -2,6 +2,7 @@ com/haroldstudios/infoheads/serializer/typeadapter/LocationTypeAdapter.class
 com/haroldstudios/infoheads/listeners/HeadPlace.class
 com/haroldstudios/infoheads/gui/WizardGui.class
 com/haroldstudios/infoheads/listeners/PlayerJoin.class
+com/haroldstudios/infoheads/utils/UpdateChecker.class
 com/haroldstudios/infoheads/gui/EditGui.class
 com/haroldstudios/infoheads/listeners/HeadInteract.class
 com/haroldstudios/infoheads/serializer/FileUtil.class

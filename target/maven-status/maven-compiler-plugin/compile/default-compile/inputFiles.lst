@@ -16,6 +16,7 @@
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/components/hooks/HdbHook.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/elements/PlayerCommandElement.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/utils/MessageUtil.java
+/Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/utils/UpdateChecker.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/elements/ElementType.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/elements/DelayElement.java
 /Users/harrydrummond/workspace/InfoHeads-mvn/src/main/java/com/haroldstudios/infoheads/conversations/InfoHeadsConversationPrefix.java

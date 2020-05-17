@@ -2,6 +2,7 @@ package com.haroldstudios.infoheads.listeners;
 
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
+import com.haroldstudios.infoheads.components.hooks.BlockParticlesHook;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.gui.WizardGui;
 import org.bukkit.Location;
@@ -35,6 +36,11 @@ public final class HeadPlace implements Listener {
         Location matchedLoc = InfoHeads.getInstance().getDataStore().getKeyByValue(matched);
         InfoHeads.getInstance().getDataStore().getInfoHeads().remove(matchedLoc);
         InfoHeads.getInstance().getDataStore().addInfoHead(configuration);
+        if (plugin.blockParticles) {
+            if (configuration.getParticle() != null) {
+                BlockParticlesHook.newLoc(e.getPlayer(), configuration.getId().toString(), configuration.getParticle());
+            }
+        }
 
         new WizardGui(plugin, e.getPlayer(), configuration).open();
 

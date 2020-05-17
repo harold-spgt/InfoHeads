@@ -14,4 +14,10 @@ public class BlockParticlesHook {
     public static void removeParticle(CommandSender player, String name) {
         Methods.delLoc(player, name);
     }
+
+    public static void newLoc(Player sender, String name, String particle) {
+        Methods.delLoc(sender, name);
+        Methods.addLoc(sender, name);
+        Methods.setLoc(sender, name, particle);
+    }
 }
