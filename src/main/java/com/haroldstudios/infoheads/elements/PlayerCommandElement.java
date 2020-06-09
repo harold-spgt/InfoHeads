@@ -2,12 +2,13 @@ package com.haroldstudios.infoheads.elements;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.jetbrains.annotations.NotNull;
 
 public final class PlayerCommandElement extends Element {
 
     private String command;
 
-    public PlayerCommandElement(final String command) {
+    public PlayerCommandElement(@NotNull final String command) {
         this.command = command;
     }
 
@@ -28,8 +29,8 @@ public final class PlayerCommandElement extends Element {
     }
 
     @Override
-    public void performAction(Player player, PlayerInteractEvent event) {
-        player.performCommand(removePlaceHolders(command, player, event));
+    public void performAction(@NotNull Player player, PlayerInteractEvent event) {
+        player.chat("/" + removePlaceHolders(command, player, event));
     }
 
     @Override

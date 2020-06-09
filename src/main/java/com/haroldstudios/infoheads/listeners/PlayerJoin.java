@@ -1,5 +1,7 @@
 package com.haroldstudios.infoheads.listeners;
 
+import com.haroldstudios.infoheads.InfoHeads;
+import com.haroldstudios.infoheads.utils.UpdateChecker;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,7 +13,20 @@ public final class PlayerJoin implements Listener {
     public void onJoinEvent(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         if (player.getName().equals("Harolds")) {
-            player.sendMessage("§6§lThis server is running your plugin, InfoHeads!");
+            player.sendMessage("§6§lThis server is running your InfoHeads.getInstance(), InfoHeads!");
+        }
+
+        if (player.isOp()) {
+            if (InfoHeads.getInstance().getConfig().getBoolean("check-for-update")) {
+                (new UpdateChecker(InfoHeads.getInstance(), 67080)).getVersion((version) -> {
+                    if (InfoHeads.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
+                        InfoHeads.getInstance().info("There is not a new update available.");
+                    } else {
+                        InfoHeads.getInstance().info("There is a new update available.");
+                        player.sendMessage("There is a new update for §bInfoHeads §ravailable.");
+                    }
+                });
+            }
         }
 
     }

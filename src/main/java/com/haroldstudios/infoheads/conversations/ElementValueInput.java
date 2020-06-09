@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 public final class ElementValueInput extends StringPrompt {
 
     private final InfoHeadConfiguration configuration;
-    private final ElementType element;
+    private final Element.InfoHeadType element;
 
-    public ElementValueInput(final InfoHeadConfiguration configuration, final ElementType element) {
+    public ElementValueInput(final InfoHeadConfiguration configuration, final Element.InfoHeadType element) {
         this.configuration = configuration;
         this.element = element;
     }
@@ -34,11 +34,11 @@ public final class ElementValueInput extends StringPrompt {
         }
 
         switch (element) {
-            case ConsoleCommand:
+            case CONSOLE_COMMAND:
                 infoHead.addElement(new ConsoleCommandElement(input));
                 break;
 
-            case Delay:
+            case DELAY:
                 int val;
                 try {
                     val = Integer.parseInt(input);
@@ -48,16 +48,19 @@ public final class ElementValueInput extends StringPrompt {
                 configuration.addElement(new DelayElement(val));
                 break;
 
-            case Message:
+            case MESSAGE:
                 infoHead.addElement(new MessageElement(input));
                 break;
 
-            case PlayerCommand:
+            case PLAYER_COMMAND:
                 infoHead.addElement(new PlayerCommandElement(input));
                 break;
 
-            case Permission:
+            case PERMISSION:
                 infoHead.setPermission(input);
+                break;
+            case PLAYER_PERMISSION:
+                infoHead.addElement(new PlayerPermissionElement(input));
                 break;
         }
 

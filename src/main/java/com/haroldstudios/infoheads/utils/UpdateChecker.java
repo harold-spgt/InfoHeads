@@ -4,49 +4,33 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.haroldstudios.infoheads.InfoHeads;
 import org.bukkit.Bukkit;
+import org.bukkit.util.Consumer;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Scanner;
 
-public class UpdateChecker {
+public final class UpdateChecker {
 
-    public static final String SONGODA_API = "https://songoda.com/api/products/infoheads-interact-with-your-own-blocks-skulls/";
+    private InfoHeads plugin;
+    private int resourceId;
 
-    private static String readUrl() throws Exception {
-        BufferedReader reader = null;
-        try {
-            URL url = new URL(SONGODA_API);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            StringBuffer buffer = new StringBuffer();
-            int read;
-            char[] chars = new char[1024];
-            while ((read = reader.read(chars)) != -1)
-                buffer.append(chars, 0, read);
-
-            return buffer.toString();
-        } finally {
-            if (reader != null)
-                reader.close();
-        }
+    public UpdateChecker(InfoHeads plugin, int resourceId) {
+        this.plugin = plugin;
+        this.resourceId = resourceId;
     }
 
-    public static void checkForUpdate() {
-        String json;
-        try {
-            json = readUrl();
-        } catch (Exception ignore) {
-            InfoHeads.getInstance().info("Could not fetch updates");
-            return;
-        }
-
-        Gson gson = InfoHeads.getInstance().getFileUtil().getGson();
-        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-        String latestVer = jsonObject.get("data").getAsJsonObject().get("jars").getAsJsonArray().get(0).getAsJsonObject().get("version").getAsString();
-
-        Bukkit.getScheduler().runTask(InfoHeads.getInstance(), () -> {
-            if (!InfoHeads.getInstance().getDescription().getVersion().equalsIgnoreCase(latestVer)) {
-                InfoHeads.getInstance().info("There is a new update available. You can download it at §bhttps://github.com/harry0198/InfoHeads-mvn/releases/");
+    public void getVersion(final Consumer<String> consumer) {
+        Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
+            try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.resourceId).openStream(); Scanner scanner = new Scanner(inputStream)) {
+                if (scanner.hasNext()) {
+                    consumer.accept(scanner.next());
+                }
+            } catch (IOException exception) {
+                this.plugin.getLogger().info("Cannot look for updates: " + exception.getMessage());
             }
         });
     }

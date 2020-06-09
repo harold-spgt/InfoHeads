@@ -4,30 +4,34 @@ import com.haroldstudios.infoheads.commands.Commands;
 import com.haroldstudios.infoheads.components.hooks.HdbListener;
 import com.haroldstudios.infoheads.conversations.*;
 import com.haroldstudios.infoheads.datastore.DataStore;
-import com.haroldstudios.infoheads.elements.ElementType;
+import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.listeners.HeadInteract;
 import com.haroldstudios.infoheads.components.hooks.HdbHook;
 import com.haroldstudios.infoheads.listeners.HeadPlace;
 import com.haroldstudios.infoheads.listeners.PlayerJoin;
+import com.haroldstudios.infoheads.listeners.PlayerQuit;
 import com.haroldstudios.infoheads.serializer.FileUtil;
-import com.haroldstudios.infoheads.utils.UpdateChecker;
 import lombok.Getter;
 import me.mattstudios.mf.base.CommandManager;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
-//TODO InfoHeads -> Cooldowns in the modular gui. Reload issue is already fixed. Fix that bug where it would spew edit item if menu is exit, implemented but test it works!.
 public final class InfoHeads extends JavaPlugin {
 
     @Getter private DataStore dataStore;
     @Getter private Commands commands;
 
     @Getter private FileUtil fileUtil;
+    private final File messagesFile = new File(getDataFolder(), "messages.yml");
+    @Getter private FileConfiguration messagesConfig;
 
     /* Hooks */
     public HdbHook hdb;
@@ -38,7 +42,6 @@ public final class InfoHeads extends JavaPlugin {
     public void onEnable() {
 
         load();
-        Bukkit.getScheduler().runTaskAsynchronously(this, UpdateChecker::checkForUpdate);
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this);
 
@@ -47,11 +50,25 @@ public final class InfoHeads extends JavaPlugin {
         cm.register(commands);
         cm.hideTabComplete(true);
 
+        getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
+
         if (packagesExists("org.bukkit.util.Consumer"))
             getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
     }
 
     public void load() {
+        if (!messagesFile.exists()) {
+            saveResource("messages.yml", true);
+            messagesFile.getParentFile().mkdirs();
+            try {
+                messagesFile.createNewFile();
+                debug("Creating a messages.yml file");
+            } catch (IOException e) {
+                error("Cannot create messages.yml configuration file.");
+            }
+        }
+
+        messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
         saveDefaultConfig();
 
         this.fileUtil = new FileUtil();
@@ -59,6 +76,7 @@ public final class InfoHeads extends JavaPlugin {
         this.dataStore = getFileUtil().getFile(DataStore.class).exists() ? getFileUtil().load(DataStore.class) : new DataStore();
 
         // InfoHead, (UUID, TimeStamp)
+        // Checks and removes people who's time has elapsed the cooldown from map.
 
         dataStore.getInfoHeads().values().forEach(configuration -> {
 
@@ -88,6 +106,7 @@ public final class InfoHeads extends JavaPlugin {
             papi = true;
         if (packagesExists("me.badbones69.blockparticles.Methods"))
             blockParticles = true;
+
     }
 
     @Override
@@ -118,7 +137,7 @@ public final class InfoHeads extends JavaPlugin {
         getLogger().log(Level.INFO, msg);
     }
 
-    public ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final ElementType element) {
+    public ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {
         return new ConversationFactory(this).withModality(true)
                 .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new ElementValueInput(infoHeadConfiguration, element))
                 .withEscapeSequence("cancel").withTimeout(60)

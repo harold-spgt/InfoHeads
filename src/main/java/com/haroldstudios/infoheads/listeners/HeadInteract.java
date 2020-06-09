@@ -3,6 +3,7 @@ package com.haroldstudios.infoheads.listeners;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
+import com.haroldstudios.infoheads.elements.EndElement;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
@@ -11,7 +12,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public final class HeadInteract implements Listener {
@@ -51,23 +55,33 @@ public final class HeadInteract implements Listener {
 
             long playerTimestamp = configuration.getTimestamps().get(e.getPlayer().getUniqueId());
             if (playerTimestamp > System.currentTimeMillis()) {
-                e.getPlayer().sendMessage(MessageUtil.returnTimeMessage(playerTimestamp - System.currentTimeMillis(), MessageUtil.timeLeft));
+                e.getPlayer().sendMessage(MessageUtil.returnTimeMessage(playerTimestamp - System.currentTimeMillis(), plugin.getMessagesConfig().getString("cooldown")));
                 return;
             } else {
                 configuration.getTimestamps().remove(e.getPlayer().getUniqueId());
             }
         }
 
+        final List<Element> elements = new ArrayList<>(plugin.getDataStore().getInfoHeads().get(e.getClickedBlock().getLocation()).getElementList());
+        elements.add(new EndElement(elements));
 
         // Loops through elements
-        Iterator<Element> element = plugin.getDataStore().getInfoHeads().get(e.getClickedBlock().getLocation()).getElementList().iterator();
+        Iterator<Element> element = elements.iterator();
         int time = 0;
         while (element.hasNext()) {
             Element el = element.next();
             if (el.getType().equals(Element.InfoHeadType.DELAY))
                 time = time + (int) el.getContent();
-            Bukkit.getScheduler().runTaskLater(plugin, () -> el.performAction(e.getPlayer(), e), time * 20);
+
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+
+                if (e.getPlayer() != null && e.getPlayer().isOnline())
+                    el.performAction(e.getPlayer(), e);
+
+            }, time * 20);
         }
+
+        // Permission Removal -> EndElement
 
         // If Cooldown Exists, add it to player's stamp
         if (configuration.getCooldown() != null) {

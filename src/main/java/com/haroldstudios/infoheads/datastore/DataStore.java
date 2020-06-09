@@ -6,12 +6,14 @@ import com.haroldstudios.infoheads.components.hooks.BlockParticlesHook;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.*;
 
 public final class DataStore {
 
     public transient static Map<Player, InfoHeadConfiguration> placerMode = new HashMap<>();
+    @Getter private final transient static Map<UUID, PermissionAttachment> permissionsData = new HashMap<>();
 
     @Getter private final Map<Location, InfoHeadConfiguration> infoHeads = new HashMap<>();
 
@@ -26,7 +28,8 @@ public final class DataStore {
     }
 
     public void removeInfoHeadAt(Location location) {
-        BlockParticlesHook.removeParticle(InfoHeads.getInstance().getServer().getConsoleSender(), infoHeads.get(location).getId().toString());
+        if (InfoHeads.getInstance().blockParticles)
+            BlockParticlesHook.removeParticle(InfoHeads.getInstance().getServer().getConsoleSender(), infoHeads.get(location).getId().toString());
         infoHeads.remove(location);
         InfoHeads.getInstance().getFileUtil().save(this);
     }

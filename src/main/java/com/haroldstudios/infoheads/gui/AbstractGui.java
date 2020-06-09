@@ -4,7 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.datastore.DataStore;
-import com.haroldstudios.infoheads.elements.ElementType;
+import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import lombok.Getter;
@@ -43,7 +43,7 @@ public abstract class AbstractGui {
                 event -> {
                     event.setCancelled(true);
                     gui.close(player);
-                    plugin.getInputFactory(configuration, ElementType.Message).buildConversation(player).begin();
+                    plugin.getInputFactory(configuration, Element.InfoHeadType.MESSAGE).buildConversation(player).begin();
                 });
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractGui {
                 .build(), event -> {
             event.setCancelled(true);
             gui.close(player);
-            plugin.getInputFactory(configuration, ElementType.ConsoleCommand).buildConversation(player).begin();
+            plugin.getInputFactory(configuration, Element.InfoHeadType.CONSOLE_COMMAND).buildConversation(player).begin();
         });
     }
 
@@ -67,7 +67,7 @@ public abstract class AbstractGui {
                 .build(), event -> {
             event.setCancelled(true);
             gui.close(player);
-            plugin.getInputFactory(configuration, ElementType.PlayerCommand).buildConversation(player).begin();
+            plugin.getInputFactory(configuration, Element.InfoHeadType.PLAYER_COMMAND).buildConversation(player).begin();
         });
     }
 
@@ -105,7 +105,7 @@ public abstract class AbstractGui {
                 .build(), event -> {
             event.setCancelled(true);
             getGui().close(player);
-            plugin.getInputFactory(configuration, ElementType.Permission).buildConversation(player).begin();
+            plugin.getInputFactory(configuration, Element.InfoHeadType.PERMISSION).buildConversation(player).begin();
         });
     }
 
@@ -117,7 +117,7 @@ public abstract class AbstractGui {
                 .build(), event -> {
             event.setCancelled(true);
             getGui().close(player);
-            plugin.getInputFactory(configuration, ElementType.Delay).buildConversation(player).begin();
+            plugin.getInputFactory(configuration, Element.InfoHeadType.DELAY).buildConversation(player).begin();
         });
     }
 
@@ -159,6 +159,18 @@ public abstract class AbstractGui {
                 .build(), event -> {
             event.setCancelled(true);
             new ParticleSelectorGui(player, plugin, configuration).open();
+        });
+    }
+
+    protected GuiItem playerPermissionItem() {
+        return new GuiItem(new ItemBuilder(XMaterial.FEATHER.parseMaterial())
+        .glow(true)
+        .setName(MessageUtil.PLAYER_PERMISSION_TITLE)
+        .setLore(MessageUtil.PLAYER_PERMISSION_LORE)
+        .build(), event -> {
+            event.setCancelled(true);
+            gui.close(player);
+            plugin.getInputFactory(configuration, Element.InfoHeadType.PLAYER_PERMISSION).buildConversation(player).begin();
         });
     }
 

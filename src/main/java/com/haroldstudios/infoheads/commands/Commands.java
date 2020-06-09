@@ -6,7 +6,6 @@ import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.*;
 import com.haroldstudios.infoheads.gui.WizardGui;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
-import com.haroldstudios.infoheads.serializer.FileUtil;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import me.mattstudios.mf.annotations.Alias;
@@ -22,7 +21,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;

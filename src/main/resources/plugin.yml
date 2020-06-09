@@ -8,3 +8,7 @@ softdepend:
   - PlaceholderAPI
   - HeadDatabase
   - BlockParticles
+
+permissions:
+  infoheads.use:
+    default: true
