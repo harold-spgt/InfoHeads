@@ -1,5 +1,6 @@
 package com.haroldstudios.infoheads;
 
+import com.haroldstudios.hexitextlib.HexResolver;
 import com.haroldstudios.infoheads.commands.Commands;
 import com.haroldstudios.infoheads.components.hooks.HdbListener;
 import com.haroldstudios.infoheads.conversations.*;
@@ -40,7 +41,6 @@ public final class InfoHeads extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
         load();
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this);

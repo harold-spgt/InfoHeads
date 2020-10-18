@@ -1,6 +1,6 @@
 name: InfoHeads
 main: com.haroldstudios.infoheads.InfoHeads
-version: 2.3.1
+version: 2.3.12
 author: Harolds
 description: InfoHeads plugin!
 api-version: 1.13
@@ -8,6 +8,7 @@ softdepend:
   - PlaceholderAPI
   - HeadDatabase
   - BlockParticles
+  - Multiverse-Core
 
 permissions:
   infoheads.use:

@@ -8,6 +8,7 @@ softdepend:
   - PlaceholderAPI
   - HeadDatabase
   - BlockParticles
+  - Multiverse-Core
 
 permissions:
   infoheads.use:
