@@ -2,6 +2,7 @@ package com.haroldstudios.infoheads.elements;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.jetbrains.annotations.NotNull;
 
 public final class DelayElement extends Element{
 
@@ -32,7 +33,7 @@ public final class DelayElement extends Element{
     }
 
     @Override
-    public void performAction(Player player, PlayerInteractEvent event) {
+    public void performAction(@NotNull Player player, PlayerInteractEvent event) {
         //Not needed - handled on interact
     }
 

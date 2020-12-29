@@ -1,7 +1,7 @@
 package com.haroldstudios.infoheads.elements;
 
 import com.haroldstudios.infoheads.InfoHeads;
-import com.haroldstudios.infoheads.components.hooks.PapiHook;
+import com.haroldstudios.infoheads.hooks.PapiHook;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;

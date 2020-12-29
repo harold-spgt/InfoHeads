@@ -2,14 +2,13 @@ package com.haroldstudios.infoheads.listeners;
 
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
-import com.haroldstudios.infoheads.components.hooks.BlockParticlesHook;
+import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.gui.WizardGui;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.Inventory;
 
 public final class HeadPlace implements Listener {
 

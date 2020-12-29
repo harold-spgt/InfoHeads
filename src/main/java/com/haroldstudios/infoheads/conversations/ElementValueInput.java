@@ -9,6 +9,7 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public final class ElementValueInput extends StringPrompt {
 
@@ -21,12 +22,12 @@ public final class ElementValueInput extends StringPrompt {
     }
 
     @Override
-    public String getPromptText(ConversationContext context) {
+    public @NotNull String getPromptText(@NotNull ConversationContext context) {
         return MessageUtil.INPUT_CONVERSATION;
     }
 
     @Override
-    public Prompt acceptInput(ConversationContext context, String input) {
+    public Prompt acceptInput(@NotNull ConversationContext context, String input) {
 
         InfoHeadConfiguration infoHead = InfoHeads.getInstance().getDataStore().getMatchingInfoHead(configuration);
         if (infoHead == null) {

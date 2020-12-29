@@ -3,7 +3,7 @@ package com.haroldstudios.infoheads.gui;
 import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
-import com.haroldstudios.infoheads.components.hooks.BlockParticlesHook;
+import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import me.badbones69.blockparticles.api.enums.BPParticles;
 import me.mattstudios.mfgui.gui.components.ItemBuilder;
@@ -26,7 +26,6 @@ public class ParticleSelectorGui extends AbstractGui {
         getGui().setDefaultClickAction(event -> event.setCancelled(true));
         getGui().getFiller().fill(new GuiItem(new ItemStack(Objects.requireNonNull(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()))));
 
-        int materialLength = Material.values().length;
         final Random random = new Random();
         int slot = 0;
 

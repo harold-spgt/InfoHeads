@@ -1,4 +1,4 @@
-package com.haroldstudios.infoheads.components.hooks;
+package com.haroldstudios.infoheads.hooks;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;

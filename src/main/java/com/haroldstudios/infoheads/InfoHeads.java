@@ -1,13 +1,12 @@
 package com.haroldstudios.infoheads;
 
-import com.haroldstudios.hexitextlib.HexResolver;
 import com.haroldstudios.infoheads.commands.Commands;
-import com.haroldstudios.infoheads.components.hooks.HdbListener;
+import com.haroldstudios.infoheads.hooks.HdbListener;
 import com.haroldstudios.infoheads.conversations.*;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.listeners.HeadInteract;
-import com.haroldstudios.infoheads.components.hooks.HdbHook;
+import com.haroldstudios.infoheads.hooks.HdbHook;
 import com.haroldstudios.infoheads.listeners.HeadPlace;
 import com.haroldstudios.infoheads.listeners.PlayerJoin;
 import com.haroldstudios.infoheads.listeners.PlayerQuit;

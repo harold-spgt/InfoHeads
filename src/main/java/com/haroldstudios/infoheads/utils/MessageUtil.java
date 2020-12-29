@@ -23,7 +23,6 @@ public final class MessageUtil {
             "§8- §b/infoheads reload §7- Reloads the infoheads plugin (BETA)",
             "§8- §b/infoheads remove §7- Removes an infohead you're looking at",
             "§8- §b/infoheads edit §7- Edit an infohead you're looking at",
-            "§8- §b/infoheads convert §7- Converts the old config version infoheads to json",
             "§8+§m-------§8[§bIF Help§8]§m-------§8+",
     };
 

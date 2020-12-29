@@ -1,4 +1,4 @@
-package com.haroldstudios.infoheads.components.hooks;
+package com.haroldstudios.infoheads.hooks;
 
 import me.badbones69.blockparticles.Methods;
 import org.bukkit.command.CommandSender;

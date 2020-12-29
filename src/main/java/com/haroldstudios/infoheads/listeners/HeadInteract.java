@@ -78,7 +78,7 @@ public final class HeadInteract implements Listener {
                 if (e.getPlayer() != null && e.getPlayer().isOnline())
                     el.performAction(e.getPlayer(), e);
 
-            }, time * 20);
+            }, time * 20L);
         }
 
         // Permission Removal -> EndElement

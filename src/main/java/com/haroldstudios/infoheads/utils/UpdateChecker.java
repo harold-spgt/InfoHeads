@@ -1,22 +1,18 @@
 package com.haroldstudios.infoheads.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.haroldstudios.infoheads.InfoHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.util.Consumer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Scanner;
 
 public final class UpdateChecker {
 
-    private InfoHeads plugin;
-    private int resourceId;
+    private final InfoHeads plugin;
+    private final int resourceId;
 
     public UpdateChecker(InfoHeads plugin, int resourceId) {
         this.plugin = plugin;
