@@ -4,6 +4,7 @@ version: ${project.version}
 author: Harolds
 description: InfoHeads plugin!
 api-version: 1.13
+load: POSTWORLD
 softdepend:
   - PlaceholderAPI
   - HeadDatabase
