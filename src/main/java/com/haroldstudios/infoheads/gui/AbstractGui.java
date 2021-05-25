@@ -151,6 +151,19 @@ public abstract class AbstractGui {
         });
     }
 
+    protected GuiItem onceItem() {
+        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.ARROW.parseMaterial()))
+                .glow(true)
+                .setName(MessageUtil.ONCE_ITEM_TITLE)
+                .setLore(configuration.isOnce() ? MessageUtil.ONCE_ITEM_LORE_ON : MessageUtil.ONCE_ITEM_LORE)
+                .build(), event -> {
+            event.setCancelled(true);
+            configuration.getExecuted().clear();
+            configuration.setOnce(!configuration.isOnce());
+            gui.updateItem(3, 7, onceItem());
+        });
+    }
+
     protected GuiItem particleItem() {
         return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.REDSTONE.parseMaterial()))
                 .glow(true)

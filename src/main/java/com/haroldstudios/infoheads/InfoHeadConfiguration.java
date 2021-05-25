@@ -11,6 +11,8 @@ import java.util.*;
 
 public final class InfoHeadConfiguration {
 
+    @Getter @Setter private List<UUID> executed = new ArrayList<>();
+    @Getter @Setter private boolean once;
     @Getter @Setter private List<Element> elementList = new ArrayList<>();
     @Getter @Setter private Location location;
     @Getter @Setter private String permission;

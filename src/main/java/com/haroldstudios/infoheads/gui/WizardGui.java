@@ -18,6 +18,7 @@ public final class WizardGui extends AbstractGui {
         getGui().setItem(2,4, appendConsoleCommandItem());
         getGui().setItem(2,5, appendPlayerCommandItem());
         getGui().setItem(2,6, appendDelay());
+        getGui().setItem(3, 7, onceItem());
         getGui().setItem(3,4, setLocationItem());
         getGui().setItem(3,5, setPermission());
         getGui().setItem(5,6, placeholdersItem());

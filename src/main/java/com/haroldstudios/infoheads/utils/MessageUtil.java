@@ -41,6 +41,9 @@ public final class MessageUtil {
     public static final String[] CLOSE_WIZARD_LORE = {loreColour + "Click to close the", loreColour + "infoheads editor wizard menu"};
     public static final String EDIT_GUI_TITLE = titleColour + "Edit the InfoHead";
     public static final String[] EDIT_GUI_LORE = {loreColour + "* Edit the ordering", loreColour + "* Delete Elements", "", titleColour + "Pro Tip: " + loreColour + "You can still edit infoheads", loreColour + "once they're created."};
+    public static final String ONCE_ITEM_TITLE = titleColour + "One Time Item";
+    public static final String[] ONCE_ITEM_LORE = {loreColour + "Click to " + titleColour + "enable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"};
+    public static final String[] ONCE_ITEM_LORE_ON = {loreColour + "Click to " + titleColour + "disable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"};
     public static final String COOLDOWN_ITEM_TITLE = titleColour + "Cooldown delay";
     public static final String[] COOLDOWN_ITEM_LORE = {loreColour + "Click to set the cooldown", loreColour + "for when a player can use", loreColour + "the infoheads again after clicking it"};
     public static final String PARTICLE_ITEM_TITLE = titleColour + "Particles";

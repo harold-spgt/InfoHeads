@@ -68,6 +68,7 @@ public final class InfoHeads extends JavaPlugin {
         }
 
         messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
+        updateMessagesConfig();
         saveDefaultConfig();
 
         this.fileUtil = new FileUtil();
@@ -111,6 +112,17 @@ public final class InfoHeads extends JavaPlugin {
     @Override
     public void onDisable() {
         fileUtil.save(dataStore);
+    }
+
+    private void updateMessagesConfig() {
+        if (!messagesConfig.contains("one-time")) {
+            messagesConfig.set("one-time", "&cThis item can be used once.");
+        }
+        try {
+            messagesConfig.save(messagesFile);
+        } catch (IOException e) {
+            this.error("Unable to update messages config: " + e.getMessage());
+        }
     }
 
     /**
