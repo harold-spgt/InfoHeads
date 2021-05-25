@@ -64,7 +64,7 @@ public final class HeadInteract implements Listener {
         }
 
         if (configuration.getExecuted().contains(e.getPlayer().getUniqueId())) {
-            e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getMessagesConfig().getString("one-time")));
+            MessageUtil.sendMessage(e.getPlayer(), plugin.getMessagesConfig().getString("one-time"));
             return;
         }
 
