@@ -7,6 +7,7 @@ import com.haroldstudios.infoheads.elements.EndElement;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -62,6 +63,11 @@ public final class HeadInteract implements Listener {
             }
         }
 
+        if (configuration.getExecuted().contains(e.getPlayer().getUniqueId())) {
+            MessageUtil.sendMessage(e.getPlayer(), plugin.getMessagesConfig().getString("one-time"));
+            return;
+        }
+
         final List<Element> elements = new ArrayList<>(plugin.getDataStore().getInfoHeads().get(e.getClickedBlock().getLocation()).getElementList());
         elements.add(new EndElement(elements));
 
@@ -86,6 +92,10 @@ public final class HeadInteract implements Listener {
         // If Cooldown Exists, add it to player's stamp
         if (configuration.getCooldown() != null) {
             configuration.getTimestamps().put(e.getPlayer().getUniqueId(), System.currentTimeMillis() + configuration.getCooldown());
+        }
+
+        if (configuration.isOnce()) {
+            configuration.getExecuted().add(e.getPlayer().getUniqueId());
         }
 
     }

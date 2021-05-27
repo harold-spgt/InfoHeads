@@ -25,3 +25,5 @@ InfoHeads.iml
 server/
 .idea/
 .DS_Store
+target/
+*.iml
