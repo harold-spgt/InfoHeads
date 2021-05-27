@@ -6,10 +6,8 @@ import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import me.mattstudios.mfgui.gui.components.ItemBuilder;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
-import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.entity.Player;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class CooldownGui extends AbstractGui {
@@ -67,7 +65,7 @@ public class CooldownGui extends AbstractGui {
                     item.getItemStack().setAmount(item.getItemStack().getAmount() - 1);
                     getGui().updateItem(slot, item);
                 } else {
-                    getGui().updateItem(slot, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).glow(true).setName("§5Weeks").build()));
+                    getGui().updateItem(slot, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).glow(true).setName(item.getItemStack().getItemMeta().getDisplayName()).build()));
                 }
             }));
         }
