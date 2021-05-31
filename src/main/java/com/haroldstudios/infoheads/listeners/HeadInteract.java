@@ -7,10 +7,10 @@ import com.haroldstudios.infoheads.elements.EndElement;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -37,6 +37,9 @@ public final class HeadInteract implements Listener {
 
         // Checks if there is an infohead at this location
         if (!infoHeads.containsKey(e.getClickedBlock().getLocation())) return;
+
+        if (e.getPlayer().isSneaking() && e.getAction().equals(Action.LEFT_CLICK_BLOCK))
+            return;
 
         e.setCancelled(true);
 

@@ -7,6 +7,7 @@ import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.listeners.HeadInteract;
 import com.haroldstudios.infoheads.hooks.HdbHook;
+import com.haroldstudios.infoheads.listeners.HeadBreak;
 import com.haroldstudios.infoheads.listeners.HeadPlace;
 import com.haroldstudios.infoheads.listeners.PlayerJoin;
 import com.haroldstudios.infoheads.listeners.PlayerQuit;
@@ -100,6 +101,7 @@ public final class InfoHeads extends JavaPlugin {
         DataStore.placerMode.clear();
         getServer().getPluginManager().registerEvents(new HeadInteract(this), this);
         getServer().getPluginManager().registerEvents(new HeadPlace(this), this);
+        getServer().getPluginManager().registerEvents(new HeadBreak(this), this);
         if (packagesExists("me.arcaniax.hdb.api.DatabaseLoadEvent", "me.arcaniax.hdb.api.HeadDatabaseAPI"))
             getServer().getPluginManager().registerEvents(new HdbListener(this), this);
         if (packagesExists("me.clip.placeholderapi.PlaceholderAPI"))
