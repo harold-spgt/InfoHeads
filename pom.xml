@@ -53,14 +53,14 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.4</version>
+            <version>2.2.1</version>
             <scope>compile</scope>
         </dependency>
         <!-- PAPI -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>LATEST</version>
+            <version>2.10.9</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -72,12 +72,12 @@
         <dependency>
             <groupId>me.mattstudios.utils</groupId>
             <artifactId>matt-framework</artifactId>
-            <version>LATEST</version>
+            <version>1.4.6</version>
         </dependency>
         <dependency>
             <groupId>me.mattstudios.utils</groupId>
             <artifactId>matt-framework-gui</artifactId>
-            <version>1.2.8</version>
+            <version>2.0.3.3</version>
         </dependency>
 
         <dependency>
@@ -89,14 +89,14 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.8</version>
+            <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.badbones69</groupId>
             <artifactId>Block-Particles</artifactId>
-            <version>master-0e0abea8cb-1</version>
+            <version>1.11.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -126,7 +126,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
