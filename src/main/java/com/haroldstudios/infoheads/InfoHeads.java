@@ -43,7 +43,7 @@ public final class InfoHeads extends JavaPlugin {
     public void onEnable() {
         load();
         @SuppressWarnings("unused")
-        Metrics metrics = new Metrics(this);
+        Metrics metrics = new Metrics(this, 4607);
 
         CommandManager cm = new CommandManager(this);
         commands = new Commands(this);

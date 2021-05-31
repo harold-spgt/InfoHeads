@@ -6,7 +6,7 @@ import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import me.badbones69.blockparticles.api.enums.BPParticles;
-import me.mattstudios.mfgui.gui.components.ItemBuilder;
+import me.mattstudios.mfgui.gui.components.util.ItemBuilder;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -34,7 +34,7 @@ public class ParticleSelectorGui extends AbstractGui {
             if (slot > 45) break;
 
             getGui().setItem(slot, new GuiItem(
-                    new ItemBuilder(getRandomMaterial(random))
+                    ItemBuilder.from(getRandomMaterial(random))
                             .setName(ChatColor.BLUE + StringUtils.capitalize(each.toString().toLowerCase()))
                             .glow(true)
                             .setLore(MessageUtil.PARTICLE_GUI_LORE)
@@ -52,7 +52,7 @@ public class ParticleSelectorGui extends AbstractGui {
             slot++;
         }
 
-        getGui().setItem(49, new GuiItem(new ItemBuilder(Material.BARRIER).setName(MessageUtil.BACK).glow(true).build(), event -> new WizardGui(plugin, player, configuration).open()));
+        getGui().setItem(49, new GuiItem(ItemBuilder.from(Material.BARRIER).setName(MessageUtil.BACK).glow(true).build(), event -> new WizardGui(plugin, player, configuration).open()));
     }
 
     public Material getRandomMaterial(final Random random) {

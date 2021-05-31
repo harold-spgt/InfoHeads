@@ -4,7 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.utils.MessageUtil;
-import me.mattstudios.mfgui.gui.components.ItemBuilder;
+import me.mattstudios.mfgui.gui.components.util.ItemBuilder;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
 import org.bukkit.entity.Player;
 
@@ -19,16 +19,16 @@ public class CooldownGui extends AbstractGui {
 
         getGui().getFiller().fill(new GuiItem(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem()));
 
-        getGui().setItem(2, 3, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Weeks").glow(true).build()));
-        getGui().setItem(2, 4, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Days").glow(true).build()));
-        getGui().setItem(2, 5, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Hours").glow(true).build()));
-        getGui().setItem(2, 6, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Minutes").glow(true).build()));
-        getGui().setItem(2, 7, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Seconds").glow(true).build()));
+        getGui().setItem(2, 3, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Weeks").glow(true).build()));
+        getGui().setItem(2, 4, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Days").glow(true).build()));
+        getGui().setItem(2, 5, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Hours").glow(true).build()));
+        getGui().setItem(2, 6, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Minutes").glow(true).build()));
+        getGui().setItem(2, 7, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName("§5Seconds").glow(true).build()));
 
         // Slots 2 to 8 -> Weeks, Days, Hours, minutes, seconds
         for (int i = 3; i < 8; i++) {
             int finalI = i;
-            getGui().setItem(1, finalI, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.LIME_DYE.parseMaterial()))
+            getGui().setItem(1, finalI, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.LIME_DYE.parseMaterial()))
                     .setName(MessageUtil.COOLDOWN_NUM_INC_TITLE)
                     .setLore(MessageUtil.COOLDOWN_NUM_INC_LORE).glow(true).build(), event -> {
 
@@ -37,7 +37,7 @@ public class CooldownGui extends AbstractGui {
 
                 GuiItem item = getGui().getGuiItem(slot);
                 if (item.getItemStack().getType().equals(XMaterial.BARRIER.parseMaterial())) {
-                    getGui().updateItem(slot, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.WHITE_WOOL.parseMaterial())).glow(true).setName(item.getItemStack().getItemMeta().getDisplayName()).build()));
+                    getGui().updateItem(slot, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.WHITE_WOOL.parseMaterial())).glow(true).setName(item.getItemStack().getItemMeta().getDisplayName()).build()));
                     return;
                 }
                 // If item amount is not 64 / it's maximum value
@@ -50,7 +50,7 @@ public class CooldownGui extends AbstractGui {
 
         for (int i = 3; i < 8; i++) {
             int finalI = i;
-            getGui().setItem(3, i, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.REDSTONE.parseMaterial()))
+            getGui().setItem(3, i, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.REDSTONE.parseMaterial()))
                     .setName(MessageUtil.COOLDOWN_NUM_DEC_TITLE)
                     .setLore(MessageUtil.COOLDOWN_NUM_DEC_LORE).glow(true).build(), event -> {
 
@@ -65,13 +65,13 @@ public class CooldownGui extends AbstractGui {
                     item.getItemStack().setAmount(item.getItemStack().getAmount() - 1);
                     getGui().updateItem(slot, item);
                 } else {
-                    getGui().updateItem(slot, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).glow(true).setName(item.getItemStack().getItemMeta().getDisplayName()).build()));
+                    getGui().updateItem(slot, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).glow(true).setName(item.getItemStack().getItemMeta().getDisplayName()).build()));
                 }
             }));
         }
 
-        getGui().setItem(5, 5, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName(MessageUtil.PREV_PAGE).glow(true).build(), event -> new WizardGui(InfoHeads.getInstance(), getPlayer(), getConfiguration()).open()));
-        getGui().setItem(5, 9, new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.EMERALD_BLOCK.parseMaterial())).setName(MessageUtil.COMPLETE_ITEM_TITLE).setLore(MessageUtil.COMPLETE_ITEM_LORE).glow(true).build(),
+        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).setName(MessageUtil.PREV_PAGE).glow(true).build(), event -> new WizardGui(InfoHeads.getInstance(), getPlayer(), getConfiguration()).open()));
+        getGui().setItem(5, 9, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.EMERALD_BLOCK.parseMaterial())).setName(MessageUtil.COMPLETE_ITEM_TITLE).setLore(MessageUtil.COMPLETE_ITEM_LORE).glow(true).build(),
                 event -> {
                     //Slots 3,4,5,6,7
                     // Does not get modified itself

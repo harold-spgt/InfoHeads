@@ -8,7 +8,7 @@ import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import lombok.Getter;
-import me.mattstudios.mfgui.gui.components.ItemBuilder;
+import me.mattstudios.mfgui.gui.components.util.ItemBuilder;
 import me.mattstudios.mfgui.gui.guis.BaseGui;
 import me.mattstudios.mfgui.gui.guis.Gui;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
@@ -26,7 +26,7 @@ public abstract class AbstractGui {
     public AbstractGui(final Player player, InfoHeads plugin, int rows, String title, InfoHeadConfiguration configuration) {
         this.plugin = plugin;
         this.configuration = configuration;
-        this.gui = new Gui(plugin, rows, title);
+        this.gui = new Gui(rows, title);
         this.player = player;
     }
 
@@ -35,7 +35,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem appendMessageItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BOOK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BOOK.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.APPEND_MESSAGE_TITLE)
                 .setLore(MessageUtil.APPEND_MESSAGE_LORE)
@@ -48,7 +48,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem appendConsoleCommandItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.COMMAND_BLOCK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.COMMAND_BLOCK.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.APPEND_CONSOLE_COMMAND_TITLE)
                 .setLore(MessageUtil.APPEND_COMMAND_LORE)
@@ -60,7 +60,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem appendPlayerCommandItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.COMMAND_BLOCK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.COMMAND_BLOCK.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.APPEND_PLAYER_COMMAND_TITLE)
                 .setLore(MessageUtil.APPEND_COMMAND_LORE)
@@ -72,7 +72,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem setLocationItem() {
-        return new GuiItem(new ItemBuilder((Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial())))
+        return new GuiItem(ItemBuilder.from((Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial())))
                 .glow(true)
                 .setName(MessageUtil.SET_LOCATION_TITLE)
                 .setLore(MessageUtil.SET_LOCATION_LORE)
@@ -87,7 +87,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem cancelItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.CLOSE_WIZARD_TITLE)
                 .setLore(MessageUtil.CLOSE_WIZARD_LORE)
@@ -98,7 +98,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem setPermission() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.GLASS_BOTTLE.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.GLASS_BOTTLE.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.SET_PERMISSION_TITLE)
                 .setLore(MessageUtil.SET_PERMISSION_LORE)
@@ -110,7 +110,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem appendDelay() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.CLOCK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.CLOCK.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.APPEND_DELAY_TITLE)
                 .setLore(MessageUtil.APPEND_DELAY_LORE)
@@ -122,7 +122,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem placeholdersItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.WRITABLE_BOOK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.WRITABLE_BOOK.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.PLACEHOLDER_TITLE)
                 .setLore(MessageUtil.PLACEHOLDER_LORE)
@@ -130,7 +130,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem editItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.MAP.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.MAP.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.EDIT_GUI_TITLE)
                 .setLore(MessageUtil.EDIT_GUI_LORE)
@@ -141,7 +141,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem cooldownItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.COMPASS.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.COMPASS.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.COOLDOWN_ITEM_TITLE)
                 .setLore(MessageUtil.COOLDOWN_ITEM_LORE)
@@ -152,7 +152,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem onceItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.ARROW.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.ARROW.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.ONCE_ITEM_TITLE)
                 .setLore(configuration.isOnce() ? MessageUtil.ONCE_ITEM_LORE_ON : MessageUtil.ONCE_ITEM_LORE)
@@ -165,7 +165,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem particleItem() {
-        return new GuiItem(new ItemBuilder(Objects.requireNonNull(XMaterial.REDSTONE.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.REDSTONE.parseMaterial()))
                 .glow(true)
                 .setName(MessageUtil.PARTICLE_ITEM_TITLE)
                 .setLore(MessageUtil.PARTICLE_ITEM_LORE)
@@ -176,7 +176,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem playerPermissionItem() {
-        return new GuiItem(new ItemBuilder(XMaterial.FEATHER.parseMaterial())
+        return new GuiItem(ItemBuilder.from(XMaterial.FEATHER.parseMaterial())
         .glow(true)
         .setName(MessageUtil.PLAYER_PERMISSION_TITLE)
         .setLore(MessageUtil.PLAYER_PERMISSION_LORE)

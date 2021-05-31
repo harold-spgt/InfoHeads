@@ -6,7 +6,7 @@ import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import lombok.Getter;
-import me.mattstudios.mfgui.gui.components.ItemBuilder;
+import me.mattstudios.mfgui.gui.components.util.ItemBuilder;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
 import me.mattstudios.mfgui.gui.guis.PaginatedGui;
 import org.bukkit.ChatColor;
@@ -26,7 +26,7 @@ public class EditGui {
     public EditGui(final InfoHeadConfiguration configuration, final Player player) {
         this.player = player;
         // Sets rows to 5 and max slots to row 4
-        gui = new PaginatedGui(InfoHeads.getInstance(), 5, 4 * 9, "Edit Infoheads");
+        gui = new PaginatedGui(5, 4 * 9, "Edit Infoheads");
 
         getGui().setOutsideClickAction(event -> event.setCancelled(true));
         getGui().setCloseGuiAction(event -> {
@@ -48,7 +48,7 @@ public class EditGui {
                 l = l.replace("@id", String.valueOf(slot));
                 loreNew.add(l);
             }
-            getGui().addItem(new GuiItem(new ItemBuilder(XMaterial.PAPER.parseMaterial()).glow(true).setName(title).setLore(loreNew).build(), event -> {
+            getGui().addItem(new GuiItem(ItemBuilder.from(XMaterial.PAPER.parseMaterial()).glow(true).setName(title).setLore(loreNew).build(), event -> {
                 if (event.getClick().equals(ClickType.RIGHT)) {
                     event.setCurrentItem(null);
                 }
@@ -60,7 +60,7 @@ public class EditGui {
 
         getGui().getFiller().fillBottom(new GuiItem(new ItemStack(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()), event -> event.setCancelled(true)));
 
-        getGui().setItem(5, 5, new GuiItem(new ItemBuilder(XMaterial.BARRIER.parseMaterial()).setName(MessageUtil.BACK).build(), event -> {
+        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(XMaterial.BARRIER.parseMaterial()).setName(MessageUtil.BACK).build(), event -> {
             event.setCancelled(true);
 
             if (event.getCursor() == null) return;
