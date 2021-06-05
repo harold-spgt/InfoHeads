@@ -1,5 +1,7 @@
 package com.haroldstudios.infoheads;
 
+import com.haroldstudios.infoheads.api.InfoHeadsApi;
+import com.haroldstudios.infoheads.api.impl.InfoHeadsImpl;
 import com.haroldstudios.infoheads.commands.Commands;
 import com.haroldstudios.infoheads.hooks.HdbListener;
 import com.haroldstudios.infoheads.conversations.*;
@@ -18,6 +20,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.conversations.ConversationFactory;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -29,6 +32,7 @@ public final class InfoHeads extends JavaPlugin {
 
     @Getter private DataStore dataStore;
     @Getter private Commands commands;
+    @Getter private static InfoHeadsApi api;
 
     @Getter private FileUtil fileUtil;
     private final File messagesFile = new File(getDataFolder(), "messages.yml");
@@ -54,6 +58,9 @@ public final class InfoHeads extends JavaPlugin {
 
         if (packagesExists("org.bukkit.util.Consumer"))
             getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+
+        api = new InfoHeadsImpl();
+        getServer().getServicesManager().register(InfoHeadsApi.class,api,this, ServicePriority.Normal);
     }
 
     public void load() {
