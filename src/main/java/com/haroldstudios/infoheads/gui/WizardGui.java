@@ -3,7 +3,7 @@ package com.haroldstudios.infoheads.gui;
 import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
-import me.mattstudios.mfgui.gui.guis.GuiItem;
+import dev.triumphteam.gui.guis.GuiItem;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

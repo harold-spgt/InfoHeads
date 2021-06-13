@@ -5,10 +5,12 @@ import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.utils.MessageUtil;
+import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.GuiItem;
+import dev.triumphteam.gui.guis.PaginatedGui;
 import lombok.Getter;
-import me.mattstudios.mfgui.gui.components.util.ItemBuilder;
-import me.mattstudios.mfgui.gui.guis.GuiItem;
-import me.mattstudios.mfgui.gui.guis.PaginatedGui;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -38,17 +40,17 @@ public class EditGui {
         int slot = 0;
         for (Element each : configuration.getElementList()) {
 
-            String title = MessageUtil.EDIT_ITEM_TITLE;
-            String[] lore = MessageUtil.EDIT_ITEM_LORE;
-            title = title.replace("@type", each.getType().toString());
+            Component title = MessageUtil.EDIT_ITEM_TITLE;
+            Component[] lore = MessageUtil.EDIT_ITEM_LORE;
+            title = title.replaceText(TextReplacementConfig.builder().match("@type").replacement(each.getType().toString()).build());
 
-            List<String> loreNew = new ArrayList<>();
-            for (String l : lore) {
-                l = l.replace("@contents", each.getContent().toString());
-                l = l.replace("@id", String.valueOf(slot));
+            List<Component> loreNew = new ArrayList<>();
+            for (Component l : lore) {
+                l = l.replaceText(TextReplacementConfig.builder().match("@contents").replacement(each.getContent().toString()).build());
+                l = l.replaceText(TextReplacementConfig.builder().match("@id").replacement(String.valueOf(slot)).build());
                 loreNew.add(l);
             }
-            getGui().addItem(new GuiItem(ItemBuilder.from(XMaterial.PAPER.parseMaterial()).glow(true).setName(title).setLore(loreNew).build(), event -> {
+            getGui().addItem(new GuiItem(ItemBuilder.from(XMaterial.PAPER.parseMaterial()).glow(true).name(title).lore(loreNew).build(), event -> {
                 if (event.getClick().equals(ClickType.RIGHT)) {
                     event.setCurrentItem(null);
                 }
@@ -60,7 +62,7 @@ public class EditGui {
 
         getGui().getFiller().fillBottom(new GuiItem(new ItemStack(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()), event -> event.setCancelled(true)));
 
-        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(XMaterial.BARRIER.parseMaterial()).setName(MessageUtil.BACK).build(), event -> {
+        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(XMaterial.BARRIER.parseMaterial()).name(MessageUtil.BACK).build(), event -> {
             event.setCancelled(true);
 
             if (event.getCursor() == null) return;

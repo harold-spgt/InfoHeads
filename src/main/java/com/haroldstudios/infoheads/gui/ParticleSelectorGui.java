@@ -5,9 +5,9 @@ import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
 import com.haroldstudios.infoheads.utils.MessageUtil;
+import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.GuiItem;
 import me.badbones69.blockparticles.api.enums.BPParticles;
-import me.mattstudios.mfgui.gui.components.util.ItemBuilder;
-import me.mattstudios.mfgui.gui.guis.GuiItem;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,9 +35,9 @@ public class ParticleSelectorGui extends AbstractGui {
 
             getGui().setItem(slot, new GuiItem(
                     ItemBuilder.from(getRandomMaterial(random))
-                            .setName(ChatColor.BLUE + StringUtils.capitalize(each.toString().toLowerCase()))
+                            .name(MessageUtil.toComponent(ChatColor.BLUE + StringUtils.capitalize(each.toString().toLowerCase())))
                             .glow(true)
-                            .setLore(MessageUtil.PARTICLE_GUI_LORE)
+                            .lore(MessageUtil.PARTICLE_GUI_LORE)
                             .build(), event -> {
                         if (event.isLeftClick()) {
                             if (getPlugin().blockParticles) {
@@ -52,7 +52,7 @@ public class ParticleSelectorGui extends AbstractGui {
             slot++;
         }
 
-        getGui().setItem(49, new GuiItem(ItemBuilder.from(Material.BARRIER).setName(MessageUtil.BACK).glow(true).build(), event -> new WizardGui(plugin, player, configuration).open()));
+        getGui().setItem(49, new GuiItem(ItemBuilder.from(Material.BARRIER).name(MessageUtil.BACK).glow(true).build(), event -> new WizardGui(plugin, player, configuration).open()));
     }
 
     public Material getRandomMaterial(final Random random) {
