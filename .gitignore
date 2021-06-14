@@ -27,3 +27,7 @@ server/
 .DS_Store
 target/
 *.iml
+
+# Gradle
+.gradle/
+build/

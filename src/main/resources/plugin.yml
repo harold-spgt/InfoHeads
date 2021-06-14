@@ -1,6 +1,6 @@
 name: InfoHeads
 main: com.haroldstudios.infoheads.InfoHeads
-version: ${project.version}
+version: @version@
 authors:
   - Harolds
   - Lorenzo0111
