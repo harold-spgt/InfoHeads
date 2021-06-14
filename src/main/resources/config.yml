@@ -1,6 +1,6 @@
 ########################################################
-#                  InfoHeads V1.0.0                    #
-# - Author: Harry0198                                  #
+#                  InfoHeads v@version@                   #
+# - Authors: Harry0198, Lorenzo0111                    #
 # - License: FREE! (Well... Actually it's Apache-2.0)  #
 #                                                      #
 #                 Enjoy the Plugin!                    #
@@ -10,6 +10,8 @@
 #
 # Change the default heads that you receive in the InfoHeads Wizard here.
 # You can use custom heads from HeadDatabase, by using "id:<head id>"
+#
+# Documentation: https://docs.rocketplugins.space/infoheads
 Heads:
   - 'MHF_Question'
   - 'MHF_Exclamation'

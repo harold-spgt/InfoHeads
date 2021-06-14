@@ -76,7 +76,8 @@ tasks.withType(JavaCompile) {
 }
 
 processResources {
-    from(['src/resources/plugin.yml']) {
+    from(sourceSets.main.resources.srcDirs) {
+        duplicatesStrategy DuplicatesStrategy.INCLUDE
         filter ReplaceTokens, tokens: [version: version]
     }
 }

@@ -1,20 +1,17 @@
 package com.haroldstudios.infoheads.inventory;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.google.common.collect.Lists;
 import com.haroldstudios.infoheads.InfoHeads;
+import dev.triumphteam.gui.builder.item.ItemBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.List;
 
 public final class HeadStacks {
 
-    private final Material material = XMaterial.PLAYER_HEAD.parseMaterial();
-
+    @SuppressWarnings("deprecation")
     private List<ItemStack> generateSkulls() {
 
         List<ItemStack> list = Lists.newArrayList();
@@ -44,10 +41,9 @@ public final class HeadStacks {
                 continue;
             }
 
-            ItemStack playerSkull = new ItemStack(material, 1, (short) 3);
-            SkullMeta sm = (SkullMeta) playerSkull.getItemMeta();
-            sm.setOwner(each);
-            playerSkull.setItemMeta(sm);
+            ItemStack playerSkull = ItemBuilder.skull()
+                    .owner(Bukkit.getOfflinePlayer(each))
+                    .build();
 
             list.add(playerSkull);
         }
