@@ -4,6 +4,7 @@ import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.elements.EndElement;
+import com.haroldstudios.infoheads.gui.WizardGui;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
@@ -45,6 +46,11 @@ public final class HeadInteract implements Listener {
 
         String permission = plugin.getDataStore().getInfoHeads().get(e.getClickedBlock().getLocation()).getPermission();
         InfoHeadConfiguration configuration = infoHeads.get(e.getClickedBlock().getLocation());
+
+        if (e.getPlayer().isSneaking() && e.getPlayer().hasPermission(Constants.ADMIN_PERM)) {
+            new WizardGui(plugin, e.getPlayer(), configuration).open();
+            return;
+        }
 
         // Checks if player has infohead specific perms
         if (permission != null)
