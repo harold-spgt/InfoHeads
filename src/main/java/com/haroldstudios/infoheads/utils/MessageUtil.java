@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public final class MessageUtil {
@@ -43,7 +42,7 @@ public final class MessageUtil {
     public static final Component[] CLOSE_WIZARD_LORE = toComponent(new String[]{loreColour + "Click to close the", loreColour + "infoheads editor wizard menu"});
     public static final Component EDIT_GUI_TITLE = toComponent(titleColour + "Edit the InfoHead");
     public static final Component[] EDIT_GUI_LORE = toComponent(new String[]{loreColour + "* Edit the ordering", loreColour + "* Delete Elements", "", titleColour + "Pro Tip: " + loreColour + "You can still edit infoheads", loreColour + "once they're created."});
-            ;
+
     public static final Component ONCE_ITEM_TITLE = toComponent(titleColour + "One Time Item");
     public static final Component[] ONCE_ITEM_LORE = toComponent(new String[]{loreColour + "Click to " + titleColour + "enable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"});
     public static final Component[] ONCE_ITEM_LORE_ON = toComponent(new String[]{loreColour + "Click to " + titleColour + "disable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"});
@@ -76,7 +75,7 @@ public final class MessageUtil {
 
 
     public static final Component BACK = toComponent(titleColour + "<<< Back to main menu");
-    public static final Component PARTICLES_GUI_TITLE = toComponent("Particle Selector");
+    public static final String PARTICLES_GUI_TITLE = "Particle Selector";
 
     public static final Component COOLDOWN_NUM_INC_TITLE = toComponent("§a+1");
     public static final Component[] COOLDOWN_NUM_INC_LORE = {toComponent("§7Click to increase the cooldown"), toComponent("§7duration.")};

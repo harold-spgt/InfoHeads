@@ -6,6 +6,7 @@ import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.components.InteractionModifier;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class EditGui {
     public EditGui(final InfoHeadConfiguration configuration, final Player player) {
         this.player = player;
         // Sets rows to 5 and max slots to row 4
-        gui = new PaginatedGui(5, 4 * 9, "Edit Infoheads");
+        gui = new PaginatedGui(5, 4 * 9, "Edit Infoheads", EnumSet.noneOf(InteractionModifier.class));
 
         getGui().setOutsideClickAction(event -> event.setCancelled(true));
         getGui().setCloseGuiAction(event -> {

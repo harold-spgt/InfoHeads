@@ -41,7 +41,7 @@ dependencies {
     implementation('com.github.Harry0198:HexiTextLib:1.0')
     implementation('org.bstats:bstats-bukkit:2.2.1')
     implementation('me.mattstudios.utils:matt-framework:1.4.6')
-    implementation('dev.triumphteam:triumph-gui:3.0.2')
+    implementation('dev.triumphteam:triumph-gui:3.0.3')
     implementation('com.github.cryptomorin:XSeries:8.1.0')
     implementation('net.kyori:adventure-api:4.8.1')
     implementation('net.kyori:adventure-text-serializer-legacy:4.8.1')
