@@ -8,13 +8,14 @@ import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.components.InteractionModifier;
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
+import java.util.EnumSet;
 import java.util.Objects;
 
 public abstract class AbstractGui {
@@ -25,13 +26,9 @@ public abstract class AbstractGui {
     @Getter private final InfoHeadConfiguration configuration;
 
     public AbstractGui(final Player player, InfoHeads plugin, int rows, String title, InfoHeadConfiguration configuration) {
-        this(player,plugin,rows,MessageUtil.toComponent(title),configuration);
-    }
-
-    public AbstractGui(final Player player, InfoHeads plugin, int rows, Component title, InfoHeadConfiguration configuration) {
         this.plugin = plugin;
         this.configuration = configuration;
-        this.gui = new Gui(rows, title);
+        this.gui = new Gui(rows, title, EnumSet.noneOf(InteractionModifier.class));
         this.player = player;
     }
 
