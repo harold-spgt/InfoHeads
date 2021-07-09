@@ -21,7 +21,8 @@ public final class MessageUtil {
             "§8+§m-------§8[§bIF Help§8]§m-------§8+",
             "§8- §b/infoheads help §7- Loads this menu",
             "§8- §b/infoheads wizard §7- Loads up the creation wizard",
-            "§8- §b/infoheads reload §7- Reloads the infoheads plugin (BETA)",
+            "§8- §b/infoheads create §7- Create an infohead at the location you are looking",
+            "§8- §b/infoheads reload §7- Reloads the infoheads plugin",
             "§8- §b/infoheads remove §7- Removes an infohead you're looking at",
             "§8- §b/infoheads edit §7- Edit an infohead you're looking at",
             "§8+§m-------§8[§bIF Help§8]§m-------§8+",
@@ -59,6 +60,8 @@ public final class MessageUtil {
     public static final String NO_INFOHEAD_AT_LOC = PREFIX + errorColour + "No infohead at this location!";
     public static final String INFOHEAD_REMOVED = PREFIX + textColour + "Infohead has been removed";
     public static final String PLACE_INFOHEAD = PREFIX + textColour + "Place your InfoHead";
+
+    public static final String ALREADY_INFOHEAD = PREFIX + errorColour + "You are already looking at an infohead";
 
     public static final Component SET_PERMISSION_TITLE = toComponent(titleColour + "Set permission of Infohead");
     public static final Component[] SET_PERMISSION_LORE = toComponent(new String[]{loreColour + "Click to set the", loreColour + "permission to use"});

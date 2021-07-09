@@ -4,6 +4,7 @@ import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.gui.WizardGui;
+import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
@@ -95,4 +96,29 @@ public final class Commands extends CommandBase {
 
         new WizardGui(plugin, player, headAtLoc).open();
     }
+
+    @Permission(Constants.ADMIN_PERM)
+    @SubCommand("create")
+    public void create(Player player) {
+        Block b = player.getTargetBlock(null, 5);
+        Location targetLoc = b.getLocation();
+        if (plugin.getDataStore().getInfoHeads().containsKey(targetLoc)) {
+            MessageUtil.sendMessage(player, MessageUtil.ALREADY_INFOHEAD);
+            return;
+        }
+
+        InfoHeadConfiguration configuration = new InfoHeadConfiguration();
+        configuration.setLocation(targetLoc);
+        InfoHeads.getInstance().getDataStore().addInfoHead(configuration);
+
+        if (plugin.blockParticles) {
+            if (configuration.getParticle() != null) {
+                BlockParticlesHook.newLoc(player, configuration.getId().toString(), configuration.getParticle());
+            }
+        }
+
+        new WizardGui(plugin, player, configuration).open();
+    }
+
+
 }
