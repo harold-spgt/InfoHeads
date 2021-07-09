@@ -25,6 +25,7 @@ public final class MessageUtil {
             "§8- §b/infoheads reload §7- Reloads the infoheads plugin",
             "§8- §b/infoheads remove §7- Removes an infohead you're looking at",
             "§8- §b/infoheads edit §7- Edit an infohead you're looking at",
+            "§8- §b/infoheads list §7- Get the list of all existing infoheads",
             "§8+§m-------§8[§bIF Help§8]§m-------§8+",
     };
 
@@ -43,6 +44,8 @@ public final class MessageUtil {
     public static final Component[] CLOSE_WIZARD_LORE = toComponent(new String[]{loreColour + "Click to close the", loreColour + "infoheads editor wizard menu"});
     public static final Component EDIT_GUI_TITLE = toComponent(titleColour + "Edit the InfoHead");
     public static final Component[] EDIT_GUI_LORE = toComponent(new String[]{loreColour + "* Edit the ordering", loreColour + "* Delete Elements", "", titleColour + "Pro Tip: " + loreColour + "You can still edit infoheads", loreColour + "once they're created."});
+    public static final Component EDIT_NAME_TITLE = toComponent(titleColour + "Edit the name");
+    public static final Component[] EDIT_NAME_LORE = toComponent(new String[]{loreColour + "* Edit the name of the head", loreColour + "* This is useful for the list command"});
 
     public static final Component ONCE_ITEM_TITLE = toComponent(titleColour + "One Time Item");
     public static final Component[] ONCE_ITEM_LORE = toComponent(new String[]{loreColour + "Click to " + titleColour + "enable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"});

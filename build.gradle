@@ -35,6 +35,10 @@ repositories {
     maven {
         url = uri('https://repo.mattstudios.me/artifactory/public/')
     }
+
+    maven {
+        url = uri('https://oss.sonatype.org/content/repositories/snapshots/')
+    }
 }
 
 dependencies {
@@ -45,6 +49,7 @@ dependencies {
     implementation('com.github.cryptomorin:XSeries:8.2.0')
     implementation('net.kyori:adventure-api:4.8.1')
     implementation('net.kyori:adventure-text-serializer-legacy:4.8.1')
+    implementation("net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT")
     compileOnly('org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT')
     compileOnly('me.clip:placeholderapi:2.10.9')
     compileOnly('com.github.shynixn.headdatabase:hdb-api:1.0')
@@ -66,7 +71,7 @@ shadowJar {
 }
 
 group = 'com.haroldstudios'
-version = '2.3.17'
+version = '2.3.18'
 description = 'InfoHeads'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 

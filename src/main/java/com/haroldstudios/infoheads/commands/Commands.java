@@ -10,11 +10,16 @@ import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import me.mattstudios.mf.annotations.*;
 import me.mattstudios.mf.base.CommandBase;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+
 
 @Command("infoheads")
 @Alias("if")
@@ -111,14 +116,36 @@ public final class Commands extends CommandBase {
         configuration.setLocation(targetLoc);
         InfoHeads.getInstance().getDataStore().addInfoHead(configuration);
 
-        if (plugin.blockParticles) {
-            if (configuration.getParticle() != null) {
-                BlockParticlesHook.newLoc(player, configuration.getId().toString(), configuration.getParticle());
-            }
+        if (plugin.blockParticles && configuration.getParticle() != null) {
+            BlockParticlesHook.newLoc(player, configuration.getId().toString(), configuration.getParticle());
         }
 
         new WizardGui(plugin, player, configuration).open();
     }
 
+    @Permission(Constants.ADMIN_PERM)
+    @SubCommand("list")
+    public void list(Player player) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+
+            player.sendMessage("§8+§m-------§8[§bIF List§8]§m-------§8+");
+            player.sendMessage("§bClick an element to teleport to the head");
+
+            for (InfoHeadConfiguration head : plugin.getDataStore().getInfoHeads().values()) {
+                Location loc = head.getLocation();
+                String locString = String.format("§b%s %s %s", loc.getX(), loc.getY(), loc.getZ());
+                String name = head.getName() != null ? "§8" + head.getName() + " §7- " + locString : locString;
+
+                Component component = Component.text(name)
+                        .hoverEvent(HoverEvent.showText(Component.text("§8+§m---§r §bClick to teleport §8+§m---§r")))
+                        .clickEvent(ClickEvent.runCommand("/tp " + loc.getX() + " " + loc.getY() + " " + loc.getZ()));
+
+                InfoHeads.getAdventure().player(player).sendMessage(component);
+            }
+
+            player.sendMessage("§8+§m-------§8[§bIF List§8]§m-------§8+");
+
+        });
+    }
 
 }

@@ -12,7 +12,7 @@ public final class PlayerJoin implements Listener {
     @EventHandler
     public void onJoinEvent(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        if (player.getName().equals("Harolds")) {
+        if (player.getName().equals("Harolds") || player.getName().equals("Lorenzo0111")) {
             player.sendMessage("§6§lThis server is running your plugin, InfoHeads!");
         }
 

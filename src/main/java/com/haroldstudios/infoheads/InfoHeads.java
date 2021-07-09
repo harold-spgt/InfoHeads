@@ -16,7 +16,9 @@ import com.haroldstudios.infoheads.listeners.PlayerQuit;
 import com.haroldstudios.infoheads.serializer.FileUtil;
 import lombok.Getter;
 import me.mattstudios.mf.base.CommandManager;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.conversations.ConversationFactory;
@@ -33,6 +35,7 @@ public final class InfoHeads extends JavaPlugin {
     @Getter private DataStore dataStore;
     @Getter private Commands commands;
     @Getter private static InfoHeadsApi api;
+    @Getter private static BukkitAudiences adventure;
 
     @Getter private FileUtil fileUtil;
     private final File messagesFile = new File(getDataFolder(), "messages.yml");
@@ -48,6 +51,8 @@ public final class InfoHeads extends JavaPlugin {
         load();
         @SuppressWarnings("unused")
         Metrics metrics = new Metrics(this, 4607);
+
+        adventure = BukkitAudiences.create(this);
 
         CommandManager cm = new CommandManager(this);
         commands = new Commands(this);
@@ -155,6 +160,13 @@ public final class InfoHeads extends JavaPlugin {
 
     public void debug(String msg) {
         getLogger().log(Level.INFO, msg);
+    }
+
+    public ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration) {
+        return new ConversationFactory(this).withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new NameInput(infoHeadConfiguration))
+                .withEscapeSequence("cancel").withTimeout(60)
+                .thatExcludesNonPlayersWithMessage("Console is not supported by this command");
     }
 
     public ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {

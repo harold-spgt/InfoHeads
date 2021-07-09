@@ -142,6 +142,18 @@ public abstract class AbstractGui {
         });
     }
 
+    protected GuiItem editName() {
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.NAME_TAG.parseMaterial()))
+                .glow(true)
+                .name(MessageUtil.EDIT_NAME_TITLE)
+                .lore(MessageUtil.EDIT_NAME_LORE)
+                .build(), event -> {
+            event.setCancelled(true);
+            event.getWhoClicked().closeInventory();
+            plugin.getInputFactory(configuration).buildConversation(player).begin();
+        });
+    }
+
     protected GuiItem cooldownItem() {
         return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.COMPASS.parseMaterial()))
                 .glow(true)

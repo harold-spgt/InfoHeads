@@ -24,6 +24,7 @@ public final class WizardGui extends AbstractGui {
         getGui().setItem(5,6, placeholdersItem());
         getGui().setItem(5,5, cancelItem());
         getGui().setItem(3,8, editItem());
+        getGui().setItem(2,8, editName());
         getGui().setItem(3,6, cooldownItem());
         getGui().setItem(3,3, playerPermissionItem());
         if (plugin.blockParticles) getGui().setItem(2,7, particleItem());

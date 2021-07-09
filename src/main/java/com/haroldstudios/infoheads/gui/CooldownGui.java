@@ -6,6 +6,7 @@ import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.GuiItem;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 import java.util.Objects;
@@ -37,7 +38,7 @@ public class CooldownGui extends AbstractGui {
 
                 GuiItem item = getGui().getGuiItem(slot);
                 if (item.getItemStack().getType().equals(XMaterial.BARRIER.parseMaterial())) {
-                    getGui().updateItem(slot, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.WHITE_WOOL.parseMaterial())).glow(true).setName(item.getItemStack().getItemMeta().getDisplayName()).build()));
+                    getGui().updateItem(slot, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.WHITE_WOOL.parseMaterial())).glow(true).name(Component.text(item.getItemStack().getItemMeta().getDisplayName())).build()));
                     return;
                 }
                 // If item amount is not 64 / it's maximum value
@@ -65,7 +66,7 @@ public class CooldownGui extends AbstractGui {
                     item.getItemStack().setAmount(item.getItemStack().getAmount() - 1);
                     getGui().updateItem(slot, item);
                 } else {
-                    getGui().updateItem(slot, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).glow(true).setName(item.getItemStack().getItemMeta().getDisplayName()).build()));
+                    getGui().updateItem(slot, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).glow(true).name(Component.text(item.getItemStack().getItemMeta().getDisplayName())).build()));
                 }
             }));
         }

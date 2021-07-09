@@ -1,5 +1,7 @@
 package com.haroldstudios.infoheads.listeners;
 
+import com.cryptomorin.xseries.particles.ParticleDisplay;
+import com.cryptomorin.xseries.particles.XParticle;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
@@ -9,6 +11,8 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+
+import java.awt.*;
 
 public final class HeadPlace implements Listener {
 
@@ -35,10 +39,8 @@ public final class HeadPlace implements Listener {
         Location matchedLoc = InfoHeads.getInstance().getDataStore().getKeyByValue(matched);
         InfoHeads.getInstance().getDataStore().getInfoHeads().remove(matchedLoc);
         InfoHeads.getInstance().getDataStore().addInfoHead(configuration);
-        if (plugin.blockParticles) {
-            if (configuration.getParticle() != null) {
-                BlockParticlesHook.newLoc(e.getPlayer(), configuration.getId().toString(), configuration.getParticle());
-            }
+        if (plugin.blockParticles && configuration.getParticle() != null) {
+            BlockParticlesHook.newLoc(e.getPlayer(), configuration.getId().toString(), configuration.getParticle());
         }
 
         new WizardGui(plugin, e.getPlayer(), configuration).open();
