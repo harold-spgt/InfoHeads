@@ -53,7 +53,7 @@ public final class Commands extends CommandBase {
 
     public void startWiz(Player player) {
         if (DataStore.placerMode.containsKey(player)) return;
-        MessageUtil.sendMessage(player, MessageUtil.PLACE_INFOHEAD);
+        MessageUtil.sendMessage(player, "PLACE_INFOHEAD");
         InfoHeadConfiguration infoHeadConfiguration = new InfoHeadConfiguration();
         DataStore.placerMode.put(player, infoHeadConfiguration);
 
@@ -66,12 +66,12 @@ public final class Commands extends CommandBase {
         Block b = player.getTargetBlock(null, 5);
         Location targetLoc = b.getLocation();
         if (!plugin.getDataStore().getInfoHeads().containsKey(targetLoc)) {
-            MessageUtil.sendMessage(player, MessageUtil.NO_INFOHEAD_AT_LOC);
+            MessageUtil.sendMessage(player, "NO_INFOHEAD_AT_LOC");
             return;
         }
 
         plugin.getDataStore().removeInfoHeadAt(targetLoc);
-        MessageUtil.sendMessage(player, MessageUtil.INFOHEAD_REMOVED);
+        MessageUtil.sendMessage(player,"INFOHEAD_REMOVED");
     }
 
     @Permission(Constants.ADMIN_PERM)
@@ -81,7 +81,7 @@ public final class Commands extends CommandBase {
         BlockPlaceEvent.getHandlerList().unregister(plugin);
         PlayerInteractEvent.getHandlerList().unregister(plugin);
         plugin.load();
-        MessageUtil.sendMessage(player, MessageUtil.RELOAD);
+        MessageUtil.sendMessage(player, "RELOAD");
     }
 
     @Permission(Constants.ADMIN_PERM)
@@ -93,7 +93,7 @@ public final class Commands extends CommandBase {
 
 
         if (targetLoc == null || !plugin.getDataStore().getInfoHeads().containsKey(targetLoc)) {
-            player.sendMessage(MessageUtil.NO_INFOHEAD_AT_LOC);
+            MessageUtil.sendMessage(player,"NO_INFOHEAD_AT_LOC");
             return;
         }
 
@@ -108,7 +108,7 @@ public final class Commands extends CommandBase {
         Block b = player.getTargetBlock(null, 5);
         Location targetLoc = b.getLocation();
         if (plugin.getDataStore().getInfoHeads().containsKey(targetLoc)) {
-            MessageUtil.sendMessage(player, MessageUtil.ALREADY_INFOHEAD);
+            MessageUtil.sendMessage(player, "NO_INFOHEAD_AT_LOC");
             return;
         }
 

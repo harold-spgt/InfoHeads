@@ -21,7 +21,7 @@ public class NameInput extends StringPrompt {
     @NotNull
     @Override
     public String getPromptText(@NotNull ConversationContext context) {
-        return MessageUtil.INPUT_CONVERSATION;
+        return MessageUtil.getString("INPUT_CONVERSATION");
     }
 
     @Nullable

@@ -1,2 +1,5 @@
-cooldown: "&cYou are currently on cooldown for this for @days days, @hours hours, @minutes minutes and @seconds seconds."
-one-time: "&cThis item can be used once."
+# This is the InfoHeads messages file.
+# In this file you can always use color codes (&) and HEX codes (&#000000)
+#
+# This file is auto-updated from an internal class of the plugin.
+# Please DO NOT remove any config field, it will cause errors.

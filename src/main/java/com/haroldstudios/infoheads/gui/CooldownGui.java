@@ -30,8 +30,8 @@ public class CooldownGui extends AbstractGui {
         for (int i = 3; i < 8; i++) {
             int finalI = i;
             getGui().setItem(1, finalI, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.LIME_DYE.parseMaterial()))
-                    .name(MessageUtil.COOLDOWN_NUM_INC_TITLE)
-                    .lore(MessageUtil.COOLDOWN_NUM_INC_LORE).glow(true).build(), event -> {
+                    .name(MessageUtil.getComponent("COOLDOWN_NUM_INC_TITLE"))
+                    .lore(MessageUtil.getComponentList("COOLDOWN_NUM_INC_LORE")).glow(true).build(), event -> {
 
                 // Get item below it
                 int slot = getSlotFromRowCol(1, finalI) + 9;
@@ -52,8 +52,8 @@ public class CooldownGui extends AbstractGui {
         for (int i = 3; i < 8; i++) {
             int finalI = i;
             getGui().setItem(3, i, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.REDSTONE.parseMaterial()))
-                    .name(MessageUtil.COOLDOWN_NUM_DEC_TITLE)
-                    .lore(MessageUtil.COOLDOWN_NUM_DEC_LORE).glow(true).build(), event -> {
+                    .name(MessageUtil.getComponent("COOLDOWN_NUM_DEC_TITLE"))
+                    .lore(MessageUtil.getComponentList("COOLDOWN_NUM_DEC_LORE")).glow(true).build(), event -> {
 
                 // Get item above it
                 int slot = getSlotFromRowCol(3, finalI) - 9;
@@ -71,8 +71,8 @@ public class CooldownGui extends AbstractGui {
             }));
         }
 
-        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).name(MessageUtil.PREV_PAGE).glow(true).build(), event -> new WizardGui(InfoHeads.getInstance(), getPlayer(), getConfiguration()).open()));
-        getGui().setItem(5, 9, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.EMERALD_BLOCK.parseMaterial())).name(MessageUtil.COMPLETE_ITEM_TITLE).lore(MessageUtil.COMPLETE_ITEM_LORE).glow(true).build(),
+        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial())).name(MessageUtil.getComponent("PREV_PAGE")).glow(true).build(), event -> new WizardGui(InfoHeads.getInstance(), getPlayer(), getConfiguration()).open()));
+        getGui().setItem(5, 9, new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.EMERALD_BLOCK.parseMaterial())).name(MessageUtil.getComponent("COMPLETE_ITEM_TITLE")).lore(MessageUtil.getComponentList("COMPLETE_ITEM_LORE")).glow(true).build(),
                 event -> {
                     //Slots 3,4,5,6,7
                     // Does not get modified itself

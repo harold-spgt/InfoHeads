@@ -1,21 +1,26 @@
 package com.haroldstudios.infoheads.utils;
 
+import com.haroldstudios.infoheads.InfoHeads;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public final class MessageUtil {
+    @Getter private static boolean needSave = false;
 
     private static final ChatColor titleColour = ChatColor.AQUA;
     private static final ChatColor loreColour = ChatColor.GRAY;
     private static final ChatColor errorColour = ChatColor.RED;
     private static final ChatColor textColour = ChatColor.WHITE;
-
-    public static final String PREFIX = ChatColor.GRAY + "[" + ChatColor.GREEN + "InfoHeads" + ChatColor.GRAY + "] ";
-    public static final String NO_PERMISSION = PREFIX + errorColour + "No permission :(";
-    public static final String RELOAD = PREFIX + textColour + "Plugin reloaded";
 
     public static final String[] HELP = {
             "§8+§m-------§8[§bIF Help§8]§m-------§8+",
@@ -29,69 +34,136 @@ public final class MessageUtil {
             "§8+§m-------§8[§bIF Help§8]§m-------§8+",
     };
 
-    public static final Component APPEND_MESSAGE_TITLE = toComponent(titleColour + "Append Message");
-    public static final Component[] APPEND_MESSAGE_LORE = toComponent(new String[]{loreColour + "Click to append a message", loreColour + "to the InfoHead"});
-    public static final Component APPEND_PLAYER_COMMAND_TITLE = toComponent(titleColour + "Append Player Command");
-    public static final Component APPEND_CONSOLE_COMMAND_TITLE = toComponent(titleColour + "Append Console Command");
-    public static final Component[] APPEND_COMMAND_LORE = toComponent(new String[]{loreColour + "Click to append a command", loreColour + "to the InfoHead"});
-    public static final Component APPEND_DELAY_TITLE = toComponent(titleColour + "Append Delay");
-    public static final Component[] APPEND_DELAY_LORE = toComponent(new String[]{loreColour + "Click to append delay to", loreColour + "the next action"});
-    public static final Component SET_LOCATION_TITLE = toComponent(titleColour + "Set Location of InfoHead");
-    public static final Component[] SET_LOCATION_LORE = toComponent(new String[]{loreColour + "Click to set the location", loreColour + "of the infohead!"});
-    public static final Component COMPLETE_ITEM_TITLE = toComponent(titleColour + "Click to complete");
-    public static final Component[] COMPLETE_ITEM_LORE = toComponent(new String[]{loreColour + "Click to complete the cooldown", loreColour + "creation process"});
-    public static final Component CLOSE_WIZARD_TITLE = toComponent(titleColour + "Close Wizard");
-    public static final Component[] CLOSE_WIZARD_LORE = toComponent(new String[]{loreColour + "Click to close the", loreColour + "infoheads editor wizard menu"});
-    public static final Component EDIT_GUI_TITLE = toComponent(titleColour + "Edit the InfoHead");
-    public static final Component[] EDIT_GUI_LORE = toComponent(new String[]{loreColour + "* Edit the ordering", loreColour + "* Delete Elements", "", titleColour + "Pro Tip: " + loreColour + "You can still edit infoheads", loreColour + "once they're created."});
-    public static final Component EDIT_NAME_TITLE = toComponent(titleColour + "Edit the name");
-    public static final Component[] EDIT_NAME_LORE = toComponent(new String[]{loreColour + "* Edit the name of the head", loreColour + "* This is useful for the list command"});
+    private enum Message {
+        PREFIX(ChatColor.GRAY + "[" + ChatColor.GREEN + "InfoHeads" + ChatColor.GRAY + "] "),
+        APPEND_MESSAGE_TITLE(titleColour + "Append Message"),
+        APPEND_MESSAGE_LORE(new String[]{loreColour + "Click to append a message", loreColour + "to the InfoHead"}),
+        APPEND_PLAYER_COMMAND_TITLE(titleColour + "Append Player Command"),
+        APPEND_CONSOLE_COMMAND_TITLE(titleColour + "Append Console Command"),
+        APPEND_COMMAND_LORE(new String[]{loreColour + "Click to append a command", loreColour + "to the InfoHead"}),
+        APPEND_DELAY_TITLE(titleColour + "Append Delay"),
+        APPEND_DELAY_LORE(new String[]{loreColour + "Click to append delay to", loreColour + "the next action"}),
+        SET_LOCATION_TITLE(titleColour + "Set Location of InfoHead"),
+        SET_LOCATION_LORE(new String[]{loreColour + "Click to set the location", loreColour + "of the infohead!"}),
+        COMPLETE_ITEM_TITLE(titleColour + "Click to complete"),
+        COMPLETE_ITEM_LORE(new String[]{loreColour + "Click to complete the cooldown", loreColour + "creation process"}),
+        CLOSE_WIZARD_TITLE(titleColour + "Close Wizard"),
+        CLOSE_WIZARD_LORE(new String[]{loreColour + "Click to close the", loreColour + "infoheads editor wizard menu"}),
+        EDIT_GUI_TITLE(titleColour + "Edit the InfoHead"),
+        EDIT_GUI_LORE(new String[]{loreColour + "* Edit the ordering", loreColour + "* Delete Elements", "", titleColour + "Pro Tip: " + loreColour + "You can still edit infoheads", loreColour + "once they're created."}),
+        EDIT_NAME_TITLE(titleColour + "Edit the name"),
+        EDIT_NAME_LORE(new String[]{loreColour + "* Edit the name of the head", loreColour + "* This is useful for the list command"}),
+        ONCE_ITEM_TITLE(titleColour + "One Time Item"),
+        ONCE_ITEM_LORE(new String[]{loreColour + "Click to " + titleColour + "enable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"}),
+        ONCE_ITEM_LORE_ON(new String[]{loreColour + "Click to " + titleColour + "disable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"}),
+        COOLDOWN_ITEM_TITLE(titleColour + "Cooldown delay"),
+        COOLDOWN_ITEM_LORE(new String[]{loreColour + "Click to set the cooldown", loreColour + "for when a player can use", loreColour + "the infoheads again after clicking it"}),
+        PARTICLE_ITEM_TITLE(titleColour + "Particles"),
+        PARTICLE_GUI_LORE(new String[]{loreColour + "Left click to set the particle effect", loreColour + "for this infohead!", loreColour + "Right click to remove a particle."}),
+        PARTICLE_ITEM_LORE(new String[]{loreColour + "Click to set the particle effect", loreColour + "for this infohead!"}),
+        PLAYER_PERMISSION_TITLE(titleColour + "Give Player Temp Permission"),
+        PLAYER_PERMISSION_LORE(new String[]{loreColour + "Gives a player a temporary permission", loreColour + "when the element is iterated over", "", errorColour + "Warning: Permissions are removed after all", errorColour + "elements have been executed."}),
+        INPUT_CONVERSATION("Input your Value"),
+        NO_INFOHEAD_AT_LOC("@prefix" + errorColour + "No infohead at this location!"),
+        INFOHEAD_REMOVED("@prefix" + textColour + "Infohead has been removed"),
+        PLACE_INFOHEAD("@prefix" + textColour + "Place your InfoHead"),
+        ALREADY_INFOHEAD("@prefix" + errorColour + "You are already looking at an infohead"),
+        SET_PERMISSION_TITLE(titleColour + "Set permission of Infohead"),
+        SET_PERMISSION_LORE(new String[]{loreColour + "Click to set the", loreColour + "permission to use"}),
+        PLACEHOLDER_TITLE(titleColour + "List of placeholders"),
+        PLACEHOLDER_LORE(new String[]{loreColour + "- {player-name}", loreColour + "- {player-x}", loreColour + "- {player-z}",
+                loreColour + "- {block-x}", loreColour + "- {block-y}", loreColour + "- {block-z}", "", titleColour + "Pro Tip: Download PlaceHolderAPI for", titleColour + "more placeholders!"}),
+        EDIT_ITEM_TITLE(titleColour + "@type"),
+        EDIT_ITEM_LORE(new String[]{ "&8@id", loreColour + "Contents: " + titleColour + "@contents", errorColour + "Right Click to Delete this Element!", errorColour + "Left Click to Move the Order!"}),
+        NEXT_PAGE(titleColour + "Next page"),
+        PREV_PAGE(titleColour + "Prev page"),
+        BACK(titleColour + "<<< Back to main menu"),
+        PARTICLES_GUI_TITLE("Particle Selector"),
+        COOLDOWN_NUM_INC_TITLE("&a+1"),
+        COOLDOWN_NUM_INC_LORE(new String[]{"&7Click to increase the cooldown", "&7duration."}),
+        COOLDOWN_NUM_DEC_TITLE("§c-1"),
+        COOLDOWN_NUM_DEC_LORE(new String[]{"&7Click to decrease the cooldown", "&7duration"}),
+        NO_PERMISSION("@prefix" + errorColour + "No permission :("),
+        RELOAD("@prefix" + textColour + "Plugin reloaded"),
+        cooldown("&cYou are currently on cooldown for this for @days days, @hours hours, @minutes minutes and @seconds seconds."),
+        oneTime("&cThis item can be used once.");
 
-    public static final Component ONCE_ITEM_TITLE = toComponent(titleColour + "One Time Item");
-    public static final Component[] ONCE_ITEM_LORE = toComponent(new String[]{loreColour + "Click to " + titleColour + "enable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"});
-    public static final Component[] ONCE_ITEM_LORE_ON = toComponent(new String[]{loreColour + "Click to " + titleColour + "disable" + loreColour + " the one time item", loreColour + "for when a player can use", loreColour + "the infoheads once"});
-    public static final Component COOLDOWN_ITEM_TITLE = toComponent(titleColour + "Cooldown delay");
-    public static final Component[] COOLDOWN_ITEM_LORE = toComponent(new String[]{loreColour + "Click to set the cooldown", loreColour + "for when a player can use", loreColour + "the infoheads again after clicking it"});
-    public static final Component PARTICLE_ITEM_TITLE = toComponent(titleColour + "Particles");
-    public static final Component[] PARTICLE_GUI_LORE = toComponent(new String[]{loreColour + "Left click to set the particle effect", loreColour + "for this infohead!", loreColour + "Right click to remove a particle."});
-    public static final Component[] PARTICLE_ITEM_LORE = toComponent(new String[]{loreColour + "Click to set the particle effect", loreColour + "for this infohead!"});
-    public static final Component PLAYER_PERMISSION_TITLE = toComponent(titleColour + "Give Player Temp Permission");
-    public static final Component[] PLAYER_PERMISSION_LORE = toComponent(new String[]{loreColour + "Gives a player a temporary permission", loreColour + "when the element is iterated over", "", errorColour + "Warning: Permissions are removed after all", errorColour + "elements have been executed."});
+        @Getter private static final Map<String,Message> BY_NAME = new HashMap<>();
 
-    public static final String INPUT_CONVERSATION = "Input your Value";
+        static Message byName(String name) {
+            return BY_NAME.get(name.toUpperCase());
+        }
 
-    public static final String NO_INFOHEAD_AT_LOC = PREFIX + errorColour + "No infohead at this location!";
-    public static final String INFOHEAD_REMOVED = PREFIX + textColour + "Infohead has been removed";
-    public static final String PLACE_INFOHEAD = PREFIX + textColour + "Place your InfoHead";
+        private final Object text;
 
-    public static final String ALREADY_INFOHEAD = PREFIX + errorColour + "You are already looking at an infohead";
+        Message(Object text) {
+            this.text = text;
+        }
 
-    public static final Component SET_PERMISSION_TITLE = toComponent(titleColour + "Set permission of Infohead");
-    public static final Component[] SET_PERMISSION_LORE = toComponent(new String[]{loreColour + "Click to set the", loreColour + "permission to use"});
+        public Object get() {
+            return text;
+        }
+    }
 
-    public static final Component PLACEHOLDER_TITLE = toComponent(titleColour + "List of placeholders");
-    public static final Component[] PLACEHOLDER_LORE = toComponent(new String[]{loreColour + "- {player-name}", loreColour + "- {player-x}", loreColour + "- {player-z}",
-            loreColour + "- {block-x}", loreColour + "- {block-y}", loreColour + "- {block-z}", "", titleColour + "Pro Tip: Download PlaceHolderAPI for", titleColour + "more placeholders!"});
+    public static void init() {
+        for (Message message : Message.values()) {
+            Message.getBY_NAME().put(message.name(), message);
+            MessageUtil.compute(message.name());
+        }
+    }
 
-    public static final Component EDIT_ITEM_TITLE = toComponent(titleColour + "@type");
-    public static final Component[] EDIT_ITEM_LORE = { toComponent("§8@id"), toComponent(loreColour + "Contents: " + titleColour + "@contents"), toComponent(""), toComponent(errorColour + "Right Click to Delete this Element!"), toComponent(errorColour + "Left Click to Move the Order!")};
+    public static String getString(String path) {
+        FileConfiguration config = compute(path);
 
-    public static final Component NEXT_PAGE = toComponent(titleColour + "Next page");
-    public static final Component PREV_PAGE = toComponent(titleColour + "Prev page");
+        return colorize(config.getString(path, "").replace("@prefix", path.equalsIgnoreCase("PREFIX") ? "" : getString("PREFIX")));
+    }
 
+    public static String[] getStringList(String path) {
+        FileConfiguration config = compute(path);
 
-    public static final Component BACK = toComponent(titleColour + "<<< Back to main menu");
-    public static final String PARTICLES_GUI_TITLE = "Particle Selector";
+        List<String> stringList = config.getStringList(path)
+                .stream()
+                .map((s) -> path.equalsIgnoreCase("PREFIX") ? s : s.replace("@prefix", getString("PREFIX")))
+                .map(MessageUtil::colorize)
+                .collect(Collectors.toList());
 
-    public static final Component COOLDOWN_NUM_INC_TITLE = toComponent("§a+1");
-    public static final Component[] COOLDOWN_NUM_INC_LORE = {toComponent("§7Click to increase the cooldown"), toComponent("§7duration.")};
-    public static final Component COOLDOWN_NUM_DEC_TITLE = toComponent("§c-1");
-    public static final Component[] COOLDOWN_NUM_DEC_LORE = {toComponent("§7Click to decrease the cooldown"), toComponent("§7duration.")};
+        return stringList.toArray(new String[]{});
+    }
 
+    public static Component getComponent(String path) {
+        return Component.text(getString(path));
+    }
 
+    public static Component[] getComponentList(String path) {
+        List<Component> stringList = Arrays.stream(getStringList(path))
+                .map(Component::text)
+                .collect(Collectors.toList());
 
-    public static void sendMessage(Player player, String string) {
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', string));
+        return stringList.toArray(new Component[]{});
+    }
+
+    private static FileConfiguration compute(String path) {
+        FileConfiguration config = InfoHeads.getInstance().getMessagesConfig();
+
+        if (!config.contains(path)) {
+            Object text = Message.byName(path).get();
+            config.set(path, text);
+            needSave = true;
+        }
+
+        return config;
+    }
+
+    public static String colorize(String string) {
+        String newString = string;
+        newString = HexUtils.translateHexColorCodes(newString, HexUtils.BUKKIT_PATTERN);
+        newString = ChatColor.translateAlternateColorCodes('&', newString);
+
+        return newString;
+    }
+
+    public static void sendMessage(Player player, String path) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', getString(path)));
     }
 
     public static String returnTimeMessage(Long milliseconds, String msg) {
@@ -122,17 +194,6 @@ public final class MessageUtil {
     }
 
     public static Component toComponent(String string) {
-        return Component.text(string);
+        return Component.text(ChatColor.translateAlternateColorCodes('&', string));
     }
-
-    public static Component[] toComponent(String[] strings) {
-        Component[] copy = new Component[strings.length];
-
-        for (int i = 0; i < strings.length; i++) {
-            copy[i] = toComponent(strings[i]);
-        }
-
-        return copy;
-    }
-
 }

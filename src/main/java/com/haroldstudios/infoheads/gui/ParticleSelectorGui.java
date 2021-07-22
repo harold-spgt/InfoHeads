@@ -21,7 +21,7 @@ import java.util.Random;
 public class ParticleSelectorGui extends AbstractGui {
 
     public ParticleSelectorGui(Player player, InfoHeads plugin, InfoHeadConfiguration configuration) {
-        super(player, plugin, 6, MessageUtil.PARTICLES_GUI_TITLE, configuration);
+        super(player, plugin, 6, MessageUtil.getString("PARTICLES_GUI_TITLE"), configuration);
 
         getGui().setDefaultClickAction(event -> event.setCancelled(true));
         getGui().getFiller().fill(new GuiItem(new ItemStack(Objects.requireNonNull(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()))));
@@ -37,7 +37,7 @@ public class ParticleSelectorGui extends AbstractGui {
                     ItemBuilder.from(getRandomMaterial(random))
                             .name(MessageUtil.toComponent(ChatColor.BLUE + StringUtils.capitalize(each.toString().toLowerCase())))
                             .glow(true)
-                            .lore(MessageUtil.PARTICLE_GUI_LORE)
+                            .lore(MessageUtil.getComponentList("PARTICLE_GUI_LORE"))
                             .build(), event -> {
                         if (event.isLeftClick()) {
                             if (getPlugin().blockParticles) {
@@ -52,7 +52,7 @@ public class ParticleSelectorGui extends AbstractGui {
             slot++;
         }
 
-        getGui().setItem(49, new GuiItem(ItemBuilder.from(Material.BARRIER).name(MessageUtil.BACK).glow(true).build(), event -> new WizardGui(plugin, player, configuration).open()));
+        getGui().setItem(49, new GuiItem(ItemBuilder.from(Material.BARRIER).name(MessageUtil.getComponent("BACK")).glow(true).build(), event -> new WizardGui(plugin, player, configuration).open()));
     }
 
     public Material getRandomMaterial(final Random random) {

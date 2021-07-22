@@ -23,7 +23,7 @@ public final class ElementValueInput extends StringPrompt {
 
     @Override
     public @NotNull String getPromptText(@NotNull ConversationContext context) {
-        return MessageUtil.INPUT_CONVERSATION;
+        return MessageUtil.getString("INPUT_CONVERSATION");
     }
 
     @Override

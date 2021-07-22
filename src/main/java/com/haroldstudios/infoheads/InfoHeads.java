@@ -14,6 +14,8 @@ import com.haroldstudios.infoheads.listeners.HeadPlace;
 import com.haroldstudios.infoheads.listeners.PlayerJoin;
 import com.haroldstudios.infoheads.listeners.PlayerQuit;
 import com.haroldstudios.infoheads.serializer.FileUtil;
+import com.haroldstudios.infoheads.tasks.ConfigTask;
+import com.haroldstudios.infoheads.utils.MessageUtil;
 import lombok.Getter;
 import me.mattstudios.mf.base.CommandManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -38,7 +40,7 @@ public final class InfoHeads extends JavaPlugin {
     @Getter private static BukkitAudiences adventure;
 
     @Getter private FileUtil fileUtil;
-    private final File messagesFile = new File(getDataFolder(), "messages.yml");
+    @Getter private final File messagesFile = new File(getDataFolder(), "messages.yml");
     @Getter private FileConfiguration messagesConfig;
 
     /* Hooks */
@@ -49,8 +51,7 @@ public final class InfoHeads extends JavaPlugin {
     @Override
     public void onEnable() {
         load();
-        @SuppressWarnings("unused")
-        Metrics metrics = new Metrics(this, 4607);
+        new Metrics(this, 4607);
 
         adventure = BukkitAudiences.create(this);
 
@@ -126,17 +127,20 @@ public final class InfoHeads extends JavaPlugin {
     @Override
     public void onDisable() {
         fileUtil.save(dataStore);
+        adventure.close();
     }
 
     private void updateMessagesConfig() {
-        if (!messagesConfig.contains("one-time")) {
-            messagesConfig.set("one-time", "&cThis item can be used once.");
+        if (messagesConfig.contains("one-time")) {
+            messagesConfig.set("oneTime", messagesConfig.get("one-time"));
+            messagesConfig.set("one-time", null);
         }
-        try {
-            messagesConfig.save(messagesFile);
-        } catch (IOException e) {
-            this.error("Unable to update messages config: " + e.getMessage());
-        }
+
+        messagesConfig.options().header("This is the InfoHeads messages file.\nIn this file you can always use color codes (&) and HEX codes (&#000000)\n\nThis file is auto-updated from an internal class of the plugin.\nPlease DO NOT remove any config field, it will cause errors.");
+        messagesConfig.options().copyHeader(true);
+        MessageUtil.init();
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ConfigTask(this), 0L, 60L);
     }
 
     /**
