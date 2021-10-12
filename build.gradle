@@ -53,7 +53,7 @@ dependencies {
     compileOnly('org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT')
     compileOnly('me.clip:placeholderapi:2.10.10')
     compileOnly('com.github.shynixn.headdatabase:hdb-api:1.0')
-    compileOnly('org.projectlombok:lombok:1.18.20')
+    compileOnly('org.projectlombok:lombok:1.18.22')
     compileOnly('com.github.badbones69:Block-Particles:1.11.1')
 
     annotationProcessor('org.projectlombok:lombok:1.18.20')
