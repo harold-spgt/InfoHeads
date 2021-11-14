@@ -8,7 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 public final class InfoHeadsConversationPrefix implements ConversationPrefix {
 
-    public String getPrefix(@NotNull ConversationContext context) {
-        return MessageUtil.getString("PREFIX") + ChatColor.WHITE;
+    @Override
+    public @NotNull String getPrefix(@NotNull ConversationContext context) {
+        return MessageUtil.getString(MessageUtil.Message.PREFIX) + ChatColor.WHITE;
     }
 }

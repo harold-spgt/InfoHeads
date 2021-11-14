@@ -55,7 +55,7 @@ public final class HeadInteract implements Listener {
         // Checks if player has infohead specific perms
         if (permission != null)
             if (!e.getPlayer().hasPermission(permission)) {
-                MessageUtil.sendMessage(e.getPlayer(), "NO_PERMISSION");
+                MessageUtil.sendMessage(e.getPlayer(), MessageUtil.Message.NO_PERMISSION);
                 return;
             }
 
@@ -65,7 +65,7 @@ public final class HeadInteract implements Listener {
 
             long playerTimestamp = configuration.getTimestamps().get(e.getPlayer().getUniqueId());
             if (playerTimestamp > System.currentTimeMillis()) {
-                e.getPlayer().sendMessage(MessageUtil.returnTimeMessage(playerTimestamp - System.currentTimeMillis(), MessageUtil.getString("cooldown")));
+                e.getPlayer().sendMessage(MessageUtil.returnTimeMessage(playerTimestamp - System.currentTimeMillis(), MessageUtil.getString(MessageUtil.Message.cooldown)));
                 return;
             } else {
                 configuration.getTimestamps().remove(e.getPlayer().getUniqueId());
@@ -73,7 +73,7 @@ public final class HeadInteract implements Listener {
         }
 
         if (configuration.getExecuted().contains(e.getPlayer().getUniqueId())) {
-            MessageUtil.sendMessage(e.getPlayer(), "one-time");
+            MessageUtil.sendMessage(e.getPlayer(), MessageUtil.Message.oneTime);
             return;
         }
 

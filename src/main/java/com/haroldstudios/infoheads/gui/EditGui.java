@@ -41,8 +41,8 @@ public class EditGui {
         int slot = 0;
         for (Element each : configuration.getElementList()) {
 
-            Component title = MessageUtil.getComponent("EDIT_ITEM_TITLE");
-            Component[] lore = MessageUtil.getComponentList("EDIT_ITEM_LORE");
+            Component title = MessageUtil.getComponent(MessageUtil.Message.EDIT_ITEM_TITLE);
+            Component[] lore = MessageUtil.getComponentList(MessageUtil.Message.EDIT_ITEM_LORE);
             title = title.replaceText(TextReplacementConfig.builder().match("@type").replacement(each.getType().toString()).build());
 
             List<Component> loreNew = new ArrayList<>();
@@ -63,7 +63,7 @@ public class EditGui {
 
         getGui().getFiller().fillBottom(new GuiItem(new ItemStack(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()), event -> event.setCancelled(true)));
 
-        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(XMaterial.BARRIER.parseMaterial()).name(MessageUtil.getComponent("BACK")).build(), event -> {
+        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(XMaterial.BARRIER.parseMaterial()).name(MessageUtil.getComponent(MessageUtil.Message.BACK)).build(), event -> {
             event.setCancelled(true);
 
             if (event.getCursor() == null) return;

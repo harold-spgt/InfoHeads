@@ -34,7 +34,7 @@ public final class MessageUtil {
             "§8+§m-------§8[§bIF Help§8]§m-------§8+",
     };
 
-    private enum Message {
+    public enum Message {
         PREFIX(ChatColor.GRAY + "[" + ChatColor.GREEN + "InfoHeads" + ChatColor.GRAY + "] "),
         APPEND_MESSAGE_TITLE(titleColour + "Append Message"),
         APPEND_MESSAGE_LORE(new String[]{loreColour + "Click to append a message", loreColour + "to the InfoHead"}),
@@ -108,33 +108,33 @@ public final class MessageUtil {
     public static void init() {
         for (Message message : Message.values()) {
             Message.getBY_NAME().put(message.name(), message);
-            MessageUtil.compute(message.name());
+            MessageUtil.compute(message);
         }
     }
 
-    public static String getString(String path) {
+    public static String getString(Message path) {
         FileConfiguration config = compute(path);
 
-        return colorize(config.getString(path, "").replace("@prefix", path.equalsIgnoreCase("PREFIX") ? "" : getString("PREFIX")));
+        return colorize(config.getString(path.name(), "").replace("@prefix", path.name().equalsIgnoreCase("PREFIX") ? "" : getString(Message.PREFIX)));
     }
 
-    public static String[] getStringList(String path) {
+    public static String[] getStringList(Message path) {
         FileConfiguration config = compute(path);
 
-        List<String> stringList = config.getStringList(path)
+        List<String> stringList = config.getStringList(path.name())
                 .stream()
-                .map((s) -> path.equalsIgnoreCase("PREFIX") ? s : s.replace("@prefix", getString("PREFIX")))
+                .map((s) -> path.equals(Message.PREFIX) ? s : s.replace("@prefix", getString(Message.PREFIX)))
                 .map(MessageUtil::colorize)
                 .collect(Collectors.toList());
 
         return stringList.toArray(new String[]{});
     }
 
-    public static Component getComponent(String path) {
+    public static Component getComponent(Message path) {
         return Component.text(getString(path));
     }
 
-    public static Component[] getComponentList(String path) {
+    public static Component[] getComponentList(Message path) {
         List<Component> stringList = Arrays.stream(getStringList(path))
                 .map(Component::text)
                 .collect(Collectors.toList());
@@ -142,12 +142,12 @@ public final class MessageUtil {
         return stringList.toArray(new Component[]{});
     }
 
-    private static FileConfiguration compute(String path) {
+    private static FileConfiguration compute(Message path) {
         FileConfiguration config = InfoHeads.getInstance().getMessagesConfig();
 
-        if (!config.contains(path)) {
-            Object text = Message.byName(path).get();
-            config.set(path, text);
+        if (!config.contains(path.name())) {
+            Object text = path.get();
+            config.set(path.name(), text);
             needSave = true;
         }
 
@@ -162,7 +162,7 @@ public final class MessageUtil {
         return newString;
     }
 
-    public static void sendMessage(Player player, String path) {
+    public static void sendMessage(Player player, Message path) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', getString(path)));
     }
 

@@ -11,7 +11,7 @@ plugins {
 }
 
 ext {
-    libsBase = "com.haroldstudios.infoheads"
+    libsBase = "com.haroldstudios.infoheads.libs"
 }
 
 repositories {
@@ -56,7 +56,7 @@ dependencies {
     compileOnly('org.projectlombok:lombok:1.18.22')
     compileOnly('com.github.badbones69:Block-Particles:1.11.1')
 
-    annotationProcessor('org.projectlombok:lombok:1.18.20')
+    annotationProcessor('org.projectlombok:lombok:1.18.22')
 }
 
 jar {
@@ -65,14 +65,16 @@ jar {
 
 shadowJar {
     archiveFileName = "${project.name}.jar"
+    relocate('net.kyori.adventure', "${libsBase}.adventure")
+    relocate('net.kyori.examination', "${libsBase}.examination")
     relocate('com.cryptomorin.xseries',"${libsBase}.xseries")
-    relocate('org.bstats',"${libsBase}")
+    relocate('org.bstats',"${libsBase}.bstats")
     relocate('dev.triumphteam.gui',"${libsBase}.mfgui")
     relocate('me.mattstudios.mf',"${libsBase}.mf")
 }
 
 group = 'com.haroldstudios'
-version = '2.3.18'
+version = '2.4.1'
 description = 'InfoHeads'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 

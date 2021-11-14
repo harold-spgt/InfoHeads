@@ -26,7 +26,7 @@ public class HeadBreak implements Listener {
         }
 
         plugin.getDataStore().removeInfoHeadAt(loc);
-        MessageUtil.sendMessage(e.getPlayer(), "INFOHEAD_REMOVED");
+        MessageUtil.sendMessage(e.getPlayer(), MessageUtil.Message.INFOHEAD_REMOVED);
     }
 
 }
