@@ -51,7 +51,7 @@ dependencies {
     implementation("net.kyori:adventure-platform-bukkit:4.0.2-SNAPSHOT")
 
     compileOnly('org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT')
-    compileOnly('me.clip:placeholderapi:2.10.10')
+    compileOnly('me.clip:placeholderapi:2.11.0')
     compileOnly('com.github.shynixn.headdatabase:hdb-api:1.0')
     compileOnly('org.projectlombok:lombok:1.18.22')
     compileOnly('com.github.badbones69:Block-Particles:1.11.1')
