@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    implementation('org.bstats:bstats-bukkit:2.2.1')
+    implementation('org.bstats:bstats-bukkit:3.0.0')
     implementation('me.mattstudios.utils:matt-framework:1.4.6')
     implementation('dev.triumphteam:triumph-gui:3.0.5')
     implementation('com.github.cryptomorin:XSeries:8.6.0.0.1')
