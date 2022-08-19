@@ -8,7 +8,6 @@ import com.haroldstudios.infoheads.utils.MessageUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.GuiItem;
 import me.badbones69.blockparticles.api.enums.BPParticles;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -35,7 +34,7 @@ public class ParticleSelectorGui extends AbstractGui {
 
             getGui().setItem(slot, new GuiItem(
                     ItemBuilder.from(getRandomMaterial(random))
-                            .name(MessageUtil.toComponent(ChatColor.BLUE + StringUtils.capitalize(each.toString().toLowerCase())))
+                            .name(MessageUtil.toComponent(ChatColor.BLUE + capitalize(each.toString().toLowerCase())))
                             .glow(true)
                             .lore(MessageUtil.getComponentList(MessageUtil.Message.PARTICLE_GUI_LORE))
                             .build(), event -> {
@@ -60,5 +59,9 @@ public class ParticleSelectorGui extends AbstractGui {
         Material material = Material.values()[random.nextInt(Material.values().length)];
         return Bukkit.getServer().getRecipesFor(new ItemStack(material)).isEmpty() ? getRandomMaterial(random) : material;
 
+    }
+
+    private static String capitalize(String text) {
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
     }
 }

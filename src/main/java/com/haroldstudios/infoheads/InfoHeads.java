@@ -16,6 +16,7 @@ import com.haroldstudios.infoheads.listeners.PlayerQuit;
 import com.haroldstudios.infoheads.serializer.FileUtil;
 import com.haroldstudios.infoheads.tasks.ConfigTask;
 import com.haroldstudios.infoheads.utils.MessageUtil;
+import com.haroldstudios.infoheads.utils.UpdateChecker;
 import lombok.Getter;
 import me.mattstudios.mf.base.CommandManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -67,6 +68,14 @@ public final class InfoHeads extends JavaPlugin {
 
         api = new InfoHeadsImpl();
         getServer().getServicesManager().register(InfoHeadsApi.class,api,this, ServicePriority.Normal);
+
+        (new UpdateChecker(InfoHeads.getInstance(), 67080)).getVersion((version) -> {
+            if (InfoHeads.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
+                InfoHeads.getInstance().info("There is no new update available.");
+            } else {
+                InfoHeads.getInstance().info("There is a new update available. Version: " + version);
+            }
+        });
     }
 
     public void load() {
