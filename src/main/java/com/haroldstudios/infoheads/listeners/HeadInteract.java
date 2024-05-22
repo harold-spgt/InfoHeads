@@ -65,7 +65,7 @@ public final class HeadInteract implements Listener {
 
             long playerTimestamp = configuration.getTimestamps().get(e.getPlayer().getUniqueId());
             if (playerTimestamp > System.currentTimeMillis()) {
-                e.getPlayer().sendMessage(MessageUtil.returnTimeMessage(playerTimestamp - System.currentTimeMillis(), MessageUtil.getString(MessageUtil.Message.cooldown)));
+                e.getPlayer().sendMessage(MessageUtil.returnTimeMessage(playerTimestamp - System.currentTimeMillis(), MessageUtil.getString(MessageUtil.Message.COOLDOWN)));
                 return;
             } else {
                 configuration.getTimestamps().remove(e.getPlayer().getUniqueId());
@@ -73,7 +73,7 @@ public final class HeadInteract implements Listener {
         }
 
         if (configuration.getExecuted().contains(e.getPlayer().getUniqueId())) {
-            MessageUtil.sendMessage(e.getPlayer(), MessageUtil.Message.oneTime);
+            MessageUtil.sendMessage(e.getPlayer(), MessageUtil.Message.ONE_TIME);
             return;
         }
 

@@ -1,5 +1,8 @@
 package com.haroldstudios.infoheads.commands;
 
+import com.haroldstudios.infoheads.InfoHeads;
+import com.haroldstudios.infoheads.datastore.DataStore;
+import com.haroldstudios.infoheads.serializer.FileUtil;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -15,6 +18,20 @@ public class BukkitCmdExecutor implements CommandExecutor {
     private final static String DEFAULT_CMD_STRING = "default";
     private final static String HELP_CMD_STRING = "help";
     private final static String WIZARD_CMD_STRING = "wizard";
+    private final static String LIST_CMD_STRING = "list";
+    private final static String RELOAD_CMD_STRING = "reload";
+    private final static String EDIT_CMD_STRING = "edit";
+    private final static String REMOVE_CMD_STRING = "remove";
+
+    private final InfoHeads plugin;
+    private final FileUtil fileUtil;
+    private final DataStore dataStore;
+
+    public BukkitCmdExecutor(InfoHeads plugin, FileUtil fileUtil, DataStore dataStore) {
+        this.plugin = plugin;
+        this.fileUtil = fileUtil;
+        this.dataStore = dataStore;
+    }
 
     /***
      * When a command is executed by the commandsender, this event is fired.
@@ -34,6 +51,10 @@ public class BukkitCmdExecutor implements CommandExecutor {
         CmdExecutor cmdExecutor = switch (command.cmdString().toLowerCase()) {
             case HELP_CMD_STRING, DEFAULT_CMD_STRING -> new HelpCmdExecutor();
             case WIZARD_CMD_STRING -> new WizardCmdExecutor();
+            case LIST_CMD_STRING -> new ListCmdExecutor();
+            case RELOAD_CMD_STRING -> new ReloadCmdExecutor(plugin, fileUtil, dataStore);
+            case EDIT_CMD_STRING -> new EditCmdExecutor(dataStore);
+            case REMOVE_CMD_STRING -> new RemoveCmdExecutor(dataStore);
             default -> new UnknownCmdExecutor();
         };
 

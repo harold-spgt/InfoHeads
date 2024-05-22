@@ -2,6 +2,7 @@ package com.haroldstudios.infoheads.conversations;
 
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
+import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.*;
 import com.haroldstudios.infoheads.gui.WizardGui;
 import com.haroldstudios.infoheads.utils.MessageUtil;
@@ -14,9 +15,11 @@ import org.jetbrains.annotations.NotNull;
 public final class ElementValueInput extends StringPrompt {
 
     private final InfoHeadConfiguration configuration;
+    private final DataStore dataStore;
     private final Element.InfoHeadType element;
 
-    public ElementValueInput(final InfoHeadConfiguration configuration, final Element.InfoHeadType element) {
+    public ElementValueInput(DataStore dataStore, InfoHeadConfiguration configuration, Element.InfoHeadType element) {
+        this.dataStore = dataStore;
         this.configuration = configuration;
         this.element = element;
     }
@@ -29,7 +32,7 @@ public final class ElementValueInput extends StringPrompt {
     @Override
     public Prompt acceptInput(@NotNull ConversationContext context, String input) {
 
-        InfoHeadConfiguration infoHead = InfoHeads.getInstance().getDataStore().getMatchingInfoHead(configuration);
+        InfoHeadConfiguration infoHead = dataStore.getMatchingInfoHead(configuration);
         if (infoHead == null) {
             return Prompt.END_OF_CONVERSATION;
         }
@@ -44,7 +47,7 @@ public final class ElementValueInput extends StringPrompt {
                 try {
                     val = Integer.parseInt(input);
                 } catch (NumberFormatException e) {
-                    return new ElementValueInput(configuration, element);
+                    return new ElementValueInput(dataStore, configuration, element);
                 }
                 configuration.addElement(new DelayElement(val));
                 break;

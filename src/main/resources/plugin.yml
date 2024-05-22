@@ -12,6 +12,10 @@ softdepend:
   - BlockParticles
   - Multiverse-Core
 
+commands:
+  infoheads:
+    description: The InfoHeads plugin
+    usage: /infoheads <subcommand> [arguments]
 permissions:
   infoheads.use:
     default: true

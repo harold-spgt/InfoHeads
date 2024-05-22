@@ -44,6 +44,7 @@ dependencies {
     compileOnly('me.clip:placeholderapi:2.11.1')
     compileOnly('com.github.shynixn.headdatabase:hdb-api:1.0')
     compileOnly('com.github.badbones69:Block-Particles:1.11.1')
+    implementation("dev.triumphteam:triumph-gui:3.1.7")
 }
 
 jar {
@@ -52,18 +53,14 @@ jar {
 
 shadowJar {
     archiveFileName = "${project.name}.jar"
-    relocate('net.kyori.adventure', "${libsBase}.adventure")
-    relocate('net.kyori.examination', "${libsBase}.examination")
-    relocate('com.cryptomorin.xseries',"${libsBase}.xseries")
     relocate('org.bstats',"${libsBase}.bstats")
     relocate('dev.triumphteam.gui',"${libsBase}.mfgui")
-    relocate('me.mattstudios.mf',"${libsBase}.mf")
 }
 
 group = 'com.haroldstudios'
 version = '2.4.2'
 description = 'InfoHeads'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'

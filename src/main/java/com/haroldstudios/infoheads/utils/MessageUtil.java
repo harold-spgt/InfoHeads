@@ -1,12 +1,10 @@
 package com.haroldstudios.infoheads.utils;
 
 import com.haroldstudios.infoheads.InfoHeads;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public final class MessageUtil {
-    @Getter private static boolean needSave = false;
+    private static boolean needSave = false;
 
     private static final ChatColor titleColour = ChatColor.AQUA;
     private static final ChatColor loreColour = ChatColor.GRAY;
@@ -109,6 +107,10 @@ public final class MessageUtil {
         public Object get() {
             return text;
         }
+    }
+
+    public static boolean isNeedSave() {
+        return needSave;
     }
 
     public static void init() {

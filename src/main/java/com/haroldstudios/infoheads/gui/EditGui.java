@@ -8,7 +8,6 @@ import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.components.InteractionModifier;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.ChatColor;
@@ -22,16 +21,16 @@ import java.util.*;
 public class EditGui {
 
     private final Map<Integer, Element> idSlots = new HashMap<>();
-    @Getter private final PaginatedGui gui;
-    @Getter private final Player player;
+    private final PaginatedGui gui;
+    private final Player player;
 
     public EditGui(final InfoHeadConfiguration configuration, final Player player) {
         this.player = player;
         // Sets rows to 5 and max slots to row 4
         gui = new PaginatedGui(5, 4 * 9, "Edit Infoheads", EnumSet.noneOf(InteractionModifier.class));
 
-        getGui().setOutsideClickAction(event -> event.setCancelled(true));
-        getGui().setCloseGuiAction(event -> {
+        gui.setOutsideClickAction(event -> event.setCancelled(true));
+        gui.setCloseGuiAction(event -> {
             if (event.getPlayer().getItemOnCursor() != null) {
                 event.getPlayer().setItemOnCursor(new ItemStack(Material.AIR));
             }
@@ -50,7 +49,7 @@ public class EditGui {
                 l = l.replaceText(TextReplacementConfig.builder().match("@id").replacement(String.valueOf(slot)).build());
                 loreNew.add(l);
             }
-            getGui().addItem(new GuiItem(ItemBuilder.from(Material.PAPER).glow(true).name(title).lore(loreNew).build(), event -> {
+            gui.addItem(new GuiItem(ItemBuilder.from(Material.PAPER).glow(true).name(title).lore(loreNew).build(), event -> {
                 if (event.getClick().equals(ClickType.RIGHT)) {
                     event.setCurrentItem(null);
                 }
@@ -60,9 +59,9 @@ public class EditGui {
             slot++;
         }
 
-        getGui().getFiller().fillBottom(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), event -> event.setCancelled(true)));
+        gui.getFiller().fillBottom(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), event -> event.setCancelled(true)));
 
-        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(Material.BARRIER).name(MessageUtil.getComponent(MessageUtil.Message.BACK)).build(), event -> {
+        gui.setItem(5, 5, new GuiItem(ItemBuilder.from(Material.BARRIER).name(MessageUtil.getComponent(MessageUtil.Message.BACK)).build(), event -> {
             event.setCancelled(true);
 
             if (event.getCursor() == null) return;
@@ -76,7 +75,7 @@ public class EditGui {
     }
 
     public void open() {
-        getGui().open(player);
+        gui.open(player);
     }
 
     public List<Element> getNewSlots() {
@@ -85,10 +84,10 @@ public class EditGui {
 
         // Ignores the last slot for complete icon
         // TODO CURRENTLY DOESN'T SUPPORT MULTI PAGES DUE TO GUI LIB WRONG
-        //System.out.println(getGui().getGuiItems().keySet().size());
-        for (int i = 0; i < getGui().getInventory().getSize() - 9; i++) {
+        //System.out.println(gui.getGuiItems().keySet().size());
+        for (int i = 0; i < gui.getInventory().getSize() - 9; i++) {
 
-            ItemStack stackAtSlot = getGui().getInventory().getItem(i);
+            ItemStack stackAtSlot = gui.getInventory().getItem(i);
             
             if (stackAtSlot == null || stackAtSlot.getType().equals(Material.AIR))
                 continue;

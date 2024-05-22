@@ -11,7 +11,6 @@ import dev.triumphteam.gui.components.InteractionModifier;
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,7 +18,6 @@ import org.bukkit.entity.Player;
 import java.util.EnumSet;
 import java.util.Objects;
 
-@Getter
 public abstract class AbstractGui {
 
     private final InfoHeads plugin;
@@ -35,7 +33,23 @@ public abstract class AbstractGui {
     }
 
     public void open() {
-        getGui().open(getPlayer());
+        gui.open(player);
+    }
+
+    public BaseGui getGui() {
+        return gui;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public InfoHeads getPlugin() {
+        return plugin;
+    }
+
+    public InfoHeadConfiguration getConfiguration() {
+        return configuration;
     }
 
     protected GuiItem appendMessageItem() {
@@ -86,7 +100,7 @@ public abstract class AbstractGui {
             MessageUtil.sendMessage(player, MessageUtil.Message.PLACE_INFOHEAD);
             DataStore.placerMode.put(player, configuration);
 
-            HeadStacks.giveHeads(plugin, player);
+            HeadStacks.giveHeads(player);
         });
     }
 
@@ -97,7 +111,7 @@ public abstract class AbstractGui {
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.CLOSE_WIZARD_LORE))
                 .build(), event -> {
             event.setCancelled(true);
-            getGui().close(player);
+            gui.close(player);
         });
     }
 
@@ -108,7 +122,7 @@ public abstract class AbstractGui {
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.SET_PERMISSION_LORE))
                 .build(), event -> {
             event.setCancelled(true);
-            getGui().close(player);
+            gui.close(player);
             plugin.getInputFactory(configuration, Element.InfoHeadType.PERMISSION).buildConversation(player).begin();
         });
     }
@@ -120,7 +134,7 @@ public abstract class AbstractGui {
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.APPEND_DELAY_LORE))
                 .build(), event -> {
             event.setCancelled(true);
-            getGui().close(player);
+            gui.close(player);
             plugin.getInputFactory(configuration, Element.InfoHeadType.DELAY).buildConversation(player).begin();
         });
     }
@@ -140,7 +154,7 @@ public abstract class AbstractGui {
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.EDIT_GUI_LORE))
                 .build(), event -> {
             event.setCancelled(true);
-            new EditGui(configuration, getPlayer()).open();
+            new EditGui(configuration, player).open();
         });
     }
 

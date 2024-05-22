@@ -2,6 +2,7 @@ package com.haroldstudios.infoheads;
 
 import com.haroldstudios.infoheads.api.InfoHeadsApi;
 import com.haroldstudios.infoheads.api.impl.InfoHeadsImpl;
+import com.haroldstudios.infoheads.commands.BukkitCmdExecutor;
 import com.haroldstudios.infoheads.hooks.HdbListener;
 import com.haroldstudios.infoheads.conversations.*;
 import com.haroldstudios.infoheads.datastore.DataStore;
@@ -16,9 +17,6 @@ import com.haroldstudios.infoheads.serializer.FileUtil;
 import com.haroldstudios.infoheads.tasks.ConfigTask;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import com.haroldstudios.infoheads.utils.UpdateChecker;
-import lombok.Getter;
-import me.mattstudios.mf.base.CommandManager;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,14 +32,12 @@ import java.util.logging.Level;
 
 public final class InfoHeads extends JavaPlugin {
 
-    @Getter private DataStore dataStore;
-    @Getter private Commands commands;
-    @Getter private static InfoHeadsApi api;
-    @Getter private static BukkitAudiences adventure;
+    private DataStore dataStore;
+    private static InfoHeadsApi api;
 
-    @Getter private FileUtil fileUtil;
-    @Getter private final File messagesFile = new File(getDataFolder(), "messages.yml");
-    @Getter private FileConfiguration messagesConfig;
+    private FileUtil fileUtil;
+    private final File messagesFile = new File(getDataFolder(), "messages.yml");
+    private FileConfiguration messagesConfig;
 
     /* Hooks */
     public HdbHook hdb;
@@ -53,12 +49,7 @@ public final class InfoHeads extends JavaPlugin {
         load();
         new Metrics(this, 4607);
 
-        adventure = BukkitAudiences.create(this);
-
-        CommandManager cm = new CommandManager(this);
-        commands = new Commands(this);
-        cm.register(commands);
-        cm.hideTabComplete(true);
+        this.getCommand("infoheads").setExecutor(new BukkitCmdExecutor(this, fileUtil, dataStore));
 
         getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 
@@ -135,7 +126,6 @@ public final class InfoHeads extends JavaPlugin {
     @Override
     public void onDisable() {
         fileUtil.save(dataStore);
-        adventure.close();
     }
 
     private void updateMessagesConfig() {
@@ -149,6 +139,14 @@ public final class InfoHeads extends JavaPlugin {
         MessageUtil.init();
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ConfigTask(this), 0L, 60L);
+    }
+
+    public FileUtil getFileUtil() {
+        return fileUtil;
+    }
+
+    public DataStore getDataStore() {
+        return dataStore;
     }
 
     /**
@@ -183,11 +181,18 @@ public final class InfoHeads extends JavaPlugin {
 
     public ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {
         return new ConversationFactory(this).withModality(true)
-                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new ElementValueInput(infoHeadConfiguration, element))
+                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new ElementValueInput(dataStore, infoHeadConfiguration, element))
                 .withEscapeSequence("cancel").withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("Console is not supported by this command");
     }
 
+    public FileConfiguration getMessagesConfig() {
+        return messagesConfig;
+    }
+
+    public File getMessagesFile() {
+        return messagesFile;
+    }
 
     public static InfoHeads getInstance() {
         return getPlugin(InfoHeads.class);

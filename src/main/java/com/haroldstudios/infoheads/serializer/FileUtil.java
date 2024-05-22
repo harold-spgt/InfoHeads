@@ -8,7 +8,6 @@ import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.serializer.typeadapter.AbstractTypeAdapter;
 import com.haroldstudios.infoheads.serializer.typeadapter.EnumTypeAdapter;
 import com.haroldstudios.infoheads.serializer.typeadapter.LocationTypeAdapter;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -26,7 +25,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class FileUtil {
 
-    @Getter private final Gson gson = buildGson().create();
+    private final Gson gson = buildGson().create();
 
     private static final Map<String, Lock> locks = new HashMap<>();
 
