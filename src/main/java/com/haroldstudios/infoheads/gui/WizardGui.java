@@ -1,10 +1,10 @@
 package com.haroldstudios.infoheads.gui;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import dev.triumphteam.gui.guis.GuiItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,7 +28,7 @@ public final class WizardGui extends AbstractGui {
         getGui().setItem(3,6, cooldownItem());
         getGui().setItem(3,3, playerPermissionItem());
         if (plugin.blockParticles) getGui().setItem(2,7, particleItem());
-        getGui().getFiller().fill(new GuiItem(new ItemStack(Objects.requireNonNull(XMaterial.BLACK_STAINED_GLASS_PANE.parseItem())), event -> event.setCancelled(true)));
+        getGui().getFiller().fill(new GuiItem(new ItemStack(Objects.requireNonNull(Material.BLACK_STAINED_GLASS_PANE)), event -> event.setCancelled(true)));
     }
 
     /**

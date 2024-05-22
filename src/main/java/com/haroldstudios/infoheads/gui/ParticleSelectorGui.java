@@ -1,6 +1,5 @@
 package com.haroldstudios.infoheads.gui;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
@@ -23,7 +22,7 @@ public class ParticleSelectorGui extends AbstractGui {
         super(player, plugin, 6, MessageUtil.getString(MessageUtil.Message.PARTICLES_GUI_TITLE), configuration);
 
         getGui().setDefaultClickAction(event -> event.setCancelled(true));
-        getGui().getFiller().fill(new GuiItem(new ItemStack(Objects.requireNonNull(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()))));
+        getGui().getFiller().fill(new GuiItem(new ItemStack(Objects.requireNonNull(Material.BLACK_STAINED_GLASS_PANE))));
 
         final Random random = new Random();
         int slot = 0;

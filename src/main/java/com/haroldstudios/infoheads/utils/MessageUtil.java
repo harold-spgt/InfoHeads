@@ -4,6 +4,7 @@ import com.haroldstudios.infoheads.InfoHeads;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -85,13 +86,18 @@ public final class MessageUtil {
         COOLDOWN_NUM_DEC_LORE(new String[]{"&7Click to decrease the cooldown", "&7duration"}),
         NO_PERMISSION("@prefix" + errorColour + "No permission :("),
         RELOAD("@prefix" + textColour + "Plugin reloaded"),
-        cooldown("&cYou are currently on cooldown for this for @days days, @hours hours, @minutes minutes and @seconds seconds."),
-        oneTime("&cThis item can be used once.");
+        COOLDOWN("&cYou are currently on cooldown for this for @days days, @hours hours, @minutes minutes and @seconds seconds."),
+        ONE_TIME("&cThis item can be used once."),
+        UNKNOWN_CMD("@prefix &cUnknown subcommand. Try running /infoheads help");
 
-        @Getter private static final Map<String,Message> BY_NAME = new HashMap<>();
+        private static final Map<String,Message> BY_NAME = new HashMap<>();
 
         static Message byName(String name) {
             return BY_NAME.get(name.toUpperCase());
+        }
+
+        public static Map<String, Message> getBY_NAME() {
+            return BY_NAME;
         }
 
         private final Object text;
@@ -131,6 +137,8 @@ public final class MessageUtil {
     }
 
     public static Component getComponent(Message path) {
+        System.out.println(getString(path));
+        System.out.println(Component.text(getString(path)));
         return Component.text(getString(path));
     }
 
@@ -162,8 +170,8 @@ public final class MessageUtil {
         return newString;
     }
 
-    public static void sendMessage(Player player, Message path) {
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', getString(path)));
+    public static void sendMessage(CommandSender sender, Message path) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getString(path)));
     }
 
     public static String returnTimeMessage(Long milliseconds, String msg) {

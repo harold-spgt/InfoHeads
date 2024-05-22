@@ -1,6 +1,5 @@
 package com.haroldstudios.infoheads.gui;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
@@ -51,7 +50,7 @@ public class EditGui {
                 l = l.replaceText(TextReplacementConfig.builder().match("@id").replacement(String.valueOf(slot)).build());
                 loreNew.add(l);
             }
-            getGui().addItem(new GuiItem(ItemBuilder.from(XMaterial.PAPER.parseMaterial()).glow(true).name(title).lore(loreNew).build(), event -> {
+            getGui().addItem(new GuiItem(ItemBuilder.from(Material.PAPER).glow(true).name(title).lore(loreNew).build(), event -> {
                 if (event.getClick().equals(ClickType.RIGHT)) {
                     event.setCurrentItem(null);
                 }
@@ -61,9 +60,9 @@ public class EditGui {
             slot++;
         }
 
-        getGui().getFiller().fillBottom(new GuiItem(new ItemStack(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()), event -> event.setCancelled(true)));
+        getGui().getFiller().fillBottom(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), event -> event.setCancelled(true)));
 
-        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(XMaterial.BARRIER.parseMaterial()).name(MessageUtil.getComponent(MessageUtil.Message.BACK)).build(), event -> {
+        getGui().setItem(5, 5, new GuiItem(ItemBuilder.from(Material.BARRIER).name(MessageUtil.getComponent(MessageUtil.Message.BACK)).build(), event -> {
             event.setCancelled(true);
 
             if (event.getCursor() == null) return;

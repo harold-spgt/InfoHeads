@@ -13,13 +13,25 @@ import java.util.*;
 public final class DataStore {
 
     public transient static Map<Player, InfoHeadConfiguration> placerMode = new HashMap<>();
-    @Getter private final transient static Map<UUID, PermissionAttachment> permissionsData = new HashMap<>();
+    private final transient static Map<UUID, PermissionAttachment> permissionsData = new HashMap<>();
 
-    @Getter private final Map<Location, InfoHeadConfiguration> infoHeads = new HashMap<>();
+    private final Map<Location, InfoHeadConfiguration> infoHeads = new HashMap<>();
 
     public void addInfoHead(final InfoHeadConfiguration infoHead) {
         infoHeads.put(infoHead.getLocation(), infoHead);
         InfoHeads.getInstance().getFileUtil().save(this);
+    }
+
+    public Map<Location, InfoHeadConfiguration> getInfoHeads() {
+        return infoHeads;
+    }
+
+    public static Map<UUID, PermissionAttachment> getPermissionsData() {
+        return permissionsData;
+    }
+
+    public static Map<Player, InfoHeadConfiguration> getPlacerMode() {
+        return placerMode;
     }
 
     public void forceSetInfoHeads(Map<Location, InfoHeadConfiguration> heads) {

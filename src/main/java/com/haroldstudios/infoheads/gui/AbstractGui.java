@@ -1,6 +1,5 @@
 package com.haroldstudios.infoheads.gui;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.haroldstudios.infoheads.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.datastore.DataStore;
@@ -13,17 +12,20 @@ import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.EnumSet;
 import java.util.Objects;
 
+@Getter
 public abstract class AbstractGui {
 
-    @Getter private final InfoHeads plugin;
-    @Getter private final BaseGui gui;
-    @Getter private final Player player;
-    @Getter private final InfoHeadConfiguration configuration;
+    private final InfoHeads plugin;
+    private final BaseGui gui;
+    private final Player player;
+    private final InfoHeadConfiguration configuration;
 
     public AbstractGui(final Player player, InfoHeads plugin, int rows, String title, InfoHeadConfiguration configuration) {
         this.plugin = plugin;
@@ -37,9 +39,9 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem appendMessageItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BOOK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.BOOK))
                 .glow(true)
-                .name(MessageUtil.getComponent(MessageUtil.Message.APPEND_MESSAGE_TITLE))
+                .name(Component.text("test"))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.APPEND_MESSAGE_LORE))
                 .build(),
                 event -> {
@@ -50,7 +52,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem appendConsoleCommandItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.COMMAND_BLOCK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.COMMAND_BLOCK))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.APPEND_CONSOLE_COMMAND_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.APPEND_COMMAND_LORE))
@@ -62,7 +64,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem appendPlayerCommandItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.COMMAND_BLOCK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.COMMAND_BLOCK))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.APPEND_PLAYER_COMMAND_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.APPEND_COMMAND_LORE))
@@ -74,7 +76,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem setLocationItem() {
-        return new GuiItem(ItemBuilder.from((Objects.requireNonNull(XMaterial.GRASS_BLOCK.parseMaterial())))
+        return new GuiItem(ItemBuilder.from((Objects.requireNonNull(Material.GRASS_BLOCK)))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.SET_LOCATION_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.SET_LOCATION_LORE))
@@ -89,7 +91,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem cancelItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.BARRIER.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.BARRIER))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.CLOSE_WIZARD_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.CLOSE_WIZARD_LORE))
@@ -100,7 +102,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem setPermission() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.GLASS_BOTTLE.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.GLASS_BOTTLE))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.SET_PERMISSION_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.SET_PERMISSION_LORE))
@@ -112,7 +114,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem appendDelay() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.CLOCK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.CLOCK))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.APPEND_DELAY_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.APPEND_DELAY_LORE))
@@ -124,7 +126,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem placeholdersItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.WRITABLE_BOOK.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.WRITABLE_BOOK))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.PLACEHOLDER_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.PLACEHOLDER_LORE))
@@ -132,7 +134,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem editItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.MAP.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.MAP))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.EDIT_GUI_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.EDIT_GUI_LORE))
@@ -143,7 +145,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem editName() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.NAME_TAG.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.NAME_TAG))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.EDIT_NAME_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.EDIT_NAME_LORE))
@@ -155,7 +157,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem cooldownItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.COMPASS.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.COMPASS))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.COOLDOWN_ITEM_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.COOLDOWN_ITEM_LORE))
@@ -166,7 +168,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem onceItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.ARROW.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.ARROW))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.ONCE_ITEM_TITLE))
                 .lore(MessageUtil.getComponentList(configuration.isOnce() ? MessageUtil.Message.ONCE_ITEM_LORE_ON : MessageUtil.Message.ONCE_ITEM_LORE))
@@ -179,7 +181,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem particleItem() {
-        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(XMaterial.REDSTONE.parseMaterial()))
+        return new GuiItem(ItemBuilder.from(Objects.requireNonNull(Material.REDSTONE))
                 .glow(true)
                 .name(MessageUtil.getComponent(MessageUtil.Message.PARTICLE_ITEM_TITLE))
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.PARTICLE_ITEM_LORE))
@@ -190,7 +192,7 @@ public abstract class AbstractGui {
     }
 
     protected GuiItem playerPermissionItem() {
-        return new GuiItem(ItemBuilder.from(XMaterial.FEATHER.parseMaterial())
+        return new GuiItem(ItemBuilder.from(Material.FEATHER)
         .glow(true)
         .name(MessageUtil.getComponent(MessageUtil.Message.PLAYER_PERMISSION_TITLE))
         .lore(MessageUtil.getComponentList(MessageUtil.Message.PLAYER_PERMISSION_LORE))

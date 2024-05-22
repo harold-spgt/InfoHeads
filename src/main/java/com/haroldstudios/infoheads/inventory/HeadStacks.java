@@ -3,11 +3,13 @@ package com.haroldstudios.infoheads.inventory;
 import com.google.common.collect.Lists;
 import com.haroldstudios.infoheads.InfoHeads;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import me.arcaniax.hdb.object.head.Head;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public final class HeadStacks {
 
@@ -16,7 +18,7 @@ public final class HeadStacks {
 
         List<ItemStack> list = Lists.newArrayList();
 
-        /**
+        /*
          * Checks if Head defined is from HeadDatabase
          * Special thanks to
          * @Contributor Andre_601
@@ -51,8 +53,9 @@ public final class HeadStacks {
         return list;
     }
 
-    public static void giveHeads(InfoHeads plugin, Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> new HeadStacks().giveItems(player));
+    public static void giveHeads(Player player) {
+        CompletableFuture.runAsync(() -> new HeadStacks().giveItems(player));
+//        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> new HeadStacks().giveItems(player));
     }
 
     void giveItems(Player player) {

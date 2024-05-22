@@ -2,7 +2,6 @@ package com.haroldstudios.infoheads;
 
 import com.haroldstudios.infoheads.api.InfoHeadsApi;
 import com.haroldstudios.infoheads.api.impl.InfoHeadsImpl;
-import com.haroldstudios.infoheads.commands.Commands;
 import com.haroldstudios.infoheads.hooks.HdbListener;
 import com.haroldstudios.infoheads.conversations.*;
 import com.haroldstudios.infoheads.datastore.DataStore;
