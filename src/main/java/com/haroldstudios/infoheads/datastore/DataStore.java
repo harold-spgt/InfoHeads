@@ -1,6 +1,6 @@
 package com.haroldstudios.infoheads.datastore;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
 import org.bukkit.Location;

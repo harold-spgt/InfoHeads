@@ -1,10 +1,10 @@
 package com.haroldstudios.infoheads.listeners;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
 import com.haroldstudios.infoheads.datastore.DataStore;
-import com.haroldstudios.infoheads.gui.WizardGui;
+import com.haroldstudios.infoheads.ui.WizardGui;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

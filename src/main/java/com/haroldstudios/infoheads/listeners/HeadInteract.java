@@ -1,10 +1,10 @@
 package com.haroldstudios.infoheads.listeners;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.elements.EndElement;
-import com.haroldstudios.infoheads.gui.WizardGui;
+import com.haroldstudios.infoheads.ui.WizardGui;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;

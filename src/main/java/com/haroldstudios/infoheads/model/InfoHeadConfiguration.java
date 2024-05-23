@@ -1,7 +1,8 @@
-package com.haroldstudios.infoheads;
+package com.haroldstudios.infoheads.model;
 
 
 import com.haroldstudios.infoheads.elements.Element;
+import com.haroldstudios.infoheads.model.Cooldown;
 import org.bukkit.Location;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +16,7 @@ public final class InfoHeadConfiguration {
     private List<Element> elementList = new ArrayList<>();
     private Location location;
     private String permission;
-    @Nullable private Long cooldown;
+    @Nullable private Cooldown cooldown;
     @Nullable private String particle;
     private final UUID id = UUID.randomUUID();
     // Player UUID, TimeStamp in millis
@@ -53,7 +54,7 @@ public final class InfoHeadConfiguration {
         return executed;
     }
 
-    public Long getCooldown() {
+    public Cooldown getCooldown() {
         return cooldown;
     }
 
@@ -65,7 +66,7 @@ public final class InfoHeadConfiguration {
         return elementList;
     }
 
-    public void setCooldown(Long cooldown) {
+    public void setCooldown(Cooldown cooldown) {
         this.cooldown = cooldown;
     }
 

@@ -1,6 +1,6 @@
 package com.haroldstudios.infoheads.commands;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
 import com.haroldstudios.infoheads.utils.MessageUtil;

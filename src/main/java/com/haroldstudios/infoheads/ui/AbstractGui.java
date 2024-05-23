@@ -1,10 +1,12 @@
-package com.haroldstudios.infoheads.gui;
+package com.haroldstudios.infoheads.ui;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
+import com.haroldstudios.infoheads.ui.cooldown.CooldownGui;
+import com.haroldstudios.infoheads.ui.cooldown.CooldownViewModel;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.components.InteractionModifier;
@@ -177,7 +179,7 @@ public abstract class AbstractGui {
                 .lore(MessageUtil.getComponentList(MessageUtil.Message.COOLDOWN_ITEM_LORE))
                 .build(), event -> {
             event.setCancelled(true);
-            new CooldownGui(player, plugin, configuration).open();
+            new CooldownGui(new CooldownViewModel(configuration)).open(player);
         });
     }
 

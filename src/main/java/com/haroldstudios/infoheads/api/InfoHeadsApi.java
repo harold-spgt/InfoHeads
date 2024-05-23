@@ -1,6 +1,6 @@
 package com.haroldstudios.infoheads.api;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import org.bukkit.Location;
 import org.jetbrains.annotations.Nullable;
 

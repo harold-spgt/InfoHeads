@@ -1,6 +1,6 @@
-package com.haroldstudios.infoheads.gui;
+package com.haroldstudios.infoheads.ui;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import dev.triumphteam.gui.guis.GuiItem;
 import org.bukkit.Bukkit;

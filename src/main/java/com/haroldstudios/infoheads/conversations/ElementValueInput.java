@@ -1,10 +1,9 @@
 package com.haroldstudios.infoheads.conversations;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
-import com.haroldstudios.infoheads.InfoHeads;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.*;
-import com.haroldstudios.infoheads.gui.WizardGui;
+import com.haroldstudios.infoheads.ui.WizardGui;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;

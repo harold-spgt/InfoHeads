@@ -1,6 +1,6 @@
 package com.haroldstudios.infoheads.api.impl;
 
-import com.haroldstudios.infoheads.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.api.InfoHeadsApi;
 import org.bukkit.Location;

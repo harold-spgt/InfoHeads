@@ -13,6 +13,7 @@ import com.haroldstudios.infoheads.listeners.HeadBreak;
 import com.haroldstudios.infoheads.listeners.HeadPlace;
 import com.haroldstudios.infoheads.listeners.PlayerJoin;
 import com.haroldstudios.infoheads.listeners.PlayerQuit;
+import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.serializer.FileUtil;
 import com.haroldstudios.infoheads.tasks.ConfigTask;
 import com.haroldstudios.infoheads.utils.MessageUtil;
