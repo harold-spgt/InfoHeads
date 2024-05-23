@@ -4,7 +4,8 @@ import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.elements.EndElement;
-import com.haroldstudios.infoheads.ui.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
@@ -48,7 +49,7 @@ public final class HeadInteract implements Listener {
         InfoHeadConfiguration configuration = infoHeads.get(e.getClickedBlock().getLocation());
 
         if (e.getPlayer().isSneaking() && e.getPlayer().hasPermission(Constants.ADMIN_PERM)) {
-            new WizardGui(plugin, e.getPlayer(), configuration).open();
+            new WizardGui(new WizardViewModel(plugin, configuration)).open(e.getPlayer());
             return;
         }
 
@@ -100,7 +101,7 @@ public final class HeadInteract implements Listener {
 
         // If Cooldown Exists, add it to player's stamp
         if (configuration.getCooldown() != null) {
-            configuration.getTimestamps().put(e.getPlayer().getUniqueId(), System.currentTimeMillis() + configuration.getCooldown());
+            configuration.getTimestamps().put(e.getPlayer().getUniqueId(), System.currentTimeMillis() + configuration.getCooldown().toMs());
         }
 
         if (configuration.isOnce()) {

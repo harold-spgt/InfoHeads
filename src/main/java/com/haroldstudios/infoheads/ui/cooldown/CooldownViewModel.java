@@ -11,7 +11,7 @@ import com.haroldstudios.infoheads.ui.SimpleProperty;
 public final class CooldownViewModel {
 
     private final InfoHeadConfiguration configuration;
-    private final SimpleProperty<Cooldown> cooldownProperty = new SimpleProperty<>();
+    private final SimpleProperty<Cooldown> cooldownProperty;
 
     /**
      * Constructs this class.
@@ -19,7 +19,7 @@ public final class CooldownViewModel {
      */
     public CooldownViewModel(InfoHeadConfiguration configuration) {
         this.configuration = configuration;
-        cooldownProperty.setValue(configuration.getCooldown());
+        this.cooldownProperty = new SimpleProperty<>(configuration.getCooldown());
     }
 
     /**

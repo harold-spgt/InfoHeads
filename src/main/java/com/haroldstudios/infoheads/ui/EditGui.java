@@ -3,6 +3,8 @@ package com.haroldstudios.infoheads.ui;
 import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
+import com.haroldstudios.infoheads.ui.wizard.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.components.InteractionModifier;
@@ -70,7 +72,7 @@ public class EditGui {
             if (infoHead != null) {
                 infoHead.setElementList(getNewSlots());
             }
-            new WizardGui(InfoHeads.getInstance(), player, configuration).open();
+            new WizardGui(new WizardViewModel(InfoHeads.getInstance(), configuration)).open(event.getWhoClicked());
         }));
     }
 

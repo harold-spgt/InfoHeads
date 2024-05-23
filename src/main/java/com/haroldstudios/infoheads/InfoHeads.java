@@ -16,6 +16,7 @@ import com.haroldstudios.infoheads.listeners.PlayerQuit;
 import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.serializer.FileUtil;
 import com.haroldstudios.infoheads.tasks.ConfigTask;
+import com.haroldstudios.infoheads.ui.InventoryGuiListener;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import com.haroldstudios.infoheads.utils.UpdateChecker;
 import org.bstats.bukkit.Metrics;
@@ -52,6 +53,7 @@ public final class InfoHeads extends JavaPlugin {
 
         this.getCommand("infoheads").setExecutor(new BukkitCmdExecutor(this, fileUtil, dataStore));
 
+        getServer().getPluginManager().registerEvents(new InventoryGuiListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 
         if (packagesExists("org.bukkit.util.Consumer"))

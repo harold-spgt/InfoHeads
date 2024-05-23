@@ -3,7 +3,6 @@ package com.haroldstudios.infoheads.ui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -24,12 +23,16 @@ public abstract class InventoryGui implements InventoryHolder {
         if (size > 5) size = 5;
         if (size < 1) size = 1;
 
-        this.inventory = Bukkit.createInventory(null, size*9, name);
+        this.inventory = Bukkit.createInventory(this, size*9, name);
         this.slotActions = new HashMap<>();
     }
 
     public void open(HumanEntity humanEntity) {
         humanEntity.openInventory(inventory);
+    }
+
+    public void close(HumanEntity humanEntity) {
+        humanEntity.closeInventory();
     }
 
     public void setDefaultClickAction(Consumer<InventoryClickEvent> event) {

@@ -4,8 +4,9 @@ import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.model.Cooldown;
 import com.haroldstudios.infoheads.ui.GuiSlot;
 import com.haroldstudios.infoheads.ui.InventoryGui;
-import com.haroldstudios.infoheads.ui.WizardGui;
 import com.haroldstudios.infoheads.ui.builder.ItemBuilder;
+import com.haroldstudios.infoheads.ui.wizard.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 
 import org.bukkit.Material;
@@ -48,14 +49,14 @@ public class CooldownGui extends InventoryGui {
         insert(PREV_PAGE_SLOT, new ItemBuilder(Material.BARRIER).name(MessageUtil.getString(MessageUtil.Message.PREV_PAGE)).glow(true).build(), event -> {
             if (!(event.getWhoClicked() instanceof Player)) return;
 
-            new WizardGui(InfoHeads.getInstance(), (Player) event.getWhoClicked(), viewModel.getConfiguration()).open();
+            new WizardGui(new WizardViewModel(InfoHeads.getInstance(), viewModel.getConfiguration())).open(event.getWhoClicked());
         });
         insert(COMPLETE_SLOT, new ItemBuilder(Material.EMERALD_BLOCK).name(MessageUtil.getString(MessageUtil.Message.COMPLETE_ITEM_TITLE)).lore(MessageUtil.getStringList(MessageUtil.Message.COMPLETE_ITEM_LORE)).glow(true).build(), event -> {
             if (!(event.getWhoClicked() instanceof Player)) return;
 
             viewModel.saveConfiguration();
 
-            new WizardGui(InfoHeads.getInstance(), (Player) event.getWhoClicked(), viewModel.getConfiguration()).open();
+            new WizardGui(new WizardViewModel(InfoHeads.getInstance(), viewModel.getConfiguration())).open(event.getWhoClicked());
         });
     }
 

@@ -16,6 +16,14 @@ public class SimpleProperty<T> {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
+     * Initialize with value.
+     * @param value to init with.
+     */
+    public SimpleProperty(T value) {
+        this.value = value;
+    }
+
+    /**
      * Get T value.
      * @return Value.
      */

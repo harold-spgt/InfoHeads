@@ -4,7 +4,8 @@ import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
 import com.haroldstudios.infoheads.datastore.DataStore;
-import com.haroldstudios.infoheads.ui.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,7 +40,7 @@ public final class HeadPlace implements Listener {
             BlockParticlesHook.newLoc(e.getPlayer(), configuration.getId().toString(), configuration.getParticle());
         }
 
-        new WizardGui(plugin, e.getPlayer(), configuration).open();
+        new WizardGui(new WizardViewModel(plugin, configuration)).open(e.getPlayer());
 
         DataStore.placerMode.remove(e.getPlayer());
     }

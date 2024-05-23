@@ -3,6 +3,8 @@ package com.haroldstudios.infoheads.ui;
 import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.hooks.BlockParticlesHook;
+import com.haroldstudios.infoheads.ui.wizard.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -50,7 +52,7 @@ public class ParticleSelectorGui extends AbstractGui {
             slot++;
         }
 
-        getGui().setItem(49, new GuiItem(ItemBuilder.from(Material.BARRIER).name(MessageUtil.getComponent(MessageUtil.Message.BACK)).glow(true).build(), event -> new WizardGui(plugin, player, configuration).open()));
+        getGui().setItem(49, new GuiItem(ItemBuilder.from(Material.BARRIER).name(MessageUtil.getComponent(MessageUtil.Message.BACK)).glow(true).build(), event -> new WizardGui(new WizardViewModel(plugin, configuration)).open(player)));
     }
 
     public Material getRandomMaterial(final Random random) {
