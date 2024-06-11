@@ -3,7 +3,6 @@ package com.haroldstudios.infoheads.elements;
 import com.haroldstudios.infoheads.InfoHeads;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.jetbrains.annotations.NotNull;
 
 public final class ConsoleCommandElement extends Element {
 
@@ -30,7 +29,7 @@ public final class ConsoleCommandElement extends Element {
     }
 
     @Override
-    public void performAction(@NotNull Player player, PlayerInteractEvent event) {
+    public void performAction(Player player, PlayerInteractEvent event) {
         InfoHeads.getInstance().getServer().dispatchCommand(InfoHeads.getInstance().getServer().getConsoleSender(), removePlaceHolders(command, player, event));
     }
 

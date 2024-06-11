@@ -1,11 +1,10 @@
 package com.haroldstudios.infoheads.ui;
 
-
-public class ViewModel {
+public abstract class BaseGuiViewModel {
 
     private final SimpleProperty<Boolean> shouldCloseProperty;
 
-    public ViewModel() {
+    public BaseGuiViewModel() {
         this.shouldCloseProperty = new SimpleProperty<>(false);
     }
 
@@ -13,5 +12,7 @@ public class ViewModel {
         return shouldCloseProperty;
     }
 
-
+    public void requestClose() {
+        this.shouldCloseProperty.setValue(true);
+    }
 }

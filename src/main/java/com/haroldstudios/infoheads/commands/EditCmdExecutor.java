@@ -1,7 +1,12 @@
 package com.haroldstudios.infoheads.commands;
 
+import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.datastore.DataStore;
+import com.haroldstudios.infoheads.ui.edit.EditInfoHeadGui;
+import com.haroldstudios.infoheads.ui.edit.EditInfoHeadViewModel;
+import com.haroldstudios.infoheads.ui.wizard.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
 import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Location;
@@ -50,7 +55,8 @@ public class EditCmdExecutor extends CmdExecutor {
 
         InfoHeadConfiguration headAtLoc = dataStore.getInfoHeads().get(targetLoc);
 
-//        new WizardGui(plugin, player, headAtLoc).open();
+//        new WizardGui(new WizardViewModel(InfoHeads.getInstance(), headAtLoc)).open(player);
+        new EditInfoHeadGui(new EditInfoHeadViewModel(headAtLoc)).open(player);
         return true;
     }
 
@@ -59,6 +65,6 @@ public class EditCmdExecutor extends CmdExecutor {
      */
     @Override
     public boolean isPlayerOnlyCmd() {
-        return false;
+        return true;
     }
 }

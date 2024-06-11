@@ -5,14 +5,13 @@ import com.haroldstudios.infoheads.hooks.PapiHook;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class Element {
 
     /**
      * Call to specific action
      */
-    public abstract void performAction(@NotNull Player player, PlayerInteractEvent event);
+    public abstract void performAction(Player player, PlayerInteractEvent event);
 
     /**
      * Get content of Element
@@ -41,6 +40,6 @@ public abstract class Element {
     }
 
     public enum InfoHeadType {
-        MESSAGE, CONSOLE_COMMAND, PLAYER_COMMAND, DELAY, PLAYER_PERMISSION, END, PERMISSION
+        MESSAGE, CONSOLE_COMMAND, PLAYER_COMMAND, DELAY, PLAYER_PERMISSION, END, PERMISSION, RENAME
     }
 }

@@ -33,7 +33,7 @@ public final class DelayElement extends Element{
     }
 
     @Override
-    public void performAction(@NotNull Player player, PlayerInteractEvent event) {
+    public void performAction(Player player, PlayerInteractEvent event) {
         //Not needed - handled on interact
     }
 

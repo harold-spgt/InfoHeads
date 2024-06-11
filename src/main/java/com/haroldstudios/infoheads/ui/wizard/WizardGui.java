@@ -3,13 +3,14 @@ package com.haroldstudios.infoheads.ui.wizard;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
-import com.haroldstudios.infoheads.ui.EditGui;
+import com.haroldstudios.infoheads.ui.GuiItem;
 import com.haroldstudios.infoheads.ui.GuiSlot;
 import com.haroldstudios.infoheads.ui.InventoryGui;
-import com.haroldstudios.infoheads.ui.ParticleSelectorGui;
 import com.haroldstudios.infoheads.ui.builder.ItemBuilder;
 import com.haroldstudios.infoheads.ui.cooldown.CooldownGui;
 import com.haroldstudios.infoheads.ui.cooldown.CooldownViewModel;
+import com.haroldstudios.infoheads.ui.edit.EditGui;
+import com.haroldstudios.infoheads.ui.particles.ParticleSelectorGui;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -45,23 +46,23 @@ public class WizardGui extends InventoryGui {
     }
 
     private void populate() {
-        fillEmpty(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).glow(true).build());
+        fillEmpty(new GuiItem(new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).glow(true).build(), null));
 
         appendMessageItem();
         appendConsoleCommandItem();
         appendPlayerCommandItem();
         appendDelay();
-        onceItem(viewModel.getIsOneTimeUseProperty().getValue());
-        setLocationItem();
+//        onceItem(viewModel.getIsOneTimeUseProperty().getValue());
+//        setLocationItem();
         setPermission();
         placeholdersItem();
         cancelItem();
-        editItem();
-        editName();
-        cooldownItem();
-        playerPermissionItem();
-        if (InfoHeads.getInstance().blockParticles)
-            particleItem();
+//        editItem();
+//        editName();
+//        cooldownItem();
+//        playerPermissionItem();
+//        if (InfoHeads.getInstance().blockParticles)
+//            particleItem();
     }
 
     private void bindings() {
@@ -78,8 +79,7 @@ public class WizardGui extends InventoryGui {
             if (listener.getNewValue() instanceof Boolean shouldOpenEditGui) {
                 if (shouldOpenEditGui) {
                     for (HumanEntity viewer : new ArrayList<>(getInventory().getViewers())) {
-                        if (viewer instanceof Player player)
-                            new EditGui(viewModel.getConfiguration(), player);
+                        new EditGui(viewModel.getConfiguration()).open(viewer);
                     }
                 }
             }
@@ -93,172 +93,172 @@ public class WizardGui extends InventoryGui {
                 }
             }
         });
-        viewModel.getIsOneTimeUseProperty().addListener(listener -> {
-            if (listener.getNewValue() instanceof Boolean isOneTimeUse) {
-                onceItem(isOneTimeUse);
-            }
-        });
+//        viewModel.getIsOneTimeUseProperty().addListener(listener -> {
+//            if (listener.getNewValue() instanceof Boolean isOneTimeUse) {
+//                onceItem(isOneTimeUse);
+//            }
+//        });
     }
 
     private void appendMessageItem() {
         insert(
                 APPEND_MSG_SLOT,
-                new ItemBuilder(Material.BOOK)
+                new GuiItem(new ItemBuilder(Material.BOOK)
                         .glow(true)
                         .name(MessageUtil.getString(MessageUtil.Message.APPEND_MESSAGE_TITLE))
                         .lore(MessageUtil.getStringList(MessageUtil.Message.APPEND_MESSAGE_LORE))
                         .build(),
-                event -> viewModel.startConversing(Element.InfoHeadType.MESSAGE, event.getWhoClicked()));
+                event -> viewModel.startConversing(Element.InfoHeadType.MESSAGE, event.getWhoClicked())));
     }
 
     private void appendConsoleCommandItem() {
         insert(
                 APPEND_CONSOLE_CMD_SLOT,
-                new ItemBuilder(Material.COMMAND_BLOCK)
+                new GuiItem(new ItemBuilder(Material.COMMAND_BLOCK)
                         .glow(true)
                         .name(MessageUtil.getString(MessageUtil.Message.APPEND_CONSOLE_COMMAND_TITLE))
                         .lore(MessageUtil.getStringList(MessageUtil.Message.APPEND_COMMAND_LORE))
                         .build(),
-                event -> viewModel.startConversing(Element.InfoHeadType.CONSOLE_COMMAND, event.getWhoClicked()));
+                event -> viewModel.startConversing(Element.InfoHeadType.CONSOLE_COMMAND, event.getWhoClicked())));
     }
 
     private void appendPlayerCommandItem() {
         insert(
                 APPEND_PLAYER_CMD_SLOT,
-                new ItemBuilder(Material.COMMAND_BLOCK)
+                new GuiItem(new ItemBuilder(Material.COMMAND_BLOCK)
                         .glow(true)
                         .name(MessageUtil.getString(MessageUtil.Message.APPEND_PLAYER_COMMAND_TITLE))
                         .lore(MessageUtil.getStringList(MessageUtil.Message.APPEND_COMMAND_LORE))
                         .build(),
-                event -> viewModel.startConversing(Element.InfoHeadType.PLAYER_COMMAND, event.getWhoClicked()));
+                event -> viewModel.startConversing(Element.InfoHeadType.PLAYER_COMMAND, event.getWhoClicked())));
     }
 
-    private void setLocationItem() {
-        insert(
-                SET_LOCATION_SLOT,
-                new ItemBuilder(Material.GRASS_BLOCK)
-                        .glow(true)
-                        .name(MessageUtil.getString(MessageUtil.Message.SET_LOCATION_TITLE))
-                        .lore(MessageUtil.getStringList(MessageUtil.Message.SET_LOCATION_LORE))
-                        .build(),
-                event -> viewModel.setLocation(event.getWhoClicked()));
-    }
+//    private void setLocationItem() {
+//        insert(
+//                SET_LOCATION_SLOT,
+//                new GuiItem(new ItemBuilder(Material.GRASS_BLOCK)
+//                        .glow(true)
+//                        .name(MessageUtil.getString(MessageUtil.Message.SET_LOCATION_TITLE))
+//                        .lore(MessageUtil.getStringList(MessageUtil.Message.SET_LOCATION_LORE))
+//                        .build(),
+//                event -> viewModel.setLocation(event.getWhoClicked())));
+//    }
 
     private void cancelItem() {
         insert(
                 CANCEL_SLOT,
-                new ItemBuilder(Material.BARRIER)
+                new GuiItem(new ItemBuilder(Material.BARRIER)
                         .glow(true)
                         .name(MessageUtil.getString(MessageUtil.Message.CLOSE_WIZARD_TITLE))
                         .lore(MessageUtil.getStringList(MessageUtil.Message.CLOSE_WIZARD_LORE))
                         .build(),
-                event -> close(event.getWhoClicked())
+                event -> close(event.getWhoClicked()))
         );
     }
 
     private void setPermission() {
         insert(
                 PERMISSION_SLOT,
-                new ItemBuilder(Material.GLASS_BOTTLE)
+                new GuiItem(new ItemBuilder(Material.GLASS_BOTTLE)
                         .glow(true)
                         .name(MessageUtil.getString(MessageUtil.Message.SET_PERMISSION_TITLE))
                         .lore(MessageUtil.getStringList(MessageUtil.Message.SET_PERMISSION_LORE))
                         .build(),
-                event -> viewModel.startConversing(Element.InfoHeadType.PERMISSION, event.getWhoClicked()));
+                event -> viewModel.startConversing(Element.InfoHeadType.PERMISSION, event.getWhoClicked())));
     }
 
     private void appendDelay() {
         insert(
                 APPEND_DELAY_SLOT,
-                new ItemBuilder(Material.CLOCK)
+                new GuiItem(new ItemBuilder(Material.CLOCK)
                         .glow(true)
                         .name(MessageUtil.getString(MessageUtil.Message.APPEND_DELAY_TITLE))
                         .lore(MessageUtil.getStringList(MessageUtil.Message.APPEND_DELAY_LORE))
                         .build(),
-                event -> viewModel.startConversing(Element.InfoHeadType.DELAY, event.getWhoClicked()));
+                event -> viewModel.startConversing(Element.InfoHeadType.DELAY, event.getWhoClicked())));
     }
 
     private void placeholdersItem() {
         insert(
                 PLACEHOLDER_SLOT,
-                new ItemBuilder(Material.WRITABLE_BOOK)
+                new GuiItem(new ItemBuilder(Material.WRITABLE_BOOK)
                         .glow(true)
                         .name(MessageUtil.getString(MessageUtil.Message.PLACEHOLDER_TITLE))
                         .lore(MessageUtil.getStringList(MessageUtil.Message.PLACEHOLDER_LORE))
                         .build(),
                 event -> {
-                });
+                }));
     }
 
-    private void editItem() {
-        insert(
-                EDIT_SLOT,
-                new ItemBuilder(Material.MAP)
-                        .glow(true)
-                        .name(MessageUtil.getString(MessageUtil.Message.EDIT_GUI_TITLE))
-                        .lore(MessageUtil.getStringList(MessageUtil.Message.EDIT_GUI_LORE))
-                        .build(),
-                event -> viewModel.editItem());
-    }
+//    private void editItem() {
+//        insert(
+//                EDIT_SLOT,
+//                new GuiItem(new ItemBuilder(Material.MAP)
+//                        .glow(true)
+//                        .name(MessageUtil.getString(MessageUtil.Message.EDIT_GUI_TITLE))
+//                        .lore(MessageUtil.getStringList(MessageUtil.Message.EDIT_GUI_LORE))
+//                        .build(),
+//                event -> viewModel.editItem()));
+//    }
 
-    private void editName() {
-        insert(
-                EDIT_NAME_SLOT,
-                new ItemBuilder(Material.NAME_TAG)
-                        .glow(true)
-                        .name(MessageUtil.getString(MessageUtil.Message.EDIT_NAME_TITLE))
-                        .lore(MessageUtil.getStringList(MessageUtil.Message.EDIT_NAME_LORE))
-                        .build(),
-                event -> viewModel.editName(event.getWhoClicked()));
-    }
+//    private void editName() {
+//        insert(
+//                EDIT_NAME_SLOT,
+//                new GuiItem(new ItemBuilder(Material.NAME_TAG)
+//                        .glow(true)
+//                        .name(MessageUtil.getString(MessageUtil.Message.EDIT_NAME_TITLE))
+//                        .lore(MessageUtil.getStringList(MessageUtil.Message.EDIT_NAME_LORE))
+//                        .build(),
+//                event -> viewModel.editName(event.getWhoClicked())));
+//    }
+//
+//    private void cooldownItem() {
+//        insert(
+//                COOLDOWN_SLOT,
+//                new GuiItem(new ItemBuilder(Material.COMPASS)
+//                        .glow(true)
+//                        .name(MessageUtil.getString(MessageUtil.Message.COOLDOWN_ITEM_TITLE))
+//                        .lore(MessageUtil.getStringList(MessageUtil.Message.COOLDOWN_ITEM_LORE))
+//                        .build(),
+//                event -> viewModel.editCooldown()));
+//    }
+//
+//    private void onceItem(boolean isOneTimeUse) {
+//        insert(
+//                ONE_TIME_USE_SLOT,
+//                new GuiItem(new ItemBuilder(Material.ARROW)
+//                        .glow(true)
+//                        .name(MessageUtil.getString(MessageUtil.Message.ONCE_ITEM_TITLE))
+//                        .lore(MessageUtil.getStringList(isOneTimeUse ? MessageUtil.Message.ONCE_ITEM_LORE_ON : MessageUtil.Message.ONCE_ITEM_LORE))
+//                        .build(),
+//                event -> viewModel.setOneTimeUse(!isOneTimeUse)));
+//    }
+//
+//    private void particleItem() {
+//        insert(
+//                PARTICLE_SLOT,
+//                new GuiItem(new ItemBuilder(Material.REDSTONE)
+//                        .glow(true)
+//                        .name(MessageUtil.getString(MessageUtil.Message.PARTICLE_ITEM_TITLE))
+//                        .lore(MessageUtil.getStringList(MessageUtil.Message.PARTICLE_ITEM_LORE))
+//                        .build(), event -> {
+//                    if (event.getWhoClicked() instanceof Player player) {
+//                        event.setCancelled(true);
+//                        new ParticleSelectorGui(InfoHeads.getInstance(), viewModel.getConfiguration()).open(player);
+//                    }
+//                }));
+//    }
 
-    private void cooldownItem() {
-        insert(
-                COOLDOWN_SLOT,
-                new ItemBuilder(Material.COMPASS)
-                        .glow(true)
-                        .name(MessageUtil.getString(MessageUtil.Message.COOLDOWN_ITEM_TITLE))
-                        .lore(MessageUtil.getStringList(MessageUtil.Message.COOLDOWN_ITEM_LORE))
-                        .build(),
-                event -> viewModel.editCooldown());
-    }
-
-    private void onceItem(boolean isOneTimeUse) {
-        insert(
-                ONE_TIME_USE_SLOT,
-                new ItemBuilder(Material.ARROW)
-                        .glow(true)
-                        .name(MessageUtil.getString(MessageUtil.Message.ONCE_ITEM_TITLE))
-                        .lore(MessageUtil.getStringList(isOneTimeUse ? MessageUtil.Message.ONCE_ITEM_LORE_ON : MessageUtil.Message.ONCE_ITEM_LORE))
-                        .build(),
-                event -> viewModel.setOneTimeUse(!isOneTimeUse));
-    }
-
-    private void particleItem() {
-        insert(
-                PARTICLE_SLOT,
-                new ItemBuilder(Material.REDSTONE)
-                        .glow(true)
-                        .name(MessageUtil.getString(MessageUtil.Message.PARTICLE_ITEM_TITLE))
-                        .lore(MessageUtil.getStringList(MessageUtil.Message.PARTICLE_ITEM_LORE))
-                        .build(), event -> {
-                    if (event.getWhoClicked() instanceof Player player) {
-                        event.setCancelled(true);
-                        new ParticleSelectorGui(player, InfoHeads.getInstance(), viewModel.getConfiguration()).open();
-                    }
-                });
-    }
-
-    private void playerPermissionItem() {
-        insert(
-                PLAYER_PERMISSION_SLOT,
-                new ItemBuilder(Material.FEATHER)
-                        .glow(true)
-                        .name(MessageUtil.getString(MessageUtil.Message.PLAYER_PERMISSION_TITLE))
-                        .lore(MessageUtil.getStringList(MessageUtil.Message.PLAYER_PERMISSION_LORE))
-                        .build(),
-                event -> viewModel.startConversing(Element.InfoHeadType.PLAYER_PERMISSION, event.getWhoClicked()));
-    }
+//    private void playerPermissionItem() {
+//        insert(
+//                PLAYER_PERMISSION_SLOT,
+//                new GuiItem(new ItemBuilder(Material.FEATHER)
+//                        .glow(true)
+//                        .name(MessageUtil.getString(MessageUtil.Message.PLAYER_PERMISSION_TITLE))
+//                        .lore(MessageUtil.getStringList(MessageUtil.Message.PLAYER_PERMISSION_LORE))
+//                        .build(),
+//                event -> viewModel.startConversing(Element.InfoHeadType.PLAYER_PERMISSION, event.getWhoClicked())));
+//    }
 
     /**
      * Ensures the conversation is over before attempting to open.

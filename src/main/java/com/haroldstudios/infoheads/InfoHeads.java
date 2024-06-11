@@ -3,12 +3,10 @@ package com.haroldstudios.infoheads;
 import com.haroldstudios.infoheads.api.InfoHeadsApi;
 import com.haroldstudios.infoheads.api.impl.InfoHeadsImpl;
 import com.haroldstudios.infoheads.commands.BukkitCmdExecutor;
-import com.haroldstudios.infoheads.hooks.HdbListener;
 import com.haroldstudios.infoheads.conversations.*;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.listeners.HeadInteract;
-import com.haroldstudios.infoheads.hooks.HdbHook;
 import com.haroldstudios.infoheads.listeners.HeadBreak;
 import com.haroldstudios.infoheads.listeners.HeadPlace;
 import com.haroldstudios.infoheads.listeners.PlayerJoin;
@@ -41,8 +39,6 @@ public final class InfoHeads extends JavaPlugin {
     private final File messagesFile = new File(getDataFolder(), "messages.yml");
     private FileConfiguration messagesConfig;
 
-    /* Hooks */
-    public HdbHook hdb;
     public boolean papi = false;
     public boolean blockParticles = false;
 
@@ -117,8 +113,8 @@ public final class InfoHeads extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HeadInteract(this), this);
         getServer().getPluginManager().registerEvents(new HeadPlace(this), this);
         getServer().getPluginManager().registerEvents(new HeadBreak(this), this);
-        if (packagesExists("me.arcaniax.hdb.api.DatabaseLoadEvent", "me.arcaniax.hdb.api.HeadDatabaseAPI"))
-            getServer().getPluginManager().registerEvents(new HdbListener(this), this);
+//        if (packagesExists("me.arcaniax.hdb.api.DatabaseLoadEvent", "me.arcaniax.hdb.api.HeadDatabaseAPI"))
+//            getServer().getPluginManager().registerEvents(new HdbListener(this), this);
         if (packagesExists("me.clip.placeholderapi.PlaceholderAPI"))
             papi = true;
         if (packagesExists("me.badbones69.blockparticles.Methods"))
@@ -175,17 +171,13 @@ public final class InfoHeads extends JavaPlugin {
         getLogger().log(Level.INFO, msg);
     }
 
-    public ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration) {
-        return new ConversationFactory(this).withModality(true)
-                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new NameInput(infoHeadConfiguration))
-                .withEscapeSequence("cancel").withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("Console is not supported by this command");
-    }
-
-    public ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {
-        return new ConversationFactory(this).withModality(true)
-                .withPrefix(new InfoHeadsConversationPrefix()).withFirstPrompt(new ElementValueInput(dataStore, infoHeadConfiguration, element))
-                .withEscapeSequence("cancel").withTimeout(60)
+    public static ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {
+        return new ConversationFactory(InfoHeads.getInstance())
+                .withModality(true)
+                .withPrefix(new InfoHeadsConversationPrefix())
+                .withFirstPrompt(new ElementValueInput(InfoHeads.getInstance().dataStore, infoHeadConfiguration, element)) //TODO incorrect static use here. Datstore should be singleton? no. Should use interface
+                .withEscapeSequence("cancel")
+                .withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("Console is not supported by this command");
     }
 

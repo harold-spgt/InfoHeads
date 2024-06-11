@@ -1,10 +1,15 @@
 package com.haroldstudios.infoheads.conversations;
 
+import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.*;
+import com.haroldstudios.infoheads.ui.edit.EditInfoHeadGui;
+import com.haroldstudios.infoheads.ui.edit.EditInfoHeadViewModel;
 import com.haroldstudios.infoheads.ui.wizard.WizardGui;
+import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
 import com.haroldstudios.infoheads.utils.MessageUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
@@ -24,7 +29,7 @@ public final class ElementValueInput extends StringPrompt {
     }
 
     @Override
-    public @NotNull String getPromptText(@NotNull ConversationContext context) {
+    public @NotNull String getPromptText(ConversationContext context) {
         return MessageUtil.getString(MessageUtil.Message.INPUT_CONVERSATION);
     }
 
@@ -65,10 +70,13 @@ public final class ElementValueInput extends StringPrompt {
             case PLAYER_PERMISSION:
                 infoHead.addElement(new PlayerPermissionElement(input));
                 break;
+            case RENAME:
+                infoHead.setName(input);
+                break;
         }
 
         // Schedules the reopening of the editor menu
-        WizardGui.scheduleOpen(configuration, (Player) context.getForWhom());
+        Bukkit.getScheduler().runTaskLater(InfoHeads.getInstance(), () -> new EditInfoHeadGui(new EditInfoHeadViewModel(configuration)).open((Player) context.getForWhom()), 1L);
 
         return Prompt.END_OF_CONVERSATION;
     }

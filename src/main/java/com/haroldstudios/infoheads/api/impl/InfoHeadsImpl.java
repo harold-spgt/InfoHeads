@@ -4,7 +4,6 @@ import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.api.InfoHeadsApi;
 import org.bukkit.Location;
-import org.jetbrains.annotations.Nullable;
 
 public class InfoHeadsImpl implements InfoHeadsApi {
 
@@ -22,7 +21,6 @@ public class InfoHeadsImpl implements InfoHeadsApi {
         return matched;
     }
 
-    @Nullable
     @Override
     public InfoHeadConfiguration getHead(Location location) {
         return InfoHeads.getInstance().getDataStore().getInfoHeads().get(location);

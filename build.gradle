@@ -42,9 +42,11 @@ dependencies {
 
     compileOnly('org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT')
     compileOnly('me.clip:placeholderapi:2.11.1')
-    compileOnly('com.github.shynixn.headdatabase:hdb-api:1.0')
     compileOnly('com.github.badbones69:Block-Particles:1.11.1')
-    implementation("dev.triumphteam:triumph-gui:3.1.7")
+    compileOnly('org.jetbrains:annotations:13.0')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 jar {
@@ -54,11 +56,10 @@ jar {
 shadowJar {
     archiveFileName = "${project.name}.jar"
     relocate('org.bstats',"${libsBase}.bstats")
-    relocate('dev.triumphteam.gui',"${libsBase}.mfgui")
 }
 
 group = 'com.haroldstudios'
-version = '2.4.2'
+version = '2.5.0'
 description = 'InfoHeads'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
@@ -70,6 +71,16 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         duplicatesStrategy DuplicatesStrategy.INCLUDE
         filter ReplaceTokens, tokens: [version: version]
+    }
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+
+    maxHeapSize = '1G'
+
+    testLogging {
+        events "passed"
     }
 }
 

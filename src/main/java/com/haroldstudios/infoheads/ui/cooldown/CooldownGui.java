@@ -2,6 +2,7 @@ package com.haroldstudios.infoheads.ui.cooldown;
 
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.model.Cooldown;
+import com.haroldstudios.infoheads.ui.GuiItem;
 import com.haroldstudios.infoheads.ui.GuiSlot;
 import com.haroldstudios.infoheads.ui.InventoryGui;
 import com.haroldstudios.infoheads.ui.builder.ItemBuilder;
@@ -34,7 +35,7 @@ public class CooldownGui extends InventoryGui {
     }
 
     private void populate() {
-        fillEmpty(new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+        fillEmpty(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), null));
         setDefaultClickAction(event -> event.setCancelled(true));
 
         updateValueIndicators(viewModel.getCooldownProperty().getValue());
@@ -46,18 +47,18 @@ public class CooldownGui extends InventoryGui {
         applyIncrDecrCounters(MINUTES_SLOT, CooldownViewModel.Field.MINUTES);
         applyIncrDecrCounters(SECONDS_SLOT, CooldownViewModel.Field.SECONDS);
 
-        insert(PREV_PAGE_SLOT, new ItemBuilder(Material.BARRIER).name(MessageUtil.getString(MessageUtil.Message.PREV_PAGE)).glow(true).build(), event -> {
+        insert(PREV_PAGE_SLOT, new GuiItem(new ItemBuilder(Material.BARRIER).name(MessageUtil.getString(MessageUtil.Message.PREV_PAGE)).glow(true).build(), event -> {
             if (!(event.getWhoClicked() instanceof Player)) return;
 
             new WizardGui(new WizardViewModel(InfoHeads.getInstance(), viewModel.getConfiguration())).open(event.getWhoClicked());
-        });
-        insert(COMPLETE_SLOT, new ItemBuilder(Material.EMERALD_BLOCK).name(MessageUtil.getString(MessageUtil.Message.COMPLETE_ITEM_TITLE)).lore(MessageUtil.getStringList(MessageUtil.Message.COMPLETE_ITEM_LORE)).glow(true).build(), event -> {
+        }));
+        insert(COMPLETE_SLOT, new GuiItem(new ItemBuilder(Material.EMERALD_BLOCK).name(MessageUtil.getString(MessageUtil.Message.COMPLETE_ITEM_TITLE)).lore(MessageUtil.getStringList(MessageUtil.Message.COMPLETE_ITEM_LORE)).glow(true).build(), event -> {
             if (!(event.getWhoClicked() instanceof Player)) return;
 
             viewModel.saveConfiguration();
 
             new WizardGui(new WizardViewModel(InfoHeads.getInstance(), viewModel.getConfiguration())).open(event.getWhoClicked());
-        });
+        }));
     }
 
     /*
@@ -82,9 +83,9 @@ public class CooldownGui extends InventoryGui {
 
     private void updateValueIndicator(GuiSlot valueSlot, String name, int quantity) {
         if (quantity <= 0) {
-            insert(valueSlot, new ItemBuilder(Material.BARRIER).glow(true).name(name).build());
+            insert(valueSlot, new GuiItem(new ItemBuilder(Material.BARRIER).glow(true).name(name).build(), null));
         } else {
-            insert(valueSlot, new ItemBuilder(Material.WHITE_WOOL).glow(true).name(name).build());
+            insert(valueSlot, new GuiItem(new ItemBuilder(Material.WHITE_WOOL).amount(quantity).glow(true).name(name).build(), null));
         }
     }
 
@@ -102,7 +103,7 @@ public class CooldownGui extends InventoryGui {
                 .build();
 
         // Add above and below counters.
-        insert(new GuiSlot(1, guiSlot.col()), incrItemStack, event -> viewModel.increment(field));
-        insert(new GuiSlot(3, guiSlot.col()), decrItemStack, event -> viewModel.decrement(field));
+        insert(new GuiSlot(1, guiSlot.col()), new GuiItem(incrItemStack, event -> viewModel.increment(field)));
+        insert(new GuiSlot(3, guiSlot.col()), new GuiItem(decrItemStack, event -> viewModel.decrement(field)));
     }
 }

@@ -1,12 +1,10 @@
 package com.haroldstudios.infoheads.utils;
 
 import com.haroldstudios.infoheads.InfoHeads;
-import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,20 +136,6 @@ public final class MessageUtil {
         return stringList.toArray(new String[]{});
     }
 
-    public static Component getComponent(Message path) {
-        System.out.println(getString(path));
-        System.out.println(Component.text(getString(path)));
-        return Component.text(getString(path));
-    }
-
-    public static Component[] getComponentList(Message path) {
-        List<Component> stringList = Arrays.stream(getStringList(path))
-                .map(Component::text)
-                .collect(Collectors.toList());
-
-        return stringList.toArray(new Component[]{});
-    }
-
     private static FileConfiguration compute(Message path) {
         FileConfiguration config = InfoHeads.getInstance().getMessagesConfig();
 
@@ -201,9 +185,5 @@ public final class MessageUtil {
         }
 
         return ChatColor.translateAlternateColorCodes('&', msg);
-    }
-
-    public static Component toComponent(String string) {
-        return Component.text(ChatColor.translateAlternateColorCodes('&', string));
     }
 }

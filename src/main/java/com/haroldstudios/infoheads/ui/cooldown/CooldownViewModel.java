@@ -19,6 +19,11 @@ public final class CooldownViewModel {
      */
     public CooldownViewModel(InfoHeadConfiguration configuration) {
         this.configuration = configuration;
+
+        // Ensure not null.
+        if (configuration.getCooldown() == null) {
+            configuration.setCooldown(new Cooldown(0,0,0,0,0));
+        }
         this.cooldownProperty = new SimpleProperty<>(configuration.getCooldown());
     }
 

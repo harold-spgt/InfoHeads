@@ -5,13 +5,13 @@ import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.inventory.HeadStacks;
 import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
+import com.haroldstudios.infoheads.ui.BaseGuiViewModel;
 import com.haroldstudios.infoheads.ui.SimpleProperty;
-import com.haroldstudios.infoheads.ui.ViewModel;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-public class WizardViewModel extends ViewModel {
+public class WizardViewModel extends BaseGuiViewModel {
     private final InfoHeads infoHeads;
     private final InfoHeadConfiguration configuration;
     private final SimpleProperty<Boolean> isOneTimeUseProperty;
@@ -50,14 +50,14 @@ public class WizardViewModel extends ViewModel {
     public void editName(HumanEntity humanEntity) {
         if (humanEntity instanceof Player player) {
             getShouldCloseProperty().setValue(true);
-            infoHeads.getInputFactory(configuration).buildConversation(player).begin();
+            infoHeads.getInputFactory(configuration, Element.InfoHeadType.RENAME).buildConversation(player).begin();
         }
     }
 
     public void setOneTimeUse(boolean oneTimeUse) {
         configuration.getExecuted().clear();
         configuration.setOnce(!oneTimeUse);
-        setOneTimeUse(oneTimeUse);
+        isOneTimeUseProperty.setValue(oneTimeUse);
     }
 
     public void editItem() {
