@@ -1,4 +1,4 @@
-package com.haroldstudios.infoheads.commands;
+package me.harry0198.infoheads.core.commands;
 
 /**
  * The {@code Command} class represents a command that consists of a command string

@@ -1,20 +1,22 @@
-package com.haroldstudios.infoheads.commands;
+package me.harry0198.infoheads.core.commands;
 
-import com.haroldstudios.infoheads.utils.Constants;
-import org.bukkit.command.CommandSender;
+
+import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.model.PlayerDetailSnapshot;
+import me.harry0198.infoheads.core.utils.Constants;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ListCmdExecutor extends CmdExecutor {
-    public ListCmdExecutor() {
-        super(Constants.ADMIN_PERM);
+    public ListCmdExecutor(LocalizedMessageService localizedMessageService) {
+        super(localizedMessageService, Constants.ADMIN_PERMISSION);
     }
 
     @Override
-    public boolean executeCmd(CommandSender sender) {
+    public boolean executeCmd(PlayerDetailSnapshot sender) {
         CompletableFuture.runAsync(() -> {
-            sender.sendMessage("§8+§m-------§8[§bIF List§8]§m-------§8+");
-            sender.sendMessage("§bClick an element to teleport to the head");
+//            sender.sendMessage("§8+§m-------§8[§bIF List§8]§m-------§8+");
+//            sender.sendMessage("§bClick an element to teleport to the head");
 
 //            for (InfoHeadConfiguration head : plugin.getDataStore().getInfoHeads().values()) {
 //                Location loc = head.getLocation();
@@ -31,11 +33,6 @@ public class ListCmdExecutor extends CmdExecutor {
 //            player.sendMessage("§8+§m-------§8[§bIF List§8]§m-------§8+");
 
         });
-        return true;
-    }
-
-    @Override
-    public boolean isPlayerOnlyCmd() {
         return true;
     }
 }
