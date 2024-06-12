@@ -6,7 +6,9 @@ import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.domain.NotificationStrategy;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
 import me.harry0198.infoheads.core.repository.Repository;
+import me.harry0198.infoheads.core.repository.RepositoryFactory;
 import me.harry0198.infoheads.core.service.InfoHeadService;
+import me.harry0198.infoheads.core.utils.UpdateChecker;
 import me.harry0198.infoheads.spigot.commands.BukkitCmdExecutor;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,12 +39,12 @@ public final class InfoHeads extends JavaPlugin {
         NotificationStrategy notificationStrategy = new SpigotNotificationStrategy();
         LocalizedMessageService localizedMessageService = new LocalizedMessageService(notificationStrategy, locale);
 
-        Repository<Set<InfoHeadProperties>>
+        Repository<Set<InfoHeadProperties>> repository = RepositoryFactory.getRepository();
 
-        InfoHeadService infoHeadService = new InfoHeadService();
-        CommandHandler commandHandler = new CommandHandler();
+        InfoHeadService infoHeadService = new InfoHeadService(repository);
+        CommandHandler commandHandler = new CommandHandler(infoHeadService, localizedMessageService);
 
-        this.getCommand("infoheads").setExecutor(new BukkitCmdExecutor());
+        this.getCommand("infoheads").setExecutor(new BukkitCmdExecutor(commandHandler));
 
         getServer().getPluginManager().registerEvents(new InventoryGuiListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
@@ -53,7 +55,7 @@ public final class InfoHeads extends JavaPlugin {
         api = new InfoHeadsImpl();
         getServer().getServicesManager().register(InfoHeadsApi.class,api,this, ServicePriority.Normal);
 
-        (new UpdateChecker(InfoHeads.getInstance(), 67080)).getVersion((version) -> {
+        (new UpdateChecker(67080)).getVersion((version) -> {
             if (InfoHeads.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
                 InfoHeads.getInstance().info("There is no new update available.");
             } else {

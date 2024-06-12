@@ -2,7 +2,8 @@ package me.harry0198.infoheads.core.commands;
 
 
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.model.PlayerDetailSnapshot;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.model.Player;
 
 /**
  * Command executor base class.
@@ -22,10 +23,10 @@ public abstract class CmdExecutor {
     /**
      * Executes the given command executor. Checks for
      * sender permissions before performing the command.
-     * @param sender {@link PlayerDetailSnapshot} that has requested to execute the command.
+     * @param sender {@link Player} that has requested to execute the command.
      * @return If command execution was successful or not.
      */
-    public boolean execute(PlayerDetailSnapshot sender) {
+    public boolean execute(OnlinePlayer sender) {
 //        if (hasPermission(sender)) {
 //            return executeCmd(sender);
 //        } else {
@@ -45,10 +46,10 @@ public abstract class CmdExecutor {
 
     /**
      * Checks if the sender has permission to perform this command.
-     * @param sender {@link PlayerDetailSnapshot} to check permission with.
-     * @return If {@link PlayerDetailSnapshot} has permission or not.
+     * @param sender {@link Player} to check permission with.
+     * @return If {@link Player} has permission or not.
      */
-    protected boolean hasPermission(PlayerDetailSnapshot sender) {
+    protected boolean hasPermission(Player sender) {
         return true; //TODO perhaps factory strategy.
 //        if (permission == null) return true;
 //        return sender.hasPermission(permission);
@@ -58,5 +59,5 @@ public abstract class CmdExecutor {
         return this.localizedMessageService;
     }
 
-    public abstract boolean executeCmd(PlayerDetailSnapshot sender);
+    public abstract boolean executeCmd(OnlinePlayer sender);
 }

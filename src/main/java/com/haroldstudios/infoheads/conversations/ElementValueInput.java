@@ -6,8 +6,6 @@ import com.haroldstudios.infoheads.datastore.DataStore;
 import com.haroldstudios.infoheads.elements.*;
 import com.haroldstudios.infoheads.ui.edit.EditInfoHeadGui;
 import com.haroldstudios.infoheads.ui.edit.EditInfoHeadViewModel;
-import com.haroldstudios.infoheads.ui.wizard.WizardGui;
-import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.conversations.ConversationContext;

@@ -6,7 +6,6 @@ import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.elements.EndElement;
 import com.haroldstudios.infoheads.ui.wizard.WizardGui;
 import com.haroldstudios.infoheads.ui.wizard.WizardViewModel;
-import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

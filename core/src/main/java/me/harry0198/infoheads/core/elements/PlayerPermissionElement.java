@@ -1,4 +1,4 @@
-package com.haroldstudios.infoheads.elements;
+package me.harry0198.infoheads.core.elements;
 
 
 import com.haroldstudios.infoheads.InfoHeads;

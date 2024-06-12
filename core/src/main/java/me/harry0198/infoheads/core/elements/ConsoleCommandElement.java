@@ -1,8 +1,7 @@
-package com.haroldstudios.infoheads.elements;
+package me.harry0198.infoheads.core.elements;
 
-import com.haroldstudios.infoheads.InfoHeads;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
+
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 public final class ConsoleCommandElement extends Element {
 
@@ -29,7 +28,7 @@ public final class ConsoleCommandElement extends Element {
     }
 
     @Override
-    public void performAction(Player player, PlayerInteractEvent event) {
+    public void performAction(OnlinePlayer player, PlayerInteractEvent event) {
         InfoHeads.getInstance().getServer().dispatchCommand(InfoHeads.getInstance().getServer().getConsoleSender(), removePlaceHolders(command, player, event));
     }
 

@@ -3,7 +3,8 @@ package me.harry0198.infoheads.core.commands;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
-import me.harry0198.infoheads.core.model.PlayerDetailSnapshot;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.Constants;
 
@@ -29,24 +30,24 @@ public class RemoveCmdExecutor extends CmdExecutor {
     }
 
     /**
-     * Executes the remove command for the given {@link PlayerDetailSnapshot}. If the sender is
+     * Executes the remove command for the given {@link Player}. If the sender is
      * a player and is targeting a block that contains an InfoHead, the InfoHead is removed
      * from the specified location. Otherwise, an appropriate message is sent to the player.
      *
-     * @param sender the {@link PlayerDetailSnapshot} executing the command, expected to be a {@code Player}
+     * @param sender the {@link OnlinePlayer} executing the command, expected to be a {@code Player}
      * @return {@code true} if the command was successfully executed, otherwise {@code false}
      */
     @Override
-    public boolean executeCmd(PlayerDetailSnapshot sender) {
+    public boolean executeCmd(OnlinePlayer sender) {
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(sender.getLookingAt());
 
         if (infoHeadPropertiesOptional.isEmpty()) {
-            getLocalizedMessageService().getNotificationStrategy().send(sender, getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION));
+            sender.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION));
             return true;
         }
 
         infoHeadService.removeInfoHead(infoHeadPropertiesOptional.get());
-        getLocalizedMessageService().getNotificationStrategy().send(sender, getLocalizedMessageService().getMessage(BundleMessages.INFOHEAD_REMOVED));
+        sender.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.INFOHEAD_REMOVED));
 
         return true;
     }

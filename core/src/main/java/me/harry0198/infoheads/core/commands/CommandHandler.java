@@ -1,7 +1,7 @@
 package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.model.PlayerDetailSnapshot;
+import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 
 /**
@@ -33,7 +33,7 @@ public class CommandHandler {
      * @param command {@link Command} to handle.
      * @return If the command execution was a success or not.
      */
-    public boolean handle(Command command, PlayerDetailSnapshot playerDetailSnapshot) {
+    public boolean handle(Command command, Player player) {
 
         // Select the command executor based on command retrieved.
         CmdExecutor cmdExecutor = switch (command.cmdString().toLowerCase()) {
@@ -46,6 +46,6 @@ public class CommandHandler {
             default -> new UnknownCmdExecutor(localizedMessageService);
         };
 
-        return cmdExecutor.execute(playerDetailSnapshot);
+        return cmdExecutor.execute(player);
     }
 }

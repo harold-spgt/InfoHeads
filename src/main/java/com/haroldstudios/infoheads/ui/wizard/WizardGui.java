@@ -10,7 +10,6 @@ import com.haroldstudios.infoheads.ui.builder.ItemBuilder;
 import com.haroldstudios.infoheads.ui.cooldown.CooldownGui;
 import com.haroldstudios.infoheads.ui.cooldown.CooldownViewModel;
 import com.haroldstudios.infoheads.ui.edit.EditGui;
-import com.haroldstudios.infoheads.ui.particles.ParticleSelectorGui;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

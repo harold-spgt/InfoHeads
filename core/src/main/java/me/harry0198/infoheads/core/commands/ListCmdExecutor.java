@@ -2,7 +2,8 @@ package me.harry0198.infoheads.core.commands;
 
 
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.model.PlayerDetailSnapshot;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.utils.Constants;
 
 import java.util.concurrent.CompletableFuture;
@@ -13,7 +14,7 @@ public class ListCmdExecutor extends CmdExecutor {
     }
 
     @Override
-    public boolean executeCmd(PlayerDetailSnapshot sender) {
+    public boolean executeCmd(OnlinePlayer sender) {
         CompletableFuture.runAsync(() -> {
 //            sender.sendMessage("§8+§m-------§8[§bIF List§8]§m-------§8+");
 //            sender.sendMessage("§bClick an element to teleport to the head");

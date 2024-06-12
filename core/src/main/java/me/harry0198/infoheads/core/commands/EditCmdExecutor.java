@@ -3,7 +3,8 @@ package me.harry0198.infoheads.core.commands;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
-import me.harry0198.infoheads.core.model.PlayerDetailSnapshot;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.Constants;
 
@@ -28,19 +29,19 @@ public class EditCmdExecutor extends CmdExecutor {
     }
 
     /**
-     * Executes the edit command for the given {@link PlayerDetailSnapshot}. If the sender is
+     * Executes the edit command for the given {@link Player}. If the sender is
      * a player, it checks if the targeted block contains an InfoHead. If it does,
      * it proceeds to handle the editing logic.
      *
-     * @param snapshot the {@link PlayerDetailSnapshot} executing the command, expected to be a {@code Player}
+     * @param player the {@link OnlinePlayer} executing the command.
      * @return {@code true} if the command was successfully executed, otherwise {@code false}
      */
     @Override
-    public boolean executeCmd(PlayerDetailSnapshot snapshot) {
-        Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(snapshot.getLookingAt());
+    public boolean executeCmd(OnlinePlayer player) {
+        Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(player.getLookingAt());
         if (infoHeadPropertiesOptional.isEmpty()) {
 
-            getLocalizedMessageService().getNotificationStrategy().send(snapshot, getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION));
+            player.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION));
             return true;
         }
 

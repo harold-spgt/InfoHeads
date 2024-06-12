@@ -1,7 +1,6 @@
 package com.haroldstudios.infoheads.listeners;
 
 import com.haroldstudios.infoheads.InfoHeads;
-import com.haroldstudios.infoheads.utils.Constants;
 import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;

@@ -2,7 +2,7 @@ package me.harry0198.infoheads.spigot.commands;
 
 import me.harry0198.infoheads.core.commands.*;
 import me.harry0198.infoheads.core.model.Location;
-import me.harry0198.infoheads.core.model.PlayerDetailSnapshot;
+import me.harry0198.infoheads.core.model.Player;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -15,6 +15,7 @@ import java.util.UUID;
  */
 public class BukkitCmdExecutor implements CommandExecutor {
 
+    private final static String DEFAULT_CMD_STRING = "default";
     private final CommandHandler commandHandler;
 
     /**
@@ -38,12 +39,12 @@ public class BukkitCmdExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command ignore, String s, String[] args) {
 
         Command command = parseCommand(args);
-        PlayerDetailSnapshot playerDetailSnapshot = new PlayerDetailSnapshot(
+        Player player = new Player(
                 UUID.randomUUID(),
                 new Location(1,2,3, "world")
         );
 
-        return this.commandHandler.handle(command, playerDetailSnapshot);
+        return this.commandHandler.handle(command, player);
     }
 
     /*

@@ -3,7 +3,8 @@ package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.model.PlayerDetailSnapshot;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.utils.Constants;
 
 /**
@@ -23,8 +24,8 @@ public class HelpCmdExecutor extends CmdExecutor {
      * {@inheritDoc}
      */
     @Override
-    public boolean executeCmd(PlayerDetailSnapshot sender) {
-        getLocalizedMessageService().getNotificationStrategy().send(sender, getLocalizedMessageService().getMessage(BundleMessages.HELP));
+    public boolean executeCmd(OnlinePlayer sender) {
+        sender.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.HELP));
         return true;
     }
 }
