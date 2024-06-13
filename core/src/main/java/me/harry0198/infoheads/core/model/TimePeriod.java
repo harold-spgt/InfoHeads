@@ -1,5 +1,7 @@
 package me.harry0198.infoheads.core.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @param weeks
@@ -14,7 +16,7 @@ public record TimePeriod(
         int hours,
         int minutes,
         int seconds
-) {
+) implements Serializable {
     public TimePeriod {
         // Copy constructor
         if (weeks < 0 || days < 0 || hours < 0 || minutes < 0 || seconds < 0

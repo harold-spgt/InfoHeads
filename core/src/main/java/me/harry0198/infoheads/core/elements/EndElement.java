@@ -1,38 +1,36 @@
 package me.harry0198.infoheads.core.elements;
 
-import com.haroldstudios.infoheads.datastore.DataStore;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.jetbrains.annotations.NotNull;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EndElement extends Element {
+public class EndElement extends Element<String> {
 
     private final List<Element> elements;
 
-    public EndElement(@NotNull final List<Element> elements) {
+    public EndElement(List<Element> elements) {
         this.elements = elements;
     }
 
 
     // Executes after all Elements have been fired. Closing down sequence
     @Override
-    public void performAction(@NotNull Player player, PlayerInteractEvent event) {
+    public void performAction(OnlinePlayer player) {
         // Removes Permissions
         for (Element element : elements.stream().filter(el -> el.getType().equals(InfoHeadType.PLAYER_PERMISSION)).collect(Collectors.toList())) {
             PlayerPermissionElement el = (PlayerPermissionElement) element;
 
-            if (DataStore.getPermissionsData().get(player.getUniqueId()) != null) {
-                DataStore.getPermissionsData().get(player.getUniqueId()).unsetPermission(el.getPermission());
-            }
+//            if (DataStore.getPermissionsData().get(player.getUniqueId()) != null) {
+//                DataStore.getPermissionsData().get(player.getUniqueId()).unsetPermission(el.getPermission());
+//            }
+            //TODO
         }
     }
 
     @Override
-    public Object getContent() {
-        return "";
+    public String getContent() {
+        return "-END-";
     }
 
     @Override

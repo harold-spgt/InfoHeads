@@ -1,10 +1,8 @@
 package me.harry0198.infoheads.core.elements;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.jetbrains.annotations.NotNull;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public final class DelayElement extends Element{
+public final class DelayElement extends Element<Integer> {
 
     private int delayInSecs;
 
@@ -33,12 +31,12 @@ public final class DelayElement extends Element{
     }
 
     @Override
-    public void performAction(Player player, PlayerInteractEvent event) {
+    public void performAction(OnlinePlayer player) {
         //Not needed - handled on interact
     }
 
     @Override
-    public Object getContent() {
+    public Integer getContent() {
         return delayInSecs;
     }
 

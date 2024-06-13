@@ -1,6 +1,7 @@
 package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 
@@ -33,7 +34,7 @@ public class CommandHandler {
      * @param command {@link Command} to handle.
      * @return If the command execution was a success or not.
      */
-    public boolean handle(Command command, Player player) {
+    public boolean handle(Command command, OnlinePlayer player) {
 
         // Select the command executor based on command retrieved.
         CmdExecutor cmdExecutor = switch (command.cmdString().toLowerCase()) {

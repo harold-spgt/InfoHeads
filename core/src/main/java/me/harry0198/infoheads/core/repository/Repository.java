@@ -1,12 +1,12 @@
 package me.harry0198.infoheads.core.repository;
 
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import java.util.List;
 
 public interface Repository<T> {
 
-    boolean save(InfoHeadProperties infoHeadProperties);
+    boolean save(T obj);
 
-    T get();
+    List<T> getAll();
 
-    void delete(InfoHeadProperties infoHeadProperties);
+    boolean delete(T obj);
 }

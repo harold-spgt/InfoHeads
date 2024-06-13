@@ -38,9 +38,8 @@ public class EditCmdExecutor extends CmdExecutor {
      */
     @Override
     public boolean executeCmd(OnlinePlayer player) {
-        Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(player.getLookingAt());
+        Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(player.getLookingAt().orElse(null));
         if (infoHeadPropertiesOptional.isEmpty()) {
-
             player.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION));
             return true;
         }

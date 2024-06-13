@@ -1,10 +1,8 @@
 package me.harry0198.infoheads.core.elements;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.jetbrains.annotations.NotNull;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public final class MessageElement extends Element {
+public final class MessageElement extends Element<String> {
 
     private String message;
 
@@ -33,12 +31,12 @@ public final class MessageElement extends Element {
     }
 
     @Override
-    public void performAction(@NotNull Player player, PlayerInteractEvent event) {
-        player.sendMessage(removePlaceHolders(message, player, event));
+    public void performAction(OnlinePlayer player) {
+        player.sendMessage(removePlaceHolders(message, player));
     }
 
     @Override
-    public Object getContent() {
+    public String getContent() {
         return message;
     }
 

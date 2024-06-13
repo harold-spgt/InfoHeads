@@ -1,18 +1,13 @@
 package me.harry0198.infoheads.core.elements;
 
 
-import com.haroldstudios.infoheads.InfoHeads;
-import com.haroldstudios.infoheads.datastore.DataStore;
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.permissions.PermissionAttachment;
-import org.jetbrains.annotations.NotNull;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public class PlayerPermissionElement extends Element {
+public class PlayerPermissionElement extends Element<String> {
 
     private String permission;
 
-    public PlayerPermissionElement(@NotNull final String permission) {
+    public PlayerPermissionElement(String permission) {
         this.permission = permission;
     }
 
@@ -25,21 +20,21 @@ public class PlayerPermissionElement extends Element {
     }
 
     @Override
-    public void performAction(@NotNull Player player, PlayerInteractEvent event) {
-
-        PermissionAttachment attachment;
-
-        if (DataStore.getPermissionsData().get(player.getUniqueId()) == null) {
-            PermissionAttachment permissionAttachment = player.addAttachment(InfoHeads.getInstance());
-            DataStore.getPermissionsData().put(player.getUniqueId(), permissionAttachment);
-        }
-
-        attachment = DataStore.getPermissionsData().get(player.getUniqueId());
-        attachment.setPermission(permission, true);
+    public void performAction(OnlinePlayer player) {
+//TODO
+//        PermissionAttachment attachment;
+//
+//        if (DataStore.getPermissionsData().get(player.getUniqueId()) == null) {
+//            PermissionAttachment permissionAttachment = player.addAttachment(InfoHeads.getInstance());
+//            DataStore.getPermissionsData().put(player.getUniqueId(), permissionAttachment);
+//        }
+//
+//        attachment = DataStore.getPermissionsData().get(player.getUniqueId());
+//        attachment.setPermission(permission, true);
     }
 
     @Override
-    public Object getContent() {
+    public String getContent() {
         return permission;
     }
 

@@ -2,9 +2,11 @@ package me.harry0198.infoheads.spigot.commands;
 
 import me.harry0198.infoheads.core.commands.*;
 import me.harry0198.infoheads.core.model.Location;
-import me.harry0198.infoheads.core.model.Player;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -38,11 +40,11 @@ public class BukkitCmdExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command ignore, String s, String[] args) {
 
+        if (!(commandSender instanceof Player bukkitPlayer)) {
+            return false;
+        }
         Command command = parseCommand(args);
-        Player player = new Player(
-                UUID.randomUUID(),
-                new Location(1,2,3, "world")
-        );
+        OnlinePlayer player = new BukkitOnlinePlayer(bukkitPlayer);
 
         return this.commandHandler.handle(command, player);
     }

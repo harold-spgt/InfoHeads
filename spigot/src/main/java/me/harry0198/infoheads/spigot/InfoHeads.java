@@ -4,12 +4,14 @@ package me.harry0198.infoheads.spigot;
 import me.harry0198.infoheads.core.commands.CommandHandler;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.domain.NotificationStrategy;
+import me.harry0198.infoheads.core.eventhandler.*;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
 import me.harry0198.infoheads.core.repository.Repository;
 import me.harry0198.infoheads.core.repository.RepositoryFactory;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.UpdateChecker;
 import me.harry0198.infoheads.spigot.commands.BukkitCmdExecutor;
+import me.harry0198.infoheads.spigot.listener.BukkitEventListener;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,8 +38,7 @@ public final class InfoHeads extends JavaPlugin {
         new Metrics(this, 4607);
 
         Locale locale = Locale.forLanguageTag("en-GB");
-        NotificationStrategy notificationStrategy = new SpigotNotificationStrategy();
-        LocalizedMessageService localizedMessageService = new LocalizedMessageService(notificationStrategy, locale);
+        LocalizedMessageService localizedMessageService = new LocalizedMessageService(locale);
 
         Repository<Set<InfoHeadProperties>> repository = RepositoryFactory.getRepository();
 
@@ -47,10 +48,13 @@ public final class InfoHeads extends JavaPlugin {
         this.getCommand("infoheads").setExecutor(new BukkitCmdExecutor(commandHandler));
 
         getServer().getPluginManager().registerEvents(new InventoryGuiListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
-
-        if (packagesExists("org.bukkit.util.Consumer"))
-            getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        getServer().getPluginManager().registerEvents(new BukkitEventListener(
+                new BreakHandler(infoHeadService, localizedMessageService),
+                new InteractHandler(),
+                new PlaceHandler(),
+                new PlayerJoinHandler(),
+                new PlayerQuitHandler()
+        ), this);
 
         api = new InfoHeadsImpl();
         getServer().getServicesManager().register(InfoHeadsApi.class,api,this, ServicePriority.Normal);
@@ -65,84 +69,42 @@ public final class InfoHeads extends JavaPlugin {
     }
 
     public void load() {
-        if (!messagesFile.exists()) {
-            saveResource("messages.yml", true);
-            messagesFile.getParentFile().mkdirs();
-            try {
-                messagesFile.createNewFile();
-                debug("Creating a messages.yml file");
-            } catch (IOException e) {
-                error("Cannot create messages.yml configuration file.");
-            }
-        }
-
-        messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
-        updateMessagesConfig();
-        saveDefaultConfig();
-
-        this.fileUtil = new FileUtil();
-
-        this.dataStore = getFileUtil().getFile(DataStore.class).exists() ? getFileUtil().load(DataStore.class) : new DataStore();
+//        if (!messagesFile.exists()) {
+//            saveResource("messages.yml", true);
+//            messagesFile.getParentFile().mkdirs();
+//            try {
+//                messagesFile.createNewFile();
+//                debug("Creating a messages.yml file");
+//            } catch (IOException e) {
+//                error("Cannot create messages.yml configuration file.");
+//            }
+//        }
+//
+//        messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
+//        updateMessagesConfig();
+//        saveDefaultConfig();
+//
+//        this.fileUtil = new FileUtil();
+//
+//        this.dataStore = getFileUtil().getFile(DataStore.class).exists() ? getFileUtil().load(DataStore.class) : new DataStore();
 
         // InfoHead, (UUID, TimeStamp)
         // Checks and removes people who's time has elapsed the cooldown from map.
 
-        dataStore.getInfoHeads().values().forEach(configuration -> {
 
-            Set<Map.Entry<UUID, Long>> entrySet = configuration.getTimestamps().entrySet();
-
-            Iterator<Map.Entry<UUID, Long>> iterator = entrySet.iterator();
-
-            while (iterator.hasNext()) {
-                Map.Entry<UUID, Long> entry = iterator.next();
-                Long timestamp = entry.getValue();
-
-                if (timestamp < System.currentTimeMillis()) {
-                    iterator.remove();
-                }
-            }
-        });
-
-
-        fileUtil.save(this.dataStore);
+//        fileUtil.save(this.dataStore);
 
         DataStore.placerMode.clear();
-        getServer().getPluginManager().registerEvents(new HeadInteract(this), this);
-        getServer().getPluginManager().registerEvents(new HeadPlace(this), this);
-        getServer().getPluginManager().registerEvents(new HeadBreak(this), this);
-//        if (packagesExists("me.arcaniax.hdb.api.DatabaseLoadEvent", "me.arcaniax.hdb.api.HeadDatabaseAPI"))
-//            getServer().getPluginManager().registerEvents(new HdbListener(this), this);
         if (packagesExists("me.clip.placeholderapi.PlaceholderAPI"))
             papi = true;
         if (packagesExists("me.badbones69.blockparticles.Methods"))
             blockParticles = true;
-
     }
 
     @Override
     public void onDisable() {
-        fileUtil.save(dataStore);
-    }
-
-    private void updateMessagesConfig() {
-        if (messagesConfig.contains("one-time")) {
-            messagesConfig.set("oneTime", messagesConfig.get("one-time"));
-            messagesConfig.set("one-time", null);
-        }
-
-        messagesConfig.options().header("This is the InfoHeads messages file.\nIn this file you can always use color codes (&) and HEX codes (&#000000)\n\nThis file is auto-updated from an internal class of the plugin.\nPlease DO NOT remove any config field, it will cause errors.");
-        messagesConfig.options().copyHeader(true);
-        MessageUtil.init();
-
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new ConfigTask(this), 0L, 60L);
-    }
-
-    public FileUtil getFileUtil() {
-        return fileUtil;
-    }
-
-    public DataStore getDataStore() {
-        return dataStore;
+        //TODO
+//        fileUtil.save(dataStore);
     }
 
     /**
@@ -168,37 +130,17 @@ public final class InfoHeads extends JavaPlugin {
         getLogger().log(Level.INFO, msg);
     }
 
-    public static ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {
-        return new ConversationFactory(InfoHeads.getInstance())
-                .withModality(true)
-                .withPrefix(new InfoHeadsConversationPrefix())
-                .withFirstPrompt(new ElementValueInput(InfoHeads.getInstance().dataStore, infoHeadConfiguration, element)) //TODO incorrect static use here. Datstore should be singleton? no. Should use interface
-                .withEscapeSequence("cancel")
-                .withTimeout(60)
-                .thatExcludesNonPlayersWithMessage("Console is not supported by this command");
-    }
-
-    public FileConfiguration getMessagesConfig() {
-        return messagesConfig;
-    }
-
-    public File getMessagesFile() {
-        return messagesFile;
-    }
+//    public static ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {
+//        return new ConversationFactory(InfoHeads.getInstance())
+//                .withModality(true)
+//                .withPrefix(new InfoHeadsConversationPrefix())
+//                .withFirstPrompt(new ElementValueInput(InfoHeads.getInstance().dataStore, infoHeadConfiguration, element)) //TODO incorrect static use here. Datstore should be singleton? no. Should use interface
+//                .withEscapeSequence("cancel")
+//                .withTimeout(60)
+//                .thatExcludesNonPlayersWithMessage("Console is not supported by this command");
+//    }
 
     public static InfoHeads getInstance() {
         return getPlugin(InfoHeads.class);
-    }
-
-    public void warn(String msg) {
-        getLogger().log(Level.WARNING, msg);
-    }
-
-    public void info(String msg) {
-        getLogger().log(Level.INFO, msg);
-    }
-
-    public void error(String msg) {
-        getLogger().log(Level.SEVERE, msg);
     }
 }

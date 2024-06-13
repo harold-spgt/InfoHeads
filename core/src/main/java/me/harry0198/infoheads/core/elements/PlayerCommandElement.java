@@ -1,14 +1,12 @@
 package me.harry0198.infoheads.core.elements;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.jetbrains.annotations.NotNull;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public final class PlayerCommandElement extends Element {
+public final class PlayerCommandElement extends Element<String> {
 
     private String command;
 
-    public PlayerCommandElement(@NotNull final String command) {
+    public PlayerCommandElement(String command) {
         this.command = command;
     }
 
@@ -29,12 +27,12 @@ public final class PlayerCommandElement extends Element {
     }
 
     @Override
-    public void performAction(@NotNull Player player, PlayerInteractEvent event) {
-        player.chat("/" + removePlaceHolders(command, player, event));
+    public void performAction(OnlinePlayer player) {
+        player.performCommand(removePlaceHolders(command, player));
     }
 
     @Override
-    public Object getContent() {
+    public String getContent() {
         return command;
     }
 

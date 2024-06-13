@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public final class InfoHeadService {
 
     private static final Logger LOGGER = Logger.getLogger(InfoHeadService.class.getName());
-    private final Repository<Set<InfoHeadProperties>> repository;
+    private final Repository<InfoHeadProperties> repository;
     private final Map<Location, InfoHeadProperties> cache;
     private final CompletableFuture<Void> cacheInitializationProc;
 
@@ -27,7 +27,7 @@ public final class InfoHeadService {
      * Creates the cache.
      * @param repository {@link Repository} providing the InfoHead properties.
      */
-    public InfoHeadService(Repository<Set<InfoHeadProperties>> repository) {
+    public InfoHeadService(Repository<InfoHeadProperties> repository) {
         this.repository = repository;
         this.cache = new HashMap<>();
 
@@ -67,13 +67,13 @@ public final class InfoHeadService {
                 });
 
         // Remove from cache.
-        cache.remove(infoHeadProperties.location());
+        cache.remove(infoHeadProperties.getLocation());
     }
 
     private CompletableFuture<Void> initializeCache() {
         return CompletableFuture.runAsync(() -> {
-            for (InfoHeadProperties infoHeadProperties : repository.get()) {
-                this.cache.put(infoHeadProperties.location(), infoHeadProperties);
+            for (InfoHeadProperties infoHeadProperties : repository.getAll()) {
+                this.cache.put(infoHeadProperties.getLocation(), infoHeadProperties);
             }
         }).whenComplete((ignore,error) -> {
             if (error != null) {

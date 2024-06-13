@@ -3,7 +3,7 @@ package me.harry0198.infoheads.core.elements;
 
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public final class ConsoleCommandElement extends Element {
+public final class ConsoleCommandElement extends Element<String> {
 
     private String command;
 
@@ -28,12 +28,12 @@ public final class ConsoleCommandElement extends Element {
     }
 
     @Override
-    public void performAction(OnlinePlayer player, PlayerInteractEvent event) {
-        InfoHeads.getInstance().getServer().dispatchCommand(InfoHeads.getInstance().getServer().getConsoleSender(), removePlaceHolders(command, player, event));
+    public void performAction(OnlinePlayer player) {
+//        InfoHeads.getInstance().getServer().dispatchCommand(InfoHeads.getInstance().getServer().getConsoleSender(), removePlaceHolders(command, player, event));
     }
 
     @Override
-    public Object getContent() {
+    public String getContent() {
         return command;
     }
 

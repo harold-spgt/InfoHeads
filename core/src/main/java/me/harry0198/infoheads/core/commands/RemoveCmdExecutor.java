@@ -39,7 +39,7 @@ public class RemoveCmdExecutor extends CmdExecutor {
      */
     @Override
     public boolean executeCmd(OnlinePlayer sender) {
-        Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(sender.getLookingAt());
+        Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(sender.getLookingAt().orElse(null));
 
         if (infoHeadPropertiesOptional.isEmpty()) {
             sender.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION));
