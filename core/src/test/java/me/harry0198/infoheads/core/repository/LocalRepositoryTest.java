@@ -33,6 +33,7 @@ public class LocalRepositoryTest {
                 new Location(1,2,3, ""),
                 "",
                 new TimePeriod(1,2,3,4,5),
+                true,
                 true
         );
 
@@ -55,6 +56,7 @@ public class LocalRepositoryTest {
         String expectedPermission = "permission";
         TimePeriod expectedTimePeriod = new TimePeriod(1,2,3,4,5);
         boolean expectedOneTimeUse = true;
+        boolean expectedEnabled = true;
 
         // Act
         List<InfoHeadProperties> infoHeadPropertiesList = new LocalRepository<InfoHeadProperties>(Path.of(TEST_FOLDER.toFile().getAbsolutePath(), "all")).getAll();
@@ -70,6 +72,8 @@ public class LocalRepositoryTest {
         Assertions.assertEquals(expectedPermission, deserialized.getPermission());
         Assertions.assertEquals(expectedTimePeriod, deserialized.getCoolDown());
         Assertions.assertEquals(expectedOneTimeUse, deserialized.isOneTimeUse());
+        Assertions.assertEquals(expectedOneTimeUse, deserialized.isOneTimeUse());
+        Assertions.assertEquals(expectedEnabled, deserialized.isEnabled()); // TODO RESOLVE TEST (change test file).
     }
 
     @Test
@@ -81,7 +85,8 @@ public class LocalRepositoryTest {
                         null,
                         null,
                         null,
-                        false
+                        false,
+                true
         );
         // Copy over file that should be deleted.
         Path copyFile = Path.of(TEST_FOLDER.toFile().getAbsolutePath(), "delete", infoHeadProperties.getId() + LocalRepository.getDataFileExtension());

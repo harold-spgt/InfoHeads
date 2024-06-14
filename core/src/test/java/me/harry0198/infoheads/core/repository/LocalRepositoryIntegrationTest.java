@@ -40,7 +40,8 @@ public class LocalRepositoryIntegrationTest {
                 location,
                 permission,
                 timePeriod,
-                oneTimeUse
+                oneTimeUse,
+                true
         );
 
         // Act & Assert

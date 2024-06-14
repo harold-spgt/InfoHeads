@@ -18,6 +18,8 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
     private TimePeriod coolDown;
     private boolean oneTimeUse;
 
+    // Enabled also means if the infohead was broken and not yet re-placed.
+    private boolean enabled;
     private final LinkedList<Element<?>> elements;
 
     public InfoHeadProperties(
@@ -25,10 +27,11 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
             Location location,
             String permission,
             TimePeriod coolDown,
-            boolean oneTimeUse
+            boolean oneTimeUse,
+            boolean enabled
 
     ) {
-        this(UUID.randomUUID(), name, location, permission, coolDown, oneTimeUse);
+        this(UUID.randomUUID(), name, location, permission, coolDown, oneTimeUse, enabled);
     }
     public InfoHeadProperties(
             UUID uuid,
@@ -36,7 +39,8 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
             Location location,
             String permission,
             TimePeriod coolDown,
-            boolean oneTimeUse
+            boolean oneTimeUse,
+            boolean enabled
 
     ) {
         this.uniqueId = uuid;
@@ -46,10 +50,15 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
         this.coolDown = coolDown;
         this.oneTimeUse = oneTimeUse;
         this.elements = new LinkedList<>();
+        this.enabled = enabled;
     }
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public void setLocation(Location location) {
@@ -90,6 +99,10 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
 
     public boolean isOneTimeUse() {
         return oneTimeUse;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     @Override
