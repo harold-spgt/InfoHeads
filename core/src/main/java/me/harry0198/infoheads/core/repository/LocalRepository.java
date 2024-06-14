@@ -15,11 +15,11 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
     private final static String DATA_FILE_EXTENSION = ".dat";
     private final static Logger LOGGER = Logger.getLogger(LocalRepository.class.getName());
 
-    private final String repositoryFolder;
+    private final Path repositoryFolder;
 
 
     public LocalRepository(Path parent) {
-        this.repositoryFolder = Path.of(parent.toFile().getAbsolutePath(), "local_data").toString();
+        this.repositoryFolder = Path.of(parent.toFile().getAbsolutePath());
     }
 
     /**
@@ -29,7 +29,7 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
      */
     @Override
     public boolean save(T obj) {
-        if (!validateFolder(new File(repositoryFolder))) return false;
+        if (!validateFolder(repositoryFolder.toFile())) return false;
 
         File propertyFile = getFileForProperty(obj);
 
@@ -53,7 +53,7 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
     @Override
     public List<T> getAll() {
         // If folder presence could not be verified, return empty list to prevent fatal failure and delegate notification to below function.
-        File dataFolder = new File(repositoryFolder);
+        File dataFolder = repositoryFolder.toFile();
         if (!validateFolder(dataFolder)) return List.of();
 
         File[] files = dataFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(DATA_FILE_EXTENSION));
@@ -89,6 +89,14 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
         return false;
     }
 
+    public static String getDataFileExtension() {
+        return DATA_FILE_EXTENSION;
+    }
+
+    public Path getRepositoryFolder() {
+        return repositoryFolder;
+    }
+
     private boolean validateFolder(File dataFolder) {
         if (!dataFolder.isDirectory()) {
             try {
@@ -108,6 +116,6 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
     }
 
     private File getFileForProperty(Identifiable identifiable) {
-        return new File(repositoryFolder, identifiable.getId().toString() + DATA_FILE_EXTENSION);
+        return new File(repositoryFolder.toFile().getAbsoluteFile(), identifiable.getId().toString() + DATA_FILE_EXTENSION);
     }
 }

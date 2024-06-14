@@ -47,7 +47,7 @@ public class LocalRepositoryIntegrationTest {
         boolean didSave = repository.save(infoHeadProperties);
         Assertions.assertTrue(didSave, "Did not save.");
 
-        File file = Path.of(parentFolderPath.toFile().getAbsolutePath(), "local_data", infoHeadProperties.getId() + ".dat").toFile();
+        File file = Path.of(parentFolderPath.toFile().getAbsolutePath(), infoHeadProperties.getId() + LocalRepository.getDataFileExtension()).toFile();
         Assertions.assertTrue(file.exists(), "File was not serialized or created.");
 
         List<InfoHeadProperties> infoHeadPropertiesList = repository.getAll();
