@@ -10,6 +10,10 @@ import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/**
+ * On-disk repository for saving, fetching and deleting {@link T} data.
+ * @param <T> Class extending {@link Serializable} and {@link Identifiable}.
+ */
 public class LocalRepository<T extends Serializable & Identifiable> implements Repository<T> {
 
     private final static String DATA_FILE_EXTENSION = ".dat";
@@ -17,7 +21,10 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
 
     private final Path repositoryFolder;
 
-
+    /**
+     * Class constructor.
+     * @param parent Path to directory to save data to.
+     */
     public LocalRepository(Path parent) {
         this.repositoryFolder = Path.of(parent.toFile().getAbsolutePath());
     }
@@ -47,8 +54,8 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
     }
 
     /**
-     * Fetches all {@link }
-     * @return
+     * Fetches all objects as List.
+     * @return {@link List} of all successfully deserialized objects from the supplied repository directory via constructor.
      */
     @Override
     public List<T> getAll() {
@@ -76,6 +83,11 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Deletes data file from local disk. Uses {@link Identifiable#getId()} as file name.
+     * @param obj to delete.
+     * @return If the deletion was successful or not.
+     */
     @Override
     public boolean delete(T obj) {
         File propertyFile = getFileForProperty(obj);
@@ -91,10 +103,6 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
 
     public static String getDataFileExtension() {
         return DATA_FILE_EXTENSION;
-    }
-
-    public Path getRepositoryFolder() {
-        return repositoryFolder;
     }
 
     private boolean validateFolder(File dataFolder) {
