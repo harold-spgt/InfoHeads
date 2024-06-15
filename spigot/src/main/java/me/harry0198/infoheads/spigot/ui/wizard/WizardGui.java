@@ -3,6 +3,7 @@ package me.harry0198.infoheads.spigot.ui.wizard;
 import com.haroldstudios.infoheads.InfoHeads;
 import com.haroldstudios.infoheads.elements.Element;
 import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
+import me.harry0198.infoheads.core.ui.CoolDownViewModel;
 import me.harry0198.infoheads.core.ui.WizardViewModel;
 import me.harry0198.infoheads.spigot.ui.GuiItem;
 import me.harry0198.infoheads.spigot.ui.GuiSlot;
@@ -88,7 +89,7 @@ public class WizardGui extends InventoryGui {
             if (listener.getNewValue() instanceof Boolean shouldOpenCooldownGui) {
                 if (shouldOpenCooldownGui) {
                     for (HumanEntity viewer : new ArrayList<>(getInventory().getViewers())) {
-                        new CooldownGui(new CooldownViewModel(viewModel.getConfiguration())).open(viewer);
+                        new CooldownGui(new CoolDownViewModel(viewModel.getConfiguration())).open(viewer);
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.core.config;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -28,5 +29,8 @@ public class LocalizedMessageService {
      */
     public String getMessage(BundleMessages messageKey) {
         return resourceBundle.getString(messageKey.getKey());
+    }
+    public List<String> getMessageList(BundleMessages messageKey) {
+        return List.of(resourceBundle.getString(messageKey.getKey()).split("\n"));
     }
 }

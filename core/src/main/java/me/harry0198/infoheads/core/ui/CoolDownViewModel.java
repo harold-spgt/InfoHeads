@@ -1,6 +1,9 @@
 package me.harry0198.infoheads.core.ui;
 
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.OpenInfoHeadMenuEvent;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
@@ -11,7 +14,7 @@ import me.harry0198.infoheads.core.utils.SimpleProperty;
 public final class CoolDownViewModel {
 
     private final InfoHeadProperties configuration;
-    private final SimpleProperty<TimePeriod> timePeriodProperty;
+    private final SimpleProperty<TimePeriod> cooldownProperty;
 
     /**
      * Constructs this class.
@@ -24,23 +27,23 @@ public final class CoolDownViewModel {
         if (configuration.getCoolDown() == null) {
             configuration.setCoolDown(new TimePeriod(0,0,0,0,0));
         }
-        this.timePeriodProperty = new SimpleProperty<>(configuration.getCoolDown());
+        this.cooldownProperty = new SimpleProperty<>(configuration.getCoolDown());
     }
 
     /**
      * Sets the 'TimePeriod' configuration value to MS from the provided time parameters.
      * @param TimePeriod {@link TimePeriod} to set for the InfoHead.
      */
-    public void setTimePeriod(TimePeriod TimePeriod) {
-        timePeriodProperty.setValue(TimePeriod);
+    public void setCoolDown(TimePeriod TimePeriod) {
+        cooldownProperty.setValue(TimePeriod);
     }
 
     /***
      * Gets the TimePeriod property to allow bindings and value retrieval.
      * @return the TimePeriod's {@link SimpleProperty}.
      */
-    public SimpleProperty<TimePeriod> getTimePeriodProperty() {
-        return timePeriodProperty;
+    public SimpleProperty<TimePeriod> getCoolDownProperty() {
+        return cooldownProperty;
     }
 
     /**
@@ -55,7 +58,7 @@ public final class CoolDownViewModel {
      * Saves the current TimePeriod to the configuration state.
      */
     public void saveConfiguration() {
-        configuration.setCoolDown(timePeriodProperty.getValue());
+        configuration.setCoolDown(cooldownProperty.getValue());
     }
 
     /**
@@ -74,12 +77,16 @@ public final class CoolDownViewModel {
         increment(-1, field);
     }
 
+    public void navigateToPreviousPage(OnlinePlayer onlinePlayer) {
+        EventDispatcher.getInstance().dispatchEvent(new OpenInfoHeadMenuEvent(configuration, onlinePlayer));
+    }
+
     /*
     Increments the TimePeriod by the given field.
     Restricts values to be between 0-60.
      */
     private void increment(int value, Field field) {
-        TimePeriod TimePeriod = getTimePeriodProperty().getValue();
+        TimePeriod TimePeriod = getCoolDownProperty().getValue();
         if (TimePeriod == null) {
             TimePeriod = new TimePeriod(0,0,0,0,0);
         }
@@ -108,7 +115,7 @@ public final class CoolDownViewModel {
                 break;
         }
 
-        setTimePeriod(new TimePeriod(updatedWeeks, updatedDays, updatedHours, updatedMinutes, updatedSeconds));
+        setCoolDown(new TimePeriod(updatedWeeks, updatedDays, updatedHours, updatedMinutes, updatedSeconds));
     }
 
     /**

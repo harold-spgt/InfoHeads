@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.spigot.ui.edit;
 
+import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
 import me.harry0198.infoheads.spigot.ui.GuiItem;
@@ -28,50 +29,50 @@ public class EditGui extends InventoryGui {
         // If currently holding an item on cursor and gui closes, set it to air.
         setCloseAction(event -> event.getPlayer().setItemOnCursor(new ItemStack(Material.AIR)));
 
-        // Create and insert the ordered items.
-        for (int slot = 0; slot < configuration.getElementList().size(); slot++) {
-            Element each = configuration.getElementList().get(slot);
-
-            String title = MessageUtil.getString(MessageUtil.Message.EDIT_ITEM_TITLE);
-            String[] lore = MessageUtil.getStringList(MessageUtil.Message.EDIT_ITEM_LORE);
-            title = title.replaceAll("@type", each.getType().toString());
-
-            List<String> loreNew = new ArrayList<>();
-            for (String l : lore) {
-                l = l.replaceAll("@contents", each.getContent().toString());
-                l = l.replaceAll("@id", String.valueOf(slot));
-                loreNew.add(l);
-            }
-            insert(slot, new GuiItem(
-                    new ItemBuilder(Material.PAPER).glow(true).name(title).lore(loreNew).build(),
-                    event -> {
-                        if (event.getClick().equals(ClickType.RIGHT)) {
-                            event.setCurrentItem(null);
-                        }
-                    }));
-
-            slot++;
-        }
-
-        fillBottom(new GuiItem(
-                new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).build(),
-                event -> event.setCancelled(true))
-        );
-
-        insert(new GuiSlot(5, 5), new GuiItem(
-                new ItemBuilder(Material.BARRIER).name(MessageUtil.getString(MessageUtil.Message.BACK)).build(),
-                event -> {
-                    event.setCancelled(true);
-
-                    if (event.getCursor() == null) return;
-                    if (!event.getCursor().getType().equals(Material.AIR)) return;
-                    InfoHeadConfiguration infoHead = InfoHeads.getInstance().getDataStore().getMatchingInfoHead(configuration);
-                    if (infoHead != null) {
-                        infoHead.setElementList(getNewSlots());
-                    }
-                    new WizardGui(new WizardViewModel(InfoHeads.getInstance(), configuration)).open(event.getWhoClicked());
-                }
-        ));
+//        // Create and insert the ordered items.
+//        for (int slot = 0; slot < configuration.getElements().size(); slot++) {
+//            Element<?> each = configuration.getElements().get(slot);
+//
+//            String title = MessageUtil.getString(MessageUtil.Message.EDIT_ITEM_TITLE);
+//            String[] lore = MessageUtil.getStringList(MessageUtil.Message.EDIT_ITEM_LORE);
+//            title = title.replaceAll("@type", each.getType().toString());
+//
+//            List<String> loreNew = new ArrayList<>();
+//            for (String l : lore) {
+//                l = l.replaceAll("@contents", each.getContent().toString());
+//                l = l.replaceAll("@id", String.valueOf(slot));
+//                loreNew.add(l);
+//            }
+//            insert(slot, new GuiItem(
+//                    new ItemBuilder(Material.PAPER).glow(true).name(title).lore(loreNew).build(),
+//                    event -> {
+//                        if (event.getClick().equals(ClickType.RIGHT)) {
+//                            event.setCurrentItem(null);
+//                        }
+//                    }));
+//
+//            slot++;
+//        }
+//
+//        fillBottom(new GuiItem(
+//                new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).build(),
+//                event -> event.setCancelled(true))
+//        );
+//
+//        insert(new GuiSlot(5, 5), new GuiItem(
+//                new ItemBuilder(Material.BARRIER).name(MessageUtil.getString(MessageUtil.Message.BACK)).build(),
+//                event -> {
+//                    event.setCancelled(true);
+//
+//                    if (event.getCursor() == null) return;
+//                    if (!event.getCursor().getType().equals(Material.AIR)) return;
+//                    InfoHeadConfiguration infoHead = InfoHeads.getInstance().getDataStore().getMatchingInfoHead(configuration);
+//                    if (infoHead != null) {
+//                        infoHead.setElementList(getNewSlots());
+//                    }
+//                    new WizardGui(new WizardViewModel(InfoHeads.getInstance(), configuration)).open(event.getWhoClicked());
+//                }
+//        ));
     }
 
     private LinkedList<Element> getNewSlots() {
