@@ -1,14 +1,11 @@
-package me.harry0198.infoheads.core.eventhandler;
+package me.harry0198.infoheads.core.event.handlers;
 
-import me.harry0198.infoheads.core.model.Player;
-
-import java.util.HashMap;
-import java.util.Map;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 public class PlayerQuitHandler {
 
-    public void onQuit(Player event) {
-//        if (event.getPlayer() != null && DataStore.getPermissionsData().get(event.getPlayer().getUniqueId()) != null) {
+    public void onQuit(OnlinePlayer player) {
+//        if (DataStore.getPermissionsData().get(event.getPlayer().getUniqueId()) != null) {
 //            Map<String, Boolean> perms = new HashMap<>(DataStore.getPermissionsData().get(event.getPlayer().getUniqueId()).getPermissions());
 //
 //            perms.forEach((perm, bool) -> {

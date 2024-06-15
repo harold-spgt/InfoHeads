@@ -2,6 +2,8 @@ package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.OpenInfoHeadMenuEvent;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.Player;
@@ -18,14 +20,16 @@ import java.util.Optional;
 public class EditCmdExecutor extends CmdExecutor {
 
     private final InfoHeadService infoHeadService;
+    private final EventDispatcher eventDispatcher;
 
     /**
      * Class constructor.
      * @param infoHeadService the {@link InfoHeadService} instance used to manage InfoHeads data.
      */
-    public EditCmdExecutor(LocalizedMessageService localizedMessageService, InfoHeadService infoHeadService) {
+    public EditCmdExecutor(LocalizedMessageService localizedMessageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
         super(localizedMessageService, Constants.ADMIN_PERMISSION);
         this.infoHeadService = infoHeadService;
+        this.eventDispatcher = eventDispatcher;
     }
 
     /**
@@ -44,7 +48,7 @@ public class EditCmdExecutor extends CmdExecutor {
             return true;
         }
 
-//        new EditInfoHeadGui(new EditInfoHeadViewModel(headAtLoc)).open(player);
+        eventDispatcher.dispatchEvent(new OpenInfoHeadMenuEvent(infoHeadPropertiesOptional.get()));
         return true;
     }
 }

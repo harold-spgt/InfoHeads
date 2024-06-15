@@ -1,21 +1,22 @@
-package me.harry0198.infoheads.core.eventhandler;
+package me.harry0198.infoheads.core.event.handlers;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
-import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
-import me.harry0198.infoheads.core.utils.Constants;
 
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles the breakage of an InfoHead.
  */
 public class BreakHandler {
 
+    private final static Logger LOGGER = Logger.getLogger(BreakHandler.class.getName());
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
 
@@ -30,17 +31,26 @@ public class BreakHandler {
      * @param breakLocation {@link Location} of the breakage.
      */
     public void handle(OnlinePlayer player, Location breakLocation) {
-        if (!player.hasPermission(Constants.ADMIN_PERMISSION)) return;
-        if (!player.isSneaking()) return;
-
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(breakLocation);
 
-        // Ignore if player is not looking at anything.
+        // Ignore if player is not looking at anything / infohead does not exist.
         if (infoHeadPropertiesOptional.isEmpty()) {
             return;
         }
 
-        infoHeadService.removeInfoHead(infoHeadPropertiesOptional.get());
+        infoHeadService.removeInfoHead(infoHeadPropertiesOptional.get())
+                .exceptionally(e -> {
+                    LOGGER.throwing(BreakHandler.class.getName(), "handle", e);
+                    return false; // Fatally failed to save.
+                }).thenAccept(x -> {
+                    LOGGER.log(Level.FINE, "InfoHead break delete stage completed with " + x);
+                    if (x) {
+                        player.sendMessage(localizedMessageService.getMessage(BundleMessages.INFOHEAD_REMOVED));
+                        // TODO should drop infohead.
+                    } else {
+                        player.sendMessage(localizedMessageService.getMessage(BundleMessages.FAILED_TO_REMOVE));
+                    }
+                });
         player.sendMessage(localizedMessageService.getMessage(BundleMessages.INFOHEAD_REMOVED));
     }
 }

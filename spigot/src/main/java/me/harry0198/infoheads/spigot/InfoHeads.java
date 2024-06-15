@@ -3,8 +3,8 @@ package me.harry0198.infoheads.spigot;
 
 import me.harry0198.infoheads.core.commands.CommandHandler;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.domain.NotificationStrategy;
-import me.harry0198.infoheads.core.eventhandler.*;
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.handlers.*;
 import me.harry0198.infoheads.core.model.InfoHeadProperties;
 import me.harry0198.infoheads.core.repository.Repository;
 import me.harry0198.infoheads.core.repository.RepositoryFactory;
@@ -12,23 +12,17 @@ import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.UpdateChecker;
 import me.harry0198.infoheads.spigot.commands.BukkitCmdExecutor;
 import me.harry0198.infoheads.spigot.listener.BukkitEventListener;
+import me.harry0198.infoheads.spigot.listener.InfoHeadEventHandlerRegister;
+import me.harry0198.infoheads.spigot.ui.InventoryGuiListener;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class InfoHeads extends JavaPlugin {
 
-    private DataStore dataStore;
-    private static InfoHeadsApi api;
-
-    private FileUtil fileUtil;
-    private final File messagesFile = new File(getDataFolder(), "messages.yml");
-    private FileConfiguration messagesConfig;
-
+    private static final Logger LOGGER = Logger.getLogger(InfoHeads.class.getName());
     public boolean papi = false;
     public boolean blockParticles = false;
 
@@ -40,30 +34,33 @@ public final class InfoHeads extends JavaPlugin {
         Locale locale = Locale.forLanguageTag("en-GB");
         LocalizedMessageService localizedMessageService = new LocalizedMessageService(locale);
 
-        Repository<Set<InfoHeadProperties>> repository = RepositoryFactory.getRepository();
+        Repository<InfoHeadProperties> repository = RepositoryFactory.getRepository();
 
         InfoHeadService infoHeadService = new InfoHeadService(repository);
-        CommandHandler commandHandler = new CommandHandler(infoHeadService, localizedMessageService);
+        CommandHandler commandHandler = new CommandHandler(infoHeadService, localizedMessageService, EventDispatcher.getInstance());
+
+        // Register event listeners.
+        new InfoHeadEventHandlerRegister();
 
         this.getCommand("infoheads").setExecutor(new BukkitCmdExecutor(commandHandler));
 
         getServer().getPluginManager().registerEvents(new InventoryGuiListener(), this);
         getServer().getPluginManager().registerEvents(new BukkitEventListener(
                 new BreakHandler(infoHeadService, localizedMessageService),
-                new InteractHandler(),
-                new PlaceHandler(),
+                new InteractHandler(infoHeadService, localizedMessageService),
+                new PlaceHandler(infoHeadService, localizedMessageService),
                 new PlayerJoinHandler(),
                 new PlayerQuitHandler()
         ), this);
 
-        api = new InfoHeadsImpl();
-        getServer().getServicesManager().register(InfoHeadsApi.class,api,this, ServicePriority.Normal);
+//        api = new InfoHeadsImpl();
+//        getServer().getServicesManager().register(InfoHeadsApi.class,api,this, ServicePriority.Normal);
 
         (new UpdateChecker(67080)).getVersion((version) -> {
             if (InfoHeads.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
-                InfoHeads.getInstance().info("There is no new update available.");
+                LOGGER.info("There is no new update available.");
             } else {
-                InfoHeads.getInstance().info("There is a new update available. Version: " + version);
+                LOGGER.info("There is a new update available. Version: " + version);
             }
         });
     }
@@ -94,11 +91,11 @@ public final class InfoHeads extends JavaPlugin {
 
 //        fileUtil.save(this.dataStore);
 
-        DataStore.placerMode.clear();
-        if (packagesExists("me.clip.placeholderapi.PlaceholderAPI"))
-            papi = true;
-        if (packagesExists("me.badbones69.blockparticles.Methods"))
-            blockParticles = true;
+//        DataStore.placerMode.clear();
+//        if (packagesExists("me.clip.placeholderapi.PlaceholderAPI"))
+//            papi = true;
+//        if (packagesExists("me.badbones69.blockparticles.Methods"))
+//            blockParticles = true;
     }
 
     @Override
@@ -124,10 +121,6 @@ public final class InfoHeads extends JavaPlugin {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public void debug(String msg) {
-        getLogger().log(Level.INFO, msg);
     }
 
 //    public static ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {

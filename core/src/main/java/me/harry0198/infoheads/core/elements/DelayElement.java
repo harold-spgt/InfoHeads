@@ -1,16 +1,18 @@
 package me.harry0198.infoheads.core.elements;
 
 import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.model.TimePeriod;
 
-public final class DelayElement extends Element<Integer> {
+public final class DelayElement extends Element<TimePeriod> {
 
-    private int delayInSecs;
+    private TimePeriod
+            delayInSecs;
 
     /**
      * Class Constructor
      * @param delay of element
      */
-    public DelayElement(final int delay) {
+    public DelayElement(final TimePeriod delay) {
         this.delayInSecs = delay;
     }
 
@@ -18,7 +20,7 @@ public final class DelayElement extends Element<Integer> {
      * Sets delay of element
      * @param delay to set
      */
-    public void setMessage(int delay) {
+    public void setMessage(TimePeriod delay) {
         this.delayInSecs = delay;
     }
 
@@ -26,7 +28,7 @@ public final class DelayElement extends Element<Integer> {
      * Gets the delay of element
      * @return Delay of element
      */
-    public int getDelay() {
+    public TimePeriod getDelay() {
         return delayInSecs;
     }
 
@@ -36,7 +38,7 @@ public final class DelayElement extends Element<Integer> {
     }
 
     @Override
-    public Integer getContent() {
+    public TimePeriod getContent() {
         return delayInSecs;
     }
 

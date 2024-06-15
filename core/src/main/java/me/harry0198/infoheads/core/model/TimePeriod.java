@@ -33,4 +33,8 @@ public record TimePeriod(
 
         return weeksCd + daysCd + hoursCd + minutesCd + secondsCd;
     }
+
+    public long toSeconds() {
+        return toMs() / 1000;
+    }
 }

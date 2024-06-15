@@ -1,8 +1,8 @@
 package me.harry0198.infoheads.spigot.listener;
 
-import me.harry0198.infoheads.core.eventhandler.*;
-import me.harry0198.infoheads.core.model.Player;
-import me.harry0198.infoheads.spigot.model.BukkitLocation;
+import me.harry0198.infoheads.core.event.handlers.*;
+import me.harry0198.infoheads.core.model.HandAction;
+import me.harry0198.infoheads.spigot.util.MappingUtil;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,18 +36,31 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        breakHandler.handle(new BukkitOnlinePlayer(event.getPlayer()), new BukkitLocation(event.getBlock().getLocation()));
+        breakHandler.handle(new BukkitOnlinePlayer(event.getPlayer()), MappingUtil.from(event.getBlock().getLocation()));
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (event.getClickedBlock() != null)
-            interactHandler.interactWithHead(new BukkitOnlinePlayer(event.getPlayer()), new BukkitLocation(event.getClickedBlock().getLocation()));
+        if (event.getClickedBlock() != null) {
+            HandAction handAction = switch (event.getAction()) {
+                case LEFT_CLICK_BLOCK -> HandAction.LEFT_CLICK;
+                case RIGHT_CLICK_BLOCK -> HandAction.RIGHT_CLICK;
+                default -> null;
+            };
+
+            if (handAction == null) return;
+
+            interactHandler.interactWithHead(
+                    new BukkitOnlinePlayer(event.getPlayer()),
+                    MappingUtil.from((event.getClickedBlock().getLocation())),
+                    handAction
+                    );
+        }
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        placeHandler.placeHead(new BukkitOnlinePlayer(event.getPlayer()), new BukkitLocation(event.getBlock().getLocation()));
+        placeHandler.placeHead(new BukkitOnlinePlayer(event.getPlayer()), MappingUtil.from((event.getBlock().getLocation())));
     }
 
     @EventHandler
@@ -57,6 +70,6 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        quitHandler.onQuit(new Player(event.getPlayer().getUniqueId(), event.getPlayer().getName()));
+        quitHandler.onQuit(new BukkitOnlinePlayer(event.getPlayer()));
     }
 }

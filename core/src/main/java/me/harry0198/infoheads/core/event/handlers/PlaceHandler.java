@@ -1,4 +1,4 @@
-package me.harry0198.infoheads.core.eventhandler;
+package me.harry0198.infoheads.core.event.handlers;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
@@ -77,6 +77,7 @@ public class PlaceHandler {
                 }).thenAccept(x -> {
                     LOGGER.log(Level.FINE, "InfoHead placement add stage completed with " + x);
                     if (x) {
+                        player.sendMessage(localizedMessageService.getMessage(BundleMessages.INFOHEAD_ADDED));
                         //TODO
 //                        new WizardGui(new WizardViewModel(plugin, configuration)).open(e.getPlayer());
                     } else {

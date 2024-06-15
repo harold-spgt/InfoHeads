@@ -85,17 +85,19 @@ public class InfoHeadService {
     /**
      * Deletes the InfoHead from the cache and disk.
      * @param infoHeadProperties {@link InfoHeadProperties} to delete.
+     * @return a {@link CompletableFuture} that resolves to {@code true} if the properties were successfully deleted,
+     *         or {@code false} otherwise.
      */
-    public void removeInfoHead(InfoHeadProperties infoHeadProperties) {
+    public CompletableFuture<Boolean> removeInfoHead(InfoHeadProperties infoHeadProperties) {
         // Remove from disk.
-        CompletableFuture.runAsync(() -> repository.delete(infoHeadProperties))
-                .whenComplete((ignore, error) -> {
-                    LOGGER.warning("Unable to delete InfoHead");
-                    LOGGER.throwing(InfoHeadService.class.getName(), "removeInfoHead", error.getCause());
-                });
+        return CompletableFuture.supplyAsync(() -> {
+            boolean didDelete = repository.delete(infoHeadProperties);
+            if (didDelete) {
+                cache.remove(infoHeadProperties.getLocation());
+            }
 
-        // Remove from cache.
-        cache.remove(infoHeadProperties.getLocation());
+            return didDelete;
+        });
     }
 
     private CompletableFuture<Void> initializeCache() {

@@ -1,15 +1,13 @@
 package me.harry0198.infoheads.spigot.ui.edit;
 
-import com.haroldstudios.infoheads.InfoHeads;
-import com.haroldstudios.infoheads.elements.Element;
-import com.haroldstudios.infoheads.model.InfoHeadConfiguration;
+import me.harry0198.infoheads.core.elements.Element;
+import me.harry0198.infoheads.core.model.InfoHeadProperties;
 import me.harry0198.infoheads.spigot.ui.GuiItem;
 import me.harry0198.infoheads.spigot.ui.GuiSlot;
 import me.harry0198.infoheads.spigot.ui.InventoryGui;
 import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
 import me.harry0198.infoheads.spigot.ui.wizard.WizardGui;
 import me.harry0198.infoheads.core.ui.WizardViewModel;
-import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
@@ -21,7 +19,7 @@ public class EditGui extends InventoryGui {
 
     private final Map<Integer, Element> idSlots = new HashMap<>();
 
-    public EditGui(InfoHeadConfiguration configuration) {
+    public EditGui(InfoHeadProperties configuration) {
         super(5, "Edit InfoHeads");
 
         // set outside click action

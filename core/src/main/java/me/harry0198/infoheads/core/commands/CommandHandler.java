@@ -1,6 +1,7 @@
 package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
@@ -22,10 +23,12 @@ public class CommandHandler {
 
     private final LocalizedMessageService localizedMessageService;
     private final InfoHeadService infoHeadService;
+    private final EventDispatcher eventDispatcher;
 
-    public CommandHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService) {
+    public CommandHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
         this.localizedMessageService = localizedMessageService;
         this.infoHeadService = infoHeadService;
+        this.eventDispatcher = eventDispatcher;
     }
 
     /***
@@ -42,7 +45,7 @@ public class CommandHandler {
             case WIZARD_CMD_STRING -> new WizardCmdExecutor(localizedMessageService);
             case LIST_CMD_STRING -> new ListCmdExecutor(localizedMessageService);
 //            case RELOAD_CMD_STRING -> new ReloadCmdExecutor(plugin, fileUtil, dataStore);
-            case EDIT_CMD_STRING -> new EditCmdExecutor(localizedMessageService, infoHeadService);
+            case EDIT_CMD_STRING -> new EditCmdExecutor(localizedMessageService, infoHeadService, eventDispatcher);
             case REMOVE_CMD_STRING -> new RemoveCmdExecutor(localizedMessageService, infoHeadService);
             default -> new UnknownCmdExecutor(localizedMessageService);
         };

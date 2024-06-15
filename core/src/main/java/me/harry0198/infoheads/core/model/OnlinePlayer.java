@@ -19,4 +19,6 @@ public abstract class OnlinePlayer extends Player {
     public abstract void performCommand(String command);
 
     public abstract boolean hasPermission(String permission);
+    public abstract boolean isOnline();
+    public abstract boolean isOp();
 }
