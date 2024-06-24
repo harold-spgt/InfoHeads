@@ -2,9 +2,8 @@ package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
-import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.utils.Constants;
 
 /**

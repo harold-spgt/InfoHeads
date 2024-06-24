@@ -1,32 +1,30 @@
 package me.harry0198.infoheads.spigot.ui.edit;
 
-import com.haroldstudios.infoheads.InfoHeads;
-import com.haroldstudios.infoheads.elements.Element;
+import me.harry0198.infoheads.core.config.BundleMessages;
+import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.ui.EditInfoHeadViewModel;
 import me.harry0198.infoheads.spigot.ui.GuiItem;
-import me.harry0198.infoheads.spigot.ui.GuiSlot;
+import me.harry0198.infoheads.core.ui.GuiSlot;
 import me.harry0198.infoheads.spigot.ui.InventoryGui;
 import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
-import me.harry0198.infoheads.spigot.ui.wizard.WizardGui;
-import me.harry0198.infoheads.core.ui.WizardViewModel;
-import com.haroldstudios.infoheads.utils.MessageUtil;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
-import java.util.Locale;
 
 public final class EditInfoHeadGui extends InventoryGui {
 
     private final EditInfoHeadViewModel viewModel;
+    private final LocalizedMessageService localizedMessageService;
 
     /**
      * Creates the edit menu for an InfoHead configuration.
      * @param viewModel for this view.
      */
-    public EditInfoHeadGui(EditInfoHeadViewModel viewModel, Locale locale) {
+    public EditInfoHeadGui(EditInfoHeadViewModel viewModel, LocalizedMessageService localizedMessageService) {
         super(6, "Edit InfoHead");
+        this.localizedMessageService = localizedMessageService;
         this.viewModel = viewModel;
 
         setDefaultClickAction(event -> event.setCancelled(true));
@@ -45,28 +43,28 @@ public final class EditInfoHeadGui extends InventoryGui {
 
         // Progression path
         populateProgressionSlots(viewModel.getElementsProperty().getValue());
-        viewModel.getElementsProperty().addListener(event -> populateProgressionSlots((LinkedList<Element>) event.getNewValue()));
+        viewModel.getElementsProperty().addListener(event -> populateProgressionSlots((LinkedList<Element<?>>) event.getNewValue()));
     }
 
     private GuiItem getCloseGuiItem() {
         return new GuiItem(
-                new ItemBuilder(Material.BARRIER).name(MessageUtil.getString(MessageUtil.Message.CLOSE_WIZARD_TITLE)).lore(MessageUtil.getStringList(MessageUtil.Message.CLOSE_WIZARD_LORE)).build(),
+                new ItemBuilder(Material.BARRIER).name(localizedMessageService.getMessage(BundleMessages.CLOSE_WIZARD)).lore(localizedMessageService.getMessageList(BundleMessages.CLOSE_WIZARD_MORE)).build(),
                 null
         );
     }
 
     private GuiItem getEditNameGuiItem() {
         return new GuiItem(
-                new ItemBuilder(Material.NAME_TAG).name(MessageUtil.getString(MessageUtil.Message.EDIT_NAME_TITLE)).lore(MessageUtil.getStringList(MessageUtil.Message.EDIT_NAME_LORE)).build(),
-                event -> viewModel.rename((Player) event.getWhoClicked())
+                new ItemBuilder(Material.NAME_TAG).name(localizedMessageService.getMessage(BundleMessages.EDIT_NAME)).lore(localizedMessageService.getMessageList(BundleMessages.EDIT_NAME_MORE)).build(),
+                event -> {} //TODO rename viewmodel.
         );
     }
 
-    private void populateProgressionSlots(LinkedList<Element> elements) {
+    private void populateProgressionSlots(LinkedList<Element<?>> elements) {
         LinkedList<GuiSlot> progressionSlots = viewModel.getProgressionSlots(9);
 
         ListIterator<GuiSlot> progressionSlotIterator = progressionSlots.listIterator();
-        ListIterator<Element> elementListIterator = elements.listIterator();
+        ListIterator<Element<?>> elementListIterator = elements.listIterator();
 
         boolean appendPlaced = false; // Has the "append" slot been placed in the menu already. After one has been placed, the rest should be placeholder slots.
         while (progressionSlotIterator.hasNext()) {
@@ -78,9 +76,9 @@ public final class EditInfoHeadGui extends InventoryGui {
                 insert(progressionSlot, new GuiItem(
                         new ItemBuilder(Material.YELLOW_STAINED_GLASS_PANE)
                                 .glow(true)
-                                .name(Mess)
+                                .name("todo") //TODO
                                 .build(),
-                        event -> new WizardGui(new WizardViewModel(InfoHeads.getInstance(), viewModel.getConfiguration())).open(event.getWhoClicked())
+                        event -> {}//TODO append item viewmodel.
                 ));
 
                 appendPlaced = true;
@@ -89,7 +87,8 @@ public final class EditInfoHeadGui extends InventoryGui {
 
             // Insert element into progression chain.
             if (elementListIterator.hasNext()) {
-                Element element = elementListIterator.next();
+                Element<?> element = elementListIterator.next();
+                // make use of toString
 
                 insert(progressionSlot, new GuiItem(new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).glow(true).build(), event -> {}));
                 continue;

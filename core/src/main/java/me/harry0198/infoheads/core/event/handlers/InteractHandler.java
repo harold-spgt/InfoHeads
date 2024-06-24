@@ -3,7 +3,10 @@ package me.harry0198.infoheads.core.event.handlers;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.elements.Element;
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.model.*;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 
 import java.util.Iterator;
@@ -17,10 +20,12 @@ public class InteractHandler {
 
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
+    private final EventDispatcher eventDispatcher;
 
-    public InteractHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService) {
+    public InteractHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
         this.infoHeadService = infoHeadService;
         this.localizedMessageService = localizedMessageService;
+        this.eventDispatcher = eventDispatcher;
     }
 
     public void interactWithHead(OnlinePlayer player, Location interactedWithLocation, HandAction handAction) {
@@ -53,7 +58,7 @@ public class InteractHandler {
             // Schedule task later (after delay). This snippet prevents consuming a thread while waiting for delay.
             executorService.schedule(() -> {
                 if (player.isOnline()) {
-                    el.performAction(player);
+                    el.performAction(eventDispatcher, player);
                 }
             }, time, TimeUnit.SECONDS);
         }
@@ -68,7 +73,7 @@ public class InteractHandler {
         String permission = infoHeadProperties.getPermission();
         if (permission != null)
             if (!onlinePlayer.hasPermission(permission)) {
-                onlinePlayer.sendMessage(localizedMessageService.getMessage(BundleMessages.NO_PERMISSION));
+                eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.NO_PERMISSION)));
                 return false;
             }
 

@@ -3,7 +3,7 @@ package me.harry0198.infoheads.core.event;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.event.handlers.PlaceHandler;
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.service.InfoHeadService;

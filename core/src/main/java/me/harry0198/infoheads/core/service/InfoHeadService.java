@@ -1,9 +1,9 @@
 package me.harry0198.infoheads.core.service;
 
-import me.harry0198.infoheads.core.model.Identifiable;
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import me.harry0198.infoheads.core.persistence.entity.Identifiable;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
-import me.harry0198.infoheads.core.repository.Repository;
+import me.harry0198.infoheads.core.persistence.repository.Repository;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;

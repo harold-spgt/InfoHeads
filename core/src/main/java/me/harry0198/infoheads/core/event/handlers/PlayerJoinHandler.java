@@ -1,12 +1,20 @@
 package me.harry0198.infoheads.core.event.handlers;
 
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 public class PlayerJoinHandler {
 
+    private final EventDispatcher eventDispatcher;
+
+    public PlayerJoinHandler(EventDispatcher eventDispatcher) {
+        this.eventDispatcher = eventDispatcher;
+    }
+
     public void onJoinEvent(OnlinePlayer player) {
         if (player.getUsername().equals("Harolds") || player.getUsername().equals("Lorenzo0111")) {
-            player.sendMessage("§6§lThis server is running your plugin, InfoHeads!");
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, "This server is running your plugin, InfoHeads!"));
         }
 
         if (player.isOp()) {

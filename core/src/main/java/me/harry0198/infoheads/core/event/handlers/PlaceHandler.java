@@ -2,7 +2,10 @@ package me.harry0198.infoheads.core.event.handlers;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.service.InfoHeadService;
@@ -20,15 +23,17 @@ public class PlaceHandler {
     private static final Logger LOGGER = Logger.getLogger(PlaceHandler.class.getName());
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
+    private final EventDispatcher eventDispatcher;
 
     /**
      * Class constructor.
      * @param infoHeadService {@link InfoHeadService} instance.
      * @param localizedMessageService {@link LocalizedMessageService} to provide localized messages to user.
      */
-    public PlaceHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService) {
+    public PlaceHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
         this.infoHeadService = infoHeadService;
         this.localizedMessageService = localizedMessageService;
+        this.eventDispatcher = eventDispatcher;
     }
 
     /**
@@ -77,11 +82,10 @@ public class PlaceHandler {
                 }).thenAccept(x -> {
                     LOGGER.log(Level.FINE, "InfoHead placement add stage completed with " + x);
                     if (x) {
-                        player.sendMessage(localizedMessageService.getMessage(BundleMessages.INFOHEAD_ADDED));
-                        //TODO
-//                        new WizardGui(new WizardViewModel(plugin, configuration)).open(e.getPlayer());
+                        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.INFOHEAD_ADDED)));
+                        eventDispatcher.dispatchEvent(new OpenInfoHeadMenuEvent(infoHeadProperties, player));
                     } else {
-                        player.sendMessage(localizedMessageService.getMessage(BundleMessages.FAILED_TO_ADD));
+                        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.FAILED_TO_ADD)));
                     }
                 });
     }

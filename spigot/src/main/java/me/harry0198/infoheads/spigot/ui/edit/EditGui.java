@@ -1,17 +1,10 @@
 package me.harry0198.infoheads.spigot.ui.edit;
 
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.elements.Element;
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
-import me.harry0198.infoheads.spigot.ui.GuiItem;
-import me.harry0198.infoheads.spigot.ui.GuiSlot;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.spigot.ui.InventoryGui;
-import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
-import me.harry0198.infoheads.spigot.ui.wizard.WizardGui;
-import me.harry0198.infoheads.core.ui.WizardViewModel;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;

@@ -1,5 +1,7 @@
 package me.harry0198.infoheads.core.elements;
 
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 public final class MessageElement extends Element<String> {
@@ -31,7 +33,8 @@ public final class MessageElement extends Element<String> {
     }
 
     @Override
-    public void performAction(OnlinePlayer player) {
+    public void performAction(EventDispatcher eventDispatcher, OnlinePlayer player) {
+        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, message));
         player.sendMessage(removePlaceHolders(message, player));
     }
 

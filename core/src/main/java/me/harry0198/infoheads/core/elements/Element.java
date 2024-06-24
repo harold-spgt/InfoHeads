@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.core.elements;
 
+import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
@@ -8,7 +9,7 @@ public abstract class Element<T> {
     /**
      * Call to specific action
      */
-    public abstract void performAction(OnlinePlayer player);
+    public abstract void performAction(EventDispatcher eventDispatcher, OnlinePlayer player);
 
     /**
      * Get content of Element

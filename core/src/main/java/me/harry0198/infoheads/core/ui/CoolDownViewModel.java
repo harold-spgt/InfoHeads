@@ -1,8 +1,8 @@
 package me.harry0198.infoheads.core.ui;
 
 import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.types.OpenInfoHeadMenuEvent;
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.utils.SimpleProperty;

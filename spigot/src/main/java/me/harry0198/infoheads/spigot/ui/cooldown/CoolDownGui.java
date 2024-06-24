@@ -6,7 +6,7 @@ import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.ui.CoolDownViewModel;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import me.harry0198.infoheads.spigot.ui.GuiItem;
-import me.harry0198.infoheads.spigot.ui.GuiSlot;
+import me.harry0198.infoheads.core.ui.GuiSlot;
 import me.harry0198.infoheads.spigot.ui.InventoryGui;
 import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
 

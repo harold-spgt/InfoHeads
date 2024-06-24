@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.spigot.ui;
 
+import me.harry0198.infoheads.core.ui.GuiSlot;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;

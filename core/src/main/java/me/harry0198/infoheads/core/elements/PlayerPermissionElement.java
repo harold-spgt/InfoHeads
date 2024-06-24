@@ -1,6 +1,8 @@
 package me.harry0198.infoheads.core.elements;
 
 
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.ApplyTempPlayerPermissionEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 public class PlayerPermissionElement extends Element<String> {
@@ -20,17 +22,8 @@ public class PlayerPermissionElement extends Element<String> {
     }
 
     @Override
-    public void performAction(OnlinePlayer player) {
-//TODO
-//        PermissionAttachment attachment;
-//
-//        if (DataStore.getPermissionsData().get(player.getUniqueId()) == null) {
-//            PermissionAttachment permissionAttachment = player.addAttachment(InfoHeads.getInstance());
-//            DataStore.getPermissionsData().put(player.getUniqueId(), permissionAttachment);
-//        }
-//
-//        attachment = DataStore.getPermissionsData().get(player.getUniqueId());
-//        attachment.setPermission(permission, true);
+    public void performAction(EventDispatcher eventDispatcher, OnlinePlayer player) {
+        eventDispatcher.dispatchEvent(new ApplyTempPlayerPermissionEvent(player, permission));
     }
 
     @Override

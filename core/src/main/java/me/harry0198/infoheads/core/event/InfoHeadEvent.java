@@ -1,6 +1,6 @@
 package me.harry0198.infoheads.core.event;
 
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 
 public class InfoHeadEvent extends Event {
 

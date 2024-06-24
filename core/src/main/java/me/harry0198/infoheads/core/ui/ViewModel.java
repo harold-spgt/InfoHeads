@@ -1,13 +1,20 @@
 package me.harry0198.infoheads.core.ui;
 
+import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
 public abstract class ViewModel {
 
     private final SimpleProperty<Boolean> shouldCloseProperty;
+    private final EventDispatcher eventDispatcher;
 
-    public ViewModel() {
+    public ViewModel(EventDispatcher eventDispatcher) {
         this.shouldCloseProperty = new SimpleProperty<>(false);
+        this.eventDispatcher = eventDispatcher;
+    }
+
+    public EventDispatcher getEventDispatcher() {
+        return eventDispatcher;
     }
 
     public SimpleProperty<Boolean> getShouldCloseProperty() {

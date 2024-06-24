@@ -1,8 +1,9 @@
 package me.harry0198.infoheads.core.repository;
 
-import me.harry0198.infoheads.core.model.InfoHeadProperties;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.TimePeriod;
+import me.harry0198.infoheads.core.persistence.repository.LocalRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
