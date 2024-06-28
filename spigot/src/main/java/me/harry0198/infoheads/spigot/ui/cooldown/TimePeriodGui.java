@@ -3,7 +3,7 @@ package me.harry0198.infoheads.spigot.ui.cooldown;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.model.TimePeriod;
-import me.harry0198.infoheads.core.ui.CoolDownViewModel;
+import me.harry0198.infoheads.core.ui.TimePeriodViewModel;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import me.harry0198.infoheads.spigot.ui.GuiItem;
 import me.harry0198.infoheads.core.ui.GuiSlot;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 
-public class CoolDownGui extends InventoryGui {
+public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
 
     private final static GuiSlot WEEKS_SLOT = new GuiSlot(2,3);
     private final static GuiSlot DAYS_SLOT = new GuiSlot(2,4);
@@ -24,11 +24,11 @@ public class CoolDownGui extends InventoryGui {
     private final static GuiSlot SECONDS_SLOT = new GuiSlot(2,7);
     private final static GuiSlot PREV_PAGE_SLOT = new GuiSlot(5,5);
     private final static GuiSlot COMPLETE_SLOT = new GuiSlot(5,9);
-    private final CoolDownViewModel viewModel;
+    private final TimePeriodViewModel viewModel;
     private final LocalizedMessageService localizedMessageService;
 
-    public CoolDownGui(CoolDownViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(5, localizedMessageService.getMessage(BundleMessages.COOLDOWN_TITLE));
+    public TimePeriodGui(TimePeriodViewModel viewModel, LocalizedMessageService localizedMessageService) {
+        super(viewModel, 5, localizedMessageService.getMessage(BundleMessages.COOLDOWN_TITLE));
         this.viewModel = viewModel;
         this.localizedMessageService = localizedMessageService;
 
@@ -40,14 +40,14 @@ public class CoolDownGui extends InventoryGui {
         fillEmpty(new GuiItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), null));
         setDefaultClickAction(event -> event.setCancelled(true));
 
-        updateValueIndicators(viewModel.getCoolDownProperty().getValue());
+        updateValueIndicators(viewModel.getTimePeriodProperty().getValue());
 
         // Apply increment and decrement buttons above and below the value item.
-        applyIncrDecrCounters(WEEKS_SLOT, CoolDownViewModel.Field.WEEKS);
-        applyIncrDecrCounters(DAYS_SLOT, CoolDownViewModel.Field.DAYS);
-        applyIncrDecrCounters(HOURS_SLOT, CoolDownViewModel.Field.HOURS);
-        applyIncrDecrCounters(MINUTES_SLOT, CoolDownViewModel.Field.MINUTES);
-        applyIncrDecrCounters(SECONDS_SLOT, CoolDownViewModel.Field.SECONDS);
+        applyIncrDecrCounters(WEEKS_SLOT, TimePeriodViewModel.Field.WEEKS);
+        applyIncrDecrCounters(DAYS_SLOT, TimePeriodViewModel.Field.DAYS);
+        applyIncrDecrCounters(HOURS_SLOT, TimePeriodViewModel.Field.HOURS);
+        applyIncrDecrCounters(MINUTES_SLOT, TimePeriodViewModel.Field.MINUTES);
+        applyIncrDecrCounters(SECONDS_SLOT, TimePeriodViewModel.Field.SECONDS);
 
         insert(PREV_PAGE_SLOT, new GuiItem(new ItemBuilder(Material.BARRIER).name(localizedMessageService.getMessage(BundleMessages.PREVIOUS_PAGE)).glow(true).build(), event -> {
             if (!(event.getWhoClicked() instanceof Player)) return;
@@ -66,7 +66,7 @@ public class CoolDownGui extends InventoryGui {
     Listens for updates from the ViewModel and updates this view accordingly.
      */
     private void applyBindings() {
-        viewModel.getCoolDownProperty().addListener(listener -> {
+        viewModel.getTimePeriodProperty().addListener(listener -> {
             if (!(listener.getNewValue() instanceof TimePeriod cooldown)) return;
             updateValueIndicators(cooldown);
         });
@@ -90,7 +90,7 @@ public class CoolDownGui extends InventoryGui {
         }
     }
 
-    private void applyIncrDecrCounters(GuiSlot guiSlot, CoolDownViewModel.Field field) {
+    private void applyIncrDecrCounters(GuiSlot guiSlot, TimePeriodViewModel.Field field) {
         ItemStack incrItemStack = new ItemBuilder(Material.LIME_DYE)
                 .name(localizedMessageService.getMessage(BundleMessages.INCREMENT_COOLDOWN))
                 .lore(localizedMessageService.getMessageList(BundleMessages.INCREMENT_COOLDOWN_MORE))

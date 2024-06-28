@@ -2,6 +2,8 @@ package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.Player;
@@ -17,6 +19,7 @@ import java.util.Optional;
  */
 public class RemoveCmdExecutor extends CmdExecutor {
     private final InfoHeadService infoHeadService;
+    private final EventDispatcher eventDispatcher;
 
     /**
      * Class constructor.
@@ -24,9 +27,10 @@ public class RemoveCmdExecutor extends CmdExecutor {
      * @param localizedMessageService Messages service.
      * @param infoHeadService the {@link InfoHeadService} instance used to manage InfoHeads
      */
-    public RemoveCmdExecutor(LocalizedMessageService localizedMessageService, InfoHeadService infoHeadService) {
+    public RemoveCmdExecutor(LocalizedMessageService localizedMessageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
         super(localizedMessageService, Constants.ADMIN_PERMISSION);
         this.infoHeadService = infoHeadService;
+        this.eventDispatcher = eventDispatcher;
     }
 
     /**
@@ -42,12 +46,12 @@ public class RemoveCmdExecutor extends CmdExecutor {
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(sender.getLookingAt().orElse(null));
 
         if (infoHeadPropertiesOptional.isEmpty()) {
-            sender.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION)));
             return true;
         }
 
         infoHeadService.removeInfoHead(infoHeadPropertiesOptional.get());
-        sender.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.INFOHEAD_REMOVED));
+        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.INFOHEAD_REMOVED)));
 
         return true;
     }

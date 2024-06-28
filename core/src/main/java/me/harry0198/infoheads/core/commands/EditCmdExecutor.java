@@ -3,6 +3,7 @@ package me.harry0198.infoheads.core.commands;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
@@ -44,11 +45,11 @@ public class EditCmdExecutor extends CmdExecutor {
     public boolean executeCmd(OnlinePlayer player) {
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(player.getLookingAt().orElse(null));
         if (infoHeadPropertiesOptional.isEmpty()) {
-            player.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION)));
             return true;
         }
 
-        eventDispatcher.dispatchEvent(new OpenInfoHeadMenuEvent(infoHeadPropertiesOptional.get()));
+        eventDispatcher.dispatchEvent(new OpenInfoHeadMenuEvent(infoHeadPropertiesOptional.get(), player));
         return true;
     }
 }

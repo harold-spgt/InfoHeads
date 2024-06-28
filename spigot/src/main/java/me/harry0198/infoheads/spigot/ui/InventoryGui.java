@@ -1,6 +1,7 @@
 package me.harry0198.infoheads.spigot.ui;
 
 import me.harry0198.infoheads.core.ui.GuiSlot;
+import me.harry0198.infoheads.core.ui.ViewModel;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -14,19 +15,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public abstract class InventoryGui implements InventoryHolder {
+public abstract class InventoryGui<T extends ViewModel> implements InventoryHolder {
     private final Inventory inventory;
     private final Map<Integer, Consumer<InventoryClickEvent>> slotActions;
+    private final T viewModel;
     private Consumer<InventoryClickEvent> defaultAction;
     private Consumer<InventoryCloseEvent> closeAction;
 
-    public InventoryGui(int size, String name) {
+    public InventoryGui(T viewModel, int size, String name) {
+        this.viewModel = viewModel;
         // Recover invalid inventory size state.
         if (size > 6) size = 6;
         if (size < 1) size = 1;
 
         this.inventory = Bukkit.createInventory(this, size*9, name);
         this.slotActions = new HashMap<>();
+
+        // When inventory is requested to be closed, close for everyone.
+        this.viewModel.getShouldCloseProperty().addListener((changed) -> {
+            if (viewModel.getShouldCloseProperty().getValue()) {
+                for (HumanEntity viewer : inventory.getViewers()) {
+                    viewer.closeInventory();
+                }
+            }
+        });
     }
 
     public void open(HumanEntity humanEntity) {
@@ -43,6 +55,10 @@ public abstract class InventoryGui implements InventoryHolder {
 
     public void setDefaultClickAction(Consumer<InventoryClickEvent> event) {
         this.defaultAction = event;
+    }
+
+    public T getViewModel() {
+        return viewModel;
     }
 
     public Consumer<InventoryCloseEvent> getCloseAction() {

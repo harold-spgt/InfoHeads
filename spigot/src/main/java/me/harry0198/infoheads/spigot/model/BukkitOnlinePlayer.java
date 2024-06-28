@@ -31,19 +31,32 @@ public class BukkitOnlinePlayer extends OnlinePlayer {
         return Optional.of(new Location(bukkitLoc.getBlockX(), bukkitLoc.getBlockY(), bukkitLoc.getBlockZ(), dimension));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public boolean isSneaking() {
-        return false;
+    public Location getLocation() {
+        org.bukkit.Location loc = player.getLocation();
+        return new Location(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), loc.getWorld().getName());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void sendMessage(String message) {
+    public boolean isSneaking() {
+        return player.isSneaking();
+    }
 
+    @Override
+    public boolean hasPermission(String permission) {
+        return player.hasPermission(permission);
+    }
+
+    @Override
+    public boolean isOnline() {
+        return player.isOnline();
+    }
+
+    @Override
+    public boolean isOp() {
+        return player.isOp();
     }
 }

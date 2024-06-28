@@ -13,6 +13,6 @@ public class PlayerQuitHandler {
     }
 
     public void onQuit(OnlinePlayer player) {
-        eventDispatcher.dispatchEvent(new RemoveTempPlayerPermissionEvent(player));
+        eventDispatcher.dispatchEvent(new RemoveTempPlayerPermissionEvent(player, "TODO")); //TODO
     }
 }

@@ -3,7 +3,7 @@ package me.harry0198.infoheads.spigot.ui.wizard;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.elements.Element;
-import me.harry0198.infoheads.core.ui.InfoHeadViewModel;
+import me.harry0198.infoheads.core.ui.AddActionViewModel;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import me.harry0198.infoheads.spigot.ui.GuiItem;
 import me.harry0198.infoheads.core.ui.GuiSlot;
@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class WizardGui extends InventoryGui {
+public class AddActionGui extends InventoryGui<AddActionViewModel> {
     private static final GuiSlot APPEND_MSG_SLOT = new GuiSlot(2,3);
     private static final GuiSlot APPEND_CONSOLE_CMD_SLOT = new GuiSlot(2,4);
     private static final GuiSlot APPEND_PLAYER_CMD_SLOT = new GuiSlot(2,5);
@@ -31,12 +31,10 @@ public class WizardGui extends InventoryGui {
     private static final GuiSlot PERMISSION_SLOT = new GuiSlot(3,5);
     private static final GuiSlot PLAYER_PERMISSION_SLOT = new GuiSlot(3,3);
     private static final GuiSlot PARTICLE_SLOT = new GuiSlot(2,7);
-    private final InfoHeadViewModel viewModel;
     private final LocalizedMessageService localizedMessageService;
-    public WizardGui(InfoHeadViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(5, "InfoHeads Wizard");
+    public AddActionGui(AddActionViewModel viewModel, LocalizedMessageService localizedMessageService) {
+        super(viewModel, 5, "InfoHeads Wizard");
         this.localizedMessageService = localizedMessageService;
-        this.viewModel = viewModel;
 
         setDefaultClickAction(event -> event.setCancelled(true));
 
@@ -65,7 +63,7 @@ public class WizardGui extends InventoryGui {
     }
 
     private void bindings() {
-        viewModel.getShouldCloseProperty().addListener(listener -> {
+        getViewModel().getShouldCloseProperty().addListener(listener -> {
             if (listener.getNewValue() instanceof Boolean shouldClose) {
                 if (shouldClose) {
                     for (HumanEntity viewer : new ArrayList<>(getInventory().getViewers())) {
@@ -90,7 +88,7 @@ public class WizardGui extends InventoryGui {
                         .name(localizedMessageService.getMessage(BundleMessages.APPEND_MESSAGE_ELEMENT))
                         .lore(localizedMessageService.getMessageList(BundleMessages.APPEND_MESSAGE_ELEMENT_MORE))
                         .build(),
-                event -> viewModel.newElement(Element.InfoHeadType.MESSAGE, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
+                event -> getViewModel().newElement(Element.InfoHeadType.MESSAGE, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
 
     private void appendConsoleCommandItem() {
@@ -101,7 +99,7 @@ public class WizardGui extends InventoryGui {
                         .name(localizedMessageService.getMessage(BundleMessages.APPEND_CONSOLE_CMD_ELEMENT))
                         .lore(localizedMessageService.getMessageList(BundleMessages.APPEND_CONSOLE_CMD_ELEMENT_MORE))
                         .build(),
-                event -> viewModel.newElement(Element.InfoHeadType.CONSOLE_COMMAND, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
+                event -> getViewModel().newElement(Element.InfoHeadType.CONSOLE_COMMAND, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
 
     private void appendPlayerCommandItem() {
@@ -112,19 +110,8 @@ public class WizardGui extends InventoryGui {
                         .name(localizedMessageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT))
                         .lore(localizedMessageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT))
                         .build(),
-                event -> viewModel.newElement(Element.InfoHeadType.PLAYER_COMMAND, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
+                event -> getViewModel().newElement(Element.InfoHeadType.PLAYER_COMMAND, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
-
-//    private void setLocationItem() {
-//        insert(
-//                SET_LOCATION_SLOT,
-//                new GuiItem(new ItemBuilder(Material.GRASS_BLOCK)
-//                        .glow(true)
-//                        .name(MessageUtil.getString(MessageUtil.Message.SET_LOCATION_TITLE))
-//                        .lore(MessageUtil.getStringList(MessageUtil.Message.SET_LOCATION_LORE))
-//                        .build(),
-//                event -> viewModel.setLocation(event.getWhoClicked())));
-//    }
 
     private void cancelItem() {
         insert(
@@ -146,7 +133,7 @@ public class WizardGui extends InventoryGui {
                         .name(localizedMessageService.getMessage(BundleMessages.PERMISSION_ELEMENT))
                         .lore(localizedMessageService.getMessageList(BundleMessages.PERMISSION_ELEMENT_MORE))
                         .build(),
-                event -> viewModel.newElement(Element.InfoHeadType.PERMISSION, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
+                event -> getViewModel().newElement(Element.InfoHeadType.PERMISSION, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
 
     private void appendDelay() {
@@ -157,7 +144,7 @@ public class WizardGui extends InventoryGui {
                         .name(localizedMessageService.getMessage(BundleMessages.APPEND_DELAY_ELEMENT))
                         .lore(localizedMessageService.getMessageList(BundleMessages.APPEND_DELAY_ELEMENT_MORE))
                         .build(),
-                event -> viewModel.newElement(Element.InfoHeadType.DELAY, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
+                event -> getViewModel().newElement(Element.InfoHeadType.DELAY, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
 
     private void placeholdersItem() {
@@ -183,27 +170,6 @@ public class WizardGui extends InventoryGui {
 //                event -> viewModel.editItem()));
 //    }
 
-    private void editName() {
-        insert(
-                EDIT_NAME_SLOT,
-                new GuiItem(new ItemBuilder(Material.NAME_TAG)
-                        .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.EDIT_NAME))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.EDIT_NAME_MORE))
-                        .build(),
-                event -> viewModel.rename(new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
-    }
-
-    private void cooldownItem() {
-        insert(
-                COOLDOWN_SLOT,
-                new GuiItem(new ItemBuilder(Material.COMPASS)
-                        .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.SET_COOLDOWN))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.SET_COOLDOWN_MORE))
-                        .build(),
-                event -> viewModel.getCoolDownInput(new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
-    }
 
 //    private void onceItem(boolean isOneTimeUse) {
 //        insert(

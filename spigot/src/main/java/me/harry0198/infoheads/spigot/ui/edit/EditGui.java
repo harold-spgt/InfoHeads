@@ -14,13 +14,13 @@ public class EditGui extends InventoryGui {
     private final Map<Integer, Element> idSlots = new HashMap<>();
 
     public EditGui(InfoHeadProperties configuration) {
-        super(5, "Edit InfoHeads");
+        super(null,5, "Edit InfoHeads");
 
         // set outside click action
         // TODO
 
         // If currently holding an item on cursor and gui closes, set it to air.
-        setCloseAction(event -> event.getPlayer().setItemOnCursor(new ItemStack(Material.AIR)));
+//        setCloseAction(event -> event.getPlayer().setItemOnCursor(new ItemStack(Material.AIR)));
 
 //        // Create and insert the ordered items.
 //        for (int slot = 0; slot < configuration.getElements().size(); slot++) {

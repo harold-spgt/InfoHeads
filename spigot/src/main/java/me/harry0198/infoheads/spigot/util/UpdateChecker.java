@@ -1,4 +1,4 @@
-package me.harry0198.infoheads.core.utils;
+package me.harry0198.infoheads.spigot.util;
 
 import java.io.IOException;
 import java.io.InputStream;

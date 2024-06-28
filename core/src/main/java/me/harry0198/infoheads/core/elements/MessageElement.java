@@ -35,7 +35,6 @@ public final class MessageElement extends Element<String> {
     @Override
     public void performAction(EventDispatcher eventDispatcher, OnlinePlayer player) {
         eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, message));
-        player.sendMessage(removePlaceHolders(message, player));
     }
 
     @Override

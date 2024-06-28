@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  */
 public class LocalizedMessageService {
 
-    private static final String BUNDLE_NAME = "messages";
+    private static final String BUNDLE_NAME = "resourcebundle.messages";
     private final ResourceBundle resourceBundle;
 
     /**

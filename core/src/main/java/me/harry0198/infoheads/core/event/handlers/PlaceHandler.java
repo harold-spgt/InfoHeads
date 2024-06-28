@@ -9,9 +9,9 @@ import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.service.InfoHeadService;
+import me.harry0198.infoheads.core.service.UserStateService;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,27 +24,20 @@ public class PlaceHandler {
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
     private final EventDispatcher eventDispatcher;
+    private final UserStateService userStateService;
 
     /**
      * Class constructor.
      * @param infoHeadService {@link InfoHeadService} instance.
      * @param localizedMessageService {@link LocalizedMessageService} to provide localized messages to user.
      */
-    public PlaceHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
+    public PlaceHandler(InfoHeadService infoHeadService, UserStateService userStateService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
         this.infoHeadService = infoHeadService;
         this.localizedMessageService = localizedMessageService;
         this.eventDispatcher = eventDispatcher;
+        this.userStateService = userStateService;
     }
 
-    /**
-     * Handles when a player places an infohead.
-     * A new infohead will be created.
-     * @param player {@link OnlinePlayer} Who placed the infohead.
-     * @param location {@link Location} Infohead was placed at.
-     */
-    public void placeHead(OnlinePlayer player, Location location) {
-       placeHead(player, location, null);
-    }
 
     /**
      * Handles when a player places an infohead. If provided uuid is not null,
@@ -52,28 +45,19 @@ public class PlaceHandler {
      * Otherwise, a new infohead will be created
      * @param player {@link OnlinePlayer} Who placed the infohead.
      * @param location {@link Location} Infohead was placed at.
-     * @param infoheadUUID {@link UUID} of the infohead placed (if one exists). May be null.
      */
-    public void placeHead(OnlinePlayer player, Location location, UUID infoheadUUID) {
-        Optional<InfoHeadProperties> existingInfoHeadOptional = infoheadUUID == null ?
-                Optional.empty() : infoHeadService.getInfoHead(infoheadUUID);
+    public void placeHead(OnlinePlayer player, Location location) {
 
-        InfoHeadProperties infoHeadProperties;
-        if (existingInfoHeadOptional.isEmpty()) {
-            infoHeadProperties = new InfoHeadProperties(
-                    UUID.randomUUID(),
-                    "{" + location.x() + ", " + location.y() + ", " + location.z() + ": " + location.dimension() + "}",
-                    location,
-                    null,
-                    null,
-                    false,
-                    true
-            );
-        } else {
-            infoHeadProperties = existingInfoHeadOptional.get();
-            infoHeadProperties.setLocation(location);
-            infoHeadProperties.setEnabled(true);
-        }
+        Optional<InfoHeadProperties> infoHeadPropertiesOptional = userStateService.getPlacerModeHead(player);
+
+        // User must be in placer mode.
+        if (infoHeadPropertiesOptional.isEmpty()) return;
+
+        // Remove from placer mode
+        userStateService.removeFromPlacerMode(player);
+
+        InfoHeadProperties infoHeadProperties = infoHeadPropertiesOptional.get();
+        infoHeadProperties.setLocation(location);
 
         infoHeadService.addInfoHead(infoHeadProperties)
                 .exceptionally(e -> {

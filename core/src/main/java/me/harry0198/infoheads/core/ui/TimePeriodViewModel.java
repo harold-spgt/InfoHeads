@@ -11,39 +11,40 @@ import me.harry0198.infoheads.core.utils.SimpleProperty;
  * The business logic for handling InfoHead cool downs.
  * Provides methods such as incrementing the cool downs, binding to the value and saving.
  */
-public final class CoolDownViewModel {
+public class TimePeriodViewModel extends ViewModel {
 
     private final InfoHeadProperties configuration;
-    private final SimpleProperty<TimePeriod> cooldownProperty;
+    private final SimpleProperty<TimePeriod> timePeriodProperty;
 
     /**
      * Constructs this class.
      * @param configuration Configuration which provides the {@link TimePeriod}.
      */
-    public CoolDownViewModel(InfoHeadProperties configuration) {
+    public TimePeriodViewModel(InfoHeadProperties configuration) {
+        super(EventDispatcher.getInstance());
         this.configuration = configuration;
 
         // Ensure not null.
         if (configuration.getCoolDown() == null) {
             configuration.setCoolDown(new TimePeriod(0,0,0,0,0));
         }
-        this.cooldownProperty = new SimpleProperty<>(configuration.getCoolDown());
+        this.timePeriodProperty = new SimpleProperty<>(configuration.getCoolDown());
     }
 
     /**
      * Sets the 'TimePeriod' configuration value to MS from the provided time parameters.
      * @param TimePeriod {@link TimePeriod} to set for the InfoHead.
      */
-    public void setCoolDown(TimePeriod TimePeriod) {
-        cooldownProperty.setValue(TimePeriod);
+    public void setTimePeriod(TimePeriod TimePeriod) {
+        timePeriodProperty.setValue(TimePeriod);
     }
 
     /***
      * Gets the TimePeriod property to allow bindings and value retrieval.
      * @return the TimePeriod's {@link SimpleProperty}.
      */
-    public SimpleProperty<TimePeriod> getCoolDownProperty() {
-        return cooldownProperty;
+    public SimpleProperty<TimePeriod> getTimePeriodProperty() {
+        return timePeriodProperty;
     }
 
     /**
@@ -58,7 +59,8 @@ public final class CoolDownViewModel {
      * Saves the current TimePeriod to the configuration state.
      */
     public void saveConfiguration() {
-        configuration.setCoolDown(cooldownProperty.getValue());
+        configuration.setCoolDown(timePeriodProperty.getValue());
+        requestClose();
     }
 
     /**
@@ -86,7 +88,7 @@ public final class CoolDownViewModel {
     Restricts values to be between 0-60.
      */
     private void increment(int value, Field field) {
-        TimePeriod TimePeriod = getCoolDownProperty().getValue();
+        TimePeriod TimePeriod = getTimePeriodProperty().getValue();
         if (TimePeriod == null) {
             TimePeriod = new TimePeriod(0,0,0,0,0);
         }
@@ -115,7 +117,7 @@ public final class CoolDownViewModel {
                 break;
         }
 
-        setCoolDown(new TimePeriod(updatedWeeks, updatedDays, updatedHours, updatedMinutes, updatedSeconds));
+        setTimePeriod(new TimePeriod(updatedWeeks, updatedDays, updatedHours, updatedMinutes, updatedSeconds));
     }
 
     /**

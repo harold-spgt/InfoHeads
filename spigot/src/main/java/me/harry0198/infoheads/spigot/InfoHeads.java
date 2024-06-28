@@ -9,7 +9,8 @@ import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.persistence.repository.Repository;
 import me.harry0198.infoheads.core.persistence.repository.RepositoryFactory;
 import me.harry0198.infoheads.core.service.InfoHeadService;
-import me.harry0198.infoheads.core.utils.UpdateChecker;
+import me.harry0198.infoheads.core.service.UserStateService;
+import me.harry0198.infoheads.spigot.util.UpdateChecker;
 import me.harry0198.infoheads.spigot.commands.BukkitCmdExecutor;
 import me.harry0198.infoheads.spigot.listener.BukkitEventListener;
 import me.harry0198.infoheads.spigot.listener.InfoHeadEventHandlerRegister;
@@ -35,10 +36,12 @@ public final class InfoHeads extends JavaPlugin {
         EventDispatcher eventDispatcher = EventDispatcher.getInstance();
 
         InfoHeadService infoHeadService = new InfoHeadService(repository);
-        CommandHandler commandHandler = new CommandHandler(infoHeadService, localizedMessageService, eventDispatcher);
+        UserStateService userStateService = new UserStateService();
+        CommandHandler commandHandler = new CommandHandler(infoHeadService, userStateService, localizedMessageService, eventDispatcher);
+
 
         // Register event listeners.
-        new InfoHeadEventHandlerRegister(localizedMessageService);
+        new InfoHeadEventHandlerRegister(infoHeadService, localizedMessageService);
 
         this.getCommand("infoheads").setExecutor(new BukkitCmdExecutor(commandHandler));
 
@@ -46,7 +49,7 @@ public final class InfoHeads extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BukkitEventListener(
                 new BreakHandler(infoHeadService, localizedMessageService, eventDispatcher),
                 new InteractHandler(infoHeadService, localizedMessageService, eventDispatcher),
-                new PlaceHandler(infoHeadService, localizedMessageService, eventDispatcher),
+                new PlaceHandler(infoHeadService, userStateService, localizedMessageService, eventDispatcher),
                 new PlayerJoinHandler(eventDispatcher),
                 new PlayerQuitHandler(eventDispatcher)
         ), this);
@@ -86,16 +89,6 @@ public final class InfoHeads extends JavaPlugin {
             return false;
         }
     }
-
-//    public static ConversationFactory getInputFactory(final InfoHeadConfiguration infoHeadConfiguration, final Element.InfoHeadType element) {
-//        return new ConversationFactory(InfoHeads.getInstance())
-//                .withModality(true)
-//                .withPrefix(new InfoHeadsConversationPrefix())
-//                .withFirstPrompt(new ElementValueInput(InfoHeads.getInstance().dataStore, infoHeadConfiguration, element)) //TODO incorrect static use here. Datstore should be singleton? no. Should use interface
-//                .withEscapeSequence("cancel")
-//                .withTimeout(60)
-//                .thatExcludesNonPlayersWithMessage("Console is not supported by this command");
-//    }
 
     public static InfoHeads getInstance() {
         return getPlugin(InfoHeads.class);

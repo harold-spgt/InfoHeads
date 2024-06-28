@@ -2,9 +2,17 @@ package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.service.InfoHeadService;
+import me.harry0198.infoheads.core.service.UserStateService;
 import me.harry0198.infoheads.core.utils.Constants;
+
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The {@code WizardCmdExecutor} class extends {@link CmdExecutor} to execute a specific
@@ -13,11 +21,23 @@ import me.harry0198.infoheads.core.utils.Constants;
  */
 public class WizardCmdExecutor extends CmdExecutor {
 
-    /**
-     * {@inheritDoc}
-     */
-    public WizardCmdExecutor(LocalizedMessageService localizedMessageService) {
+    private final EventDispatcher eventDispatcher;
+    private final UserStateService userStateService;
+    private final InfoHeadService infoHeadService;
+    private final Command command;
+
+    public WizardCmdExecutor(
+            Command command,
+            EventDispatcher eventDispatcher,
+            InfoHeadService infoHeadService,
+            UserStateService userStateService,
+            LocalizedMessageService localizedMessageService
+    ) {
         super(localizedMessageService, Constants.BASE_PERMISSION + "wizard");
+        this.command = command;
+        this.eventDispatcher = eventDispatcher;
+        this.userStateService = userStateService;
+        this.infoHeadService = infoHeadService;
     }
 
     /**
@@ -31,10 +51,32 @@ public class WizardCmdExecutor extends CmdExecutor {
      */
     @Override
     public boolean executeCmd(OnlinePlayer sender) {
-//        if (DataStore.placerMode.containsKey(player)) return true;
-        sender.sendMessage(getLocalizedMessageService().getMessage(BundleMessages.USER_SHOULD_PLACE_INFOHEAD));
-//        DataStore.placerMode.put(player, infoHeadConfiguration);
-//
+        if (userStateService.getPlacerModeHead(sender).isPresent()) return true;
+
+        // Check for args /if wizard [head id]
+        // If head id is provided, fetch head. Otherwise, create new.
+        InfoHeadProperties infoHeadProperties;
+        if (command.args().length >= 1) {
+            String headIdentifier = command.args()[0];
+            try {
+                Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(UUID.fromString(headIdentifier));
+                if (infoHeadPropertiesOptional.isPresent()) {
+                    infoHeadProperties = infoHeadPropertiesOptional.get();
+                } else {
+                    eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.NO_HEAD_FOUND)));
+                    return false;
+                }
+            } catch (IllegalArgumentException ex) {
+                eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.NO_HEAD_FOUND)));
+                return false;
+            }
+        } else {
+            infoHeadProperties = new InfoHeadProperties();
+        }
+
+        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.INFOHEAD_PLACE)));
+        userStateService.addToPlacerMode(sender, infoHeadProperties);
+
 //        HeadStacks.giveHeads(player);
         return true;
     }

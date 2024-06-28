@@ -3,8 +3,8 @@ package me.harry0198.infoheads.core.commands;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
-import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
+import me.harry0198.infoheads.core.service.UserStateService;
 
 /**
  * Handles the command executions and maps it to the correct
@@ -23,10 +23,17 @@ public class CommandHandler {
 
     private final LocalizedMessageService localizedMessageService;
     private final InfoHeadService infoHeadService;
+    private final UserStateService userStateService;
     private final EventDispatcher eventDispatcher;
 
-    public CommandHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
+    public CommandHandler(
+            InfoHeadService infoHeadService,
+            UserStateService userStateService,
+            LocalizedMessageService localizedMessageService,
+            EventDispatcher eventDispatcher
+    ) {
         this.localizedMessageService = localizedMessageService;
+        this.userStateService = userStateService;
         this.infoHeadService = infoHeadService;
         this.eventDispatcher = eventDispatcher;
     }
@@ -42,11 +49,11 @@ public class CommandHandler {
         // Select the command executor based on command retrieved.
         CmdExecutor cmdExecutor = switch (command.cmdString().toLowerCase()) {
             case HELP_CMD_STRING, DEFAULT_CMD_STRING -> new HelpCmdExecutor(localizedMessageService);
-            case WIZARD_CMD_STRING -> new WizardCmdExecutor(localizedMessageService);
+            case WIZARD_CMD_STRING -> new WizardCmdExecutor(command, eventDispatcher, infoHeadService, userStateService, localizedMessageService);
             case LIST_CMD_STRING -> new ListCmdExecutor(localizedMessageService);
 //            case RELOAD_CMD_STRING -> new ReloadCmdExecutor(plugin, fileUtil, dataStore);
             case EDIT_CMD_STRING -> new EditCmdExecutor(localizedMessageService, infoHeadService, eventDispatcher);
-            case REMOVE_CMD_STRING -> new RemoveCmdExecutor(localizedMessageService, infoHeadService);
+            case REMOVE_CMD_STRING -> new RemoveCmdExecutor(localizedMessageService, infoHeadService, eventDispatcher);
             default -> new UnknownCmdExecutor(localizedMessageService);
         };
 

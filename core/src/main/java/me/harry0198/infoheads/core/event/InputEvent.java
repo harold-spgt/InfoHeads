@@ -1,13 +1,12 @@
-package me.harry0198.infoheads.core.event.inputs;
+package me.harry0198.infoheads.core.event;
 
-import me.harry0198.infoheads.core.event.InfoHeadEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 
-public class OpenCoolDownMenuEvent extends InfoHeadEvent {
+public class InputEvent extends InfoHeadEvent {
 
     private final OnlinePlayer onlinePlayer;
-    public OpenCoolDownMenuEvent(InfoHeadProperties infoHeadProperties, OnlinePlayer onlinePlayer) {
+    public InputEvent(InfoHeadProperties infoHeadProperties, OnlinePlayer onlinePlayer) {
         super(infoHeadProperties);
         this.onlinePlayer = onlinePlayer;
     }

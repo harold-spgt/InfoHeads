@@ -22,7 +22,11 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
 
     // Enabled also means if the infohead was broken and not yet re-placed.
     private boolean enabled;
-    private final LinkedList<Element<?>> elements;
+    private final LinkedList<Element<?>> elements = new LinkedList<>();
+
+    public InfoHeadProperties() {
+        this.uniqueId = UUID.randomUUID();
+    }
 
     public InfoHeadProperties(
             String name,
@@ -51,7 +55,6 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
         this.permission = permission;
         this.coolDown = coolDown;
         this.oneTimeUse = oneTimeUse;
-        this.elements = new LinkedList<>();
         this.enabled = enabled;
     }
 

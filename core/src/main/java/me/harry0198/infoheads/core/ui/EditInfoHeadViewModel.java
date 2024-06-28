@@ -3,6 +3,11 @@ package me.harry0198.infoheads.core.ui;
 
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.actions.SendPlayerCommandEvent;
+import me.harry0198.infoheads.core.event.inputs.GetCoolDownInputEvent;
+import me.harry0198.infoheads.core.event.inputs.GetNameInputEvent;
+import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
@@ -27,15 +32,34 @@ public class EditInfoHeadViewModel extends ViewModel {
         return elementsProperty;
     }
 
+    public void beginNewElementFlow(OnlinePlayer onlinePlayer) {
+        getEventDispatcher().dispatchEvent(new OpenInfoHeadMenuEvent(this.configuration, onlinePlayer));
+    }
+
     /**
      * Initiates conversation for requesting input for the new infohead name.
-     * @param entity Who has requested the rename.
+     * @param player Who has requested the rename?
      */
-//    public void rename(Player entity) {
-//        requestClose();
-//        InfoHeads.getInputFactory(configuration, Element.InfoHeadType.RENAME).buildConversation(entity).begin();
-//    }
-//
+    public void rename(OnlinePlayer player) {
+        requestClose();
+        getEventDispatcher().dispatchEvent(new GetNameInputEvent(configuration, player));
+    }
+
+
+    public void setOneTimeUse(boolean oneTimeUse) {
+        configuration.setOneTimeUse(!oneTimeUse);
+//        isOneTimeUseProperty.setValue(oneTimeUse);
+    }
+
+    public void setLocation(OnlinePlayer player) {
+        getShouldCloseProperty().setValue(true);
+        getEventDispatcher().dispatchEvent(new SendPlayerCommandEvent(player, "infoheads wizard " + configuration.getId()));
+    }
+
+    public void getCoolDownInput(OnlinePlayer onlinePlayer) {
+        getEventDispatcher().dispatchEvent(new GetCoolDownInputEvent(configuration, onlinePlayer));
+    }
+
     /**
      * Gets the progression snake for the gui. Consists of a constant zigzag shape. (lrl)
      * @return A {@link LinkedList} with the progression snake for the gui.
