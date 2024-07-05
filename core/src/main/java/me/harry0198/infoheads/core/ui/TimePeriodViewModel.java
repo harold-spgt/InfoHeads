@@ -7,11 +7,13 @@ import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
+import java.sql.Time;
+
 /**
  * The business logic for handling InfoHead cool downs.
  * Provides methods such as incrementing the cool downs, binding to the value and saving.
  */
-public class TimePeriodViewModel extends ViewModel {
+public abstract class TimePeriodViewModel extends ViewModel {
 
     private final InfoHeadProperties configuration;
     private final SimpleProperty<TimePeriod> timePeriodProperty;
@@ -23,13 +25,10 @@ public class TimePeriodViewModel extends ViewModel {
     public TimePeriodViewModel(InfoHeadProperties configuration) {
         super(EventDispatcher.getInstance());
         this.configuration = configuration;
-
-        // Ensure not null.
-        if (configuration.getCoolDown() == null) {
-            configuration.setCoolDown(new TimePeriod(0,0,0,0,0));
-        }
-        this.timePeriodProperty = new SimpleProperty<>(configuration.getCoolDown());
+        this.timePeriodProperty = new SimpleProperty<>(new TimePeriod(0,0,0,0,0));
     }
+
+    public abstract void initialize();
 
     /**
      * Sets the 'TimePeriod' configuration value to MS from the provided time parameters.
@@ -58,10 +57,7 @@ public class TimePeriodViewModel extends ViewModel {
     /**
      * Saves the current TimePeriod to the configuration state.
      */
-    public void saveConfiguration() {
-        configuration.setCoolDown(timePeriodProperty.getValue());
-        requestClose();
-    }
+    public abstract void saveConfiguration();
 
     /**
      * Increments the TimePeriod by 1 {@link Field}. Does not allow incrementing over 60.

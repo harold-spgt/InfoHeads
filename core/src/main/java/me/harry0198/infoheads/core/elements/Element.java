@@ -4,7 +4,9 @@ import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public abstract class Element<T> {
+import java.io.Serializable;
+
+public abstract class Element<T> implements Serializable {
 
     /**
      * Call to specific action

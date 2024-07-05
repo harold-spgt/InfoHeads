@@ -5,7 +5,9 @@ import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.SendConsoleCommandEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public final class ConsoleCommandElement extends Element<String> {
+import java.io.Serializable;
+
+public final class ConsoleCommandElement extends Element<String> implements Serializable {
 
     private String command;
 

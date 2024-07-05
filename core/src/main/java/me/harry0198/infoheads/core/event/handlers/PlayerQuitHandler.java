@@ -4,6 +4,8 @@ import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.RemoveTempPlayerPermissionEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
+import java.util.List;
+
 public class PlayerQuitHandler {
 
     private final EventDispatcher eventDispatcher;
@@ -12,7 +14,8 @@ public class PlayerQuitHandler {
         this.eventDispatcher = eventDispatcher;
     }
 
-    public void onQuit(OnlinePlayer player) {
-        eventDispatcher.dispatchEvent(new RemoveTempPlayerPermissionEvent(player, "TODO")); //TODO
+    public void onQuit(OnlinePlayer player, List<String> permissionsToRemove) {
+                permissionsToRemove.forEach(permission ->
+                        eventDispatcher.dispatchEvent(new RemoveTempPlayerPermissionEvent(player, permission)));
     }
 }

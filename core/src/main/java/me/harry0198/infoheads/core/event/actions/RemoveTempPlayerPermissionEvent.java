@@ -1,8 +1,10 @@
 package me.harry0198.infoheads.core.event.actions;
 
 import me.harry0198.infoheads.core.event.Event;
+import me.harry0198.infoheads.core.event.InfoHeadEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.Player;
+import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 
 public class RemoveTempPlayerPermissionEvent extends Event {
 

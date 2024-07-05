@@ -17,6 +17,7 @@ import java.util.ListIterator;
 
 public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
 
+    private static final GuiSlot ONE_TIME_USE_SLOT = new GuiSlot(1,7);
     private final LocalizedMessageService localizedMessageService;
 
     /**
@@ -24,7 +25,7 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
      * @param viewModel for this view.
      */
     public EditInfoHeadGui(EditInfoHeadViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(viewModel, 6, "Edit InfoHead");
+        super(viewModel, 6, localizedMessageService.getMessage(BundleMessages.EDIT_INFOHEAD_UI_TITLE));
         this.localizedMessageService = localizedMessageService;
 
         setDefaultClickAction(event -> event.setCancelled(true));
@@ -43,6 +44,16 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
 
         // Set location btn
         insert(new GuiSlot(1,8), getLocationItem());
+
+        // Cooldown btn
+        insert(new GuiSlot(1,6), cooldownItem());
+
+        // Permission to use.
+        insert(new GuiSlot(1,5), usePermission());
+
+        // One time use
+        insert(ONE_TIME_USE_SLOT, onceItem());
+        getViewModel().getIsOneTimeUseProperty().addListener((listener) -> insert(ONE_TIME_USE_SLOT, onceItem()));
 
         // Progression path
         populateProgressionSlots(getViewModel().getElementsProperty().getValue());
@@ -73,16 +84,33 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
         );
     }
 
-//    private void cooldownItem() {
-//        insert(
-//                COOLDOWN_SLOT,
-//                new GuiItem(new ItemBuilder(Material.COMPASS)
-//                        .glow(true)
-//                        .name(localizedMessageService.getMessage(BundleMessages.SET_COOLDOWN))
-//                        .lore(localizedMessageService.getMessageList(BundleMessages.SET_COOLDOWN_MORE))
-//                        .build(),
-//                        event -> getViewModel().getCoolDownInput(new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
-//    }
+    private GuiItem onceItem() {
+        boolean oneTimeUse = getViewModel().getIsOneTimeUseProperty().getValue();
+        return new GuiItem(new ItemBuilder(Material.ARROW)
+                        .glow(true)
+                        .name(localizedMessageService.getMessage(BundleMessages.ONE_TIME_TITLE))
+                        .lore(localizedMessageService.getMessage(oneTimeUse ? BundleMessages.ONCE_ITEM_LORE_ON : BundleMessages.ONCE_ITEM_LORE_OFF))
+                        .build(),
+                event -> getViewModel().setOneTimeUse(!oneTimeUse));
+    }
+
+    private GuiItem cooldownItem() {
+        return new GuiItem(new ItemBuilder(Material.COMPASS)
+                        .glow(true)
+                        .name(localizedMessageService.getMessage(BundleMessages.SET_COOLDOWN))
+                        .lore(localizedMessageService.getMessageList(BundleMessages.SET_COOLDOWN_MORE))
+                        .build(),
+                        event -> getViewModel().getCoolDownInput(new BukkitOnlinePlayer((Player) event.getWhoClicked())));
+    }
+
+    private GuiItem usePermission() {
+        return new GuiItem(new ItemBuilder(Material.TOTEM_OF_UNDYING)
+                .glow(true)
+                .name(localizedMessageService.getMessage(BundleMessages.PERMISSION_ELEMENT))
+                .lore(localizedMessageService.getMessageList(BundleMessages.PERMISSION_ELEMENT_MORE))
+                .build(),
+                event -> getViewModel().permissionToUse(new BukkitOnlinePlayer((Player) event.getWhoClicked())));
+    }
 
     private void populateProgressionSlots(LinkedList<Element<?>> elements) {
         LinkedList<GuiSlot> progressionSlots = getViewModel().getProgressionSlots(9);

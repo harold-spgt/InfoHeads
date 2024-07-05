@@ -11,6 +11,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.permissions.PermissionAttachment;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BukkitEventListener implements Listener {
 
@@ -19,19 +27,22 @@ public class BukkitEventListener implements Listener {
     private final PlaceHandler placeHandler;
     private final PlayerJoinHandler joinHandler;
     private final PlayerQuitHandler quitHandler;
+    private final Map<UUID, PermissionAttachment> permissionAttachmentMap;
 
     public BukkitEventListener(
             BreakHandler breakHandler,
             InteractHandler interactHandler,
             PlaceHandler placeHandler,
             PlayerJoinHandler joinHandler,
-            PlayerQuitHandler quitHandler
+            PlayerQuitHandler quitHandler,
+            Map<UUID, PermissionAttachment> permissionAttachmentConcurrentHashMap
     ) {
         this.breakHandler = breakHandler;
         this.interactHandler = interactHandler;
         this.placeHandler = placeHandler;
         this.joinHandler = joinHandler;
         this.quitHandler = quitHandler;
+        this.permissionAttachmentMap = permissionAttachmentConcurrentHashMap;
     }
 
     @EventHandler
@@ -41,7 +52,7 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if (event.getClickedBlock() != null) {
+        if (event.getClickedBlock() != null && event.getHand() == EquipmentSlot.HAND) {
             HandAction handAction = switch (event.getAction()) {
                 case LEFT_CLICK_BLOCK -> HandAction.LEFT_CLICK;
                 case RIGHT_CLICK_BLOCK -> HandAction.RIGHT_CLICK;
@@ -49,6 +60,7 @@ public class BukkitEventListener implements Listener {
             };
 
             if (handAction == null) return;
+
 
             interactHandler.interactWithHead(
                     new BukkitOnlinePlayer(event.getPlayer()),
@@ -70,6 +82,16 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        quitHandler.onQuit(new BukkitOnlinePlayer(event.getPlayer()));
+        PermissionAttachment permissionAttachment = permissionAttachmentMap.get(event.getPlayer().getUniqueId());
+        List<String> permissions = new ArrayList<>();
+        if (permissionAttachment != null) {
+            permissionAttachment.getPermissions().forEach((perm, bool) -> {
+                if (!bool) return;
+
+                permissions.add(perm);
+            });
+        }
+
+        quitHandler.onQuit(new BukkitOnlinePlayer(event.getPlayer()), permissions);
     }
 }

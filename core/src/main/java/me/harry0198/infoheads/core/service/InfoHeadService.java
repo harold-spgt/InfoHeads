@@ -1,5 +1,7 @@
 package me.harry0198.infoheads.core.service;
 
+import me.harry0198.infoheads.core.model.Player;
+import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.persistence.entity.Identifiable;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
@@ -17,17 +19,17 @@ import java.util.logging.Logger;
 public class InfoHeadService {
 
     private static final Logger LOGGER = Logger.getLogger(InfoHeadService.class.getName());
-    private final Repository<InfoHeadProperties> repository;
+    private final Repository<InfoHeadProperties> infoHeadRepository;
     private final Map<Location, InfoHeadProperties> cache;
     private final CompletableFuture<Void> cacheInitializationProc;
 
     /**
      * Class constructor.
      * Creates the cache.
-     * @param repository {@link Repository} providing the InfoHead properties.
+     * @param infoHeadRepository {@link Repository} providing the InfoHead properties.
      */
-    public InfoHeadService(Repository<InfoHeadProperties> repository) {
-        this.repository = repository;
+    public InfoHeadService(Repository<InfoHeadProperties> infoHeadRepository) {
+        this.infoHeadRepository = infoHeadRepository;
         this.cache = new ConcurrentHashMap<>();
 
         // Generate cache
@@ -51,10 +53,10 @@ public class InfoHeadService {
      */
     public CompletableFuture<Boolean> addInfoHead(InfoHeadProperties infoHeadProperties) {
         return CompletableFuture.supplyAsync(() -> {
-            boolean didSave = repository.save(infoHeadProperties);
+            boolean didSave = infoHeadRepository.save(infoHeadProperties);
 
             if (didSave) {
-                this.cache.replace(infoHeadProperties.getLocation(), infoHeadProperties);
+                this.cache.put(infoHeadProperties.getLocation(), infoHeadProperties);
             }
 
             return didSave;
@@ -91,7 +93,7 @@ public class InfoHeadService {
     public CompletableFuture<Boolean> removeInfoHead(InfoHeadProperties infoHeadProperties) {
         // Remove from disk.
         return CompletableFuture.supplyAsync(() -> {
-            boolean didDelete = repository.delete(infoHeadProperties);
+            boolean didDelete = infoHeadRepository.delete(infoHeadProperties);
             if (didDelete) {
                 cache.remove(infoHeadProperties.getLocation());
             }
@@ -102,7 +104,7 @@ public class InfoHeadService {
 
     private CompletableFuture<Void> initializeCache() {
         return CompletableFuture.runAsync(() -> {
-            for (InfoHeadProperties infoHeadProperties : repository.getAll()) {
+            for (InfoHeadProperties infoHeadProperties : infoHeadRepository.getAll()) {
                 this.cache.put(infoHeadProperties.getLocation(), infoHeadProperties);
             }
         }).whenComplete((ignore,error) -> {

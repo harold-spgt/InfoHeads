@@ -4,7 +4,9 @@ import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public final class MessageElement extends Element<String> {
+import java.io.Serializable;
+
+public final class MessageElement extends Element<String> implements Serializable {
 
     private String message;
 

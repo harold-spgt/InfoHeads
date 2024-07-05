@@ -8,6 +8,6 @@ import java.nio.file.Path;
 public class RepositoryFactory{
 
     public static <T extends Serializable & Identifiable> Repository<T> getRepository() {
-        return new LocalRepository<>(Path.of("")); //TODO
+        return new LocalRepository<>(Path.of("plugins","InfoHeads"));
     }
 }

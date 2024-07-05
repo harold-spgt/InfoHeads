@@ -5,7 +5,9 @@ import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.ApplyTempPlayerPermissionEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
-public class PlayerPermissionElement extends Element<String> {
+import java.io.Serializable;
+
+public class PlayerPermissionElement extends Element<String> implements Serializable {
 
     private String permission;
 

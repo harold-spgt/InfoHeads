@@ -46,7 +46,9 @@ public class RemoveCmdExecutor extends CmdExecutor {
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(sender.getLookingAt().orElse(null));
 
         if (infoHeadPropertiesOptional.isEmpty()) {
-            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION)));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(
+                    sender,
+                    getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION)));
             return true;
         }
 

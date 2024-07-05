@@ -6,7 +6,8 @@ import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.SendPlayerCommandEvent;
 import me.harry0198.infoheads.core.event.inputs.GetCoolDownInputEvent;
 import me.harry0198.infoheads.core.event.inputs.GetNameInputEvent;
-import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.event.inputs.GetPermissionInputEvent;
+import me.harry0198.infoheads.core.event.inputs.OpenAddActionMenuEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
@@ -16,12 +17,14 @@ import java.util.LinkedList;
 public class EditInfoHeadViewModel extends ViewModel {
 
     private final InfoHeadProperties configuration;
+    private final SimpleProperty<Boolean> isOneTimeUseProperty;
     private final SimpleProperty<LinkedList<Element<?>>> elementsProperty;
 
     public EditInfoHeadViewModel(EventDispatcher eventDispatcher, InfoHeadProperties infoHeadConfiguration) {
         super(eventDispatcher);
         this.configuration = infoHeadConfiguration;
         this.elementsProperty = new SimpleProperty<>(infoHeadConfiguration.getElements());
+        this.isOneTimeUseProperty = new SimpleProperty<>(infoHeadConfiguration.isOneTimeUse());
     }
 
     /**
@@ -33,7 +36,7 @@ public class EditInfoHeadViewModel extends ViewModel {
     }
 
     public void beginNewElementFlow(OnlinePlayer onlinePlayer) {
-        getEventDispatcher().dispatchEvent(new OpenInfoHeadMenuEvent(this.configuration, onlinePlayer));
+        getEventDispatcher().dispatchEvent(new OpenAddActionMenuEvent(this.configuration, onlinePlayer));
     }
 
     /**
@@ -45,10 +48,19 @@ public class EditInfoHeadViewModel extends ViewModel {
         getEventDispatcher().dispatchEvent(new GetNameInputEvent(configuration, player));
     }
 
+    public void permissionToUse(OnlinePlayer player) {
+        requestClose();
+        getEventDispatcher().dispatchEvent(new GetPermissionInputEvent(configuration, player));
+    }
+
 
     public void setOneTimeUse(boolean oneTimeUse) {
         configuration.setOneTimeUse(!oneTimeUse);
-//        isOneTimeUseProperty.setValue(oneTimeUse);
+        isOneTimeUseProperty.setValue(oneTimeUse);
+    }
+
+    public SimpleProperty<Boolean> getIsOneTimeUseProperty() {
+        return isOneTimeUseProperty;
     }
 
     public void setLocation(OnlinePlayer player) {

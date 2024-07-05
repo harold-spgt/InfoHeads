@@ -9,16 +9,10 @@ import me.harry0198.infoheads.core.utils.SimpleProperty;
 
 public class AddActionViewModel extends ViewModel {
     private final InfoHeadProperties configuration;
-    private final SimpleProperty<Boolean> isOneTimeUseProperty;
 
     public AddActionViewModel(EventDispatcher eventDispatcher, InfoHeadProperties configuration) {
         super(eventDispatcher);
         this.configuration = configuration;
-        this.isOneTimeUseProperty = new SimpleProperty<>(configuration.isOneTimeUse());
-    }
-
-    public SimpleProperty<Boolean> getIsOneTimeUseProperty() {
-        return isOneTimeUseProperty;
     }
 
     public InfoHeadProperties getConfiguration() {

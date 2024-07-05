@@ -51,7 +51,7 @@ dependencies {
 tasks {
     shadowJar {
         archiveFileName = "${project.name}.jar"
-        relocate("me.harry0198.infoheads.core", "${libsBase}.mf")
+        relocate("me.harry0198.infoheads.core", "${libsBase}.core")
         relocate("org.bstats","${libsBase}.bstats")
     }
 }

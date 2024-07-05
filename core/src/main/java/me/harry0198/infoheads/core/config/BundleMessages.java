@@ -18,7 +18,9 @@ public enum BundleMessages {
     DECREMENT_COOLDOWN_MORE("ui.cooldown.decrement-more"),
     SET_LOCATION("ui.set-location"),
     SET_LOCATION_MORE("ui.set-location-more"),
-    COOLDOWN_TITLE("ui.title"),
+    COOLDOWN_TITLE("ui.cooldown.title"),
+    COOLDOWN_TIME("ui.cooldown.still"),
+    ONE_TIME("one-time"),
     APPEND_NEW_ITEM("ui.add-new-action"),
     APPEND_MESSAGE_ELEMENT("ui.append.message"),
     APPEND_MESSAGE_ELEMENT_MORE("ui.append.message-more"),
@@ -28,6 +30,8 @@ public enum BundleMessages {
     APPEND_PLAYER_CMD_ELEMENT_MORE("ui.append.player-cmd-more"),
     APPEND_DELAY_ELEMENT("ui.append.delay"),
     APPEND_DELAY_ELEMENT_MORE("ui.append.delay-more"),
+    APPEND_TEMP_PERMISSION("ui.append.temp-perm"),
+    APPEND_TEMP_PERMISSION_MORE("ui.append.temp-perm-more"),
     SET_COOLDOWN("ui.set-cooldown"),
     SET_COOLDOWN_MORE("ui.set-cooldown-more"),
     VALID_PLACEHOLDERS("ui.placeholders"),
@@ -45,8 +49,21 @@ public enum BundleMessages {
     MINUTES("ui.minutes"),
     SECONDS("ui.seconds"),
     FAILED_TO_ADD("infohead.failed-to-add"),
-    FAILED_TO_REMOVE("infohead.failed-to-remove");
-    ;
+    FAILED_TO_REMOVE("infohead.failed-to-remove"),
+    ONE_TIME_TITLE("ui.one-time.title"),
+    ONCE_ITEM_LORE_ON("ui.one-time.lore.on"),
+    ONCE_ITEM_LORE_OFF("ui.one-time.lore.off"),
+    ADD_ACTION_GUI_TITLE("ui.add-action.title"),
+    REQUEST_PERMISSION("input.permission"),
+    CONVERSATION_TITLE("input.convo.title"),
+    CONVERSATION_SUBTITLE("input.convo.subtitle"),
+    REQUEST_PLAYER_PERMISSION("input.player-permission"),
+    REQUEST_RENAME("input.rename"),
+    REQUEST_CONSOLE_COMMAND("input.console-command"),
+    REQUEST_PLAYER_COMMAND("input.player-command"),
+    REQUEST_MESSAGE("input.message"),
+    EDIT_INFOHEAD_UI_TITLE("ui.edit-ih.title");
+
 
     private final String key;
 

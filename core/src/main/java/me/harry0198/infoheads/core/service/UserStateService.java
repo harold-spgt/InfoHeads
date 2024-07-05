@@ -2,6 +2,7 @@ package me.harry0198.infoheads.core.service;
 
 import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
+import me.harry0198.infoheads.core.persistence.repository.Repository;
 
 import java.util.HashMap;
 import java.util.Map;

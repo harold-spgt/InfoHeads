@@ -10,15 +10,20 @@ import me.harry0198.infoheads.core.persistence.repository.Repository;
 import me.harry0198.infoheads.core.persistence.repository.RepositoryFactory;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.service.UserStateService;
+import me.harry0198.infoheads.core.utils.Constants;
+import me.harry0198.infoheads.spigot.util.HexUtils;
 import me.harry0198.infoheads.spigot.util.UpdateChecker;
 import me.harry0198.infoheads.spigot.commands.BukkitCmdExecutor;
 import me.harry0198.infoheads.spigot.listener.BukkitEventListener;
 import me.harry0198.infoheads.spigot.listener.InfoHeadEventHandlerRegister;
 import me.harry0198.infoheads.spigot.ui.InventoryGuiListener;
+
 import org.bstats.bukkit.Metrics;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.function.UnaryOperator;
 import java.util.logging.Logger;
 
 public final class InfoHeads extends JavaPlugin {
@@ -30,7 +35,15 @@ public final class InfoHeads extends JavaPlugin {
         new Metrics(this, 4607);
 
         Locale locale = Locale.forLanguageTag("en-GB");
-        LocalizedMessageService localizedMessageService = new LocalizedMessageService(locale);
+        UnaryOperator<String> colourReplaceStrategy = (str) -> {
+            str = ChatColor.translateAlternateColorCodes('&', str);
+            if (HexUtils.supportsHex()) {
+                str = HexUtils.translateHexColorCodes(str, Constants.HEX_PATTERN);
+            }
+            return str;
+        };
+
+        LocalizedMessageService localizedMessageService = new LocalizedMessageService(locale, colourReplaceStrategy);
 
         Repository<InfoHeadProperties> repository = RepositoryFactory.getRepository();
         EventDispatcher eventDispatcher = EventDispatcher.getInstance();
@@ -41,9 +54,9 @@ public final class InfoHeads extends JavaPlugin {
 
 
         // Register event listeners.
-        new InfoHeadEventHandlerRegister(infoHeadService, localizedMessageService);
+        InfoHeadEventHandlerRegister infoHeadEventHandlerRegister = new InfoHeadEventHandlerRegister(localizedMessageService);
 
-        this.getCommand("infoheads").setExecutor(new BukkitCmdExecutor(commandHandler));
+        Objects.requireNonNull(this.getCommand("infoheads")).setExecutor(new BukkitCmdExecutor(commandHandler));
 
         getServer().getPluginManager().registerEvents(new InventoryGuiListener(), this);
         getServer().getPluginManager().registerEvents(new BukkitEventListener(
@@ -51,11 +64,9 @@ public final class InfoHeads extends JavaPlugin {
                 new InteractHandler(infoHeadService, localizedMessageService, eventDispatcher),
                 new PlaceHandler(infoHeadService, userStateService, localizedMessageService, eventDispatcher),
                 new PlayerJoinHandler(eventDispatcher),
-                new PlayerQuitHandler(eventDispatcher)
+                new PlayerQuitHandler(eventDispatcher),
+                infoHeadEventHandlerRegister.getPermissionsMapping()
         ), this);
-
-//        api = new InfoHeadsImpl();
-//        getServer().getServicesManager().register(InfoHeadsApi.class,api,this, ServicePriority.Normal);
 
         (new UpdateChecker(67080)).getVersion((version) -> {
             if (InfoHeads.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
@@ -68,7 +79,7 @@ public final class InfoHeads extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        //
+        // Close down
     }
 
     /**

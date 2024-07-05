@@ -21,19 +21,12 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
     private static final GuiSlot APPEND_CONSOLE_CMD_SLOT = new GuiSlot(2,4);
     private static final GuiSlot APPEND_PLAYER_CMD_SLOT = new GuiSlot(2,5);
     private static final GuiSlot APPEND_DELAY_SLOT = new GuiSlot(2,6);
-    private static final GuiSlot ONE_TIME_USE_SLOT = new GuiSlot(3,7);
-    private static final GuiSlot SET_LOCATION_SLOT = new GuiSlot(3,4);
     private static final GuiSlot PLACEHOLDER_SLOT = new GuiSlot(5,6);
     private static final GuiSlot CANCEL_SLOT = new GuiSlot(5,5);
-    private static final GuiSlot EDIT_SLOT = new GuiSlot(3,8);
-    private static final GuiSlot EDIT_NAME_SLOT = new GuiSlot(2,8);
-    private static final GuiSlot COOLDOWN_SLOT = new GuiSlot(3,6);
     private static final GuiSlot PERMISSION_SLOT = new GuiSlot(3,5);
-    private static final GuiSlot PLAYER_PERMISSION_SLOT = new GuiSlot(3,3);
-    private static final GuiSlot PARTICLE_SLOT = new GuiSlot(2,7);
     private final LocalizedMessageService localizedMessageService;
     public AddActionGui(AddActionViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(viewModel, 5, "InfoHeads Wizard");
+        super(viewModel, 5, localizedMessageService.getMessage(BundleMessages.ADD_ACTION_GUI_TITLE));
         this.localizedMessageService = localizedMessageService;
 
         setDefaultClickAction(event -> event.setCancelled(true));
@@ -49,17 +42,9 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
         appendConsoleCommandItem();
         appendPlayerCommandItem();
         appendDelay();
-//        onceItem(viewModel.getIsOneTimeUseProperty().getValue());
-//        setLocationItem();
         setPermission();
         placeholdersItem();
         cancelItem();
-//        editItem();
-//        editName();
-//        cooldownItem();
-//        playerPermissionItem();
-//        if (InfoHeads.getInstance().blockParticles)
-//            particleItem();
     }
 
     private void bindings() {
@@ -72,12 +57,6 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 }
             }
         });
-
-//        viewModel.getIsOneTimeUseProperty().addListener(listener -> {
-//            if (listener.getNewValue() instanceof Boolean isOneTimeUse) {
-//                onceItem(isOneTimeUse);
-//            }
-//        });
     }
 
     private void appendMessageItem() {
@@ -108,7 +87,7 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 new GuiItem(new ItemBuilder(Material.COMMAND_BLOCK)
                         .glow(true)
                         .name(localizedMessageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT))
-                        .lore(localizedMessageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT))
+                        .lore(localizedMessageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT_MORE))
                         .build(),
                 event -> getViewModel().newElement(Element.InfoHeadType.PLAYER_COMMAND, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
@@ -130,10 +109,10 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 PERMISSION_SLOT,
                 new GuiItem(new ItemBuilder(Material.GLASS_BOTTLE)
                         .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.PERMISSION_ELEMENT))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.PERMISSION_ELEMENT_MORE))
+                        .name(localizedMessageService.getMessage(BundleMessages.APPEND_TEMP_PERMISSION))
+                        .lore(localizedMessageService.getMessageList(BundleMessages.APPEND_TEMP_PERMISSION_MORE))
                         .build(),
-                event -> getViewModel().newElement(Element.InfoHeadType.PERMISSION, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
+                event -> getViewModel().newElement(Element.InfoHeadType.PLAYER_PERMISSION, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
 
     private void appendDelay() {
@@ -158,63 +137,4 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 event -> {
                 }));
     }
-
-//    private void editItem() {
-//        insert(
-//                EDIT_SLOT,
-//                new GuiItem(new ItemBuilder(Material.MAP)
-//                        .glow(true)
-//                        .name(MessageUtil.getString(MessageUtil.Message.EDIT_GUI_TITLE))
-//                        .lore(MessageUtil.getStringList(MessageUtil.Message.EDIT_GUI_LORE))
-//                        .build(),
-//                event -> viewModel.editItem()));
-//    }
-
-
-//    private void onceItem(boolean isOneTimeUse) {
-//        insert(
-//                ONE_TIME_USE_SLOT,
-//                new GuiItem(new ItemBuilder(Material.ARROW)
-//                        .glow(true)
-//                        .name(MessageUtil.getString(MessageUtil.Message.ONCE_ITEM_TITLE))
-//                        .lore(MessageUtil.getStringList(isOneTimeUse ? MessageUtil.Message.ONCE_ITEM_LORE_ON : MessageUtil.Message.ONCE_ITEM_LORE))
-//                        .build(),
-//                event -> viewModel.setOneTimeUse(!isOneTimeUse)));
-//    }
-//
-//    private void particleItem() {
-//        insert(
-//                PARTICLE_SLOT,
-//                new GuiItem(new ItemBuilder(Material.REDSTONE)
-//                        .glow(true)
-//                        .name(MessageUtil.getString(MessageUtil.Message.PARTICLE_ITEM_TITLE))
-//                        .lore(MessageUtil.getStringList(MessageUtil.Message.PARTICLE_ITEM_LORE))
-//                        .build(), event -> {
-//                    if (event.getWhoClicked() instanceof Player player) {
-//                        event.setCancelled(true);
-//                        new ParticleSelectorGui(InfoHeads.getInstance(), viewModel.getConfiguration()).open(player);
-//                    }
-//                }));
-//    }
-
-//    private void playerPermissionItem() {
-//        insert(
-//                PLAYER_PERMISSION_SLOT,
-//                new GuiItem(new ItemBuilder(Material.FEATHER)
-//                        .glow(true)
-//                        .name(MessageUtil.getString(MessageUtil.Message.PLAYER_PERMISSION_TITLE))
-//                        .lore(MessageUtil.getStringList(MessageUtil.Message.PLAYER_PERMISSION_LORE))
-//                        .build(),
-//                event -> viewModel.newElement(Element.InfoHeadType.PLAYER_PERMISSION, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
-//    }
-
-//    /**
-//     * Ensures the conversation is over before attempting to open.
-//     * Cannot put in conversation abandoned listener due to initialization limitations
-//     * @param infoHeadConfiguration InfoHead Configuration
-//     * @param player Player to action upon
-//     */
-//    public static void scheduleOpen(final InfoHeadConfiguration infoHeadConfiguration, final Player player) {
-//        Bukkit.getScheduler().runTaskLater(InfoHeads.getInstance(), () -> new WizardGui(new InfoHeadViewModel(InfoHeads.getInstance(), infoHeadConfiguration)).open(player), 1L);
-//    }
 }

@@ -2,12 +2,12 @@ package me.harry0198.infoheads.core.persistence.entity;
 
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.model.Location;
+import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.model.TimePeriod;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.UUID;
+import java.util.*;
 
 public final class InfoHeadProperties implements Serializable, Identifiable {
 
@@ -19,10 +19,12 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
     private String permission;
     private TimePeriod coolDown;
     private boolean oneTimeUse;
-
-    // Enabled also means if the infohead was broken and not yet re-placed.
     private boolean enabled;
     private final LinkedList<Element<?>> elements = new LinkedList<>();
+
+    // Long = timestamp for expiry.
+    private final Map<UUID, Long> userToCoolDownExpiryMappings = new HashMap<>();
+    private final List<UUID> usersExecuted = new ArrayList<>();
 
     public InfoHeadProperties() {
         this.uniqueId = UUID.randomUUID();
@@ -80,7 +82,39 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
 
     public void setOneTimeUse(boolean oneTimeUse) {
         this.oneTimeUse = oneTimeUse;
-        //TODO clear.
+        this.usersExecuted.clear();
+    }
+
+    public boolean isExecuted(Player player) {
+        return usersExecuted.contains(player.getUid());
+    }
+
+    public void setUserExecuted(Player player) {
+        usersExecuted.add(player.getUid());
+    }
+
+    public boolean isOnCoolDown(Player player) {
+        Long playerTimestamp = userToCoolDownExpiryMappings.get(player.getUid());
+        if (playerTimestamp != null && playerTimestamp > System.currentTimeMillis()) {
+            return true;
+        } else {
+            removeUserCoolDown(player);
+            return false;
+        }
+    }
+
+    public Long getCoolDown(Player player) {
+        return userToCoolDownExpiryMappings.get(player.getUid()) - System.currentTimeMillis();
+    }
+
+    public void removeUserCoolDown(Player player) {
+        userToCoolDownExpiryMappings.remove(player.getUid());
+    }
+
+    public void setUserCoolDown(Player player) {
+        if (coolDown == null) return;
+        long expiry = System.currentTimeMillis() + coolDown.toMs();
+        this.userToCoolDownExpiryMappings.put(player.getUid(), expiry);
     }
 
     public void addElement(Element<?> element) {
