@@ -1,30 +1,41 @@
 package me.harry0198.infoheads.core.ui;
 
 
+import me.harry0198.infoheads.core.config.BundleMessages;
+import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.SendPlayerCommandEvent;
-import me.harry0198.infoheads.core.event.inputs.GetCoolDownInputEvent;
-import me.harry0198.infoheads.core.event.inputs.GetNameInputEvent;
-import me.harry0198.infoheads.core.event.inputs.GetPermissionInputEvent;
-import me.harry0198.infoheads.core.event.inputs.OpenAddActionMenuEvent;
+import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.inputs.*;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
+import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 public class EditInfoHeadViewModel extends ViewModel {
 
+    private static final Logger LOGGER = Logger.getLogger(EditInfoHeadViewModel.class.getName());
+
     private final InfoHeadProperties configuration;
+    private final InfoHeadService infoHeadService;
+    private final LocalizedMessageService localizedMessageService;
     private final SimpleProperty<Boolean> isOneTimeUseProperty;
     private final SimpleProperty<LinkedList<Element<?>>> elementsProperty;
 
-    public EditInfoHeadViewModel(EventDispatcher eventDispatcher, InfoHeadProperties infoHeadConfiguration) {
+    public EditInfoHeadViewModel(EventDispatcher eventDispatcher, InfoHeadService infoHeadService, InfoHeadProperties infoHeadConfiguration, LocalizedMessageService localizedMessageService) {
         super(eventDispatcher);
         this.configuration = infoHeadConfiguration;
+        this.infoHeadService = infoHeadService;
+        this.localizedMessageService = localizedMessageService;
         this.elementsProperty = new SimpleProperty<>(infoHeadConfiguration.getElements());
         this.isOneTimeUseProperty = new SimpleProperty<>(infoHeadConfiguration.isOneTimeUse());
+
+        this.elementsProperty.addListener(change -> configuration.setElements((LinkedList<Element<?>>) change.getNewValue()));
+        this.isOneTimeUseProperty.addListener(change -> configuration.setOneTimeUse((boolean) change.getNewValue()));
     }
 
     /**
@@ -37,6 +48,14 @@ public class EditInfoHeadViewModel extends ViewModel {
 
     public void beginNewElementFlow(OnlinePlayer onlinePlayer) {
         getEventDispatcher().dispatchEvent(new OpenAddActionMenuEvent(this.configuration, onlinePlayer));
+    }
+
+    public void save(OnlinePlayer onlinePlayer) {
+        infoHeadService.saveInfoHeadToRepository(configuration).exceptionally(ex -> false).thenAccept((success) -> {
+            if (!success) {
+                getEventDispatcher().dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.SAVE_FAILED)));
+            }
+        });
     }
 
     /**
@@ -70,6 +89,41 @@ public class EditInfoHeadViewModel extends ViewModel {
 
     public void getCoolDownInput(OnlinePlayer onlinePlayer) {
         getEventDispatcher().dispatchEvent(new GetCoolDownInputEvent(configuration, onlinePlayer));
+    }
+
+    public void deleteElement(Element<?> element) {
+        LinkedList<Element<?>> elements = elementsProperty.getValue();
+        LinkedList<Element<?>> newElements = new LinkedList<>(elements);
+        newElements.remove(element);
+        elementsProperty.setValue(newElements);
+    }
+
+    public void shiftOrderLeft(Element<?> element) {
+        LOGGER.fine("Shifting Order for element " + element.getType() + " left.");
+        LinkedList<Element<?>> elements = elementsProperty.getValue();
+        LinkedList<Element<?>> newElements = new LinkedList<>(elements);
+
+        int currentIndex = newElements.indexOf(element);
+        LOGGER.fine("Element index: " + currentIndex);
+        // if element does not exist or is first in sequence, do nothing.
+        if (currentIndex == -1 || currentIndex == 0) return;
+
+        newElements.remove(element);
+        newElements.add(currentIndex - 1, element);
+        LOGGER.fine("Element shifted.");
+    }
+
+    public void shiftOrderRight(Element<?> element) {
+        LinkedList<Element<?>> elements = elementsProperty.getValue();
+        LinkedList<Element<?>> newElements = new LinkedList<>(elements);
+
+        int currentIndex = newElements.indexOf(element);
+
+        // Ensure element exists in list and is not already at the end of the list.
+        if (currentIndex != -1 && currentIndex < newElements.size() - 1) {
+            newElements.remove(currentIndex);
+            newElements.add(currentIndex+1, element);
+        }
     }
 
     /**

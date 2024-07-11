@@ -2,11 +2,13 @@ package me.harry0198.infoheads.spigot.conversations;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.elements.*;
+import me.harry0198.infoheads.core.elements.ConsoleCommandElement;
+import me.harry0198.infoheads.core.elements.MessageElement;
+import me.harry0198.infoheads.core.elements.PlayerCommandElement;
+import me.harry0198.infoheads.core.elements.PlayerPermissionElement;
 import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
-import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
@@ -17,11 +19,11 @@ import org.jetbrains.annotations.NotNull;
 public final class ElementValueInput extends StringPrompt {
 
     private final InfoHeadProperties configuration;
-    private final Element.InfoHeadType element;
+    private final InputTypes element;
     private final LocalizedMessageService localizedMessageService;
     private final EventDispatcher eventDispatcher;
 
-    public ElementValueInput(EventDispatcher eventDispatcher, InfoHeadProperties configuration, Element.InfoHeadType element, LocalizedMessageService localizedMessageService) {
+    public ElementValueInput(EventDispatcher eventDispatcher, InfoHeadProperties configuration, InputTypes element, LocalizedMessageService localizedMessageService) {
         this.localizedMessageService = localizedMessageService;
         this.configuration = configuration;
         this.element = element;
@@ -37,7 +39,7 @@ public final class ElementValueInput extends StringPrompt {
             case CONSOLE_COMMAND -> localizedMessageService.getMessage(BundleMessages.REQUEST_CONSOLE_COMMAND);
             case PLAYER_COMMAND -> localizedMessageService.getMessage(BundleMessages.REQUEST_PLAYER_COMMAND);
             case MESSAGE -> localizedMessageService.getMessage(BundleMessages.REQUEST_MESSAGE);
-            case DELAY, END -> "";
+            case DELAY -> "";
         };
     }
 

@@ -43,6 +43,6 @@ public abstract class Element<T> implements Serializable {
     }
 
     public enum InfoHeadType {
-        MESSAGE, CONSOLE_COMMAND, PLAYER_COMMAND, DELAY, PLAYER_PERMISSION, END, PERMISSION, RENAME
+        MESSAGE, CONSOLE_COMMAND, PLAYER_COMMAND, DELAY, PLAYER_PERMISSION
     }
 }

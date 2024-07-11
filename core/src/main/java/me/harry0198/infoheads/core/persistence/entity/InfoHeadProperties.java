@@ -64,6 +64,11 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
         this.permission = permission;
     }
 
+    public void setElements(LinkedList<Element<?>> elements) {
+        this.elements.clear();
+        this.elements.addAll(elements);
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }

@@ -48,9 +48,9 @@ public class LocalizedMessageService {
         return Arrays.stream(resourceBundle.getString(messageKey.getKey()).split("\n")).map(this::prepare).toList();
     }
 
-    public String getTimeMessage(Long milliseconds) {
+    public String getTimeMessage(Long milliseconds, BundleMessages bundleMessages) {
 
-        String msg = getMessage(BundleMessages.COOLDOWN_TIME);
+        String msg = getMessage(bundleMessages);
         long daysMillis = 0;
         long hoursMillis = 0;
         long minutesMillis = 0;

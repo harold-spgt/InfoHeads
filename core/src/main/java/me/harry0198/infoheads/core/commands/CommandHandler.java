@@ -13,7 +13,6 @@ import me.harry0198.infoheads.core.service.UserStateService;
 public class CommandHandler {
 
     // Command names
-    private final static String DEFAULT_CMD_STRING = "default";
     private final static String HELP_CMD_STRING = "help";
     private final static String WIZARD_CMD_STRING = "wizard";
     private final static String LIST_CMD_STRING = "list";
@@ -48,7 +47,7 @@ public class CommandHandler {
 
         // Select the command executor based on command retrieved.
         CmdExecutor cmdExecutor = switch (command.cmdString().toLowerCase()) {
-            case HELP_CMD_STRING, DEFAULT_CMD_STRING -> new HelpCmdExecutor(localizedMessageService);
+            case HELP_CMD_STRING -> new HelpCmdExecutor(localizedMessageService);
             case WIZARD_CMD_STRING -> new WizardCmdExecutor(command, eventDispatcher, infoHeadService, userStateService, localizedMessageService);
             case LIST_CMD_STRING -> new ListCmdExecutor(localizedMessageService);
 //            case RELOAD_CMD_STRING -> new ReloadCmdExecutor(plugin, fileUtil, dataStore);

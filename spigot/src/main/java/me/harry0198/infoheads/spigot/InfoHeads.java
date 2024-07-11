@@ -54,7 +54,7 @@ public final class InfoHeads extends JavaPlugin {
 
 
         // Register event listeners.
-        InfoHeadEventHandlerRegister infoHeadEventHandlerRegister = new InfoHeadEventHandlerRegister(localizedMessageService);
+        InfoHeadEventHandlerRegister infoHeadEventHandlerRegister = new InfoHeadEventHandlerRegister(infoHeadService, localizedMessageService);
 
         Objects.requireNonNull(this.getCommand("infoheads")).setExecutor(new BukkitCmdExecutor(commandHandler));
 

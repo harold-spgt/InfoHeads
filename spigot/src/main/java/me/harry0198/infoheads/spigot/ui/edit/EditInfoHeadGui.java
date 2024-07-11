@@ -2,7 +2,7 @@ package me.harry0198.infoheads.spigot.ui.edit;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.elements.Element;
+import me.harry0198.infoheads.core.elements.*;
 import me.harry0198.infoheads.core.ui.EditInfoHeadViewModel;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import me.harry0198.infoheads.spigot.ui.GuiItem;
@@ -12,7 +12,9 @@ import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
@@ -29,6 +31,7 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
         this.localizedMessageService = localizedMessageService;
 
         setDefaultClickAction(event -> event.setCancelled(true));
+        setCloseAction(event -> viewModel.save(new BukkitOnlinePlayer((Player) event.getPlayer())));
 
         populate();
     }
@@ -140,15 +143,38 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
             // Insert element into progression chain.
             if (elementListIterator.hasNext()) {
                 Element<?> element = elementListIterator.next();
-                // make use of toString
+                String name = switch (element.getType()) {
+                    case MESSAGE -> localizedMessageService.getMessage(BundleMessages.UI_MESSAGE_ELEMENT);
+                    case CONSOLE_COMMAND -> localizedMessageService.getMessage(BundleMessages.UI_CONSOLE_CMD_ELEMENT);
+                    case PLAYER_COMMAND -> localizedMessageService.getMessage(BundleMessages.UI_PLAYER_CMD_ELEMENT);
+                    case PLAYER_PERMISSION -> localizedMessageService.getMessage(BundleMessages.UI_TEMP_PERM_ELEMENT);
+                    case DELAY -> localizedMessageService.getMessage(BundleMessages.UI_DELAY_ELEMENT);
+                };
+                String content = "&7- &b" + switch (element.getType()) {
+                    case MESSAGE -> ((MessageElement) element).getMessage();
+                    case CONSOLE_COMMAND -> ((ConsoleCommandElement) element).getCommand();
+                    case PLAYER_COMMAND -> ((PlayerCommandElement) element).getCommand();
+                    case PLAYER_PERMISSION -> ((PlayerPermissionElement) element).getPermission();
+                    case DELAY -> localizedMessageService.getTimeMessage(((DelayElement) element).getDelay().toMs(), BundleMessages.UI_FORMAT_TIME);
+                };
 
+                List<String> lore = new ArrayList<>();
+                lore.add(localizedMessageService.prepare(content));
+                lore.addAll(localizedMessageService.getMessageList(BundleMessages.UI_ELEMENT_MORE));
 
-                insert(progressionSlot, new GuiItem(new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).glow(true).build(), event -> {}));
+                insert(progressionSlot, new GuiItem(new ItemBuilder(Material.GREEN_STAINED_GLASS_PANE).name(name).lore(lore).glow(true).build(), event -> {
+                    switch (event.getClick()) {
+
+                        case RIGHT -> getViewModel().deleteElement(element);
+                        case SHIFT_LEFT -> getViewModel().shiftOrderLeft(element);
+                        case SHIFT_RIGHT -> getViewModel().shiftOrderRight(element);
+                    }
+                }));
                 continue;
             }
 
             // Placeholder slot ("Nothing").
-            insert(progressionSlot, new GuiItem(new ItemBuilder(Material.RED_STAINED_GLASS_PANE).glow(true).build(), null));
+            insert(progressionSlot, new GuiItem(new ItemBuilder(Material.RED_STAINED_GLASS_PANE).name("").glow(true).build(), null));
         }
     }
 }

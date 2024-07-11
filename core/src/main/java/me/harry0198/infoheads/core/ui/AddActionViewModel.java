@@ -26,7 +26,6 @@ public class AddActionViewModel extends ViewModel {
             case PLAYER_COMMAND -> getEventDispatcher().dispatchEvent(new GetPlayerCommandInputEvent(configuration, onlinePlayer));
             case DELAY -> getEventDispatcher().dispatchEvent(new GetDelayInputEvent(configuration, onlinePlayer));
             case CONSOLE_COMMAND -> getEventDispatcher().dispatchEvent(new GetConsoleCommandInputEvent(configuration, onlinePlayer));
-            case PERMISSION -> getEventDispatcher().dispatchEvent(new GetPermissionInputEvent(configuration, onlinePlayer));
             case PLAYER_PERMISSION -> getEventDispatcher().dispatchEvent(new GetPlayerPermissionInputEvent(configuration, onlinePlayer));
         }
     }

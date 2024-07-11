@@ -1,13 +1,13 @@
 package me.harry0198.infoheads.core.service;
 
-import me.harry0198.infoheads.core.model.Player;
-import me.harry0198.infoheads.core.model.TimePeriod;
+import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.persistence.entity.Identifiable;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
-import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.persistence.repository.Repository;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -100,6 +100,10 @@ public class InfoHeadService {
 
             return didDelete;
         });
+    }
+
+    public CompletableFuture<Boolean> saveInfoHeadToRepository(InfoHeadProperties infoHeadProperties) {
+        return CompletableFuture.supplyAsync(() -> infoHeadRepository.save(infoHeadProperties));
     }
 
     private CompletableFuture<Void> initializeCache() {

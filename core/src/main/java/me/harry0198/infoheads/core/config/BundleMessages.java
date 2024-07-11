@@ -42,7 +42,13 @@ public enum BundleMessages {
     EDIT_NAME_MORE("ui.edit-name-more"),
     CLOSE_WIZARD("ui.close"),
     CLOSE_WIZARD_MORE("ui.close-more"),
-
+    UI_MESSAGE_ELEMENT("ui.element.message"),
+    UI_CONSOLE_CMD_ELEMENT("ui.element.console-cmd"),
+    UI_PLAYER_CMD_ELEMENT("ui.element.player-cmd"),
+    UI_TEMP_PERM_ELEMENT("ui.element.temp-permission"),
+    UI_DELAY_ELEMENT("ui.element.delay"),
+    UI_ELEMENT_MORE("ui.element.more"),
+    UI_FORMAT_TIME("ui.format-time"),
     WEEKS("ui.weeks"),
     DAYS("ui.days"),
     HOURS("ui.hours"),
@@ -62,6 +68,7 @@ public enum BundleMessages {
     REQUEST_CONSOLE_COMMAND("input.console-command"),
     REQUEST_PLAYER_COMMAND("input.player-command"),
     REQUEST_MESSAGE("input.message"),
+    SAVE_FAILED("save-failed"),
     EDIT_INFOHEAD_UI_TITLE("ui.edit-ih.title");
 
 

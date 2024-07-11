@@ -2,7 +2,6 @@ package me.harry0198.infoheads.spigot.listener;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.EventListener;
 import me.harry0198.infoheads.core.event.InputEvent;
@@ -10,10 +9,12 @@ import me.harry0198.infoheads.core.event.actions.*;
 import me.harry0198.infoheads.core.event.inputs.*;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
+import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.ui.*;
 import me.harry0198.infoheads.spigot.InfoHeads;
 import me.harry0198.infoheads.spigot.conversations.ElementValueInput;
 import me.harry0198.infoheads.spigot.conversations.InfoHeadsConversationPrefix;
+import me.harry0198.infoheads.spigot.conversations.InputTypes;
 import me.harry0198.infoheads.spigot.handler.*;
 import me.harry0198.infoheads.spigot.ui.cooldown.TimePeriodGui;
 import me.harry0198.infoheads.spigot.ui.edit.EditInfoHeadGui;
@@ -30,12 +31,14 @@ import java.util.function.Consumer;
 public class InfoHeadEventHandlerRegister {
 
     private final EventDispatcher eventDispatcher;
+    private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
     private final ConcurrentHashMap<UUID, PermissionAttachment> permissionsMapping = new ConcurrentHashMap<>();
 
-    public InfoHeadEventHandlerRegister(LocalizedMessageService localizedMessageService) {
+    public InfoHeadEventHandlerRegister(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService) {
         this.eventDispatcher = EventDispatcher.getInstance();
         this.localizedMessageService = localizedMessageService;
+        this.infoHeadService = infoHeadService;
 
         // Register all listeners.
         eventDispatcher.registerListener(SendPlayerMessageEvent.class, new SendPlayerMessageHandler(localizedMessageService.getColourReplaceStrategy()));
@@ -58,9 +61,10 @@ public class InfoHeadEventHandlerRegister {
     public ConcurrentHashMap<UUID, PermissionAttachment> getPermissionsMapping() {
         return permissionsMapping;
     }
+    
 
     private EventListener<GetNameInputEvent> getNameInputEventListener() {
-        return event -> getInputEvent(Element.InfoHeadType.RENAME).accept(event);
+        return event -> getInputEvent(InputTypes.RENAME).accept(event);
     }
 
     private EventListener<GetCoolDownInputEvent> getCooldownInputEventListener() {
@@ -91,7 +95,7 @@ public class InfoHeadEventHandlerRegister {
             if (player != null && player.isOnline()) {
                 Bukkit.getScheduler().runTask(
                         InfoHeads.getInstance(),
-                        () -> new EditInfoHeadGui(new EditInfoHeadViewModel(eventDispatcher, event.getInfoHeadProperties()), localizedMessageService).open(player));
+                        () -> new EditInfoHeadGui(new EditInfoHeadViewModel(eventDispatcher, infoHeadService, event.getInfoHeadProperties(), localizedMessageService), localizedMessageService).open(player));
             }
         };
     }
@@ -108,26 +112,26 @@ public class InfoHeadEventHandlerRegister {
     }
 
     private EventListener<GetConsoleCommandInputEvent> getConsoleCommandInputEventListener() {
-        return event -> getInputEvent(Element.InfoHeadType.CONSOLE_COMMAND).accept(event);
+        return event -> getInputEvent(InputTypes.CONSOLE_COMMAND).accept(event);
     }
 
     private EventListener<GetPlayerCommandInputEvent> getPlayerCommandInputEventListener() {
-        return event -> getInputEvent(Element.InfoHeadType.PLAYER_COMMAND).accept(event);
+        return event -> getInputEvent(InputTypes.PLAYER_COMMAND).accept(event);
     }
 
     private EventListener<GetMessageInputEvent> getMessageInputEventListener() {
-        return event -> getInputEvent(Element.InfoHeadType.MESSAGE).accept(event);
+        return event -> getInputEvent(InputTypes.MESSAGE).accept(event);
     }
 
     private EventListener<GetPlayerPermissionInputEvent> getPlayerPermissionInputEventListener() {
-        return event -> getInputEvent(Element.InfoHeadType.PLAYER_PERMISSION).accept(event);
+        return event -> getInputEvent(InputTypes.PLAYER_PERMISSION).accept(event);
     }
 
     private EventListener<GetPermissionInputEvent> getPermissionInputEventListener() {
-        return event -> getInputEvent(Element.InfoHeadType.PERMISSION).accept(event);
+        return event -> getInputEvent(InputTypes.PERMISSION).accept(event);
     }
 
-    private Consumer<InputEvent> getInputEvent(Element.InfoHeadType infoHeadType) {
+    private Consumer<InputEvent> getInputEvent(InputTypes infoHeadType) {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
             if (player != null && player.isOnline()) {
@@ -138,7 +142,7 @@ public class InfoHeadEventHandlerRegister {
         };
     }
 
-    private static ConversationFactory getInputFactory(final InfoHeadProperties infoHeadConfiguration, final Element.InfoHeadType element, LocalizedMessageService localizedMessageService) {
+    private static ConversationFactory getInputFactory(final InfoHeadProperties infoHeadConfiguration, final InputTypes element, LocalizedMessageService localizedMessageService) {
         return new ConversationFactory(InfoHeads.getInstance())
                 .withModality(true)
                 .withPrefix(new InfoHeadsConversationPrefix(localizedMessageService))

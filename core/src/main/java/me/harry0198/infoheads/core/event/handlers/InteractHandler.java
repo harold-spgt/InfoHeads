@@ -96,7 +96,7 @@ public class InteractHandler {
         // Checks if player is on cooldown
         if (infoHeadProperties.isOnCoolDown(onlinePlayer)) {
             Long coolDown = infoHeadProperties.getCoolDown(onlinePlayer);
-            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getTimeMessage(coolDown)));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getTimeMessage(coolDown, BundleMessages.COOLDOWN_TIME)));
             return false;
         }
 
