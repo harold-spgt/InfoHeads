@@ -18,8 +18,8 @@ public class HelpCmdExecutor extends CmdExecutor {
     /**
      * {@inheritDoc}
      */
-    public HelpCmdExecutor(LocalizedMessageService localizedMessageService) {
-        super(localizedMessageService,Constants.BASE_PERMISSION + "help");
+    public HelpCmdExecutor(LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
+        super(localizedMessageService,eventDispatcher,Constants.BASE_PERMISSION + "help");
     }
 
     /**

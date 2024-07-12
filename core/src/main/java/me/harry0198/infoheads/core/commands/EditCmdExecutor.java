@@ -11,6 +11,7 @@ import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.Constants;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,7 +29,7 @@ public class EditCmdExecutor extends CmdExecutor {
      * @param infoHeadService the {@link InfoHeadService} instance used to manage InfoHeads data.
      */
     public EditCmdExecutor(LocalizedMessageService localizedMessageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
-        super(localizedMessageService, Constants.ADMIN_PERMISSION);
+        super(localizedMessageService, eventDispatcher, Constants.ADMIN_PERMISSION);
         this.infoHeadService = infoHeadService;
         this.eventDispatcher = eventDispatcher;
     }

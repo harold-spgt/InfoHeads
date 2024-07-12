@@ -28,6 +28,7 @@ public class LocalizedMessageService {
     }
 
     public String prepare(String msg) {
+        msg = msg.replace("@prefix", resourceBundle.getString(BundleMessages.PREFIX.getKey()));
         return colourReplaceStrategy.apply(msg);
     }
 

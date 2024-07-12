@@ -8,6 +8,7 @@ import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.RemoveTempPlayerPermissionEvent;
 import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.hooks.PlaceholderHandlingStrategy;
 import me.harry0198.infoheads.core.model.*;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.service.InfoHeadService;
@@ -19,18 +20,19 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class InteractHandler {
 
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
     private final EventDispatcher eventDispatcher;
+    private final PlaceholderHandlingStrategy placeholderHandlingStrategy;
 
-    public InteractHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
+    public InteractHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, PlaceholderHandlingStrategy placeholderHandlingStrategy, EventDispatcher eventDispatcher) {
         this.infoHeadService = infoHeadService;
         this.localizedMessageService = localizedMessageService;
         this.eventDispatcher = eventDispatcher;
+        this.placeholderHandlingStrategy = placeholderHandlingStrategy;
     }
 
     public void interactWithHead(OnlinePlayer player, Location interactedWithLocation, HandAction handAction) {
@@ -66,7 +68,7 @@ public class InteractHandler {
             // Schedule task later (after delay). This snippet prevents holding a thread while waiting for delay.
             executorService.schedule(() -> {
                 if (player.isOnline()) {
-                    el.performAction(eventDispatcher, player);
+                    el.performAction(eventDispatcher, placeholderHandlingStrategy, player);
                 }
             }, time, TimeUnit.SECONDS);
         }

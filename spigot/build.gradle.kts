@@ -36,7 +36,6 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.1")
-    compileOnly("com.github.badbones69:Block-Particles:1.11.1")
 
     implementation("org.jetbrains:annotations:13.0")
     implementation("org.bstats:bstats-bukkit:3.0.2")
@@ -50,7 +49,7 @@ dependencies {
 
 tasks {
     shadowJar {
-        archiveFileName = "${project.name}.jar"
+        archiveFileName = "${project.name}-${version}.jar"
         relocate("me.harry0198.infoheads.core", "${libsBase}.core")
         relocate("org.bstats","${libsBase}.bstats")
     }

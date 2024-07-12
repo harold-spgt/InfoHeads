@@ -1,6 +1,7 @@
 package me.harry0198.infoheads.core.elements;
 
 import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.hooks.PlaceholderHandlingStrategy;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.TimePeriod;
 
@@ -54,7 +55,7 @@ public final class DelayElement extends Element<TimePeriod> implements Serializa
     }
 
     @Override
-    public void performAction(EventDispatcher eventDispatcher, OnlinePlayer player) {
+    public void performAction(EventDispatcher eventDispatcher, PlaceholderHandlingStrategy placeholderHandlingStrategy, OnlinePlayer player) {
         // Not needed - handled on interact
     }
 

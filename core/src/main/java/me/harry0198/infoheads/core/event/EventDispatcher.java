@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class EventDispatcher {
+    private static final Logger LOGGER = Logger.getLogger(EventDispatcher.class.getName());
     private static EventDispatcher instance;
     private final Map<Class<? extends Event>, Set<EventListener<? extends Event>>> listenersMap = new HashMap<>();
 
@@ -25,6 +27,10 @@ public class EventDispatcher {
     public <T extends Event> void dispatchEvent(T event) {
         Set<EventListener<? extends Event>> listeners = listenersMap.get(event.getClass());
         if (listeners != null) {
+            if (listeners.isEmpty()) {
+                LOGGER.info("No handlers found for event: " + event.getClass());
+            }
+
             for (EventListener<? extends Event> listener : listeners) {
                 ((EventListener<T>) listener).onEvent(event);
             }

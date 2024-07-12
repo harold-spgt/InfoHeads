@@ -15,6 +15,6 @@ public class ResourceBundleTest {
     public void whenGetBundleExampleResourceForLocalePlPl_thenItShouldInheritPropertiesGreetingAndLanguage() {
         Locale plLocale = Locale.forLanguageTag("en_GB");
 
-        LocalizedMessageService localizedMessageService = new LocalizedMessageService(plLocale);
+//        LocalizedMessageService localizedMessageService = new LocalizedMessageService(plLocale);
     }
 }

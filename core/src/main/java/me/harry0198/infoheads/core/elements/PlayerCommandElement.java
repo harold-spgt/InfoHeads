@@ -2,6 +2,7 @@ package me.harry0198.infoheads.core.elements;
 
 import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.SendPlayerCommandEvent;
+import me.harry0198.infoheads.core.hooks.PlaceholderHandlingStrategy;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 import java.io.Serializable;
@@ -31,8 +32,8 @@ public final class PlayerCommandElement extends Element<String> implements Seria
     }
 
     @Override
-    public void performAction(EventDispatcher eventDispatcher, OnlinePlayer player) {
-        eventDispatcher.dispatchEvent(new SendPlayerCommandEvent(player, command));
+    public void performAction(EventDispatcher eventDispatcher, PlaceholderHandlingStrategy placeholderHandlingStrategy, OnlinePlayer player) {
+        eventDispatcher.dispatchEvent(new SendPlayerCommandEvent(player, placeholderHandlingStrategy.replace(command, player)));
     }
 
     @Override

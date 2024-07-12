@@ -5,12 +5,11 @@ import me.harry0198.infoheads.core.persistence.entity.Identifiable;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.persistence.repository.Repository;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Business logic for handling InfoHeads database manipulation.
@@ -63,6 +62,10 @@ public class InfoHeadService {
         });
     }
 
+    public Collection<InfoHeadProperties> getAll() {
+        return cache.values();
+    }
+
     /**
      * Gets the InfoHead by the {@link Location}.
      * @param location {@link Location} to query for InfoHead.
@@ -104,6 +107,11 @@ public class InfoHeadService {
 
     public CompletableFuture<Boolean> saveInfoHeadToRepository(InfoHeadProperties infoHeadProperties) {
         return CompletableFuture.supplyAsync(() -> infoHeadRepository.save(infoHeadProperties));
+    }
+
+    public CompletableFuture<Void> saveCacheToRepository() {
+        List<CompletableFuture<Boolean>> futures = cache.values().stream().map(this::saveInfoHeadToRepository).toList();
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
     }
 
     private CompletableFuture<Void> initializeCache() {

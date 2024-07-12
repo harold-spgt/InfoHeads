@@ -13,6 +13,10 @@ public class UserStateService {
 
     private final Map<UUID, InfoHeadProperties> placerMode = new HashMap<>();
 
+    public void resetState() {
+        this.placerMode.clear();
+    }
+
     public void addToPlacerMode(Player player, InfoHeadProperties infoHeadProperties) {
         this.placerMode.put(player.getUid(), infoHeadProperties);
     }

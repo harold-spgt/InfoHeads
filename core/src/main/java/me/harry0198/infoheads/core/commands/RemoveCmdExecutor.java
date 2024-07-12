@@ -28,7 +28,7 @@ public class RemoveCmdExecutor extends CmdExecutor {
      * @param infoHeadService the {@link InfoHeadService} instance used to manage InfoHeads
      */
     public RemoveCmdExecutor(LocalizedMessageService localizedMessageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
-        super(localizedMessageService, Constants.ADMIN_PERMISSION);
+        super(localizedMessageService, eventDispatcher, Constants.ADMIN_PERMISSION);
         this.infoHeadService = infoHeadService;
         this.eventDispatcher = eventDispatcher;
     }

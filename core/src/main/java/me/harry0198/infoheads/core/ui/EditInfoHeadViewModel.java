@@ -14,6 +14,7 @@ import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
 import java.util.LinkedList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EditInfoHeadViewModel extends ViewModel {
@@ -105,11 +106,13 @@ public class EditInfoHeadViewModel extends ViewModel {
 
         int currentIndex = newElements.indexOf(element);
         LOGGER.fine("Element index: " + currentIndex);
+
         // if element does not exist or is first in sequence, do nothing.
         if (currentIndex == -1 || currentIndex == 0) return;
 
         newElements.remove(element);
         newElements.add(currentIndex - 1, element);
+        elementsProperty.setValue(newElements);
         LOGGER.fine("Element shifted.");
     }
 
@@ -123,6 +126,7 @@ public class EditInfoHeadViewModel extends ViewModel {
         if (currentIndex != -1 && currentIndex < newElements.size() - 1) {
             newElements.remove(currentIndex);
             newElements.add(currentIndex+1, element);
+            elementsProperty.setValue(newElements);
         }
     }
 

@@ -49,10 +49,7 @@ public class BreakHandler {
                     return false; // Fatally failed to save.
                 }).thenAccept(x -> {
                     LOGGER.log(Level.FINE, "InfoHead break delete stage completed with " + x);
-                    if (x) {
-                        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.INFOHEAD_REMOVED)));
-                        // TODO should drop infohead.
-                    } else {
+                    if (!x) {
                         eventDispatcher.dispatchEvent(new SendPlayerCommandEvent(player, localizedMessageService.getMessage(BundleMessages.FAILED_TO_REMOVE)));
                     }
                 });

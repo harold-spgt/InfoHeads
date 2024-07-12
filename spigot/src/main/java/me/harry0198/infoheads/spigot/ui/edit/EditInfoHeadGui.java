@@ -31,7 +31,9 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
         this.localizedMessageService = localizedMessageService;
 
         setDefaultClickAction(event -> event.setCancelled(true));
-        setCloseAction(event -> viewModel.save(new BukkitOnlinePlayer((Player) event.getPlayer())));
+        setCloseAction(event -> {
+            viewModel.save(new BukkitOnlinePlayer((Player) event.getPlayer()));
+        });
 
         populate();
     }

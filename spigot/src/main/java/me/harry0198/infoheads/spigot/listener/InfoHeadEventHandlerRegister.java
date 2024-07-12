@@ -10,7 +10,10 @@ import me.harry0198.infoheads.core.event.inputs.*;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.service.InfoHeadService;
-import me.harry0198.infoheads.core.ui.*;
+import me.harry0198.infoheads.core.ui.AddActionViewModel;
+import me.harry0198.infoheads.core.ui.CoolDownViewModel;
+import me.harry0198.infoheads.core.ui.DelayViewModel;
+import me.harry0198.infoheads.core.ui.EditInfoHeadViewModel;
 import me.harry0198.infoheads.spigot.InfoHeads;
 import me.harry0198.infoheads.spigot.conversations.ElementValueInput;
 import me.harry0198.infoheads.spigot.conversations.InfoHeadsConversationPrefix;
@@ -19,6 +22,10 @@ import me.harry0198.infoheads.spigot.handler.*;
 import me.harry0198.infoheads.spigot.ui.cooldown.TimePeriodGui;
 import me.harry0198.infoheads.spigot.ui.edit.EditInfoHeadGui;
 import me.harry0198.infoheads.spigot.ui.wizard.AddActionGui;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
@@ -56,12 +63,37 @@ public class InfoHeadEventHandlerRegister {
         eventDispatcher.registerListener(GetDelayInputEvent.class, getDelayInputEventListener());
         eventDispatcher.registerListener(GetCoolDownInputEvent.class, getCooldownInputEventListener());
         eventDispatcher.registerListener(GetNameInputEvent.class, getNameInputEventListener());
+        eventDispatcher.registerListener(ShowInfoHeadListEvent.class, getShowInfoHeadListEvent());
     }
 
     public ConcurrentHashMap<UUID, PermissionAttachment> getPermissionsMapping() {
         return permissionsMapping;
     }
-    
+
+    private EventListener<ShowInfoHeadListEvent> getShowInfoHeadListEvent() {
+        return event -> {
+            Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
+            if (player == null && !player.isOnline()) {
+                return;
+            }
+
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(event.getOnlinePlayer(), localizedMessageService.getMessage(BundleMessages.LIST_CMD_HEADER)));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(event.getOnlinePlayer(), localizedMessageService.getMessage(BundleMessages.LIST_CMD_EXPLAIN)));
+
+
+            for (InfoHeadProperties infoHeadProperties : event.getInfoHeadPropertiesList()) {
+                me.harry0198.infoheads.core.model.Location loc = infoHeadProperties.getLocation();
+                String locString = String.format("§b%s %s %s", loc.x(), loc.y(), loc.z());
+                String name = infoHeadProperties.getName() != null ? "§8" + infoHeadProperties.getName() + " §7- " + locString : locString;
+
+                TextComponent component = new TextComponent(name);
+                component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + loc.x() + " " + loc.y() + " " + loc.z()));
+                component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§bClick to teleport").create()));
+
+                player.spigot().sendMessage(component);
+            }
+        };
+    }
 
     private EventListener<GetNameInputEvent> getNameInputEventListener() {
         return event -> getInputEvent(InputTypes.RENAME).accept(event);
@@ -135,7 +167,7 @@ public class InfoHeadEventHandlerRegister {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
             if (player != null && player.isOnline()) {
-                player.sendTitle(localizedMessageService.getMessage(BundleMessages.CONVERSATION_TITLE), localizedMessageService.getMessage(BundleMessages.CONVERSATION_SUBTITLE),1,5,1);
+                player.sendTitle(localizedMessageService.getMessage(BundleMessages.CONVERSATION_TITLE), localizedMessageService.getMessage(BundleMessages.CONVERSATION_SUBTITLE),10,40,10);
                 getInputFactory(event.getInfoHeadProperties(), infoHeadType, localizedMessageService)
                         .buildConversation(player).begin();
             }

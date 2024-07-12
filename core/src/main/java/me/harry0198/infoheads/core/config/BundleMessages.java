@@ -69,6 +69,8 @@ public enum BundleMessages {
     REQUEST_PLAYER_COMMAND("input.player-command"),
     REQUEST_MESSAGE("input.message"),
     SAVE_FAILED("save-failed"),
+    LIST_CMD_HEADER("cmd.list"),
+    LIST_CMD_EXPLAIN("cmd.list-more"),
     EDIT_INFOHEAD_UI_TITLE("ui.edit-ih.title");
 
 

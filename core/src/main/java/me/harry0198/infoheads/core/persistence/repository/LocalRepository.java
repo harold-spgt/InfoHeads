@@ -75,7 +75,6 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
                 return obj;
             } catch (IOException | ClassNotFoundException i) {
                 LOGGER.severe("Error fetching data from file " + file.getName());
-                i.printStackTrace();
                 LOGGER.throwing(LocalRepository.class.getName(), "getAll", i);
             }
 

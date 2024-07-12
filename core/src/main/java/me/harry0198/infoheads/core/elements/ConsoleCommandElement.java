@@ -3,6 +3,7 @@ package me.harry0198.infoheads.core.elements;
 
 import me.harry0198.infoheads.core.event.EventDispatcher;
 import me.harry0198.infoheads.core.event.actions.SendConsoleCommandEvent;
+import me.harry0198.infoheads.core.hooks.PlaceholderHandlingStrategy;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 import java.io.Serializable;
@@ -32,8 +33,8 @@ public final class ConsoleCommandElement extends Element<String> implements Seri
     }
 
     @Override
-    public void performAction(EventDispatcher eventDispatcher, OnlinePlayer player) {
-        eventDispatcher.dispatchEvent(new SendConsoleCommandEvent(player, removePlaceHolders(command, player)));
+    public void performAction(EventDispatcher eventDispatcher, PlaceholderHandlingStrategy placeholderHandlingStrategy, OnlinePlayer player) {
+        eventDispatcher.dispatchEvent(new SendConsoleCommandEvent(player, placeholderHandlingStrategy.replace(command, player)));
     }
 
     @Override

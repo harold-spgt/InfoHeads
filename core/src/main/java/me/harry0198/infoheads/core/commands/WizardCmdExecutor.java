@@ -33,7 +33,7 @@ public class WizardCmdExecutor extends CmdExecutor {
             UserStateService userStateService,
             LocalizedMessageService localizedMessageService
     ) {
-        super(localizedMessageService, Constants.BASE_PERMISSION + "wizard");
+        super(localizedMessageService, eventDispatcher, Constants.BASE_PERMISSION + "wizard");
         this.command = command;
         this.eventDispatcher = eventDispatcher;
         this.userStateService = userStateService;
