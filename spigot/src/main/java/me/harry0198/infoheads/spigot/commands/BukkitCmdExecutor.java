@@ -1,7 +1,6 @@
 package me.harry0198.infoheads.spigot.commands;
 
 import me.harry0198.infoheads.core.commands.*;
-import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 /**
  * Handles the command executions event from bukkit and maps it to the correct

@@ -1,6 +1,6 @@
 name: InfoHeads
 main: me.harry0198.infoheads.spigot.EntryPoint
-version: ${version}
+version: @version@
 authors:
   - Harolds
   - Lorenzo0111

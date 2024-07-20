@@ -55,22 +55,21 @@ public class Converter {
 
             for (Element element : legacyConfig.getElementList()) {
                 me.harry0198.infoheads.core.elements.Element<?> newElement;
-                switch (element) {
-                    case ConsoleCommandElement consoleCommandElement ->
-                            newElement = new me.harry0198.infoheads.core.elements.ConsoleCommandElement(consoleCommandElement.getCommand());
-                    case DelayElement delayElement ->
-                            newElement = new me.harry0198.infoheads.core.elements.DelayElement(delayElement.getDelayInSecs());
-                    case MessageElement messageElement ->
-                            newElement = new me.harry0198.infoheads.core.elements.MessageElement(messageElement.getMessage());
-                    case PlayerCommandElement playerCommandElement ->
-                            newElement = new me.harry0198.infoheads.core.elements.PlayerCommandElement(playerCommandElement.getCommand());
-                    case PlayerPermissionElement playerPermissionElement ->
-                            newElement = new me.harry0198.infoheads.core.elements.PlayerPermissionElement(playerPermissionElement.getPermission());
-                    case null, default -> {
-                        continue;
-                    }
+
+                if (element instanceof ConsoleCommandElement consoleCommandElement) {
+                    newElement = new me.harry0198.infoheads.core.elements.ConsoleCommandElement(consoleCommandElement.getCommand());
+                } else if (element instanceof DelayElement delayElement) {
+                    newElement = new me.harry0198.infoheads.core.elements.DelayElement(delayElement.getDelayInSecs());
+                } else if (element instanceof MessageElement messageElement) {
+                    newElement = new me.harry0198.infoheads.core.elements.MessageElement(messageElement.getMessage());
+                } else if (element instanceof PlayerCommandElement playerCommandElement) {
+                    newElement = new me.harry0198.infoheads.core.elements.PlayerCommandElement(playerCommandElement.getCommand());
+                } else if (element instanceof PlayerPermissionElement playerPermissionElement) {
+                    newElement = new me.harry0198.infoheads.core.elements.PlayerPermissionElement(playerPermissionElement.getPermission());
+                } else {
+                    continue;
                 }
-                
+
                 newConfig.addElement(newElement);
             }
             properties.add(newConfig);
@@ -79,7 +78,8 @@ public class Converter {
         return properties;
     }
 
-    private static TimePeriod convertToTimePeriod(long totalMilliseconds) {
+    private static TimePeriod convertToTimePeriod(Long totalMilliseconds) {
+        if (totalMilliseconds == null) return new TimePeriod(0,0,0,0,0);
         // Constants for conversion
         final long MILLISECONDS_IN_SECOND = 1000L;
         final long MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * 60;

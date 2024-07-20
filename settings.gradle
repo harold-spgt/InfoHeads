@@ -6,7 +6,5 @@ rootProject.name = 'InfoHeads'
 include 'core'
 include 'spigot'
 include 'api'
-include 'legacy-repository-converter'
-include 'legacy-persistence-converter'
 include 'legacy-converter'
 

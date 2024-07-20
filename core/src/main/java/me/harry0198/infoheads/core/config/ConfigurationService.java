@@ -11,6 +11,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -35,6 +36,11 @@ public class ConfigurationService {
         if (!configurationFile.exists()) {
             // Write new
             LOGGER.info("Writing configuration to file (" + CONFIGURATION_FILENAME + ")...");
+            try {
+                Files.createDirectories(workingDirectory);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             // Defaults:
             this.configuration = getDefaultConfiguration();
@@ -84,7 +90,7 @@ public class ConfigurationService {
                 LOGGER.warn("Unable to read file: " + file.getName());
                 LOGGER.debug("File read IO error", io);
             } catch (Exception e) {
-                LOGGER.debug("Unhandled yaml parser error", e);
+                LOGGER.debug("Unable to read file: " + file.getName() + ". Is it formatted correctly?", e);
             }
 
             return Optional.empty();

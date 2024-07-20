@@ -131,7 +131,11 @@ public class LocalizedMessageService {
 
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    Files.copy(file, target.resolve(jarPath.relativize(file).toString()), StandardCopyOption.REPLACE_EXISTING);
+                    try {
+                        Files.copy(file, target.resolve(jarPath.relativize(file).toString()));
+                    } catch (FileAlreadyExistsException ignore) {
+                        // ignore
+                    }
                     return FileVisitResult.CONTINUE;
                 }
             });

@@ -63,6 +63,7 @@ public class InfoHeadService {
     }
 
     public void clearLocation(Location location) {
+        if (location == null) return;
         this.cache.remove(location);
     }
 

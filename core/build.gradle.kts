@@ -4,7 +4,9 @@ plugins {
 
 group = "me.harry0198.infoheads.core"
 version = "2.5.0"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
 
 repositories {
     mavenCentral()

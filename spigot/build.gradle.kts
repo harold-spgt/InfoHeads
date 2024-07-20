@@ -8,7 +8,9 @@ plugins {
 
 group = "me.harry0198.infoheads"
 version = "2.5.0"
-java.sourceCompatibility = JavaVersion.VERSION_21
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
 var libsBase = "me.harry0198.infoheads.libs"
 
 repositories {
@@ -39,9 +41,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.1")
-    compileOnly("com.mojang:authlib:1.5.25")
+    compileOnly("com.mojang:authlib:6.0.54")
 
     implementation("org.jetbrains:annotations:13.0")
     implementation("org.bstats:bstats-bukkit:3.0.2")
@@ -58,7 +60,7 @@ dependencies {
 
 tasks {
     shadowJar {
-        archiveFileName = "${project.name}-${version}.jar"
+        archiveFileName = "InfoHeads-${project.name}-${version}.jar"
         relocate("me.harry0198.infoheads.core", "${libsBase}.core")
         relocate("org.bstats","${libsBase}.bstats")
     }
@@ -70,7 +72,6 @@ tasks.processResources {
         filter<ReplaceTokens>("tokens" to mapOf("version" to version))
     }
 }
-
 
 tasks.test {
     useJUnitPlatform()

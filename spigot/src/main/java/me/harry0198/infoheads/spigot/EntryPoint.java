@@ -6,6 +6,8 @@ import me.harry0198.infoheads.core.utils.logging.Level;
 import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 import me.harry0198.infoheads.legacy.Converter;
 import me.harry0198.infoheads.spigot.util.BukkitLogger;
+import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -25,18 +27,16 @@ public final class EntryPoint extends JavaPlugin {
     private final InfoHeadsPlugin infoHeadsPlugin;
 
     public EntryPoint() {
-        LoggerFactory.setLogger(new BukkitLogger(Level.INFO));
+        LoggerFactory.setLogger(new BukkitLogger(Level.DEBUG));
         this.infoHeadsPlugin = new SpigotInfoHeadsPlugin(this, getDataFolder().toPath());
     }
 
     @Override
     public void onEnable() {
-//        new Metrics(this, 4607);
+        new Metrics(this, 4607);
         infoHeadsPlugin.onEnable();
 
-        if (convertLegacyDataStore()) {
-            infoHeadsPlugin.reload();
-        }
+        convertLegacyDataStore();
     }
 
     @Override
@@ -51,6 +51,15 @@ public final class EntryPoint extends JavaPlugin {
     private boolean convertLegacyDataStore() {
         Path legacyDataStore = Paths.get(this.getDataFolder().getAbsolutePath(), "datastore.json");
         if (legacyDataStore.toFile().exists()) {
+            getLogger().info("PERFORMING DATA STORAGE AND CONFIG.YML CONVERSION. SOME WARNINGS MAY APPEAR. YOU MAY NEED TO RESTART IF ISSUES OCCUR. IF YOU " +
+                    "HAVE ANY ISSUES, PLEASE CONTACT THE DEVELOPER. OR, ALTERNATIVELY CONTINUE USING \"LEGACY\" INFOHEADS (BELOW v2.5.0)");
+            Path configFile = Paths.get(this.getDataFolder().getAbsolutePath(), "config.yml");
+            try {
+                Files.delete(configFile);
+            } catch (IOException e) {
+                getLogger().warning("An old plugin version config.yml was detected and could not be replaced. Please manually delete the config.yml file and restart.");
+            }
+
             Converter converter = new Converter();
             try {
                 List<InfoHeadProperties> infoHeadProperties = converter.convert(Files.readString(legacyDataStore));
@@ -64,6 +73,8 @@ public final class EntryPoint extends JavaPlugin {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
+            Bukkit.getScheduler().runTaskLater(this, infoHeadsPlugin::reload, 20L);
             return true;
         }
         return false;
