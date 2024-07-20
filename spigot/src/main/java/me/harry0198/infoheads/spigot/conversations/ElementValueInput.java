@@ -6,8 +6,8 @@ import me.harry0198.infoheads.core.elements.ConsoleCommandElement;
 import me.harry0198.infoheads.core.elements.MessageElement;
 import me.harry0198.infoheads.core.elements.PlayerCommandElement;
 import me.harry0198.infoheads.core.elements.PlayerPermissionElement;
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.OpenMenuMenuEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import org.bukkit.conversations.ConversationContext;
@@ -73,7 +73,7 @@ public final class ElementValueInput extends StringPrompt {
                 break;
         }
 
-        eventDispatcher.dispatchEvent(new OpenInfoHeadMenuEvent(configuration, new BukkitOnlinePlayer((Player) context.getForWhom())));
+        eventDispatcher.dispatchEvent(new OpenMenuMenuEvent(configuration, new BukkitOnlinePlayer((Player) context.getForWhom())));
 
         return END_OF_CONVERSATION;
     }

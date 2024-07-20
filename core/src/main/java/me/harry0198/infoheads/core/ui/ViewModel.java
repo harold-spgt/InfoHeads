@@ -1,6 +1,6 @@
 package me.harry0198.infoheads.core.ui;
 
-import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
 public abstract class ViewModel {

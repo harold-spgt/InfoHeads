@@ -4,10 +4,10 @@ import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.elements.PlayerPermissionElement;
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.RemoveTempPlayerPermissionEvent;
-import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
-import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.RemoveTempPlayerPermissionEvent;
+import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.types.OpenMenuMenuEvent;
 import me.harry0198.infoheads.core.hooks.PlaceholderHandlingStrategy;
 import me.harry0198.infoheads.core.model.*;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
@@ -47,7 +47,7 @@ public class InteractHandler {
 
         // When player is sneaking and right clicking, open the wizard.
         if (player.isSneaking() && handAction == HandAction.RIGHT_CLICK) {
-            eventDispatcher.dispatchEvent(new OpenInfoHeadMenuEvent(infoHeadPropertiesOptional.get(), player));
+            eventDispatcher.dispatchEvent(new OpenMenuMenuEvent(infoHeadPropertiesOptional.get(), player));
             return;
         }
 

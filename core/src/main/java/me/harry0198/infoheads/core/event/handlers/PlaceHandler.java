@@ -2,9 +2,9 @@ package me.harry0198.infoheads.core.event.handlers;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
-import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.types.OpenMenuMenuEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
@@ -57,6 +57,7 @@ public class PlaceHandler {
         userStateService.removeFromPlacerMode(player);
 
         InfoHeadProperties infoHeadProperties = infoHeadPropertiesOptional.get();
+        infoHeadService.clearLocation(infoHeadProperties.getLocation());
         infoHeadProperties.setLocation(location);
 
         infoHeadService.addInfoHead(infoHeadProperties)
@@ -67,7 +68,7 @@ public class PlaceHandler {
                     LOGGER.log(Level.FINE, "InfoHead placement add stage completed with " + x);
                     if (x) {
                         eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.INFOHEAD_ADDED)));
-                        eventDispatcher.dispatchEvent(new OpenInfoHeadMenuEvent(infoHeadProperties, player));
+                        eventDispatcher.dispatchEvent(new OpenMenuMenuEvent(infoHeadProperties, player));
                     } else {
                         eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.FAILED_TO_ADD)));
                     }

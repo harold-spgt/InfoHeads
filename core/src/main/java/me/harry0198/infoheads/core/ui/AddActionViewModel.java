@@ -1,11 +1,10 @@
 package me.harry0198.infoheads.core.ui;
 
 import me.harry0198.infoheads.core.elements.Element;
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.inputs.*;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.*;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
-import me.harry0198.infoheads.core.utils.SimpleProperty;
 
 public class AddActionViewModel extends ViewModel {
     private final InfoHeadProperties configuration;

@@ -2,9 +2,9 @@ package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
-import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.GivePlayerHeadsEvent;
+import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.service.InfoHeadService;
@@ -75,9 +75,9 @@ public class WizardCmdExecutor extends CmdExecutor {
         }
 
         eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.INFOHEAD_PLACE)));
+        eventDispatcher.dispatchEvent(new GivePlayerHeadsEvent(sender));
         userStateService.addToPlacerMode(sender, infoHeadProperties);
 
-//        HeadStacks.giveHeads(player);
         return true;
     }
 }

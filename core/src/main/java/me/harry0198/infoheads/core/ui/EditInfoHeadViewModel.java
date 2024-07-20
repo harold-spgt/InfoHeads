@@ -4,17 +4,19 @@ package me.harry0198.infoheads.core.ui;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
 import me.harry0198.infoheads.core.elements.Element;
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.SendPlayerCommandEvent;
-import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
-import me.harry0198.infoheads.core.event.inputs.*;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.SendPlayerCommandEvent;
+import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.types.GetCoolDownInputEvent;
+import me.harry0198.infoheads.core.event.types.GetNameInputEvent;
+import me.harry0198.infoheads.core.event.types.GetPermissionInputEvent;
+import me.harry0198.infoheads.core.event.types.OpenAddActionMenuEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
 import java.util.LinkedList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EditInfoHeadViewModel extends ViewModel {

@@ -1,7 +1,7 @@
 package me.harry0198.infoheads.core.elements;
 
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.SendPlayerCommandEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.SendPlayerCommandEvent;
 import me.harry0198.infoheads.core.hooks.PlaceholderHandlingStrategy;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 

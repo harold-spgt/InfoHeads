@@ -3,6 +3,8 @@ package me.harry0198.infoheads.core.config;
 public enum BundleMessages {
     PREFIX("prefix"),
     HELP("help"),
+    RELOAD("reload"),
+    UPDATE_AVAILABLE("update-available"),
     NO_HEAD_FOUND("no-head-found"),
     NO_PERMISSION("no-permission"),
     NO_INFOHEAD_AT_LOCATION("infohead.missing"),

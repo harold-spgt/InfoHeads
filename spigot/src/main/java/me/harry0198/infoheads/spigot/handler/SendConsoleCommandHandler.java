@@ -1,8 +1,8 @@
 package me.harry0198.infoheads.spigot.handler;
 
-import me.harry0198.infoheads.core.event.EventListener;
-import me.harry0198.infoheads.core.event.actions.SendConsoleCommandEvent;
-import me.harry0198.infoheads.spigot.InfoHeads;
+import me.harry0198.infoheads.core.event.dispatcher.EventListener;
+import me.harry0198.infoheads.core.event.types.SendConsoleCommandEvent;
+import me.harry0198.infoheads.spigot.EntryPoint;
 import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
@@ -22,7 +22,7 @@ public class SendConsoleCommandHandler implements EventListener<SendConsoleComma
     @Override
     public void onEvent(SendConsoleCommandEvent event) {
         LOGGER.log(Level.FINE, "Dispatching command " + event.getCommand());
-        Bukkit.getScheduler().runTask(InfoHeads.getInstance(), () ->
+        Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () ->
             Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), event.getCommand()));
     }
 }

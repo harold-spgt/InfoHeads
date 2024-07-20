@@ -1,8 +1,9 @@
 package me.harry0198.infoheads.core.event.handlers;
 
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.utils.Constants;
 
 public class PlayerJoinHandler {
 
@@ -16,17 +17,5 @@ public class PlayerJoinHandler {
         if (player.getUsername().equals("Harolds") || player.getUsername().equals("Lorenzo0111")) {
             eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, "This server is running your plugin, InfoHeads!"));
         }
-
-        if (player.isOp()) {
-            //TODO
-//            if (InfoHeads.getInstance().getConfig().getBoolean("check-for-update")) {
-//                (new UpdateChecker(67080)).getVersion((version) -> {
-//                    if (!InfoHeads.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
-//                        player.sendMessage("There is a new update for §bInfoHeads §ravailable. Version: " + version);
-//                    }
-//                });
-//            }
-        }
-
     }
 }

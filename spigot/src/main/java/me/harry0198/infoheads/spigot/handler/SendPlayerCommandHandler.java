@@ -1,8 +1,8 @@
 package me.harry0198.infoheads.spigot.handler;
 
-import me.harry0198.infoheads.core.event.EventListener;
-import me.harry0198.infoheads.core.event.actions.SendPlayerCommandEvent;
-import me.harry0198.infoheads.spigot.InfoHeads;
+import me.harry0198.infoheads.core.event.dispatcher.EventListener;
+import me.harry0198.infoheads.core.event.types.SendPlayerCommandEvent;
+import me.harry0198.infoheads.spigot.EntryPoint;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -23,7 +23,7 @@ public class SendPlayerCommandHandler implements EventListener<SendPlayerCommand
     @Override
     public void onEvent(SendPlayerCommandEvent event) {
         LOGGER.log(Level.FINE, "Handling Player Command...");
-        Bukkit.getScheduler().runTask(InfoHeads.getInstance(), () -> {
+        Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
 
             if (player != null && player.isOnline()) {

@@ -1,7 +1,8 @@
 package me.harry0198.infoheads.core.commands;
 
+import me.harry0198.infoheads.core.InfoHeadsPlugin;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.event.EventDispatcher;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.service.UserStateService;
@@ -21,13 +22,16 @@ public class CommandHandler {
     private final static String LIST_CMD_STRING = "list";
     private final static String EDIT_CMD_STRING = "edit";
     private final static String REMOVE_CMD_STRING = "remove";
+    private final static String RELOAD_CMD_STRING = "reload";
 
     private final LocalizedMessageService localizedMessageService;
     private final InfoHeadService infoHeadService;
     private final UserStateService userStateService;
     private final EventDispatcher eventDispatcher;
+    private final InfoHeadsPlugin infoHeadsPlugin;
 
     public CommandHandler(
+            InfoHeadsPlugin infoHeadsPlugin,
             InfoHeadService infoHeadService,
             UserStateService userStateService,
             LocalizedMessageService localizedMessageService,
@@ -36,6 +40,7 @@ public class CommandHandler {
         this.localizedMessageService = localizedMessageService;
         this.userStateService = userStateService;
         this.infoHeadService = infoHeadService;
+        this.infoHeadsPlugin = infoHeadsPlugin;
         this.eventDispatcher = eventDispatcher;
     }
 
@@ -54,6 +59,7 @@ public class CommandHandler {
             case LIST_CMD_STRING -> new ListCmdExecutor(localizedMessageService, infoHeadService, eventDispatcher);
             case EDIT_CMD_STRING -> new EditCmdExecutor(localizedMessageService, infoHeadService, eventDispatcher);
             case REMOVE_CMD_STRING -> new RemoveCmdExecutor(localizedMessageService, infoHeadService, eventDispatcher);
+            case RELOAD_CMD_STRING -> new ReloadCmdExecutor(infoHeadsPlugin, localizedMessageService, eventDispatcher);
             default -> new UnknownCmdExecutor(localizedMessageService, eventDispatcher);
         };
 
@@ -80,6 +86,9 @@ public class CommandHandler {
         }
         if (REMOVE_CMD_STRING.startsWith(cmd)) {
             list.add(REMOVE_CMD_STRING);
+        }
+        if (RELOAD_CMD_STRING.startsWith(cmd)) {
+            list.add(RELOAD_CMD_STRING);
         }
 
         return list;

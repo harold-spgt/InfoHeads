@@ -1,7 +1,7 @@
 package me.harry0198.infoheads.core.event.handlers;
 
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.RemoveTempPlayerPermissionEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.RemoveTempPlayerPermissionEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 
 import java.util.List;

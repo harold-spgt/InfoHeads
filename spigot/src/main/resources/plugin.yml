@@ -1,5 +1,5 @@
 name: InfoHeads
-main: me.harry0198.infoheads.spigot.InfoHeads
+main: me.harry0198.infoheads.spigot.EntryPoint
 version: ${version}
 authors:
   - Harolds

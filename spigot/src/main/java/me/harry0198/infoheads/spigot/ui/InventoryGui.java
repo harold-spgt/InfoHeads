@@ -2,7 +2,7 @@ package me.harry0198.infoheads.spigot.ui;
 
 import me.harry0198.infoheads.core.ui.GuiSlot;
 import me.harry0198.infoheads.core.ui.ViewModel;
-import me.harry0198.infoheads.spigot.InfoHeads;
+import me.harry0198.infoheads.spigot.EntryPoint;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -36,7 +36,7 @@ public abstract class InventoryGui<T extends ViewModel> implements InventoryHold
         // When inventory is requested to be closed, close for everyone.
         this.viewModel.getShouldCloseProperty().addListener((changed) -> {
             Boolean newV = (Boolean) changed.getNewValue();
-            Bukkit.getScheduler().runTask(InfoHeads.getInstance(), () -> {
+            Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () -> {
                 if (newV != null && newV) {
                     for (HumanEntity viewer : new ArrayList<>(inventory.getViewers())) {
                         viewer.closeInventory();

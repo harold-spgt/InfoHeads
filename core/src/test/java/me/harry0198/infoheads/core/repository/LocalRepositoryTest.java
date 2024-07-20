@@ -31,7 +31,7 @@ public class LocalRepositoryTest {
         InfoHeadProperties infoHeadProperties = new InfoHeadProperties(
                 uuid,
                 "",
-                new Location(1,2,3, ""),
+                new Location(1,2,3, "dimension"),
                 "",
                 new TimePeriod(1,2,3,4,5),
                 true,
@@ -39,7 +39,7 @@ public class LocalRepositoryTest {
         );
 
         // Act
-        boolean didSave = new LocalRepository<InfoHeadProperties>(tempDir).save(infoHeadProperties);
+        boolean didSave = new LocalRepository<InfoHeadProperties>(tempDir, InfoHeadProperties.class).save(infoHeadProperties);
 
         // Assert
         File file = Path.of(tempDir.toFile().getAbsolutePath(), infoHeadProperties.getId() + LocalRepository.getDataFileExtension()).toFile();
@@ -95,7 +95,7 @@ public class LocalRepositoryTest {
         Assertions.assertTrue(copyTo.toFile().exists(), "Could not copy file to temp dir.");
 
         // Act
-        new LocalRepository<InfoHeadProperties>(tempDir).delete(infoHeadProperties);
+        new LocalRepository<InfoHeadProperties>(tempDir, InfoHeadProperties.class).delete(infoHeadProperties);
 
         // Assert
         Assertions.assertFalse(copyTo.toFile().exists());

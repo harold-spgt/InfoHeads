@@ -50,9 +50,9 @@ public class BukkitCmdExecutor implements CommandExecutor {
     }
 
     /*
-    Create an instance of command from the arguments provided.
-    E.g. /infoheads help 1 = (Command { cmdString: help, args: [1] })
-     */
+            Create an instance of command from the arguments provided.
+            E.g. /infoheads help 1 = (Command { cmdString: help, args: [1] })
+             */
     public static Command parseCommand(String[] args) {
         if (args.length < 1) return new Command(DEFAULT_CMD_STRING, new String[0]);
         return new Command(args[0], Arrays.stream(args).skip(1).toArray(String[]::new));

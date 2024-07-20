@@ -1,8 +1,8 @@
 package me.harry0198.infoheads.spigot.handler;
 
-import me.harry0198.infoheads.core.event.EventListener;
-import me.harry0198.infoheads.core.event.actions.RemoveTempPlayerPermissionEvent;
-import me.harry0198.infoheads.spigot.InfoHeads;
+import me.harry0198.infoheads.core.event.dispatcher.EventListener;
+import me.harry0198.infoheads.core.event.types.RemoveTempPlayerPermissionEvent;
+import me.harry0198.infoheads.spigot.EntryPoint;
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.PermissionAttachment;
 
@@ -24,7 +24,7 @@ public class RemoveTempPermissionHandler implements EventListener<RemoveTempPlay
     @Override
     public void onEvent(RemoveTempPlayerPermissionEvent event) {
         // Removes Permissions
-        Bukkit.getScheduler().runTask(InfoHeads.getInstance(), () -> {
+        Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () -> {
             PermissionAttachment permissionAttachment = permissionsData.get(event.getPlayer().getUid());
             if (permissionAttachment != null) {
                 permissionAttachment.unsetPermission(event.getPermission());

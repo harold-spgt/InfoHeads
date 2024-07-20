@@ -1,15 +1,12 @@
 package me.harry0198.infoheads.spigot.handler;
 
-import me.harry0198.infoheads.core.event.EventListener;
-import me.harry0198.infoheads.core.event.actions.ApplyTempPlayerPermissionEvent;
-import me.harry0198.infoheads.core.service.InfoHeadService;
-import me.harry0198.infoheads.spigot.InfoHeads;
+import me.harry0198.infoheads.core.event.dispatcher.EventListener;
+import me.harry0198.infoheads.core.event.types.ApplyTempPlayerPermissionEvent;
+import me.harry0198.infoheads.spigot.EntryPoint;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,13 +24,13 @@ public class ApplyTempPermissionHandler implements EventListener<ApplyTempPlayer
 
     @Override
     public void onEvent(ApplyTempPlayerPermissionEvent event) {
-        Bukkit.getScheduler().runTask(InfoHeads.getInstance(), () -> {
+        Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
                 if (player != null && player.isOnline()) {
                     PermissionAttachment attachment;
 
                     if (permissionsData.get(player.getUniqueId()) == null) {
-                        PermissionAttachment permissionAttachment = player.addAttachment(InfoHeads.getInstance());
+                        PermissionAttachment permissionAttachment = player.addAttachment(EntryPoint.getInstance());
                         permissionsData.put(player.getUniqueId(), permissionAttachment);
                     }
 

@@ -1,13 +1,20 @@
 package me.harry0198.infoheads.core.persistence.repository;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.persistence.entity.Identifiable;
+import me.harry0198.infoheads.core.utils.logging.Logger;
+import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 
 import java.io.*;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -17,16 +24,25 @@ import java.util.stream.Collectors;
 public class LocalRepository<T extends Serializable & Identifiable> implements Repository<T> {
 
     private final static String DATA_FILE_EXTENSION = ".dat";
-    private final static Logger LOGGER = Logger.getLogger(LocalRepository.class.getName());
+    private final static Logger LOGGER = LoggerFactory.getLogger();
 
     private final Path repositoryFolder;
+    private final Type type;
+    private final Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
+            .disableHtmlEscaping()
+            .enableComplexMapKeySerialization()
+            .excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
+            .registerTypeAdapter(Element.class, new AbstractTypeAdapter<>())
+            .create();
 
     /**
      * Class constructor.
      * @param parent Path to directory to save data to.
      */
-    public LocalRepository(Path parent) {
+    public LocalRepository(Path parent, Type type) {
         this.repositoryFolder = Path.of(parent.toFile().getAbsolutePath());
+        this.type = type;
     }
 
     /**
@@ -40,17 +56,16 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
 
         File propertyFile = getFileForProperty(obj);
 
-        try (FileOutputStream fileOut = new FileOutputStream(propertyFile);
-             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-
-            out.writeObject(obj);
-            return true;
-        } catch (IOException i) {
-            LOGGER.warning("Unable to locally save obj " + obj.getId());
-            LOGGER.throwing(LocalRepository.class.getName(), "save", i);
+        try (FileWriter fileWriter = new FileWriter(propertyFile)) {
+            gson.toJson(obj, fileWriter);
+        } catch (IOException e) {
+            LOGGER.warn("Unable to locally save obj " + obj.getId());
+            LOGGER.debug("save", e);
+            return false;
         }
 
-        return false;
+
+        return true;
     }
 
     /**
@@ -66,16 +81,14 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
         File[] files = dataFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(DATA_FILE_EXTENSION));
         if (files == null) return List.of();
 
+        
         return Arrays.stream(files).parallel().map(file -> {
-            try (FileInputStream fileIn = new FileInputStream(file);
-            ObjectInputStream in = new ObjectInputStream(fileIn)) {
-                // Will be caught
-                @SuppressWarnings("unchecked")
-                T obj = (T) in.readObject();
-                return obj;
-            } catch (IOException | ClassNotFoundException i) {
+            try (FileReader fileReader = new FileReader(file)) {
+                JsonReader reader = new JsonReader(fileReader);
+                return gson.<T>fromJson(reader, type);
+            } catch (IOException i) {
                 LOGGER.severe("Error fetching data from file " + file.getName());
-                LOGGER.throwing(LocalRepository.class.getName(), "getAll", i);
+                LOGGER.debug("getAll", i);
             }
 
             return null;
@@ -94,8 +107,8 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
         try {
             return propertyFile.delete();
         } catch (SecurityException securityException) {
-            LOGGER.warning("Unable to locally delete from disk InfoHead " + obj.getId());
-            LOGGER.throwing(LocalRepository.class.getName(), "delete", securityException);
+            LOGGER.warn("Unable to locally delete from disk InfoHead " + obj.getId());
+            LOGGER.debug("delete", securityException);
         }
 
         return false;
@@ -115,7 +128,7 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
                 return didMake;
             } catch (SecurityException securityException) {
                 LOGGER.severe("Failed to create missing directory - Missing WRITE permissions to directory " + dataFolder);
-                LOGGER.throwing(LocalRepository.class.getName(), "validateFolder", securityException);
+                LOGGER.debug("validateFolder", securityException);
                 return false;
             }
         }

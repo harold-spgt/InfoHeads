@@ -1,13 +1,11 @@
 package me.harry0198.infoheads.core.ui;
 
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.OpenMenuMenuEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
-
-import java.sql.Time;
 
 /**
  * The business logic for handling InfoHead cool downs.
@@ -76,7 +74,7 @@ public abstract class TimePeriodViewModel extends ViewModel {
     }
 
     public void navigateToPreviousPage(OnlinePlayer onlinePlayer) {
-        EventDispatcher.getInstance().dispatchEvent(new OpenInfoHeadMenuEvent(configuration, onlinePlayer));
+        EventDispatcher.getInstance().dispatchEvent(new OpenMenuMenuEvent(configuration, onlinePlayer));
     }
 
     /*

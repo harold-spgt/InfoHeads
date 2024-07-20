@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.core.repository;
 
+import me.harry0198.infoheads.core.elements.MessageElement;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.TimePeriod;
@@ -28,7 +29,7 @@ public class LocalRepositoryIntegrationTest {
     public void saveAndFetchIntegrationTest() {
         // Arrange
         Path parentFolderPath = Path.of(tempDir.toFile().getAbsolutePath(), SUB_FOLDER);
-        LocalRepository<InfoHeadProperties> repository = new LocalRepository<>(parentFolderPath);
+        LocalRepository<InfoHeadProperties> repository = new LocalRepository<>(parentFolderPath, InfoHeadProperties.class);
         UUID uuid = UUID.randomUUID();
         String name = "name";
         Location location = new Location(1,2,3, "");
@@ -44,6 +45,9 @@ public class LocalRepositoryIntegrationTest {
                 oneTimeUse,
                 true
         );
+
+        MessageElement messageElement = new MessageElement("message");
+        infoHeadProperties.addElement(messageElement);
 
         // Act & Assert
         boolean didSave = repository.save(infoHeadProperties);
@@ -64,5 +68,7 @@ public class LocalRepositoryIntegrationTest {
         Assertions.assertEquals(permission, deserialized.getPermission());
         Assertions.assertEquals(timePeriod, deserialized.getCoolDown());
         Assertions.assertEquals(oneTimeUse, deserialized.isOneTimeUse());
+        Assertions.assertEquals(1, deserialized.getElements().size());
+        Assertions.assertEquals(messageElement.getMessage(), ((MessageElement) deserialized.getElements().get(0)).getMessage());
     }
 }

@@ -4,12 +4,12 @@ import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.persistence.entity.Identifiable;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.persistence.repository.Repository;
+import me.harry0198.infoheads.core.utils.logging.Logger;
+import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * Business logic for handling InfoHeads database manipulation.
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class InfoHeadService {
 
-    private static final Logger LOGGER = Logger.getLogger(InfoHeadService.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger();
     private final Repository<InfoHeadProperties> infoHeadRepository;
     private final Map<Location, InfoHeadProperties> cache;
     private final CompletableFuture<Void> cacheInitializationProc;
@@ -60,6 +60,10 @@ public class InfoHeadService {
 
             return didSave;
         });
+    }
+
+    public void clearLocation(Location location) {
+        this.cache.remove(location);
     }
 
     public Collection<InfoHeadProperties> getAll() {
@@ -121,10 +125,10 @@ public class InfoHeadService {
             }
         }).whenComplete((ignore,error) -> {
             if (error != null) {
-                LOGGER.warning("Unable to generate InfoHead cache!");
-                LOGGER.throwing(InfoHeadService.class.getName(), "ctor", error.getCause());
+                LOGGER.warn("Unable to generate InfoHead cache!");
+                LOGGER.debug("ctor", error.getCause());
             } else {
-                LOGGER.info("Successfully generated cache.");
+                LOGGER.info("Generated InfoHead cache.");
             }
         });
     }

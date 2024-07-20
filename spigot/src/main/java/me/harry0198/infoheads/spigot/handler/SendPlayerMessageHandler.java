@@ -1,7 +1,7 @@
 package me.harry0198.infoheads.spigot.handler;
 
-import me.harry0198.infoheads.core.event.EventListener;
-import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventListener;
+import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

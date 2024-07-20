@@ -2,9 +2,9 @@ package me.harry0198.infoheads.core.event.handlers;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.SendPlayerCommandEvent;
-import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.SendPlayerCommandEvent;
+import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.OnlinePlayer;

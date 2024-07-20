@@ -2,16 +2,15 @@ package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.config.LocalizedMessageService;
-import me.harry0198.infoheads.core.event.EventDispatcher;
-import me.harry0198.infoheads.core.event.actions.SendPlayerMessageEvent;
-import me.harry0198.infoheads.core.event.inputs.OpenInfoHeadMenuEvent;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
+import me.harry0198.infoheads.core.event.types.OpenMenuMenuEvent;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.Constants;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -50,7 +49,7 @@ public class EditCmdExecutor extends CmdExecutor {
             return true;
         }
 
-        eventDispatcher.dispatchEvent(new OpenInfoHeadMenuEvent(infoHeadPropertiesOptional.get(), player));
+        eventDispatcher.dispatchEvent(new OpenMenuMenuEvent(infoHeadPropertiesOptional.get(), player));
         return true;
     }
 }

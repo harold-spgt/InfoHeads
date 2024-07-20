@@ -11,8 +11,6 @@ import java.util.*;
 
 public final class InfoHeadProperties implements Serializable, Identifiable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
     private final UUID uniqueId;
     private String name;
     private Location location;
@@ -24,7 +22,7 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
 
     // Long = timestamp for expiry.
     private final Map<UUID, Long> userToCoolDownExpiryMappings = new HashMap<>();
-    private final List<UUID> usersExecuted = new ArrayList<>();
+    private final Set<UUID> usersExecuted = new HashSet<>();
 
     public InfoHeadProperties() {
         this.uniqueId = UUID.randomUUID();
@@ -69,6 +67,11 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
         this.elements.addAll(elements);
     }
 
+    public void setUserToCoolDownExpiryMappings(Map<UUID, Long> userToCoolDownExpiryMappings) {
+        this.userToCoolDownExpiryMappings.clear();
+        this.userToCoolDownExpiryMappings.putAll(userToCoolDownExpiryMappings);
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
@@ -88,6 +91,14 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
     public void setOneTimeUse(boolean oneTimeUse) {
         this.oneTimeUse = oneTimeUse;
         this.usersExecuted.clear();
+    }
+
+    public Map<UUID, Long> getUserToCoolDownExpiryMappings() {
+        return userToCoolDownExpiryMappings;
+    }
+
+    public Set<UUID> getUsersExecuted() {
+        return usersExecuted;
     }
 
     public boolean isExecuted(Player player) {

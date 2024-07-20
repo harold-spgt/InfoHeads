@@ -23,6 +23,9 @@
 hs_err_pid*
 InfoHeads.iml
 core/out**
+spigot/out**
+api/out**
+legacy-converter/out**
 server/
 .idea/
 .DS_Store
