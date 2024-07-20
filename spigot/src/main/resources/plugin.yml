@@ -1,0 +1,26 @@
+name: InfoHeads
+main: me.harry0198.infoheads.spigot.EntryPoint
+version: @version@
+authors:
+  - Harolds
+  - Lorenzo0111
+description: InfoHeads plugin!
+api-version: 1.21
+softdepend:
+  - PlaceholderAPI
+  - HeadDatabase
+  - BlockParticles
+  - Multiverse-Core
+
+commands:
+  infoheads:
+    description: InfoHead plugin commands.
+    aliases:
+      - if
+      - infohead
+    usage: /<command> [subcommand]
+permissions:
+  infoheads.use:
+    default: true
+  infoheads.admin:
+    default: false

@@ -3,3 +3,8 @@
  */
 
 rootProject.name = 'InfoHeads'
+include 'core'
+include 'spigot'
+include 'api'
+include 'legacy-converter'
+
