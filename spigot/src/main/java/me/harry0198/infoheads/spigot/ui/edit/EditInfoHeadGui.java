@@ -9,6 +9,7 @@ import me.harry0198.infoheads.spigot.ui.GuiItem;
 import me.harry0198.infoheads.core.ui.GuiSlot;
 import me.harry0198.infoheads.spigot.ui.InventoryGui;
 import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
+import me.harry0198.infoheads.spigot.util.Scheduler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -26,8 +27,8 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
      * Creates the edit menu for an InfoHead configuration.
      * @param viewModel for this view.
      */
-    public EditInfoHeadGui(EditInfoHeadViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(viewModel, 6, localizedMessageService.getMessage(BundleMessages.EDIT_INFOHEAD_UI_TITLE));
+    public EditInfoHeadGui(EditInfoHeadViewModel viewModel, LocalizedMessageService localizedMessageService, Scheduler scheduler) {
+        super(viewModel, 6, localizedMessageService.getMessage(BundleMessages.EDIT_INFOHEAD_UI_TITLE), scheduler);
         this.localizedMessageService = localizedMessageService;
 
         setDefaultClickAction(event -> event.setCancelled(true));

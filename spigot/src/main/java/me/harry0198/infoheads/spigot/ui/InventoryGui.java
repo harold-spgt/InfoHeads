@@ -2,7 +2,7 @@ package me.harry0198.infoheads.spigot.ui;
 
 import me.harry0198.infoheads.core.ui.GuiSlot;
 import me.harry0198.infoheads.core.ui.ViewModel;
-import me.harry0198.infoheads.spigot.EntryPoint;
+import me.harry0198.infoheads.spigot.util.Scheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -21,11 +21,13 @@ public abstract class InventoryGui<T extends ViewModel> implements InventoryHold
     private final Inventory inventory;
     private final Map<Integer, Consumer<InventoryClickEvent>> slotActions;
     private final T viewModel;
+    private final Scheduler scheduler;
     private Consumer<InventoryClickEvent> defaultAction;
     private Consumer<InventoryCloseEvent> closeAction;
 
-    public InventoryGui(T viewModel, int size, String name) {
+    public InventoryGui(T viewModel, int size, String name, Scheduler scheduler) {
         this.viewModel = viewModel;
+        this.scheduler = scheduler;
         // Recover invalid inventory size state.
         if (size > 6) size = 6;
         if (size < 1) size = 1;
@@ -36,7 +38,7 @@ public abstract class InventoryGui<T extends ViewModel> implements InventoryHold
         // When inventory is requested to be closed, close for everyone.
         this.viewModel.getShouldCloseProperty().addListener((changed) -> {
             Boolean newV = (Boolean) changed.getNewValue();
-            Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () -> {
+            scheduler.schedule(() -> {
                 if (newV != null && newV) {
                     for (HumanEntity viewer : new ArrayList<>(inventory.getViewers())) {
                         viewer.closeInventory();

@@ -10,6 +10,7 @@ import me.harry0198.infoheads.core.ui.GuiSlot;
 import me.harry0198.infoheads.spigot.ui.InventoryGui;
 import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
 
+import me.harry0198.infoheads.spigot.util.Scheduler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,8 +28,8 @@ public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
     private final TimePeriodViewModel viewModel;
     private final LocalizedMessageService localizedMessageService;
 
-    public TimePeriodGui(TimePeriodViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(viewModel, 5, localizedMessageService.getMessage(BundleMessages.COOLDOWN_TITLE));
+    public TimePeriodGui(TimePeriodViewModel viewModel, LocalizedMessageService localizedMessageService, Scheduler scheduler) {
+        super(viewModel, 5, localizedMessageService.getMessage(BundleMessages.COOLDOWN_TITLE), scheduler);
         this.viewModel = viewModel;
         this.localizedMessageService = localizedMessageService;
 

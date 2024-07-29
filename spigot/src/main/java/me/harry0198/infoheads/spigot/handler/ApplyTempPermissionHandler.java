@@ -3,6 +3,7 @@ package me.harry0198.infoheads.spigot.handler;
 import me.harry0198.infoheads.core.event.dispatcher.EventListener;
 import me.harry0198.infoheads.core.event.types.ApplyTempPlayerPermissionEvent;
 import me.harry0198.infoheads.spigot.EntryPoint;
+import me.harry0198.infoheads.spigot.util.Scheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -16,27 +17,26 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ApplyTempPermissionHandler implements EventListener<ApplyTempPlayerPermissionEvent> {
 
+    private final Scheduler scheduler;
     private final ConcurrentHashMap<UUID, PermissionAttachment> permissionsData;
 
-    public ApplyTempPermissionHandler(ConcurrentHashMap<UUID, PermissionAttachment> permissionsData) {
+    public ApplyTempPermissionHandler(Scheduler scheduler, ConcurrentHashMap<UUID, PermissionAttachment> permissionsData) {
         this.permissionsData = permissionsData;
+        this.scheduler = scheduler;
     }
 
     @Override
     public void onEvent(ApplyTempPlayerPermissionEvent event) {
-        Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () -> {
-            Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
-                if (player != null && player.isOnline()) {
-                    PermissionAttachment attachment;
+        scheduler.scheduleEntity(event.getOnlinePlayer(), (player) -> {
+            PermissionAttachment attachment;
 
-                    if (permissionsData.get(player.getUniqueId()) == null) {
-                        PermissionAttachment permissionAttachment = player.addAttachment(EntryPoint.getInstance());
-                        permissionsData.put(player.getUniqueId(), permissionAttachment);
-                    }
+            if (permissionsData.get(player.getUniqueId()) == null) {
+                PermissionAttachment permissionAttachment = player.addAttachment(EntryPoint.getInstance());
+                permissionsData.put(player.getUniqueId(), permissionAttachment);
+            }
 
-                    attachment = permissionsData.get(player.getUniqueId());
-                    attachment.setPermission(event.getPermission(), true);
-                }
+            attachment = permissionsData.get(player.getUniqueId());
+            attachment.setPermission(event.getPermission(), true);
         });
     }
 }

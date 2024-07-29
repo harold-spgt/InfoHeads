@@ -21,6 +21,7 @@ import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
 import me.harry0198.infoheads.spigot.ui.cooldown.TimePeriodGui;
 import me.harry0198.infoheads.spigot.ui.edit.EditInfoHeadGui;
 import me.harry0198.infoheads.spigot.ui.wizard.AddActionGui;
+import me.harry0198.infoheads.spigot.util.Scheduler;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -33,7 +34,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -43,19 +43,25 @@ public class InfoHeadEventHandlerRegister {
     private final EventDispatcher eventDispatcher;
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
+    private final Scheduler scheduler;
     private final ConcurrentHashMap<UUID, PermissionAttachment> permissionsMapping = new ConcurrentHashMap<>();
 
-    public InfoHeadEventHandlerRegister(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService) {
+    public InfoHeadEventHandlerRegister(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, Scheduler scheduler) {
         this.eventDispatcher = EventDispatcher.getInstance();
         this.localizedMessageService = localizedMessageService;
         this.infoHeadService = infoHeadService;
+        this.scheduler = scheduler;
 
+        registerListeners();
+    }
+
+    public void registerListeners() {
         // Register all listeners.
-        eventDispatcher.registerListener(SendPlayerMessageEvent.class, new SendPlayerMessageHandler(localizedMessageService.getColourReplaceStrategy()));
-        eventDispatcher.registerListener(RemoveTempPlayerPermissionEvent.class, new RemoveTempPermissionHandler(permissionsMapping));
-        eventDispatcher.registerListener(SendPlayerCommandEvent.class, new SendPlayerCommandHandler());
-        eventDispatcher.registerListener(SendConsoleCommandEvent.class, new SendConsoleCommandHandler());
-        eventDispatcher.registerListener(ApplyTempPlayerPermissionEvent.class, new ApplyTempPermissionHandler(permissionsMapping));
+        eventDispatcher.registerListener(SendPlayerMessageEvent.class, getSendPlayerMessageHandler());
+        eventDispatcher.registerListener(RemoveTempPlayerPermissionEvent.class, getRemoveTempPermissionsHandler());
+        eventDispatcher.registerListener(SendPlayerCommandEvent.class, getSendPlayerCommandHandler());
+        eventDispatcher.registerListener(SendConsoleCommandEvent.class, new SendConsoleCommandHandler(scheduler));
+        eventDispatcher.registerListener(ApplyTempPlayerPermissionEvent.class, getApplyTempPermissionHandler());
         eventDispatcher.registerListener(OpenMenuMenuEvent.class, openInfoHeadMenu());
         eventDispatcher.registerListener(OpenAddActionMenuEvent.class, openAppendInfoHeadMenu());
         eventDispatcher.registerListener(GetConsoleCommandInputEvent.class, getConsoleCommandInputEventListener());
@@ -68,6 +74,22 @@ public class InfoHeadEventHandlerRegister {
         eventDispatcher.registerListener(GetNameInputEvent.class, getNameInputEventListener());
         eventDispatcher.registerListener(ShowInfoHeadListEvent.class, getShowInfoHeadListEvent());
         eventDispatcher.registerListener(GivePlayerHeadsEvent.class, getGivePlayerHeadsEventEventListener());
+    }
+
+    public SendPlayerMessageHandler getSendPlayerMessageHandler() {
+        return new SendPlayerMessageHandler(localizedMessageService.getColourReplaceStrategy());
+    }
+
+    public RemoveTempPermissionHandler getRemoveTempPermissionsHandler() {
+        return new RemoveTempPermissionHandler(scheduler, permissionsMapping);
+    }
+
+    public SendPlayerCommandHandler getSendPlayerCommandHandler() {
+        return new SendPlayerCommandHandler(scheduler);
+    }
+
+    public ApplyTempPermissionHandler getApplyTempPermissionHandler() {
+        return new ApplyTempPermissionHandler(scheduler, permissionsMapping);
     }
 
     public EventListener<GivePlayerHeadsEvent> getGivePlayerHeadsEventEventListener() {
@@ -97,7 +119,7 @@ public class InfoHeadEventHandlerRegister {
         return permissionsMapping;
     }
 
-    private EventListener<ShowInfoHeadListEvent> getShowInfoHeadListEvent() {
+    public EventListener<ShowInfoHeadListEvent> getShowInfoHeadListEvent() {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
             if (player == null && !player.isOnline()) {
@@ -122,50 +144,42 @@ public class InfoHeadEventHandlerRegister {
         };
     }
 
-    private EventListener<GetNameInputEvent> getNameInputEventListener() {
+    public EventListener<GetNameInputEvent> getNameInputEventListener() {
         return event -> getInputEvent(InputTypes.RENAME).accept(event);
     }
 
-    private EventListener<GetCoolDownInputEvent> getCooldownInputEventListener() {
+    public EventListener<GetCoolDownInputEvent> getCooldownInputEventListener() {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
             if (player != null && player.isOnline()) {
-                Bukkit.getScheduler().runTask(
-                        EntryPoint.getInstance(),
-                        () -> new TimePeriodGui(new CoolDownViewModel(event.getInfoHeadProperties()), localizedMessageService).open(player));
+                scheduler.scheduleEntity(player,() -> new TimePeriodGui(new CoolDownViewModel(event.getInfoHeadProperties()), localizedMessageService, scheduler).open(player));
             }
         };
     }
 
-    private EventListener<GetDelayInputEvent> getDelayInputEventListener() {
+    public EventListener<GetDelayInputEvent> getDelayInputEventListener() {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
             if (player != null && player.isOnline()) {
-                Bukkit.getScheduler().runTask(
-                        EntryPoint.getInstance(),
-                        () -> new TimePeriodGui(new DelayViewModel(event.getInfoHeadProperties(), new TimePeriod(0,0,0,0,0)), localizedMessageService).open(player));
+                scheduler.scheduleEntity(player,() -> new TimePeriodGui(new DelayViewModel(event.getInfoHeadProperties(), new TimePeriod(0,0,0,0,0)), localizedMessageService, scheduler).open(player));
             }
         };
     }
 
-    private EventListener<OpenMenuMenuEvent> openInfoHeadMenu() {
+    public EventListener<OpenMenuMenuEvent> openInfoHeadMenu() {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
             if (player != null && player.isOnline()) {
-                Bukkit.getScheduler().runTask(
-                        EntryPoint.getInstance(),
-                        () -> new EditInfoHeadGui(new EditInfoHeadViewModel(eventDispatcher, infoHeadService, event.getInfoHeadProperties(), localizedMessageService), localizedMessageService).open(player));
+                scheduler.scheduleEntity(player,() -> new EditInfoHeadGui(new EditInfoHeadViewModel(eventDispatcher, infoHeadService, event.getInfoHeadProperties(), localizedMessageService), localizedMessageService, scheduler).open(player));
             }
         };
     }
 
-    private EventListener<OpenAddActionMenuEvent> openAppendInfoHeadMenu() {
+    public EventListener<OpenAddActionMenuEvent> openAppendInfoHeadMenu() {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
             if (player != null && player.isOnline()) {
-                Bukkit.getScheduler().runTask(
-                        EntryPoint.getInstance(),
-                        () -> new AddActionGui(new AddActionViewModel(eventDispatcher, event.getInfoHeadProperties()), localizedMessageService).open(player));
+                scheduler.scheduleEntity(player,() -> new AddActionGui(new AddActionViewModel(eventDispatcher, event.getInfoHeadProperties()), localizedMessageService, scheduler).open(player));
             }
         };
     }

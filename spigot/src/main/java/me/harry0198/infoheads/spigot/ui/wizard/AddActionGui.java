@@ -10,6 +10,7 @@ import me.harry0198.infoheads.core.ui.GuiSlot;
 import me.harry0198.infoheads.spigot.ui.InventoryGui;
 import me.harry0198.infoheads.spigot.ui.builder.ItemBuilder;
 
+import me.harry0198.infoheads.spigot.util.Scheduler;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -25,8 +26,8 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
     private static final GuiSlot CANCEL_SLOT = new GuiSlot(5,5);
     private static final GuiSlot PERMISSION_SLOT = new GuiSlot(3,5);
     private final LocalizedMessageService localizedMessageService;
-    public AddActionGui(AddActionViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(viewModel, 5, localizedMessageService.getMessage(BundleMessages.ADD_ACTION_GUI_TITLE));
+    public AddActionGui(AddActionViewModel viewModel, LocalizedMessageService localizedMessageService, Scheduler scheduler) {
+        super(viewModel, 5, localizedMessageService.getMessage(BundleMessages.ADD_ACTION_GUI_TITLE), scheduler);
         this.localizedMessageService = localizedMessageService;
 
         setDefaultClickAction(event -> event.setCancelled(true));
