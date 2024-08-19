@@ -46,7 +46,7 @@ dependencies {
     compileOnly("com.mojang:authlib:6.0.54")
 
     implementation("org.jetbrains:annotations:13.0")
-    implementation("org.bstats:bstats-bukkit:3.0.2")
+    implementation("org.bstats:bstats-bukkit:3.0.3")
     implementation("org.slf4j:slf4j-api:1.7.25")
 
 
