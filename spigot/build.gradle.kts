@@ -3,13 +3,13 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.8"
 }
 
 group = "me.harry0198.infoheads"
 version = "2.5.0"
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 var libsBase = "me.harry0198.infoheads.libs"
 
@@ -45,16 +45,13 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.1")
     compileOnly("com.mojang:authlib:6.0.54")
 
-    implementation("org.jetbrains:annotations:13.0")
+    implementation("org.jetbrains:annotations:24.1.0")
     implementation("org.bstats:bstats-bukkit:3.0.2")
-    implementation("org.slf4j:slf4j-api:1.7.25")
-
 
     implementation(project(":core"))
     implementation(project(":legacy-converter"))
 
-
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation(platform("org.junit:junit-bom:5.10.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 

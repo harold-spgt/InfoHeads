@@ -3,13 +3,13 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.8"
 }
 
 group = "me.harry0198.infoheads"
 version = "2.5.0"
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 var libsBase = "me.harry0198.infoheads.libs"
@@ -60,10 +60,21 @@ tasks {
         archiveFileName = "InfoHeads-${project.name}-${version}.jar"
         relocate("me.harry0198.infoheads.core", "${libsBase}.core")
         relocate("org.bstats","${libsBase}.bstats")
+        manifest {
+            attributes["paperweight-mappings-namespace"] = "mojang"
+        }
     }
 }
 
 tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Explicitly add Folia's plugin.yml
+    from(project(":folia").file("src/main/resources")) {
+        include("plugin.yml")
+        filter<ReplaceTokens>("tokens" to mapOf("version" to version))
+    }
+
     from(sourceSets.main.get().resources.srcDirs) {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
         filter<ReplaceTokens>("tokens" to mapOf("version" to version))

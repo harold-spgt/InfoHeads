@@ -2,11 +2,9 @@ package me.harry0198.infoheads.spigot.handler;
 
 import me.harry0198.infoheads.core.event.dispatcher.EventListener;
 import me.harry0198.infoheads.core.event.types.ApplyTempPlayerPermissionEvent;
-import me.harry0198.infoheads.spigot.EntryPoint;
 import me.harry0198.infoheads.spigot.util.Scheduler;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.plugin.Plugin;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,11 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ApplyTempPermissionHandler implements EventListener<ApplyTempPlayerPermissionEvent> {
 
     private final Scheduler scheduler;
+    private final Plugin plugin;
     private final ConcurrentHashMap<UUID, PermissionAttachment> permissionsData;
 
-    public ApplyTempPermissionHandler(Scheduler scheduler, ConcurrentHashMap<UUID, PermissionAttachment> permissionsData) {
+    public ApplyTempPermissionHandler(Plugin plugin, Scheduler scheduler, ConcurrentHashMap<UUID, PermissionAttachment> permissionsData) {
         this.permissionsData = permissionsData;
         this.scheduler = scheduler;
+        this.plugin = plugin;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ApplyTempPermissionHandler implements EventListener<ApplyTempPlayer
             PermissionAttachment attachment;
 
             if (permissionsData.get(player.getUniqueId()) == null) {
-                PermissionAttachment permissionAttachment = player.addAttachment(EntryPoint.getInstance());
+                PermissionAttachment permissionAttachment = player.addAttachment(plugin);
                 permissionsData.put(player.getUniqueId(), permissionAttachment);
             }
 

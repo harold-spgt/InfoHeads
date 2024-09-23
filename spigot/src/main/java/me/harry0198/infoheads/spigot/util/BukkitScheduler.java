@@ -1,17 +1,22 @@
 package me.harry0198.infoheads.spigot.util;
 
-import me.harry0198.infoheads.spigot.EntryPoint;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.util.function.Consumer;
 
 public class BukkitScheduler implements Scheduler {
 
+    private final Plugin plugin;
+
+    public BukkitScheduler(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void schedule(Runnable runnable) {
-        Bukkit.getScheduler().runTask(EntryPoint.getInstance(), runnable);
+        Bukkit.getScheduler().runTask(plugin, runnable);
     }
 
     @Override
@@ -20,11 +25,11 @@ public class BukkitScheduler implements Scheduler {
         if (player == null || !player.isOnline()) {
             return;
         }
-        Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () -> runnable.accept(player));
+        Bukkit.getScheduler().runTask(plugin, () -> runnable.accept(player));
     }
 
     @Override
     public void scheduleEntity(Player player, Runnable runnable) {
-        Bukkit.getScheduler().runTask(EntryPoint.getInstance(), runnable);
+        Bukkit.getScheduler().runTask(plugin, runnable);
     }
 }

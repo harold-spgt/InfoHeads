@@ -18,7 +18,6 @@ import me.harry0198.infoheads.spigot.ui.InventoryGuiListener;
 import me.harry0198.infoheads.spigot.util.BukkitScheduler;
 import me.harry0198.infoheads.spigot.util.Scheduler;
 import me.harry0198.infoheads.spigot.util.UpdateChecker;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.HandlerList;
@@ -41,7 +40,7 @@ public class SpigotInfoHeadsPlugin extends InfoHeadsPlugin {
 
     @Override
     public void registerEventHandlers(BreakHandler breakHandler, InteractHandler interactHandler, PlaceHandler placeHandler, PlayerJoinHandler playerJoinHandler, PlayerQuitHandler playerQuitHandler) {
-        InfoHeadEventHandlerRegister infoHeadEventHandlerRegister = new InfoHeadEventHandlerRegister(getInfoHeadService(), getLocalizedMessageService(), getScheduler());
+        InfoHeadEventHandlerRegister infoHeadEventHandlerRegister = new InfoHeadEventHandlerRegister(plugin, getInfoHeadService(), getLocalizedMessageService(), getScheduler());
         plugin.getServer().getPluginManager().registerEvents(new InventoryGuiListener(), plugin);
         plugin.getServer().getPluginManager().registerEvents(new BukkitEventListener(
                 breakHandler,
@@ -89,14 +88,14 @@ public class SpigotInfoHeadsPlugin extends InfoHeadsPlugin {
     @Override
     public void runUpdateNotifier() {
         (new UpdateChecker(67080)).getVersion((version) -> {
-            if (!EntryPoint.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
+            if (!plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
                 LOGGER.info(getLocalizedMessageService().getMessage(BundleMessages.UPDATE_AVAILABLE) + " " + version);
             }
         });
     }
 
     public Scheduler getScheduler() {
-        return new BukkitScheduler();
+        return new BukkitScheduler(plugin);
     }
 
     private static String translateHexColorCodes(final String message) {

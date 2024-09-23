@@ -12,7 +12,6 @@ import me.harry0198.infoheads.core.ui.AddActionViewModel;
 import me.harry0198.infoheads.core.ui.CoolDownViewModel;
 import me.harry0198.infoheads.core.ui.DelayViewModel;
 import me.harry0198.infoheads.core.ui.EditInfoHeadViewModel;
-import me.harry0198.infoheads.spigot.EntryPoint;
 import me.harry0198.infoheads.spigot.conversations.ElementValueInput;
 import me.harry0198.infoheads.spigot.conversations.InfoHeadsConversationPrefix;
 import me.harry0198.infoheads.spigot.conversations.InputTypes;
@@ -32,6 +31,7 @@ import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,13 +44,19 @@ public class InfoHeadEventHandlerRegister {
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
     private final Scheduler scheduler;
+    private final Plugin plugin;
     private final ConcurrentHashMap<UUID, PermissionAttachment> permissionsMapping = new ConcurrentHashMap<>();
 
-    public InfoHeadEventHandlerRegister(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, Scheduler scheduler) {
+    public InfoHeadEventHandlerRegister(
+            Plugin plugin,
+            InfoHeadService infoHeadService,
+            LocalizedMessageService localizedMessageService,
+            Scheduler scheduler) {
         this.eventDispatcher = EventDispatcher.getInstance();
         this.localizedMessageService = localizedMessageService;
         this.infoHeadService = infoHeadService;
         this.scheduler = scheduler;
+        this.plugin = plugin;
 
         registerListeners();
     }
@@ -89,7 +95,7 @@ public class InfoHeadEventHandlerRegister {
     }
 
     public ApplyTempPermissionHandler getApplyTempPermissionHandler() {
-        return new ApplyTempPermissionHandler(scheduler, permissionsMapping);
+        return new ApplyTempPermissionHandler(plugin, scheduler, permissionsMapping);
     }
 
     public EventListener<GivePlayerHeadsEvent> getGivePlayerHeadsEventEventListener() {
@@ -215,8 +221,8 @@ public class InfoHeadEventHandlerRegister {
         };
     }
 
-    private static ConversationFactory getInputFactory(final InfoHeadProperties infoHeadConfiguration, final InputTypes element, LocalizedMessageService localizedMessageService) {
-        return new ConversationFactory(EntryPoint.getInstance())
+    private ConversationFactory getInputFactory(final InfoHeadProperties infoHeadConfiguration, final InputTypes element, LocalizedMessageService localizedMessageService) {
+        return new ConversationFactory(plugin)
                 .withModality(true)
                 .withPrefix(new InfoHeadsConversationPrefix(localizedMessageService))
                 .withFirstPrompt(new ElementValueInput(EventDispatcher.getInstance(), infoHeadConfiguration, element, localizedMessageService))

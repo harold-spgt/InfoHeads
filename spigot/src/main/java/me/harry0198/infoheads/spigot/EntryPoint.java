@@ -1,13 +1,11 @@
 package me.harry0198.infoheads.spigot;
 
-import me.harry0198.infoheads.core.InfoHeadsPlugin;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.utils.logging.Level;
 import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 import me.harry0198.infoheads.legacy.Converter;
 import me.harry0198.infoheads.spigot.util.BukkitLogger;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -24,10 +22,10 @@ import java.util.concurrent.CompletableFuture;
  */
 public final class EntryPoint extends JavaPlugin {
 
-    private final InfoHeadsPlugin infoHeadsPlugin;
+    private final SpigotInfoHeadsPlugin infoHeadsPlugin;
 
     public EntryPoint() {
-        LoggerFactory.setLogger(new BukkitLogger(Level.DEBUG));
+        LoggerFactory.setLogger(new BukkitLogger(this, Level.DEBUG));
         this.infoHeadsPlugin = new SpigotInfoHeadsPlugin(this, getDataFolder().toPath());
     }
 
@@ -42,10 +40,6 @@ public final class EntryPoint extends JavaPlugin {
     @Override
     public void onDisable() {
         infoHeadsPlugin.onDisable();
-    }
-
-    public static EntryPoint getInstance() {
-        return getPlugin(EntryPoint.class);
     }
 
     private boolean convertLegacyDataStore() {
@@ -74,7 +68,7 @@ public final class EntryPoint extends JavaPlugin {
                 throw new RuntimeException(e);
             }
 
-            Bukkit.getScheduler().runTaskLater(this, infoHeadsPlugin::reload, 20L);
+            this.infoHeadsPlugin.getScheduler().schedule(infoHeadsPlugin::reload);
             return true;
         }
         return false;

@@ -5,7 +5,7 @@ plugins {
 group = "me.harry0198.infoheads"
 version = "1.0"
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 repositories {

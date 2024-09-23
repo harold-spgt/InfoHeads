@@ -2,7 +2,6 @@ package me.harry0198.infoheads.spigot.handler;
 
 import me.harry0198.infoheads.core.event.dispatcher.EventListener;
 import me.harry0198.infoheads.core.event.types.SendConsoleCommandEvent;
-import me.harry0198.infoheads.spigot.EntryPoint;
 import me.harry0198.infoheads.spigot.util.Scheduler;
 import org.bukkit.Bukkit;
 
