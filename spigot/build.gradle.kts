@@ -4,6 +4,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("se.solrike.sonarlint") version "2.1.0"
 }
 
 group = "me.harry0198.infoheads"
@@ -40,14 +41,19 @@ repositories {
     }
 }
 
-dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.1")
-    compileOnly("com.mojang:authlib:6.0.54")
+val spigotVersion = "1.21-R0.1-SNAPSHOT"
+val papiVersion = "2.11.1"
+val authLibVersion = "6.0.54"
+val annotationsVersion = "13.0"
+val bstatsVersion = "3.0.2"
 
-    implementation("org.jetbrains:annotations:13.0")
-    implementation("org.bstats:bstats-bukkit:3.0.2")
-    implementation("org.slf4j:slf4j-api:1.7.25")
+dependencies {
+    compileOnly("org.spigotmc:spigot-api:$spigotVersion")
+    compileOnly("me.clip:placeholderapi:$papiVersion")
+    compileOnly("com.mojang:authlib:$authLibVersion")
+
+    implementation("org.jetbrains:annotations:$annotationsVersion")
+    implementation("org.bstats:bstats-bukkit:$bstatsVersion")
 
 
     implementation(project(":core"))
