@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("se.solrike.sonarlint") version "2.1.0"
 }
 
 group = "me.harry0198.infoheads"
@@ -15,17 +16,33 @@ repositories {
     }
 }
 
+var junitVersion = "5.9.1"
+var gsonVersion = "2.11.0"
+var spigotVersion = "1.21-R0.1-SNAPSHOT"
+
+
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("com.google.code.gson:gson:2.11.0")
+    testImplementation("com.google.code.gson:gson:$gsonVersion")
     testImplementation(project(":core"))
-    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:$spigotVersion")
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    compileOnly("com.google.code.gson:gson:2.11.0")
+    compileOnly("com.google.code.gson:gson:$gsonVersion")
 
     implementation(project(":core"))
+}
+
+tasks.sonarlintMain {
+    dependencies {
+        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:7.30.1.34514")
+    }
+    reports {
+        create("xml") {
+            enabled.set(true)
+        }
+    }
 }
 
 tasks.test {

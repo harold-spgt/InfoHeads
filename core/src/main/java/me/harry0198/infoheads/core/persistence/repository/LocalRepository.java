@@ -11,11 +11,11 @@ import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 import java.io.*;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * On-disk repository for saving, fetching and deleting {@link T} data.
@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
  */
 public class LocalRepository<T extends Serializable & Identifiable> implements Repository<T> {
 
-    private final static String DATA_FILE_EXTENSION = ".dat";
-    private final static Logger LOGGER = LoggerFactory.getLogger();
+    private static final String DATA_FILE_EXTENSION = ".dat";
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private final Path repositoryFolder;
     private final Type type;
@@ -93,7 +93,7 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
 
             return null;
         }).filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -105,13 +105,15 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
     public boolean delete(T obj) {
         File propertyFile = getFileForProperty(obj);
         try {
-            return propertyFile.delete();
-        } catch (SecurityException securityException) {
+            Files.delete(propertyFile.toPath());
+        } catch (IOException ex) {
             LOGGER.warn("Unable to locally delete from disk InfoHead " + obj.getId());
-            LOGGER.debug("delete", securityException);
+            LOGGER.debug("delete", ex);
+
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public static String getDataFileExtension() {
