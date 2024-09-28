@@ -79,6 +79,17 @@ tasks.processResources {
     }
 }
 
+tasks.sonarlintMain {
+    dependencies {
+        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:7.30.1.34514")
+    }
+    reports {
+        create("xml") {
+            enabled.set(true)
+        }
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }

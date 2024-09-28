@@ -30,7 +30,17 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:$gsonVersion")
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
+}
 
+tasks.sonarlintMain {
+    dependencies {
+        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:7.30.1.34514")
+    }
+    reports {
+        create("xml") {
+            enabled.set(true)
+        }
+    }
 }
 
 tasks.test {
