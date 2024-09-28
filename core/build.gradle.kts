@@ -13,7 +13,7 @@ repositories {
     mavenCentral()
 }
 
-val junitVersion = "5.9.1"
+val junitVersion = "5.11.1"
 val mockitoVersion = "4.5.1"
 val snakeYamlVersion = "2.2"
 val gsonVersion = "2.11.0"
