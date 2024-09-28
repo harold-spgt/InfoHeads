@@ -45,7 +45,7 @@ val spigotVersion = "1.21-R0.1-SNAPSHOT"
 val papiVersion = "2.11.1"
 val authLibVersion = "6.0.54"
 val annotationsVersion = "13.0"
-val bstatsVersion = "3.0.2"
+val bstatsVersion = "3.1.0"
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:$spigotVersion")
