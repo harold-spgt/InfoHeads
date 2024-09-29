@@ -30,7 +30,7 @@ public abstract class InfoHeadsPlugin {
     private CommandHandler commandHandler;
     private ConfigurationService configurationService;
 
-    public InfoHeadsPlugin(Path workingDirectory) {
+    protected InfoHeadsPlugin(Path workingDirectory) {
         if (workingDirectory == null) throw new IllegalArgumentException("Working directory must not be null");
         this.workingDirectory = workingDirectory;
     }
