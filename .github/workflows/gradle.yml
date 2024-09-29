@@ -19,15 +19,10 @@ jobs:
         with:
           files: |
             build/test-results/test/*.xml
-      - name: Publish Core Sonarlint Results
+      - name: Publish Sonarlint Results
         uses: jwgmeligmeyling/spotbugs-github-action@v1.2
+        if: always()
         with:
           name: Sonarlint
           title: Sonarlint report
-          path: core/build/reports/sonarlint/*.xml
-      - name: Publish Spigot Sonarlint Results
-        uses: jwgmeligmeyling/spotbugs-github-action@v1.2
-        with:
-          name: Sonarlint
-          title: Sonarlint report
-          path: spigot/build/reports/sonarlint/*.xml
+          path: '**/build/reports/sonarlint/*.xml'
