@@ -11,16 +11,23 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: gradle
-      - run: ./gradlew build --no-daemon
+      - run: ./gradlew core:build --no-daemon
+      - run: ./gradlew spigot:build --no-daemon
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: |
             build/test-results/test/*.xml
-      - name: Publish Sonarlint Results
+      - name: Publish Core Sonarlint Results
         uses: jwgmeligmeyling/spotbugs-github-action@v1.2
         with:
           name: Sonarlint
           title: Sonarlint report
-          path: build/reports/sonarlint/*.xml
+          path: core/build/reports/sonarlint/*.xml
+      - name: Publish Spigot Sonarlint Results
+        uses: jwgmeligmeyling/spotbugs-github-action@v1.2
+        with:
+          name: Sonarlint
+          title: Sonarlint report
+          path: spigot/build/reports/sonarlint/*.xml
