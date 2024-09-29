@@ -11,7 +11,7 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: gradle
-      - run: ./gradlew build --no-daemon
+      - run: ./gradlew build --no-daemon --continue
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
@@ -20,7 +20,8 @@ jobs:
             build/test-results/test/*.xml
       - name: Publish Sonarlint Results
         uses: jwgmeligmeyling/spotbugs-github-action@v1.2
+        if: always()
         with:
           name: Sonarlint
           title: Sonarlint report
-          path: build/reports/sonarlint/*.xml
+          path: '**/build/reports/sonarlint/*.xml'
