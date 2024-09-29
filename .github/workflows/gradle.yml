@@ -11,8 +11,7 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: gradle
-      - run: ./gradlew core:build --no-daemon
-      - run: ./gradlew spigot:build --no-daemon
+      - run: ./gradlew build --no-daemon --continue
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
