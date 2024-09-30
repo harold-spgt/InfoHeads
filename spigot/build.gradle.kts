@@ -81,7 +81,7 @@ tasks.processResources {
 
 tasks.sonarlintMain {
     dependencies {
-        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:7.30.1.34514")
+        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:8.4.0.37032")
     }
     reports {
         create("xml") {
