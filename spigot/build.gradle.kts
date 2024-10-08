@@ -44,7 +44,7 @@ repositories {
 val spigotVersion = "1.21-R0.1-SNAPSHOT"
 val papiVersion = "2.11.1"
 val authLibVersion = "6.0.54"
-val annotationsVersion = "13.0"
+val annotationsVersion = "26.0.0"
 val bstatsVersion = "3.0.2"
 
 dependencies {
