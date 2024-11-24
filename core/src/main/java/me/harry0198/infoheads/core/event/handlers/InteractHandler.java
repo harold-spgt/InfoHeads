@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class InteractHandler {
@@ -57,7 +58,7 @@ public class InteractHandler {
         // Loops through elements
         Iterator<Element<?>> element = elements.iterator();
         long time = 0;
-        try (var executorService = Executors.newSingleThreadScheduledExecutor()) {
+        try (ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor()) {
             while (element.hasNext()) {
                 Element<?> el = element.next();
                 if (el.getType().equals(Element.InfoHeadType.DELAY))
