@@ -35,6 +35,7 @@ public class InteractHandler {
         this.placeholderHandlingStrategy = placeholderHandlingStrategy;
     }
 
+    @SuppressWarnings("squid:S2095")
     public void interactWithHead(OnlinePlayer player, Location interactedWithLocation, HandAction handAction) {
         if (handAction == HandAction.OFFHAND) return;
         if (!player.hasPermission(Constants.BASE_PERMISSION + "use")) return;

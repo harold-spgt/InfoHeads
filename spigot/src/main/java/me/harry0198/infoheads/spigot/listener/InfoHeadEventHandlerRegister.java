@@ -97,6 +97,7 @@ public class InfoHeadEventHandlerRegister {
         return permissionsMapping;
     }
 
+    @SuppressWarnings({"squid:S1874", "deprecation"})
     private EventListener<ShowInfoHeadListEvent> getShowInfoHeadListEvent() {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());

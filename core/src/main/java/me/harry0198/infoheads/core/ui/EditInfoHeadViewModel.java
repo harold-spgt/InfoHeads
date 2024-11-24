@@ -46,6 +46,7 @@ public class EditInfoHeadViewModel extends ViewModel {
      * Gets the elements that the InfoHead to edit consists of.
      * @return {@link LinkedList} of the elements the InfoHead consists of.
      */
+    @SuppressWarnings("squid:S1452")
     public SimpleProperty<List<Element<?>>> getElementsProperty() {
         return elementsProperty;
     }
