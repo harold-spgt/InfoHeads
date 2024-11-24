@@ -3,7 +3,6 @@ package me.harry0198.infoheads.core.ui;
 import me.harry0198.infoheads.core.elements.DelayElement;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
-import me.harry0198.infoheads.core.ui.TimePeriodViewModel;
 
 public class DelayViewModel extends TimePeriodViewModel {
 

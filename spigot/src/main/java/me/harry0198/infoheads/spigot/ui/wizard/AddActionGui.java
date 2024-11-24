@@ -49,11 +49,9 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
 
     private void bindings() {
         getViewModel().getShouldCloseProperty().addListener(listener -> {
-            if (listener.getNewValue() instanceof Boolean shouldClose) {
-                if (shouldClose) {
-                    for (HumanEntity viewer : new ArrayList<>(getInventory().getViewers())) {
-                        close(viewer);
-                    }
+            if (listener.getNewValue() instanceof Boolean shouldClose && shouldClose) {
+                for (HumanEntity viewer : new ArrayList<>(getInventory().getViewers())) {
+                    close(viewer);
                 }
             }
         });

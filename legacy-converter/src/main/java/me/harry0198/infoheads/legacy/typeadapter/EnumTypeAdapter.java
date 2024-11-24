@@ -35,7 +35,7 @@ public final class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> {
         }
     }
 
-    public static <TT> TypeAdapterFactory newEnumTypeHierarchyFactory() {
+    public static TypeAdapterFactory newEnumTypeHierarchyFactory() {
         return new TypeAdapterFactory() {
             @SuppressWarnings({"unchecked"})
             public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {

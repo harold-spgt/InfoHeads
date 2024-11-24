@@ -17,6 +17,7 @@ import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.SimpleProperty;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class EditInfoHeadViewModel extends ViewModel {
@@ -27,7 +28,7 @@ public class EditInfoHeadViewModel extends ViewModel {
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
     private final SimpleProperty<Boolean> isOneTimeUseProperty;
-    private final SimpleProperty<LinkedList<Element<?>>> elementsProperty;
+    private final SimpleProperty<List<Element<?>>> elementsProperty;
 
     public EditInfoHeadViewModel(EventDispatcher eventDispatcher, InfoHeadService infoHeadService, InfoHeadProperties infoHeadConfiguration, LocalizedMessageService localizedMessageService) {
         super(eventDispatcher);
@@ -37,7 +38,7 @@ public class EditInfoHeadViewModel extends ViewModel {
         this.elementsProperty = new SimpleProperty<>(infoHeadConfiguration.getElements());
         this.isOneTimeUseProperty = new SimpleProperty<>(infoHeadConfiguration.isOneTimeUse());
 
-        this.elementsProperty.addListener(change -> configuration.setElements((LinkedList<Element<?>>) change.getNewValue()));
+        this.elementsProperty.addListener(change -> configuration.setElements((List<Element<?>>) change.getNewValue()));
         this.isOneTimeUseProperty.addListener(change -> configuration.setOneTimeUse((boolean) change.getNewValue()));
     }
 
@@ -45,7 +46,7 @@ public class EditInfoHeadViewModel extends ViewModel {
      * Gets the elements that the InfoHead to edit consists of.
      * @return {@link LinkedList} of the elements the InfoHead consists of.
      */
-    public SimpleProperty<LinkedList<Element<?>>> getElementsProperty() {
+    public SimpleProperty<List<Element<?>>> getElementsProperty() {
         return elementsProperty;
     }
 
@@ -54,8 +55,8 @@ public class EditInfoHeadViewModel extends ViewModel {
     }
 
     public void save(OnlinePlayer onlinePlayer) {
-        infoHeadService.saveInfoHeadToRepository(configuration).exceptionally(ex -> false).thenAccept((success) -> {
-            if (!success) {
+        infoHeadService.saveInfoHeadToRepository(configuration).exceptionally(ex -> false).thenAccept(success -> {
+            if (Boolean.FALSE.equals(success)) {
                 getEventDispatcher().dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.SAVE_FAILED)));
             }
         });
@@ -95,19 +96,18 @@ public class EditInfoHeadViewModel extends ViewModel {
     }
 
     public void deleteElement(Element<?> element) {
-        LinkedList<Element<?>> elements = elementsProperty.getValue();
-        LinkedList<Element<?>> newElements = new LinkedList<>(elements);
+        List<Element<?>> elements = elementsProperty.getValue();
+        List<Element<?>> newElements = new LinkedList<>(elements);
         newElements.remove(element);
         elementsProperty.setValue(newElements);
     }
 
     public void shiftOrderLeft(Element<?> element) {
         LOGGER.fine("Shifting Order for element " + element.getType() + " left.");
-        LinkedList<Element<?>> elements = elementsProperty.getValue();
+        List<Element<?>> elements = elementsProperty.getValue();
         LinkedList<Element<?>> newElements = new LinkedList<>(elements);
 
         int currentIndex = newElements.indexOf(element);
-        LOGGER.fine("Element index: " + currentIndex);
 
         // if element does not exist or is first in sequence, do nothing.
         if (currentIndex == -1 || currentIndex == 0) return;
@@ -115,11 +115,10 @@ public class EditInfoHeadViewModel extends ViewModel {
         newElements.remove(element);
         newElements.add(currentIndex - 1, element);
         elementsProperty.setValue(newElements);
-        LOGGER.fine("Element shifted.");
     }
 
     public void shiftOrderRight(Element<?> element) {
-        LinkedList<Element<?>> elements = elementsProperty.getValue();
+        List<Element<?>> elements = elementsProperty.getValue();
         LinkedList<Element<?>> newElements = new LinkedList<>(elements);
 
         int currentIndex = newElements.indexOf(element);
@@ -136,8 +135,9 @@ public class EditInfoHeadViewModel extends ViewModel {
      * Gets the progression snake for the gui. Consists of a constant zigzag shape. (lrl)
      * @return A {@link LinkedList} with the progression snake for the gui.
      */
-    public LinkedList<GuiSlot> getProgressionSlots(int maxCols) {
-        LinkedList<GuiSlot> progressionSlots = new LinkedList<>();
+    @SuppressWarnings("java:S135")
+    public List<GuiSlot> getProgressionSlots(int maxCols) {
+        var progressionSlots = new LinkedList<GuiSlot>();
 
         if (maxCols < 1) return progressionSlots;  // Handle edge cases
 

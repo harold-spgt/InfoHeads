@@ -8,6 +8,8 @@ import java.lang.reflect.Type;
 
 public class LocationTypeAdapter implements JsonSerializer<Location>, JsonDeserializer<Location> {
 
+    private static final String WORLD_PROPERTY = "world";
+
     @Override
     public JsonElement serialize(Location location, Type type, JsonSerializationContext jsonSerializationContext) {
         JsonObject object = new JsonObject();
@@ -15,10 +17,9 @@ public class LocationTypeAdapter implements JsonSerializer<Location>, JsonDeseri
             object.add("x", new JsonPrimitive(location.getX()));
             object.add("y", new JsonPrimitive(location.getY()));
             object.add("z", new JsonPrimitive(location.getZ()));
-            object.add("world", new JsonPrimitive(location.getWorld() == null ? "world" : location.getWorld().getName()));
+            object.add(WORLD_PROPERTY, new JsonPrimitive(location.getWorld() == null ? WORLD_PROPERTY : location.getWorld().getName()));
             return object;
         } catch (Exception ex) {
-            ex.printStackTrace();
             return object;
         }
     }
@@ -29,12 +30,11 @@ public class LocationTypeAdapter implements JsonSerializer<Location>, JsonDeseri
         JsonObject object = jsonElement.getAsJsonObject();
         try {
 
-            return new Location(Bukkit.getWorld(object.get("world").getAsString()),
+            return new Location(Bukkit.getWorld(object.get(WORLD_PROPERTY).getAsString()),
                     object.get("x").getAsDouble(),
                     object.get("y").getAsDouble(),
                     object.get("z").getAsDouble());
         } catch (Exception ex) {
-            ex.printStackTrace();
             return null;
         }
 

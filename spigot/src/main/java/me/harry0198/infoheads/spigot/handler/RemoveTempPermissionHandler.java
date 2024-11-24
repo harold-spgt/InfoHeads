@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Event handler for {@link RemoveTempPlayerPermissionEvent}.
@@ -15,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class RemoveTempPermissionHandler implements EventListener<RemoveTempPlayerPermissionEvent> {
 
-    private final ConcurrentHashMap<UUID, PermissionAttachment> permissionsData;
+    private final ConcurrentMap<UUID, PermissionAttachment> permissionsData;
 
-    public RemoveTempPermissionHandler(ConcurrentHashMap<UUID, PermissionAttachment> permissionsData) {
+    public RemoveTempPermissionHandler(ConcurrentMap<UUID, PermissionAttachment> permissionsData) {
         this.permissionsData = permissionsData;
     }
 

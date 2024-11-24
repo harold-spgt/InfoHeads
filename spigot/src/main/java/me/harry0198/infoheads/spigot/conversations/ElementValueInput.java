@@ -71,6 +71,9 @@ public final class ElementValueInput extends StringPrompt {
             case RENAME:
                 configuration.setName(input);
                 break;
+
+            default:
+                // do nothing.
         }
 
         eventDispatcher.dispatchEvent(new OpenMenuMenuEvent(configuration, new BukkitOnlinePlayer((Player) context.getForWhom())));

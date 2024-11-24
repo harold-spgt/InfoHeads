@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class BreakHandler {
 
-    private final static Logger LOGGER = Logger.getLogger(BreakHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BreakHandler.class.getName());
     private final InfoHeadService infoHeadService;
     private final LocalizedMessageService localizedMessageService;
     private final EventDispatcher eventDispatcher;
@@ -48,8 +48,8 @@ public class BreakHandler {
                     LOGGER.throwing(BreakHandler.class.getName(), "handle", e);
                     return false; // Fatally failed to save.
                 }).thenAccept(x -> {
-                    LOGGER.log(Level.FINE, "InfoHead break delete stage completed with " + x);
-                    if (!x) {
+                    LOGGER.log(Level.FINE, "InfoHead break delete stage completed with {0}", x);
+                    if (Boolean.FALSE.equals(x)) {
                         eventDispatcher.dispatchEvent(new SendPlayerCommandEvent(player, localizedMessageService.getMessage(BundleMessages.FAILED_TO_REMOVE)));
                     }
                 });

@@ -16,10 +16,6 @@ public class PlayerPermissionElement extends Element<String> implements Serializ
         this.permission = permission;
     }
 
-    public String getPermission() {
-        return permission;
-    }
-
     public void setPermission(String permission) {
         this.permission = permission;
     }

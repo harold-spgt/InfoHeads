@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class InteractHandler {
@@ -58,42 +57,38 @@ public class InteractHandler {
         // Loops through elements
         Iterator<Element<?>> element = elements.iterator();
         long time = 0;
-        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        try (var executorService = Executors.newSingleThreadScheduledExecutor()) {
+            while (element.hasNext()) {
+                Element<?> el = element.next();
+                if (el.getType().equals(Element.InfoHeadType.DELAY))
+                    time = time + ((TimePeriod) el.getContent()).toSeconds();
 
-        while (element.hasNext()) {
-            Element<?> el = element.next();
-            if (el.getType().equals(Element.InfoHeadType.DELAY))
-                time = time + ((TimePeriod) el.getContent()).toSeconds();
+                // Schedule task later (after delay). This snippet prevents holding a thread while waiting for delay.
+                executorService.schedule(() -> {
+                    if (player.isOnline()) {
+                        el.performAction(eventDispatcher, placeholderHandlingStrategy, player);
+                    }
+                }, time, TimeUnit.SECONDS);
+            }
 
-            // Schedule task later (after delay). This snippet prevents holding a thread while waiting for delay.
-            executorService.schedule(() -> {
-                if (player.isOnline()) {
-                    el.performAction(eventDispatcher, placeholderHandlingStrategy, player);
-                }
-            }, time, TimeUnit.SECONDS);
+            executorService.schedule(() -> elements.stream()
+                .filter(PlayerPermissionElement.class::isInstance)
+                .forEach(x -> eventDispatcher.dispatchEvent(new RemoveTempPlayerPermissionEvent(player, ((PlayerPermissionElement) x).getContent())))
+            , time, TimeUnit.SECONDS);
+
+            // Set cool down and mark as executed.
+            infoHeadProperties.setUserCoolDown(player);
+            infoHeadProperties.setUserExecuted(player);
         }
-
-        executorService.schedule(() -> {
-            // Remove temporary permissions.
-            elements.stream()
-                    .filter(x -> x instanceof PlayerPermissionElement)
-                    .forEach(x -> eventDispatcher.dispatchEvent(new RemoveTempPlayerPermissionEvent(player, ((PlayerPermissionElement) x).getPermission())));
-
-        }, time, TimeUnit.SECONDS);
-
-        // Set cool down and mark as executed.
-        infoHeadProperties.setUserCoolDown(player);
-        infoHeadProperties.setUserExecuted(player);
     }
 
     private boolean canUse(OnlinePlayer onlinePlayer, InfoHeadProperties infoHeadProperties) {
                 // Checks if player has infohead specific perms
         String permission = infoHeadProperties.getPermission();
-        if (permission != null)
-            if (!onlinePlayer.hasPermission(permission)) {
-                eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.NO_PERMISSION)));
-                return false;
-            }
+        if (permission != null && !onlinePlayer.hasPermission(permission)) {
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.NO_PERMISSION)));
+            return false;
+        }
 
         // Checks if player is on cooldown
         if (infoHeadProperties.isOnCoolDown(onlinePlayer)) {

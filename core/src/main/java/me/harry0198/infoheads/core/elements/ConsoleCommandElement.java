@@ -17,14 +17,6 @@ public final class ConsoleCommandElement extends Element<String> implements Seri
     }
 
     /**
-     * Gets command in String form
-     * @return Command
-     */
-    public String getCommand() {
-        return command;
-    }
-
-    /**
      * Sets the command
      * @param command Command to set without /
      */

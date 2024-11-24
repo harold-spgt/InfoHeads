@@ -17,13 +17,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
 
-    private final static GuiSlot WEEKS_SLOT = new GuiSlot(2,3);
-    private final static GuiSlot DAYS_SLOT = new GuiSlot(2,4);
-    private final static GuiSlot HOURS_SLOT = new GuiSlot(2,5);
-    private final static GuiSlot MINUTES_SLOT = new GuiSlot(2,6);
-    private final static GuiSlot SECONDS_SLOT = new GuiSlot(2,7);
-    private final static GuiSlot PREV_PAGE_SLOT = new GuiSlot(5,5);
-    private final static GuiSlot COMPLETE_SLOT = new GuiSlot(5,9);
+    private static final GuiSlot WEEKS_SLOT = new GuiSlot(2,3);
+    private static final GuiSlot DAYS_SLOT = new GuiSlot(2,4);
+    private static final GuiSlot HOURS_SLOT = new GuiSlot(2,5);
+    private static final GuiSlot MINUTES_SLOT = new GuiSlot(2,6);
+    private static final GuiSlot SECONDS_SLOT = new GuiSlot(2,7);
+    private static final GuiSlot PREV_PAGE_SLOT = new GuiSlot(5,5);
+    private static final GuiSlot COMPLETE_SLOT = new GuiSlot(5,9);
     private final TimePeriodViewModel viewModel;
     private final LocalizedMessageService localizedMessageService;
 

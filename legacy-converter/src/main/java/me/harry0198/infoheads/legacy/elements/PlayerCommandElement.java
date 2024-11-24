@@ -1,6 +1,6 @@
 package me.harry0198.infoheads.legacy.elements;
 
-public class PlayerCommandElement extends Element {
+public class PlayerCommandElement implements Element {
     private String command;
 
     public String getCommand() {

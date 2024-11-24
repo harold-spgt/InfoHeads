@@ -4,15 +4,15 @@ import java.util.Objects;
 
 public final class LoggerFactory {
 
-    private static Logger LOGGER;
+    private static Logger logger;
 
     private LoggerFactory() {}
 
-    public static void setLogger(Logger Logger) {
-        LOGGER = Logger;
+    public static void setLogger(Logger log) {
+        logger = log;
     }
 
     public static Logger getLogger() {
-        return Objects.requireNonNullElseGet(LOGGER, DefaultLogger::new);
+        return Objects.requireNonNullElseGet(logger, DefaultLogger::new);
     }
 }

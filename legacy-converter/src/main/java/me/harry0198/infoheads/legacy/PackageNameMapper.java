@@ -14,6 +14,8 @@ public class PackageNameMapper {
         packageMapping.put("com.haroldstudios.infoheads.elements.PlayerPermissionElement", "me.harry0198.infoheads.legacy.elements.PlayerPermissionElement");
     }
 
+    private PackageNameMapper() {}
+
     public static String getNewType(String oldType) {
         return packageMapping.getOrDefault(oldType, oldType);
     }

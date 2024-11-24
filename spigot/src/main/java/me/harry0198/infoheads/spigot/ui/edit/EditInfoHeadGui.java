@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -31,9 +30,7 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
         this.localizedMessageService = localizedMessageService;
 
         setDefaultClickAction(event -> event.setCancelled(true));
-        setCloseAction(event -> {
-            viewModel.save(new BukkitOnlinePlayer((Player) event.getPlayer()));
-        });
+        setCloseAction(event -> viewModel.save(new BukkitOnlinePlayer((Player) event.getPlayer())));
 
         populate();
     }
@@ -58,11 +55,11 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
 
         // One time use
         insert(ONE_TIME_USE_SLOT, onceItem());
-        getViewModel().getIsOneTimeUseProperty().addListener((listener) -> insert(ONE_TIME_USE_SLOT, onceItem()));
+        getViewModel().getIsOneTimeUseProperty().addListener(listener -> insert(ONE_TIME_USE_SLOT, onceItem()));
 
         // Progression path
         populateProgressionSlots(getViewModel().getElementsProperty().getValue());
-        getViewModel().getElementsProperty().addListener(event -> populateProgressionSlots((LinkedList<Element<?>>) event.getNewValue()));
+        getViewModel().getElementsProperty().addListener(event -> populateProgressionSlots((List<Element<?>>) event.getNewValue()));
     }
 
     private GuiItem getCloseGuiItem() {
@@ -117,8 +114,9 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
                 event -> getViewModel().permissionToUse(new BukkitOnlinePlayer((Player) event.getWhoClicked())));
     }
 
-    private void populateProgressionSlots(LinkedList<Element<?>> elements) {
-        LinkedList<GuiSlot> progressionSlots = getViewModel().getProgressionSlots(9);
+    @SuppressWarnings("java:S135")
+    private void populateProgressionSlots(List<Element<?>> elements) {
+        List<GuiSlot> progressionSlots = getViewModel().getProgressionSlots(9);
 
         ListIterator<GuiSlot> progressionSlotIterator = progressionSlots.listIterator();
         ListIterator<Element<?>> elementListIterator = elements.listIterator();
@@ -153,11 +151,11 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
                     case DELAY -> localizedMessageService.getMessage(BundleMessages.UI_DELAY_ELEMENT);
                 };
                 String content = "&7- &b" + switch (element.getType()) {
-                    case MESSAGE -> ((MessageElement) element).getMessage();
-                    case CONSOLE_COMMAND -> ((ConsoleCommandElement) element).getCommand();
-                    case PLAYER_COMMAND -> ((PlayerCommandElement) element).getCommand();
-                    case PLAYER_PERMISSION -> ((PlayerPermissionElement) element).getPermission();
-                    case DELAY -> localizedMessageService.getTimeMessage(((DelayElement) element).getDelay().toMs(), BundleMessages.UI_FORMAT_TIME);
+                    case MESSAGE -> ((MessageElement) element).getContent();
+                    case CONSOLE_COMMAND -> ((ConsoleCommandElement) element).getContent();
+                    case PLAYER_COMMAND -> ((PlayerCommandElement) element).getContent();
+                    case PLAYER_PERMISSION -> ((PlayerPermissionElement) element).getContent();
+                    case DELAY -> localizedMessageService.getTimeMessage(((DelayElement) element).getContent().toMs(), BundleMessages.UI_FORMAT_TIME);
                 };
 
                 List<String> lore = new ArrayList<>();
@@ -170,6 +168,9 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
                         case RIGHT -> getViewModel().deleteElement(element);
                         case SHIFT_LEFT -> getViewModel().shiftOrderLeft(element);
                         case SHIFT_RIGHT -> getViewModel().shiftOrderRight(element);
+                        default -> {
+                            // Do nothing.
+                        }
                     }
                 }));
                 continue;

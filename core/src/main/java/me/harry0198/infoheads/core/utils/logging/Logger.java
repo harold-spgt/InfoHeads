@@ -4,6 +4,7 @@ public interface Logger {
 
     void info(String msg);
     void warn(String msg);
+    void warn(String msg, Throwable e);
     void debug(String msg);
     void debug(String msg, Throwable e);
     void trace(String msg);

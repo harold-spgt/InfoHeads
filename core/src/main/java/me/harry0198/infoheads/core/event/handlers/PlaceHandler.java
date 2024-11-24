@@ -65,8 +65,8 @@ public class PlaceHandler {
                     LOGGER.throwing(PlaceHandler.class.getName(), "placeHead", e);
                     return false; // Fatally failed to save.
                 }).thenAccept(x -> {
-                    LOGGER.log(Level.FINE, "InfoHead placement add stage completed with " + x);
-                    if (x) {
+                    LOGGER.log(Level.FINE, "InfoHead placement add stage completed with {0}", x);
+                    if (Boolean.TRUE.equals(x)) {
                         eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.INFOHEAD_ADDED)));
                         eventDispatcher.dispatchEvent(new OpenMenuMenuEvent(infoHeadProperties, player));
                     } else {

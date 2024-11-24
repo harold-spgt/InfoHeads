@@ -50,8 +50,9 @@ public abstract class InfoHeadsPlugin {
     public void onEnable() {
         load();
 
-        if (this.configurationService.getConfiguration().isPresent()) {
-            if (this.configurationService.getConfiguration().get().isCheckForUpdate()) {
+        var configurationOptional = this.configurationService.getConfiguration();
+        if (configurationOptional.isPresent()) {
+            if (configurationOptional.get().isCheckForUpdate()) {
                 runUpdateNotifier();
             }
         } else {
@@ -76,7 +77,7 @@ public abstract class InfoHeadsPlugin {
 
         // Reloading / Loading is a synchronous task, we could have mismatched DI if we do this off thread... so join.
         this.configurationService.getConfigInitializationProcedure().join();
-        this.configurationService.getConfiguration().ifPresent((config) -> LoggerFactory.getLogger().setLevel(config.getLoggingLevel()));
+        this.configurationService.getConfiguration().ifPresent(config -> LoggerFactory.getLogger().setLevel(config.getLoggingLevel()));
         this.userStateService = new UserStateService();
         Repository<InfoHeadProperties> repository = RepositoryFactory.getRepository(workingDirectory);
 

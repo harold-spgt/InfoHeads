@@ -17,7 +17,7 @@ public class InventoryGuiListener implements Listener {
     @EventHandler
     public void onGuiClick(final InventoryClickEvent event) {
         // Check inventory is "ours"
-        if (!(event.getInventory().getHolder() instanceof InventoryGui gui)) return;
+        if (!(event.getInventory().getHolder() instanceof InventoryGui<?> gui)) return;
 
         // If a default click action was defined, run it.
         Consumer<InventoryClickEvent> defaultClickAction = gui.getDefaultClickAction();
@@ -31,7 +31,7 @@ public class InventoryGuiListener implements Listener {
     @EventHandler
     public void onGuiClose(final InventoryCloseEvent event) {
         // Check inventory is "ours"
-        if (!(event.getInventory().getHolder() instanceof InventoryGui gui)) return;
+        if (!(event.getInventory().getHolder() instanceof InventoryGui<?> gui)) return;
 
         Consumer<InventoryCloseEvent> closeEventConsumer = gui.getCloseAction();
         if (closeEventConsumer != null) {
