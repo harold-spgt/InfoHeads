@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> {
-
     public static final TypeAdapterFactory ENUM_FACTORY = newEnumTypeHierarchyFactory();
     private final Map<String, T> nameToConstant = new HashMap<>();
     private final Map<T, String> constantToName = new HashMap<>();
@@ -35,6 +34,7 @@ public final class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> {
         }
     }
 
+    @SuppressWarnings({"squid:S1905", "squid:S3740"})
     public static TypeAdapterFactory newEnumTypeHierarchyFactory() {
         return new TypeAdapterFactory() {
             @SuppressWarnings({"unchecked"})

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+@SuppressWarnings("squid:S6548")
 public class EventDispatcher {
     private static final Logger LOGGER = Logger.getLogger(EventDispatcher.class.getName());
     private static EventDispatcher instance;

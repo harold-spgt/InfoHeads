@@ -41,6 +41,7 @@ public class RemoveCmdExecutor extends CmdExecutor {
      * @param sender the {@link OnlinePlayer} executing the command, expected to be a {@code Player}
      * @return {@code true} if the command was successfully executed, otherwise {@code false}
      */
+    @SuppressWarnings("squid:S3516")
     @Override
     public boolean executeCmd(OnlinePlayer sender) {
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(sender.getLookingAt().orElse(null));

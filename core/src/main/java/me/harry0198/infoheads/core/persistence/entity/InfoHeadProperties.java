@@ -136,6 +136,7 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
         elements.add(element);
     }
 
+    @SuppressWarnings("squid:S1452")
     public List<Element<?>> getElements() {
         return elements;
     }

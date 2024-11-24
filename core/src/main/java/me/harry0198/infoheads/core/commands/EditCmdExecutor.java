@@ -41,6 +41,7 @@ public class EditCmdExecutor extends CmdExecutor {
      * @param player the {@link OnlinePlayer} executing the command.
      * @return {@code true} if the command was successfully executed, otherwise {@code false}
      */
+    @SuppressWarnings("squid:S3516")
     @Override
     public boolean executeCmd(OnlinePlayer player) {
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(player.getLookingAt().orElse(null));

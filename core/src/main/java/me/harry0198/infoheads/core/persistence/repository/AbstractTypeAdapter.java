@@ -32,8 +32,7 @@ public class AbstractTypeAdapter<T>
     private Type typeForName(final JsonElement typeElem) {
         try {
             return Class.forName(typeElem.getAsString());
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new JsonParseException(e);
         }
     }
