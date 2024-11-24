@@ -33,7 +33,7 @@ repositories {
     }
 
     maven {
-        url = uri("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+        url = uri("https://repo.helpch.at/releases")
     }
 
     maven {
@@ -42,7 +42,7 @@ repositories {
 }
 
 val spigotVersion = "1.21-R0.1-SNAPSHOT"
-val papiVersion = "2.11.1"
+val papiVersion = "2.11.6"
 val authLibVersion = "6.0.54"
 val annotationsVersion = "13.0"
 val bstatsVersion = "3.0.2"

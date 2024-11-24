@@ -69,6 +69,6 @@ class LocalRepositoryIntegrationTest {
         Assertions.assertEquals(timePeriod, deserialized.getCoolDown());
         Assertions.assertEquals(oneTimeUse, deserialized.isOneTimeUse());
         Assertions.assertEquals(1, deserialized.getElements().size());
-        Assertions.assertEquals(messageElement.getMessage(), ((MessageElement) deserialized.getElements().get(0)).getMessage());
+        Assertions.assertEquals(messageElement.getContent(), ((MessageElement) deserialized.getElements().get(0)).getContent());
     }
 }
