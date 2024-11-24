@@ -21,7 +21,7 @@ public class SendConsoleCommandHandler implements EventListener<SendConsoleComma
      */
     @Override
     public void onEvent(SendConsoleCommandEvent event) {
-        LOGGER.log(Level.FINE, "Dispatching command " + event.getCommand());
+        LOGGER.log(Level.FINE, "Dispatching command {0}", event.getCommand());
         Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () ->
             Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), event.getCommand()));
     }

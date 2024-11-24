@@ -20,7 +20,7 @@ public abstract class CmdExecutor {
     private final LocalizedMessageService localizedMessageService;
     private final EventDispatcher eventDispatcher;
 
-    public CmdExecutor(LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher, String permission) {
+    protected CmdExecutor(LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher, String permission) {
         this.permission = permission;
         this.eventDispatcher = eventDispatcher;
         this.localizedMessageService = localizedMessageService;

@@ -46,14 +46,6 @@ public final class DelayElement extends Element<TimePeriod> implements Serializa
         this.delayInSecs = delay;
     }
 
-    /**
-     * Gets the delay of element
-     * @return Delay of element
-     */
-    public TimePeriod getDelay() {
-        return delayInSecs;
-    }
-
     @Override
     public void performAction(EventDispatcher eventDispatcher, PlaceholderHandlingStrategy placeholderHandlingStrategy, OnlinePlayer player) {
         // Not needed - handled on interact

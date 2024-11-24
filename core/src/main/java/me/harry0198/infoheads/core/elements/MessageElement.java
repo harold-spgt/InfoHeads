@@ -27,14 +27,6 @@ public final class MessageElement extends Element<String> implements Serializabl
         this.message = message;
     }
 
-    /**
-     * Gets the message of element
-     * @return Message of element
-     */
-    public String getMessage() {
-        return message;
-    }
-
     @Override
     public void performAction(EventDispatcher eventDispatcher, PlaceholderHandlingStrategy placeholderHandlingStrategy, OnlinePlayer player) {
         if (message == null) return;

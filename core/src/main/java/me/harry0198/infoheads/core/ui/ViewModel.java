@@ -8,7 +8,7 @@ public abstract class ViewModel {
     private final SimpleProperty<Boolean> shouldCloseProperty;
     private final EventDispatcher eventDispatcher;
 
-    public ViewModel(EventDispatcher eventDispatcher) {
+    protected ViewModel(EventDispatcher eventDispatcher) {
         this.shouldCloseProperty = new SimpleProperty<>(false);
         this.eventDispatcher = eventDispatcher;
     }

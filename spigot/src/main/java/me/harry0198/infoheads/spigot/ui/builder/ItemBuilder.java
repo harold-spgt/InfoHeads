@@ -3,13 +3,10 @@ package me.harry0198.infoheads.spigot.ui.builder;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import me.harry0198.infoheads.core.utils.logging.Logger;
 import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -19,9 +16,9 @@ import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
@@ -132,8 +129,8 @@ public class ItemBuilder {
         final PlayerTextures textures = profile.getTextures();
 
         try {
-            textures.setSkin(new URL(textureUrl));
-        } catch (MalformedURLException e) {
+            textures.setSkin(new URI(textureUrl).toURL());
+        } catch (MalformedURLException | URISyntaxException e) {
             LOGGER.debug("Failed to texture", e);
             return this;
         }

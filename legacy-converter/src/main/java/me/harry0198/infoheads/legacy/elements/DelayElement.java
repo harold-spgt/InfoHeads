@@ -1,6 +1,6 @@
 package me.harry0198.infoheads.legacy.elements;
 
-public class DelayElement extends Element {
+public class DelayElement implements Element {
     private int delayInSecs;
 
     public int getDelayInSecs() {

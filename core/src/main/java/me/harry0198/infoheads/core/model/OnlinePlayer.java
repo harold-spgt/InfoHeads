@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public abstract class OnlinePlayer extends Player {
-    public OnlinePlayer(UUID uid, String username) {
+    protected OnlinePlayer(UUID uid, String username) {
         super(uid, username);
     }
     public abstract Optional<Location> getLookingAt();

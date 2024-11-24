@@ -1,6 +1,6 @@
 package me.harry0198.infoheads.legacy.elements;
 
-public class PlayerPermissionElement extends Element {
+public class PlayerPermissionElement implements Element {
 
     private String permission;
 

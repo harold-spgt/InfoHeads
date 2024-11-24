@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class BukkitEventListener implements Listener {
 
@@ -86,7 +85,7 @@ public class BukkitEventListener implements Listener {
         List<String> permissions = new ArrayList<>();
         if (permissionAttachment != null) {
             permissionAttachment.getPermissions().forEach((perm, bool) -> {
-                if (!bool) return;
+                if (Boolean.FALSE.equals(bool)) return;
 
                 permissions.add(perm);
             });

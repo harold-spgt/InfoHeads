@@ -67,11 +67,14 @@ public final class EntryPoint extends JavaPlugin {
                 CompletableFuture<Void> all = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
                 all.thenRun(() -> {
                     Path renameDataStore = Paths.get(this.getDataFolder().getAbsolutePath(), "datastore-old.json");
-                    legacyDataStore.toFile().renameTo(renameDataStore.toFile());
+                    if (!legacyDataStore.toFile().renameTo(renameDataStore.toFile())) {
+                        getLogger().warning("Could not rename legacy data store file to new.");
+                    }
                 });
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                getLogger().severe("Unable to perform legacy data store conversion. Cannot bring legacy to current version.");
+                return false;
             }
 
             Bukkit.getScheduler().runTaskLater(this, infoHeadsPlugin::reload, 20L);

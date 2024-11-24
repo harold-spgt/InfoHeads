@@ -39,7 +39,7 @@ public class ConfigurationService {
             try {
                 Files.createDirectories(workingDirectory);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                LOGGER.warn("Could not create working directory for configurations at " + workingDirectory, e);
             }
 
             // Defaults:
@@ -47,7 +47,7 @@ public class ConfigurationService {
             this.configInitializeProc = write(configuration, configurationFile);
             return;
         }
-        this.configInitializeProc = read(configurationFile).thenAccept((config) -> config.ifPresent(value -> this.configuration = value));
+        this.configInitializeProc = read(configurationFile).thenAccept(config -> config.ifPresent(value -> this.configuration = value));
     }
 
     public CompletableFuture<Void> getConfigInitializationProcedure() {
@@ -55,9 +55,7 @@ public class ConfigurationService {
     }
 
     public CompletableFuture<Void> write(Configuration configuration, File file) {
-        return CompletableFuture.runAsync(() -> {
-            try (FileWriter fileWriter = new FileWriter(file)) {
-                fileWriter.write("""
+        var configHeader = """
                         ########################################################
                         #                     InfoHeads                        #
                         # - Authors: Harry0198, Lorenzo0111                    #
@@ -72,7 +70,11 @@ public class ConfigurationService {
                         # Configuration explanation:
                         # checkForUpdate = If true, enables checking for the latest update on startup.
                         # configVer = Version of generated configuration. (Probably don't touch this).
-                        """);
+                        """;
+
+        return CompletableFuture.runAsync(() -> {
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(configHeader);
                 yaml.dump(configuration, fileWriter);
             } catch (IOException io) {
                 LOGGER.warn("Unable to write to file: " + file.getName());
@@ -83,9 +85,9 @@ public class ConfigurationService {
 
     public CompletableFuture<Optional<Configuration>> read(File file) {
         return CompletableFuture.supplyAsync(() -> {
-            Yaml yaml = new Yaml(new Constructor(Configuration.class, new LoaderOptions()));
+            var yamlLoader = new Yaml(new Constructor(Configuration.class, new LoaderOptions()));
             try (InputStream inputStream = new FileInputStream(file)) {
-                return Optional.ofNullable(yaml.load(inputStream));
+                return Optional.ofNullable(yamlLoader.load(inputStream));
             } catch (IOException io) {
                 LOGGER.warn("Unable to read file: " + file.getName());
                 LOGGER.debug("File read IO error", io);

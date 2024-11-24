@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public class BukkitCmdExecutor implements CommandExecutor {
 
-    private final static String DEFAULT_CMD_STRING = "default";
+    private static final String DEFAULT_CMD_STRING = "default";
     private final CommandHandler commandHandler;
 
     /**

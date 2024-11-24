@@ -1,6 +1,6 @@
 package me.harry0198.infoheads.legacy.elements;
 
-public class MessageElement extends Element {
+public class MessageElement implements Element {
     private String message;
 
     public String getMessage() {

@@ -59,7 +59,6 @@ public class InteractHandler {
         Iterator<Element<?>> element = elements.iterator();
         long time = 0;
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-
         while (element.hasNext()) {
             Element<?> el = element.next();
             if (el.getType().equals(Element.InfoHeadType.DELAY))
@@ -73,13 +72,10 @@ public class InteractHandler {
             }, time, TimeUnit.SECONDS);
         }
 
-        executorService.schedule(() -> {
-            // Remove temporary permissions.
-            elements.stream()
-                    .filter(x -> x instanceof PlayerPermissionElement)
-                    .forEach(x -> eventDispatcher.dispatchEvent(new RemoveTempPlayerPermissionEvent(player, ((PlayerPermissionElement) x).getPermission())));
-
-        }, time, TimeUnit.SECONDS);
+        executorService.schedule(() -> elements.stream()
+                        .filter(PlayerPermissionElement.class::isInstance)
+                        .forEach(x -> eventDispatcher.dispatchEvent(new RemoveTempPlayerPermissionEvent(player, ((PlayerPermissionElement) x).getContent())))
+                , time, TimeUnit.SECONDS);
 
         // Set cool down and mark as executed.
         infoHeadProperties.setUserCoolDown(player);
@@ -89,11 +85,10 @@ public class InteractHandler {
     private boolean canUse(OnlinePlayer onlinePlayer, InfoHeadProperties infoHeadProperties) {
                 // Checks if player has infohead specific perms
         String permission = infoHeadProperties.getPermission();
-        if (permission != null)
-            if (!onlinePlayer.hasPermission(permission)) {
-                eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.NO_PERMISSION)));
-                return false;
-            }
+        if (permission != null && !onlinePlayer.hasPermission(permission)) {
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.NO_PERMISSION)));
+            return false;
+        }
 
         // Checks if player is on cooldown
         if (infoHeadProperties.isOnCoolDown(onlinePlayer)) {

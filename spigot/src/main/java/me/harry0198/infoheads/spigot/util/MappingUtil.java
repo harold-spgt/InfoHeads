@@ -6,6 +6,9 @@ import org.bukkit.World;
 
 public class MappingUtil {
 
+    // Prevent instantiation.
+    private MappingUtil() {}
+
     public static Location from(org.bukkit.Location location) {
         return new Location(
                 location.getBlockX(),

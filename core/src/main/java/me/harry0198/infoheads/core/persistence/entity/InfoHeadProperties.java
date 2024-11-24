@@ -5,7 +5,6 @@ import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.model.TimePeriod;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
@@ -62,7 +61,7 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
         this.permission = permission;
     }
 
-    public void setElements(LinkedList<Element<?>> elements) {
+    public void setElements(List<Element<?>> elements) {
         this.elements.clear();
         this.elements.addAll(elements);
     }
@@ -137,7 +136,7 @@ public final class InfoHeadProperties implements Serializable, Identifiable {
         elements.add(element);
     }
 
-    public LinkedList<Element<?>> getElements() {
+    public List<Element<?>> getElements() {
         return elements;
     }
 

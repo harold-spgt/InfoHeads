@@ -27,10 +27,10 @@ public class SendPlayerCommandHandler implements EventListener<SendPlayerCommand
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
 
             if (player != null && player.isOnline()) {
-                LOGGER.log(Level.FINE, "Performing Player Command /" + event.getCommand());
+                LOGGER.log(Level.FINE, "Performing Player Command /{0}", event.getCommand());
                 player.chat("/" + event.getCommand());
             } else {
-                LOGGER.log(Level.FINE, "Did not perform player command (Player=["+player+"], Online=[false])");
+                LOGGER.log(Level.FINE, "Did not perform player command (Player=[{0}], Online=[false])", player);
             }
         });
     }

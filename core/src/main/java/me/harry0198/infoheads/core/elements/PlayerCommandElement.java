@@ -16,14 +16,6 @@ public final class PlayerCommandElement extends Element<String> implements Seria
     }
 
     /**
-     * Gets Command
-     * @return Command
-     */
-    public String getCommand() {
-        return command;
-    }
-
-    /**
      * Sets command
      * @param command to Set
      */

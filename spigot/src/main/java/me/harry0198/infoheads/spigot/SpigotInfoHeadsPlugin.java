@@ -28,7 +28,7 @@ import java.util.regex.Matcher;
 
 public class SpigotInfoHeadsPlugin extends InfoHeadsPlugin {
 
-    private final Logger LOGGER = LoggerFactory.getLogger();
+    private final Logger logger = LoggerFactory.getLogger();
     private final JavaPlugin plugin;
 
     public SpigotInfoHeadsPlugin(JavaPlugin plugin, Path workingDirectory) {
@@ -65,7 +65,7 @@ public class SpigotInfoHeadsPlugin extends InfoHeadsPlugin {
 
     @Override
     public UnaryOperator<String> getColourReplaceStrategy() {
-        return (str) -> {
+        return str -> {
             str = ChatColor.translateAlternateColorCodes('&', str);
             str = translateHexColorCodes(str);
 
@@ -76,7 +76,7 @@ public class SpigotInfoHeadsPlugin extends InfoHeadsPlugin {
     @Override
     public PlaceholderHandlingStrategy getPlaceholderHandlingStrategy() {
         if (packagesExists("me.clip.placeholderapi.PlaceholderAPI")) {
-            LOGGER.info("Hook - PlaceholderAPI integration successful.");
+            logger.info("Hook - PlaceholderAPI integration successful.");
             return new PAPIPlaceholderHandlingStrategy();
         } else {
             return new VanillaPlaceholderHandlingStrategy();
@@ -85,9 +85,9 @@ public class SpigotInfoHeadsPlugin extends InfoHeadsPlugin {
 
     @Override
     public void runUpdateNotifier() {
-        (new UpdateChecker(67080)).getVersion((version) -> {
+        (new UpdateChecker(67080)).getVersion(version -> {
             if (!EntryPoint.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
-                LOGGER.info(getLocalizedMessageService().getMessage(BundleMessages.UPDATE_AVAILABLE) + " " + version);
+                logger.info(getLocalizedMessageService().getMessage(BundleMessages.UPDATE_AVAILABLE) + " " + version);
             }
         });
     }

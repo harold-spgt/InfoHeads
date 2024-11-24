@@ -1,6 +1,6 @@
 package me.harry0198.infoheads.legacy.elements;
 
-public final class ConsoleCommandElement extends Element {
+public final class ConsoleCommandElement implements Element {
 
     private String command;
 

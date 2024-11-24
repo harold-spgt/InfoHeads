@@ -17,12 +17,12 @@ import java.util.List;
 public class CommandHandler {
 
     // Command names
-    private final static String HELP_CMD_STRING = "help";
-    private final static String WIZARD_CMD_STRING = "wizard";
-    private final static String LIST_CMD_STRING = "list";
-    private final static String EDIT_CMD_STRING = "edit";
-    private final static String REMOVE_CMD_STRING = "remove";
-    private final static String RELOAD_CMD_STRING = "reload";
+    private static final String HELP_CMD_STRING = "help";
+    private static final String WIZARD_CMD_STRING = "wizard";
+    private static final String LIST_CMD_STRING = "list";
+    private static final String EDIT_CMD_STRING = "edit";
+    private static final String REMOVE_CMD_STRING = "remove";
+    private static final String RELOAD_CMD_STRING = "reload";
 
     private final LocalizedMessageService localizedMessageService;
     private final InfoHeadService infoHeadService;

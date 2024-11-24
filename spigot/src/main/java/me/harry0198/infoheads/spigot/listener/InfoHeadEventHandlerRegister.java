@@ -33,9 +33,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachment;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
 
 public class InfoHeadEventHandlerRegister {
@@ -93,14 +93,14 @@ public class InfoHeadEventHandlerRegister {
         };
     }
 
-    public ConcurrentHashMap<UUID, PermissionAttachment> getPermissionsMapping() {
+    public ConcurrentMap<UUID, PermissionAttachment> getPermissionsMapping() {
         return permissionsMapping;
     }
 
     private EventListener<ShowInfoHeadListEvent> getShowInfoHeadListEvent() {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
-            if (player == null && !player.isOnline()) {
+            if (player == null || !player.isOnline()) {
                 return;
             }
 

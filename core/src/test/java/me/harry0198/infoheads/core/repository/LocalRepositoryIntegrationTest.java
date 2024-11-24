@@ -18,15 +18,15 @@ import java.util.UUID;
  * Tests the full serialization and deserialization process
  * from the {@link LocalRepository} class functions.
  */
-public class LocalRepositoryIntegrationTest {
+class LocalRepositoryIntegrationTest {
 
     @TempDir
     private Path tempDir;
 
-    private final static String SUB_FOLDER = "local_repo_integration";
+    private static final String SUB_FOLDER = "local_repo_integration";
 
     @Test
-    public void saveAndFetchIntegrationTest() {
+    void saveAndFetchIntegrationTest() {
         // Arrange
         Path parentFolderPath = Path.of(tempDir.toFile().getAbsolutePath(), SUB_FOLDER);
         LocalRepository<InfoHeadProperties> repository = new LocalRepository<>(parentFolderPath, InfoHeadProperties.class);

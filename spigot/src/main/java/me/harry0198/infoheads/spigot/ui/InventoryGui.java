@@ -24,7 +24,8 @@ public abstract class InventoryGui<T extends ViewModel> implements InventoryHold
     private Consumer<InventoryClickEvent> defaultAction;
     private Consumer<InventoryCloseEvent> closeAction;
 
-    public InventoryGui(T viewModel, int size, String name) {
+    // Remove temporary permissions.
+    protected InventoryGui(T viewModel, int size, String name) {
         this.viewModel = viewModel;
         // Recover invalid inventory size state.
         if (size > 6) size = 6;
@@ -34,7 +35,7 @@ public abstract class InventoryGui<T extends ViewModel> implements InventoryHold
         this.slotActions = new HashMap<>();
 
         // When inventory is requested to be closed, close for everyone.
-        this.viewModel.getShouldCloseProperty().addListener((changed) -> {
+        this.viewModel.getShouldCloseProperty().addListener(changed -> {
             Boolean newV = (Boolean) changed.getNewValue();
             Bukkit.getScheduler().runTask(EntryPoint.getInstance(), () -> {
                 if (newV != null && newV) {

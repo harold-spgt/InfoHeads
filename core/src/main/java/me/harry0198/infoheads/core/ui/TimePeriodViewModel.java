@@ -20,7 +20,7 @@ public abstract class TimePeriodViewModel extends ViewModel {
      * Constructs this class.
      * @param configuration Configuration which provides the {@link TimePeriod}.
      */
-    public TimePeriodViewModel(InfoHeadProperties configuration) {
+    protected TimePeriodViewModel(InfoHeadProperties configuration) {
         super(EventDispatcher.getInstance());
         this.configuration = configuration;
         this.timePeriodProperty = new SimpleProperty<>(new TimePeriod(0,0,0,0,0));
@@ -30,10 +30,10 @@ public abstract class TimePeriodViewModel extends ViewModel {
 
     /**
      * Sets the 'TimePeriod' configuration value to MS from the provided time parameters.
-     * @param TimePeriod {@link TimePeriod} to set for the InfoHead.
+     * @param timePeriod {@link TimePeriod} to set for the InfoHead.
      */
-    public void setTimePeriod(TimePeriod TimePeriod) {
-        timePeriodProperty.setValue(TimePeriod);
+    public void setTimePeriod(TimePeriod timePeriod) {
+        timePeriodProperty.setValue(timePeriod);
     }
 
     /***
@@ -82,16 +82,16 @@ public abstract class TimePeriodViewModel extends ViewModel {
     Restricts values to be between 0-60.
      */
     private void increment(int value, Field field) {
-        TimePeriod TimePeriod = getTimePeriodProperty().getValue();
-        if (TimePeriod == null) {
-            TimePeriod = new TimePeriod(0,0,0,0,0);
+        TimePeriod timePeriod = getTimePeriodProperty().getValue();
+        if (timePeriod == null) {
+            timePeriod = new TimePeriod(0,0,0,0,0);
         }
 
-        int updatedWeeks = TimePeriod.weeks();
-        int updatedDays = TimePeriod.days();
-        int updatedHours = TimePeriod.hours();
-        int updatedMinutes = TimePeriod.minutes();
-        int updatedSeconds = TimePeriod.seconds();
+        int updatedWeeks = timePeriod.weeks();
+        int updatedDays = timePeriod.days();
+        int updatedHours = timePeriod.hours();
+        int updatedMinutes = timePeriod.minutes();
+        int updatedSeconds = timePeriod.seconds();
 
         switch (field) {
             case WEEKS:
