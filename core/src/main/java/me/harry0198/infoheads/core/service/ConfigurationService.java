@@ -1,5 +1,8 @@
-package me.harry0198.infoheads.core.config;
+package me.harry0198.infoheads.core.service;
 
+import com.google.inject.Inject;
+import me.harry0198.infoheads.core.config.Configuration;
+import me.harry0198.infoheads.core.di.CoreModule;
 import me.harry0198.infoheads.core.utils.logging.Level;
 import me.harry0198.infoheads.core.utils.logging.Logger;
 import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
@@ -23,7 +26,9 @@ public class ConfigurationService {
     private final Yaml yaml;
     private final CompletableFuture<Void> configInitializeProc;
     private Configuration configuration;
-    public ConfigurationService(Path workingDirectory) {
+
+    @Inject
+    public ConfigurationService(@CoreModule.WorkingDirectory Path workingDirectory) {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Representer representer = new Representer(options);

@@ -1,10 +1,14 @@
 package me.harry0198.infoheads.spigot;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import me.harry0198.infoheads.core.InfoHeadsPlugin;
+import me.harry0198.infoheads.core.di.CoreModule;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.utils.logging.Level;
 import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 import me.harry0198.infoheads.legacy.Converter;
+import me.harry0198.infoheads.spigot.di.SpigotModule;
 import me.harry0198.infoheads.spigot.util.BukkitLogger;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -28,7 +32,10 @@ public final class EntryPoint extends JavaPlugin {
 
     public EntryPoint() {
         LoggerFactory.setLogger(new BukkitLogger(Level.DEBUG));
-        this.infoHeadsPlugin = new SpigotInfoHeadsPlugin(this, getDataFolder().toPath());
+        var injector = Guice.createInjector(new CoreModule(), new SpigotModule(this));
+        injector.injectMembers(this);
+
+        this.infoHeadsPlugin = injector.getInstance(SpigotInfoHeadsPlugin.class);
     }
 
     @Override

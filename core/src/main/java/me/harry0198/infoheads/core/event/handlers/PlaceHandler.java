@@ -1,7 +1,8 @@
 package me.harry0198.infoheads.core.event.handlers;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.event.types.OpenMenuMenuEvent;
@@ -22,18 +23,19 @@ public class PlaceHandler {
 
     private static final Logger LOGGER = Logger.getLogger(PlaceHandler.class.getName());
     private final InfoHeadService infoHeadService;
-    private final LocalizedMessageService localizedMessageService;
+    private final MessageService messageService;
     private final EventDispatcher eventDispatcher;
     private final UserStateService userStateService;
 
     /**
      * Class constructor.
      * @param infoHeadService {@link InfoHeadService} instance.
-     * @param localizedMessageService {@link LocalizedMessageService} to provide localized messages to user.
+     * @param messageService {@link MessageService} to provide localized messages to user.
      */
-    public PlaceHandler(InfoHeadService infoHeadService, UserStateService userStateService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
+    @Inject
+    public PlaceHandler(InfoHeadService infoHeadService, UserStateService userStateService, MessageService messageService, EventDispatcher eventDispatcher) {
         this.infoHeadService = infoHeadService;
-        this.localizedMessageService = localizedMessageService;
+        this.messageService = messageService;
         this.eventDispatcher = eventDispatcher;
         this.userStateService = userStateService;
     }
@@ -67,10 +69,10 @@ public class PlaceHandler {
                 }).thenAccept(x -> {
                     LOGGER.log(Level.FINE, "InfoHead placement add stage completed with {0}", x);
                     if (Boolean.TRUE.equals(x)) {
-                        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.INFOHEAD_ADDED)));
+                        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, messageService.getMessage(BundleMessages.INFOHEAD_ADDED)));
                         eventDispatcher.dispatchEvent(new OpenMenuMenuEvent(infoHeadProperties, player));
                     } else {
-                        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.FAILED_TO_ADD)));
+                        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, messageService.getMessage(BundleMessages.FAILED_TO_ADD)));
                     }
                 });
     }

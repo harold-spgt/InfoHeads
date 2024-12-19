@@ -3,6 +3,7 @@ package me.harry0198.infoheads.core.persistence.repository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.persistence.entity.Identifiable;
 import me.harry0198.infoheads.core.utils.logging.Logger;
@@ -40,6 +41,7 @@ public class LocalRepository<T extends Serializable & Identifiable> implements R
      * Class constructor.
      * @param parent Path to directory to save data to.
      */
+    @Inject
     public LocalRepository(Path parent, Type type) {
         this.repositoryFolder = Path.of(parent.toFile().getAbsolutePath());
         this.type = type;

@@ -46,6 +46,7 @@ val papiVersion = "2.11.6"
 val authLibVersion = "6.0.54"
 val annotationsVersion = "26.0.1"
 val bstatsVersion = "3.0.2"
+val guiceVersion = "7.0.0"
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:$spigotVersion")
@@ -54,7 +55,7 @@ dependencies {
 
     implementation("org.jetbrains:annotations:$annotationsVersion")
     implementation("org.bstats:bstats-bukkit:$bstatsVersion")
-
+    implementation("com.google.inject:guice:$guiceVersion")
 
     implementation(project(":core"))
     implementation(project(":legacy-converter"))

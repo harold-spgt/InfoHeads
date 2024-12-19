@@ -1,8 +1,9 @@
 package me.harry0198.infoheads.core.ui;
 
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.SendPlayerCommandEvent;
@@ -26,15 +27,16 @@ public class EditInfoHeadViewModel extends ViewModel {
 
     private final InfoHeadProperties configuration;
     private final InfoHeadService infoHeadService;
-    private final LocalizedMessageService localizedMessageService;
+    private final MessageService messageService;
     private final SimpleProperty<Boolean> isOneTimeUseProperty;
     private final SimpleProperty<List<Element<?>>> elementsProperty;
 
-    public EditInfoHeadViewModel(EventDispatcher eventDispatcher, InfoHeadService infoHeadService, InfoHeadProperties infoHeadConfiguration, LocalizedMessageService localizedMessageService) {
+    @Inject
+    public EditInfoHeadViewModel(EventDispatcher eventDispatcher, InfoHeadService infoHeadService, InfoHeadProperties infoHeadConfiguration, MessageService messageService) {
         super(eventDispatcher);
         this.configuration = infoHeadConfiguration;
         this.infoHeadService = infoHeadService;
-        this.localizedMessageService = localizedMessageService;
+        this.messageService = messageService;
         this.elementsProperty = new SimpleProperty<>(infoHeadConfiguration.getElements());
         this.isOneTimeUseProperty = new SimpleProperty<>(infoHeadConfiguration.isOneTimeUse());
 
@@ -58,7 +60,7 @@ public class EditInfoHeadViewModel extends ViewModel {
     public void save(OnlinePlayer onlinePlayer) {
         infoHeadService.saveInfoHeadToRepository(configuration).exceptionally(ex -> false).thenAccept(success -> {
             if (Boolean.FALSE.equals(success)) {
-                getEventDispatcher().dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.SAVE_FAILED)));
+                getEventDispatcher().dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, messageService.getMessage(BundleMessages.SAVE_FAILED)));
             }
         });
     }

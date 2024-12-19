@@ -1,5 +1,7 @@
 package me.harry0198.infoheads.core.ui;
 
+import com.google.inject.Inject;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 
@@ -9,8 +11,9 @@ public class CoolDownViewModel extends TimePeriodViewModel {
      *
      * @param configuration Configuration which provides the {@link TimePeriod}.
      */
-    public CoolDownViewModel(InfoHeadProperties configuration) {
-        super(configuration);
+    @Inject
+    public CoolDownViewModel(InfoHeadProperties configuration, EventDispatcher eventDispatcher) {
+        super(configuration, eventDispatcher);
     }
 
     @Override

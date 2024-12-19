@@ -2,7 +2,7 @@ package me.harry0198.infoheads.core.commands;
 
 
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
@@ -17,8 +17,8 @@ public class HelpCmdExecutor extends CmdExecutor {
     /**
      * {@inheritDoc}
      */
-    public HelpCmdExecutor(LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
-        super(localizedMessageService,eventDispatcher,Constants.BASE_PERMISSION + "help");
+    public HelpCmdExecutor(MessageService messageService, EventDispatcher eventDispatcher) {
+        super(messageService,eventDispatcher,Constants.BASE_PERMISSION + "help");
     }
 
     /**
@@ -26,7 +26,7 @@ public class HelpCmdExecutor extends CmdExecutor {
      */
     @Override
     public boolean executeCmd(OnlinePlayer sender) {
-        EventDispatcher.getInstance().dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.HELP)));
+        getEventDispatcher().dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.HELP)));
         return true;
     }
 }

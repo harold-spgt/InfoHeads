@@ -1,7 +1,7 @@
 package me.harry0198.infoheads.core.commands;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.GivePlayerHeadsEvent;
 import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
@@ -31,9 +31,9 @@ public class WizardCmdExecutor extends CmdExecutor {
             EventDispatcher eventDispatcher,
             InfoHeadService infoHeadService,
             UserStateService userStateService,
-            LocalizedMessageService localizedMessageService
+            MessageService messageService
     ) {
-        super(localizedMessageService, eventDispatcher, Constants.BASE_PERMISSION + "wizard");
+        super(messageService, eventDispatcher, Constants.BASE_PERMISSION + "wizard");
         this.command = command;
         this.eventDispatcher = eventDispatcher;
         this.userStateService = userStateService;

@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.core.event.handlers;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.RemoveTempPlayerPermissionEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
@@ -10,6 +11,7 @@ public class PlayerQuitHandler {
 
     private final EventDispatcher eventDispatcher;
 
+    @Inject
     public PlayerQuitHandler(EventDispatcher eventDispatcher) {
         this.eventDispatcher = eventDispatcher;
     }

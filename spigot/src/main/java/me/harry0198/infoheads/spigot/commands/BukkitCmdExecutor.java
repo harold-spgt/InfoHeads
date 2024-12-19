@@ -2,6 +2,7 @@ package me.harry0198.infoheads.spigot.commands;
 
 import me.harry0198.infoheads.core.commands.*;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
+import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,7 +38,7 @@ public class BukkitCmdExecutor implements CommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command ignore, String s, String[] args) {
-
+        LoggerFactory.getLogger().info("l=og");
         if (!(commandSender instanceof Player bukkitPlayer)) {
             return false;
         }

@@ -18,11 +18,13 @@ val mockitoVersion = "4.5.1"
 val snakeYamlVersion = "2.2"
 val gsonVersion = "2.11.0"
 val slf4jVersion = "1.7.25"
+val guiceVersion = "7.0.0"
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    implementation("com.google.inject:guice:$guiceVersion")
 
     // https://mvnrepository.com/artifact/org.yaml/snakeyaml
     implementation("org.yaml:snakeyaml:$snakeYamlVersion")

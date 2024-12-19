@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.core.ui;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.*;
@@ -9,6 +10,7 @@ import me.harry0198.infoheads.core.model.OnlinePlayer;
 public class AddActionViewModel extends ViewModel {
     private final InfoHeadProperties configuration;
 
+    @Inject
     public AddActionViewModel(EventDispatcher eventDispatcher, InfoHeadProperties configuration) {
         super(eventDispatcher);
         this.configuration = configuration;

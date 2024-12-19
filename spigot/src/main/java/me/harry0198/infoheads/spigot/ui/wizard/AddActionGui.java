@@ -1,7 +1,7 @@
 package me.harry0198.infoheads.spigot.ui.wizard;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.ui.AddActionViewModel;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
@@ -24,10 +24,10 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
     private static final GuiSlot PLACEHOLDER_SLOT = new GuiSlot(5,6);
     private static final GuiSlot CANCEL_SLOT = new GuiSlot(5,5);
     private static final GuiSlot PERMISSION_SLOT = new GuiSlot(3,5);
-    private final LocalizedMessageService localizedMessageService;
-    public AddActionGui(AddActionViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(viewModel, 5, localizedMessageService.getMessage(BundleMessages.ADD_ACTION_GUI_TITLE));
-        this.localizedMessageService = localizedMessageService;
+    private final MessageService messageService;
+    public AddActionGui(AddActionViewModel viewModel, MessageService messageService) {
+        super(viewModel, 5, messageService.getMessage(BundleMessages.ADD_ACTION_GUI_TITLE));
+        this.messageService = messageService;
 
         setDefaultClickAction(event -> event.setCancelled(true));
 
@@ -62,8 +62,8 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 APPEND_MSG_SLOT,
                 new GuiItem(new ItemBuilder(Material.BOOK)
                         .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.APPEND_MESSAGE_ELEMENT))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.APPEND_MESSAGE_ELEMENT_MORE))
+                        .name(messageService.getMessage(BundleMessages.APPEND_MESSAGE_ELEMENT))
+                        .lore(messageService.getMessageList(BundleMessages.APPEND_MESSAGE_ELEMENT_MORE))
                         .build(),
                 event -> getViewModel().newElement(Element.InfoHeadType.MESSAGE, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
@@ -73,8 +73,8 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 APPEND_CONSOLE_CMD_SLOT,
                 new GuiItem(new ItemBuilder(Material.COMMAND_BLOCK)
                         .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.APPEND_CONSOLE_CMD_ELEMENT))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.APPEND_CONSOLE_CMD_ELEMENT_MORE))
+                        .name(messageService.getMessage(BundleMessages.APPEND_CONSOLE_CMD_ELEMENT))
+                        .lore(messageService.getMessageList(BundleMessages.APPEND_CONSOLE_CMD_ELEMENT_MORE))
                         .build(),
                 event -> getViewModel().newElement(Element.InfoHeadType.CONSOLE_COMMAND, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
@@ -84,8 +84,8 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 APPEND_PLAYER_CMD_SLOT,
                 new GuiItem(new ItemBuilder(Material.COMMAND_BLOCK)
                         .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT))
-                        .lore(localizedMessageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT_MORE))
+                        .name(messageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT))
+                        .lore(messageService.getMessage(BundleMessages.APPEND_PLAYER_CMD_ELEMENT_MORE))
                         .build(),
                 event -> getViewModel().newElement(Element.InfoHeadType.PLAYER_COMMAND, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
@@ -95,8 +95,8 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 CANCEL_SLOT,
                 new GuiItem(new ItemBuilder(Material.BARRIER)
                         .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.CLOSE_WIZARD))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.CLOSE_WIZARD_MORE))
+                        .name(messageService.getMessage(BundleMessages.CLOSE_WIZARD))
+                        .lore(messageService.getMessageList(BundleMessages.CLOSE_WIZARD_MORE))
                         .build(),
                 event -> close(event.getWhoClicked()))
         );
@@ -107,8 +107,8 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 PERMISSION_SLOT,
                 new GuiItem(new ItemBuilder(Material.GLASS_BOTTLE)
                         .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.APPEND_TEMP_PERMISSION))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.APPEND_TEMP_PERMISSION_MORE))
+                        .name(messageService.getMessage(BundleMessages.APPEND_TEMP_PERMISSION))
+                        .lore(messageService.getMessageList(BundleMessages.APPEND_TEMP_PERMISSION_MORE))
                         .build(),
                 event -> getViewModel().newElement(Element.InfoHeadType.PLAYER_PERMISSION, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
@@ -118,8 +118,8 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 APPEND_DELAY_SLOT,
                 new GuiItem(new ItemBuilder(Material.CLOCK)
                         .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.APPEND_DELAY_ELEMENT))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.APPEND_DELAY_ELEMENT_MORE))
+                        .name(messageService.getMessage(BundleMessages.APPEND_DELAY_ELEMENT))
+                        .lore(messageService.getMessageList(BundleMessages.APPEND_DELAY_ELEMENT_MORE))
                         .build(),
                 event -> getViewModel().newElement(Element.InfoHeadType.DELAY, new BukkitOnlinePlayer((Player) event.getWhoClicked()))));
     }
@@ -129,8 +129,8 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
                 PLACEHOLDER_SLOT,
                 new GuiItem(new ItemBuilder(Material.WRITABLE_BOOK)
                         .glow(true)
-                        .name(localizedMessageService.getMessage(BundleMessages.VALID_PLACEHOLDERS))
-                        .lore(localizedMessageService.getMessageList(BundleMessages.VALID_PLACEHOLDERS_MORE))
+                        .name(messageService.getMessage(BundleMessages.VALID_PLACEHOLDERS))
+                        .lore(messageService.getMessageList(BundleMessages.VALID_PLACEHOLDERS_MORE))
                         .build(),
                 event -> {
                 }));

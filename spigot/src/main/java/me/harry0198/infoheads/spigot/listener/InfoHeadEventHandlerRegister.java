@@ -1,7 +1,8 @@
 package me.harry0198.infoheads.spigot.listener;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.dispatcher.EventListener;
 import me.harry0198.infoheads.core.event.types.*;
@@ -37,21 +38,23 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 public class InfoHeadEventHandlerRegister {
 
     private final EventDispatcher eventDispatcher;
     private final InfoHeadService infoHeadService;
-    private final LocalizedMessageService localizedMessageService;
+    private final MessageService messageService;
     private final ConcurrentHashMap<UUID, PermissionAttachment> permissionsMapping = new ConcurrentHashMap<>();
 
-    public InfoHeadEventHandlerRegister(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService) {
-        this.eventDispatcher = EventDispatcher.getInstance();
-        this.localizedMessageService = localizedMessageService;
+    @Inject
+    public InfoHeadEventHandlerRegister(InfoHeadService infoHeadService, EventDispatcher eventDispatcher, MessageService messageService, UnaryOperator<String> colourReplaceStrategy) {
+        this.eventDispatcher = eventDispatcher;
+        this.messageService = messageService;
         this.infoHeadService = infoHeadService;
 
         // Register all listeners.
-        eventDispatcher.registerListener(SendPlayerMessageEvent.class, new SendPlayerMessageHandler(localizedMessageService.getColourReplaceStrategy()));
+        eventDispatcher.registerListener(SendPlayerMessageEvent.class, new SendPlayerMessageHandler(colourReplaceStrategy));
         eventDispatcher.registerListener(RemoveTempPlayerPermissionEvent.class, new RemoveTempPermissionHandler(permissionsMapping));
         eventDispatcher.registerListener(SendPlayerCommandEvent.class, new SendPlayerCommandHandler());
         eventDispatcher.registerListener(SendConsoleCommandEvent.class, new SendConsoleCommandHandler());
@@ -73,7 +76,7 @@ public class InfoHeadEventHandlerRegister {
     public EventListener<GivePlayerHeadsEvent> getGivePlayerHeadsEventEventListener() {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
-            if (player == null && !player.isOnline()) {
+            if (player == null || !player.isOnline()) {
                 return;
             }
 
@@ -105,8 +108,8 @@ public class InfoHeadEventHandlerRegister {
                 return;
             }
 
-            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(event.getOnlinePlayer(), localizedMessageService.getMessage(BundleMessages.LIST_CMD_HEADER)));
-            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(event.getOnlinePlayer(), localizedMessageService.getMessage(BundleMessages.LIST_CMD_EXPLAIN)));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(event.getOnlinePlayer(), messageService.getMessage(BundleMessages.LIST_CMD_HEADER)));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(event.getOnlinePlayer(), messageService.getMessage(BundleMessages.LIST_CMD_EXPLAIN)));
 
 
             for (InfoHeadProperties infoHeadProperties : event.getInfoHeadPropertiesList()) {
@@ -133,7 +136,7 @@ public class InfoHeadEventHandlerRegister {
             if (player != null && player.isOnline()) {
                 Bukkit.getScheduler().runTask(
                         EntryPoint.getInstance(),
-                        () -> new TimePeriodGui(new CoolDownViewModel(event.getInfoHeadProperties()), localizedMessageService).open(player));
+                        () -> new TimePeriodGui(new CoolDownViewModel(event.getInfoHeadProperties(), eventDispatcher), messageService).open(player));
             }
         };
     }
@@ -144,7 +147,7 @@ public class InfoHeadEventHandlerRegister {
             if (player != null && player.isOnline()) {
                 Bukkit.getScheduler().runTask(
                         EntryPoint.getInstance(),
-                        () -> new TimePeriodGui(new DelayViewModel(event.getInfoHeadProperties(), new TimePeriod(0,0,0,0,0)), localizedMessageService).open(player));
+                        () -> new TimePeriodGui(new DelayViewModel(event.getInfoHeadProperties(), eventDispatcher, new TimePeriod(0,0,0,0,0)), messageService).open(player));
             }
         };
     }
@@ -155,7 +158,7 @@ public class InfoHeadEventHandlerRegister {
             if (player != null && player.isOnline()) {
                 Bukkit.getScheduler().runTask(
                         EntryPoint.getInstance(),
-                        () -> new EditInfoHeadGui(new EditInfoHeadViewModel(eventDispatcher, infoHeadService, event.getInfoHeadProperties(), localizedMessageService), localizedMessageService).open(player));
+                        () -> new EditInfoHeadGui(new EditInfoHeadViewModel(eventDispatcher, infoHeadService, event.getInfoHeadProperties(), messageService), messageService).open(player));
             }
         };
     }
@@ -166,7 +169,7 @@ public class InfoHeadEventHandlerRegister {
             if (player != null && player.isOnline()) {
                 Bukkit.getScheduler().runTask(
                         EntryPoint.getInstance(),
-                        () -> new AddActionGui(new AddActionViewModel(eventDispatcher, event.getInfoHeadProperties()), localizedMessageService).open(player));
+                        () -> new AddActionGui(new AddActionViewModel(eventDispatcher, event.getInfoHeadProperties()), messageService).open(player));
             }
         };
     }
@@ -195,18 +198,18 @@ public class InfoHeadEventHandlerRegister {
         return event -> {
             Player player = Bukkit.getPlayer(event.getOnlinePlayer().getUid());
             if (player != null && player.isOnline()) {
-                player.sendTitle(localizedMessageService.getMessage(BundleMessages.CONVERSATION_TITLE), localizedMessageService.getMessage(BundleMessages.CONVERSATION_SUBTITLE),10,40,10);
-                getInputFactory(event.getInfoHeadProperties(), infoHeadType, localizedMessageService)
+                player.sendTitle(messageService.getMessage(BundleMessages.CONVERSATION_TITLE), messageService.getMessage(BundleMessages.CONVERSATION_SUBTITLE),10,40,10);
+                getInputFactory(event.getInfoHeadProperties(), infoHeadType, messageService)
                         .buildConversation(player).begin();
             }
         };
     }
 
-    private static ConversationFactory getInputFactory(final InfoHeadProperties infoHeadConfiguration, final InputTypes element, LocalizedMessageService localizedMessageService) {
+    private ConversationFactory getInputFactory(final InfoHeadProperties infoHeadConfiguration, final InputTypes element, MessageService messageService) {
         return new ConversationFactory(EntryPoint.getInstance())
                 .withModality(true)
-                .withPrefix(new InfoHeadsConversationPrefix(localizedMessageService))
-                .withFirstPrompt(new ElementValueInput(EventDispatcher.getInstance(), infoHeadConfiguration, element, localizedMessageService))
+                .withPrefix(new InfoHeadsConversationPrefix(messageService))
+                .withFirstPrompt(new ElementValueInput(eventDispatcher, infoHeadConfiguration, element, messageService))
                 .withEscapeSequence("cancel")
                 .withTimeout(60)
                 .thatExcludesNonPlayersWithMessage("Console is not supported by this command");

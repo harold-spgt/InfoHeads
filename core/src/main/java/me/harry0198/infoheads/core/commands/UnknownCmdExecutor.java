@@ -2,7 +2,7 @@ package me.harry0198.infoheads.core.commands;
 
 
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
@@ -16,8 +16,8 @@ public class UnknownCmdExecutor extends CmdExecutor {
     /**
      * {@inheritDoc}
      */
-    public UnknownCmdExecutor(LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
-        super(localizedMessageService, eventDispatcher, null);
+    public UnknownCmdExecutor(MessageService messageService, EventDispatcher eventDispatcher) {
+        super(messageService, eventDispatcher, null);
     }
 
     /**
@@ -25,7 +25,7 @@ public class UnknownCmdExecutor extends CmdExecutor {
      */
     @Override
     public boolean executeCmd(OnlinePlayer sender) {
-        EventDispatcher.getInstance().dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.UNKNOWN_CMD)));
+        getEventDispatcher().dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.UNKNOWN_CMD)));
         return true;
     }
 }
