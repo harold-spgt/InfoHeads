@@ -2,6 +2,7 @@ package me.harry0198.infoheads.spigot.di;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import me.harry0198.infoheads.core.InfoHeadsPlugin;
 import me.harry0198.infoheads.core.commands.CommandHandler;
 import me.harry0198.infoheads.core.service.ConfigurationService;
@@ -41,6 +42,7 @@ public class SpigotModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     JavaPlugin provideJavaPlugin() {
         return this.entryPoint;
     }
@@ -52,6 +54,7 @@ public class SpigotModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     UnaryOperator<String> provideColourReplaceStrategy() {
         return str -> {
             str = ChatColor.translateAlternateColorCodes('&', str);

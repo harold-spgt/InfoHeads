@@ -7,6 +7,7 @@ import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.service.UserStateService;
+import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,8 @@ public class CommandHandler {
      * @return If the command execution was a success or not.
      */
     public boolean handle(Command command, OnlinePlayer player) {
-
+        LoggerFactory.getLogger().info("handle.");
+        LoggerFactory.getLogger().info(command.cmdString());
         // Select the command executor based on command retrieved.
         CmdExecutor cmdExecutor = switch (command.cmdString().toLowerCase()) {
             case HELP_CMD_STRING -> new HelpCmdExecutor(messageService, eventDispatcher);

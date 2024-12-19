@@ -40,8 +40,10 @@ public class BukkitCmdExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command ignore, String s, String[] args) {
         LoggerFactory.getLogger().info("l=og");
         if (!(commandSender instanceof Player bukkitPlayer)) {
+            LoggerFactory.getLogger().info("not bukkit" + commandSender.getName());
             return false;
         }
+        LoggerFactory.getLogger().info("is bukkit" + Arrays.toString(args));
         Command command = parseCommand(args);
         OnlinePlayer player = new BukkitOnlinePlayer(bukkitPlayer);
 

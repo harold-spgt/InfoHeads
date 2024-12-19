@@ -2,6 +2,7 @@ package me.harry0198.infoheads.core.di;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import jakarta.inject.Qualifier;
 import me.harry0198.infoheads.core.InfoHeadsPlugin;
 import me.harry0198.infoheads.core.commands.CommandHandler;
@@ -33,11 +34,13 @@ public class CoreModule extends AbstractModule {
     public @interface WorkingDirectory {}
 
     @Provides
+    @Singleton
     static ConfigurationService provideConfigurationService(@WorkingDirectory Path workingDirectory) {
         return new ConfigurationService(workingDirectory);
     }
 
     @Provides
+    @Singleton
     static Locale provideLocale(ConfigurationService configurationService) {
         Optional<Configuration> configuration = configurationService.getConfiguration();
 
@@ -54,21 +57,25 @@ public class CoreModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     static InfoHeadService provideInfoHeadService(Repository<InfoHeadProperties> repository) {
         return new InfoHeadService(repository);
     }
 
     @Provides
+    @Singleton
     static Repository<InfoHeadProperties> provideRepository(@WorkingDirectory Path workingDirectory) {
         return new LocalRepository<>(workingDirectory.resolve("heads"), InfoHeadProperties.class);
     }
 
     @Provides
+    @Singleton
     static UserStateService provideUserStateService() {
         return new UserStateService();
     }
 
     @Provides
+    @Singleton
     static EventDispatcher provideEventDispatcher() {
         return new EventDispatcher();
     }
