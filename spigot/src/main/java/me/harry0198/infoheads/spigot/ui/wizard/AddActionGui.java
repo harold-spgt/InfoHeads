@@ -51,6 +51,7 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
         cancelItem();
     }
 
+    @SuppressWarnings({"squid:S5411"})
     private void bindings() {
         getViewModel().getShouldCloseProperty().addListener(listener -> {
             if (listener.getNewValue() instanceof Boolean shouldClose && shouldClose) {
