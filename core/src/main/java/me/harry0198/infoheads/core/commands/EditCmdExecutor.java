@@ -1,7 +1,8 @@
 package me.harry0198.infoheads.core.commands;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import me.harry0198.infoheads.core.event.types.OpenMenuMenuEvent;
@@ -27,8 +28,9 @@ public class EditCmdExecutor extends CmdExecutor {
      * Class constructor.
      * @param infoHeadService the {@link InfoHeadService} instance used to manage InfoHeads data.
      */
-    public EditCmdExecutor(LocalizedMessageService localizedMessageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
-        super(localizedMessageService, eventDispatcher, Constants.ADMIN_PERMISSION);
+    @Inject
+    public EditCmdExecutor(MessageService messageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
+        super(messageService, eventDispatcher, Constants.ADMIN_PERMISSION);
         this.infoHeadService = infoHeadService;
         this.eventDispatcher = eventDispatcher;
     }
@@ -43,7 +45,7 @@ public class EditCmdExecutor extends CmdExecutor {
      */
     @SuppressWarnings("squid:S3516")
     @Override
-    public boolean executeCmd(OnlinePlayer player) {
+    public boolean executeCmd(Command command, OnlinePlayer player) {
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(player.getLookingAt().orElse(null));
         if (infoHeadPropertiesOptional.isEmpty()) {
             eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, getLocalizedMessageService().getMessage(BundleMessages.NO_INFOHEAD_AT_LOCATION)));

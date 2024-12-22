@@ -11,23 +11,14 @@ import java.util.logging.Logger;
 @SuppressWarnings("squid:S6548")
 public class EventDispatcher {
     private static final Logger LOGGER = Logger.getLogger(EventDispatcher.class.getName());
-    private static EventDispatcher instance;
     private final Map<Class<? extends Event>, Set<EventListener<? extends Event>>> listenersMap = new HashMap<>();
-
-    private EventDispatcher() {}
-
-    public static synchronized EventDispatcher getInstance() {
-        if (instance == null) {
-            instance = new EventDispatcher();
-        }
-        return instance;
-    }
 
     public <T extends Event> void registerListener(Class<T> eventType, EventListener<T> listener) {
         listenersMap.computeIfAbsent(eventType, k -> new HashSet<>()).add(listener);
     }
 
     public void unregisterAll() {
+        LOGGER.info("Unregistering all event listeners");
         listenersMap.clear();
     }
 

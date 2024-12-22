@@ -1,7 +1,9 @@
 package me.harry0198.infoheads.spigot.listener;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.event.handlers.*;
 import me.harry0198.infoheads.core.model.HandAction;
+import me.harry0198.infoheads.spigot.di.annotations.PermissionsData;
 import me.harry0198.infoheads.spigot.util.MappingUtil;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import org.bukkit.event.EventHandler;
@@ -14,10 +16,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.permissions.PermissionAttachment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 
 public class BukkitEventListener implements Listener {
 
@@ -26,26 +26,29 @@ public class BukkitEventListener implements Listener {
     private final PlaceHandler placeHandler;
     private final PlayerJoinHandler joinHandler;
     private final PlayerQuitHandler quitHandler;
-    private final Map<UUID, PermissionAttachment> permissionAttachmentMap;
+    private final ConcurrentMap<UUID, PermissionAttachment> permissionAttachmentMap;
 
+    @Inject
     public BukkitEventListener(
             BreakHandler breakHandler,
             InteractHandler interactHandler,
             PlaceHandler placeHandler,
             PlayerJoinHandler joinHandler,
             PlayerQuitHandler quitHandler,
-            Map<UUID, PermissionAttachment> permissionAttachmentConcurrentHashMap
+            @PermissionsData ConcurrentMap<UUID, PermissionAttachment> permissionAttachmentConcurrentHashMap
     ) {
-        this.breakHandler = breakHandler;
-        this.interactHandler = interactHandler;
-        this.placeHandler = placeHandler;
-        this.joinHandler = joinHandler;
-        this.quitHandler = quitHandler;
+        this.breakHandler = Objects.requireNonNull(breakHandler);
+        this.interactHandler = Objects.requireNonNull(interactHandler);
+        this.placeHandler = Objects.requireNonNull(placeHandler);
+        this.joinHandler = Objects.requireNonNull(joinHandler);
+        this.quitHandler = Objects.requireNonNull(quitHandler);
         this.permissionAttachmentMap = permissionAttachmentConcurrentHashMap;
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
+        Objects.requireNonNull(event);
+
         breakHandler.handle(new BukkitOnlinePlayer(event.getPlayer()), MappingUtil.from(event.getBlock().getLocation()));
     }
 

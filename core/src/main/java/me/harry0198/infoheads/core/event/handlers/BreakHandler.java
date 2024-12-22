@@ -1,7 +1,8 @@
 package me.harry0198.infoheads.core.event.handlers;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.SendPlayerCommandEvent;
 import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
@@ -21,13 +22,14 @@ public class BreakHandler {
 
     private static final Logger LOGGER = Logger.getLogger(BreakHandler.class.getName());
     private final InfoHeadService infoHeadService;
-    private final LocalizedMessageService localizedMessageService;
+    private final MessageService messageService;
     private final EventDispatcher eventDispatcher;
 
-    public BreakHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, EventDispatcher eventDispatcher) {
+    @Inject
+    public BreakHandler(InfoHeadService infoHeadService, MessageService messageService, EventDispatcher eventDispatcher) {
         this.eventDispatcher = eventDispatcher;
         this.infoHeadService = infoHeadService;
-        this.localizedMessageService = localizedMessageService;
+        this.messageService = messageService;
     }
 
     /**
@@ -50,9 +52,9 @@ public class BreakHandler {
                 }).thenAccept(x -> {
                     LOGGER.log(Level.FINE, "InfoHead break delete stage completed with {0}", x);
                     if (Boolean.FALSE.equals(x)) {
-                        eventDispatcher.dispatchEvent(new SendPlayerCommandEvent(player, localizedMessageService.getMessage(BundleMessages.FAILED_TO_REMOVE)));
+                        eventDispatcher.dispatchEvent(new SendPlayerCommandEvent(player, messageService.getMessage(BundleMessages.FAILED_TO_REMOVE)));
                     }
                 });
-        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, localizedMessageService.getMessage(BundleMessages.INFOHEAD_REMOVED)));
+        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(player, messageService.getMessage(BundleMessages.INFOHEAD_REMOVED)));
     }
 }

@@ -1,6 +1,8 @@
 package me.harry0198.infoheads.core.ui;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.elements.DelayElement;
+import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 
@@ -13,8 +15,9 @@ public class DelayViewModel extends TimePeriodViewModel {
      *
      * @param configuration Configuration which provides the {@link me.harry0198.infoheads.core.model.TimePeriod}.
      */
-    public DelayViewModel(InfoHeadProperties configuration, TimePeriod initDelay) {
-        super(configuration);
+    @Inject
+    public DelayViewModel(InfoHeadProperties configuration, EventDispatcher eventDispatcher, TimePeriod initDelay) {
+        super(configuration, eventDispatcher);
         this.initDelay = initDelay;
     }
 

@@ -20,8 +20,8 @@ public abstract class TimePeriodViewModel extends ViewModel {
      * Constructs this class.
      * @param configuration Configuration which provides the {@link TimePeriod}.
      */
-    protected TimePeriodViewModel(InfoHeadProperties configuration) {
-        super(EventDispatcher.getInstance());
+    protected TimePeriodViewModel(InfoHeadProperties configuration, EventDispatcher eventDispatcher) {
+        super(eventDispatcher);
         this.configuration = configuration;
         this.timePeriodProperty = new SimpleProperty<>(new TimePeriod(0,0,0,0,0));
     }
@@ -74,7 +74,7 @@ public abstract class TimePeriodViewModel extends ViewModel {
     }
 
     public void navigateToPreviousPage(OnlinePlayer onlinePlayer) {
-        EventDispatcher.getInstance().dispatchEvent(new OpenMenuMenuEvent(configuration, onlinePlayer));
+        getEventDispatcher().dispatchEvent(new OpenMenuMenuEvent(configuration, onlinePlayer));
     }
 
     /*

@@ -1,12 +1,15 @@
 package me.harry0198.infoheads.spigot.handler;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.event.dispatcher.EventListener;
 import me.harry0198.infoheads.core.event.types.ApplyTempPlayerPermissionEvent;
 import me.harry0198.infoheads.spigot.EntryPoint;
+import me.harry0198.infoheads.spigot.di.annotations.PermissionsData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
 
@@ -18,8 +21,9 @@ public class ApplyTempPermissionHandler implements EventListener<ApplyTempPlayer
 
     private final ConcurrentMap<UUID, PermissionAttachment> permissionsData;
 
-    public ApplyTempPermissionHandler(ConcurrentMap<UUID, PermissionAttachment> permissionsData) {
-        this.permissionsData = permissionsData;
+    @Inject
+    public ApplyTempPermissionHandler(@PermissionsData ConcurrentMap<UUID, PermissionAttachment> permissionsData) {
+        this.permissionsData = Objects.requireNonNull(permissionsData);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.core.service;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.model.Location;
 import me.harry0198.infoheads.core.persistence.entity.Identifiable;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
@@ -27,6 +28,7 @@ public class InfoHeadService {
      * Creates the cache.
      * @param infoHeadRepository {@link Repository} providing the InfoHead properties.
      */
+    @Inject
     public InfoHeadService(Repository<InfoHeadProperties> infoHeadRepository) {
         this.infoHeadRepository = infoHeadRepository;
         this.cache = new ConcurrentHashMap<>();

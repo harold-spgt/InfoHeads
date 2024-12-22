@@ -1,10 +1,12 @@
 package me.harry0198.infoheads.spigot.handler;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.event.dispatcher.EventListener;
 import me.harry0198.infoheads.core.event.types.SendPlayerMessageEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.function.UnaryOperator;
 
 
@@ -16,8 +18,9 @@ public class SendPlayerMessageHandler implements EventListener<SendPlayerMessage
 
     private final UnaryOperator<String> colourReplaceStrategy;
 
+    @Inject
     public SendPlayerMessageHandler(UnaryOperator<String> colourReplaceStrategy) {
-        this.colourReplaceStrategy = colourReplaceStrategy;
+        this.colourReplaceStrategy = Objects.requireNonNull(colourReplaceStrategy);
     }
 
     /**

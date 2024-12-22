@@ -1,7 +1,7 @@
 package me.harry0198.infoheads.spigot.conversations;
 
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.elements.ConsoleCommandElement;
 import me.harry0198.infoheads.core.elements.MessageElement;
 import me.harry0198.infoheads.core.elements.PlayerCommandElement;
@@ -20,11 +20,11 @@ public final class ElementValueInput extends StringPrompt {
 
     private final InfoHeadProperties configuration;
     private final InputTypes element;
-    private final LocalizedMessageService localizedMessageService;
+    private final MessageService messageService;
     private final EventDispatcher eventDispatcher;
 
-    public ElementValueInput(EventDispatcher eventDispatcher, InfoHeadProperties configuration, InputTypes element, LocalizedMessageService localizedMessageService) {
-        this.localizedMessageService = localizedMessageService;
+    public ElementValueInput(EventDispatcher eventDispatcher, InfoHeadProperties configuration, InputTypes element, MessageService messageService) {
+        this.messageService = messageService;
         this.configuration = configuration;
         this.element = element;
         this.eventDispatcher = eventDispatcher;
@@ -33,12 +33,12 @@ public final class ElementValueInput extends StringPrompt {
     @Override
     public @NotNull String getPromptText(@NotNull ConversationContext context) {
         return switch (element) {
-            case PERMISSION -> localizedMessageService.getMessage(BundleMessages.REQUEST_PERMISSION);
-            case PLAYER_PERMISSION -> localizedMessageService.getMessage(BundleMessages.REQUEST_PLAYER_PERMISSION);
-            case RENAME -> localizedMessageService.getMessage(BundleMessages.REQUEST_RENAME);
-            case CONSOLE_COMMAND -> localizedMessageService.getMessage(BundleMessages.REQUEST_CONSOLE_COMMAND);
-            case PLAYER_COMMAND -> localizedMessageService.getMessage(BundleMessages.REQUEST_PLAYER_COMMAND);
-            case MESSAGE -> localizedMessageService.getMessage(BundleMessages.REQUEST_MESSAGE);
+            case PERMISSION -> messageService.getMessage(BundleMessages.REQUEST_PERMISSION);
+            case PLAYER_PERMISSION -> messageService.getMessage(BundleMessages.REQUEST_PLAYER_PERMISSION);
+            case RENAME -> messageService.getMessage(BundleMessages.REQUEST_RENAME);
+            case CONSOLE_COMMAND -> messageService.getMessage(BundleMessages.REQUEST_CONSOLE_COMMAND);
+            case PLAYER_COMMAND -> messageService.getMessage(BundleMessages.REQUEST_PLAYER_COMMAND);
+            case MESSAGE -> messageService.getMessage(BundleMessages.REQUEST_MESSAGE);
             case DELAY -> "";
         };
     }

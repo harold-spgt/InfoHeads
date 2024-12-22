@@ -6,6 +6,7 @@ import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -36,8 +37,7 @@ public class BukkitCmdExecutor implements CommandExecutor {
      * @return If the command execution was a success or not.
      */
     @Override
-    public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command ignore, String s, String[] args) {
-
+    public boolean onCommand(@NotNull CommandSender commandSender, org.bukkit.command.@NotNull Command ignore, String s, String[] args) {
         if (!(commandSender instanceof Player bukkitPlayer)) {
             return false;
         }

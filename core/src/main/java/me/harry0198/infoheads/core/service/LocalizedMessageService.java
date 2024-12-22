@@ -1,5 +1,8 @@
-package me.harry0198.infoheads.core.config;
+package me.harry0198.infoheads.core.service;
 
+import com.google.inject.Inject;
+import me.harry0198.infoheads.core.config.BundleMessages;
+import me.harry0198.infoheads.core.di.annotations.WorkingDirectory;
 import me.harry0198.infoheads.core.utils.logging.Logger;
 import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 
@@ -14,7 +17,7 @@ import java.util.function.UnaryOperator;
 /**
  * A service that provides localized messages based on enums and locale settings.
  */
-public class LocalizedMessageService {
+public class LocalizedMessageService implements MessageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger();
     private static final String BUNDLE_NAME = "messages";
@@ -28,7 +31,8 @@ public class LocalizedMessageService {
      * @param locale The locale for which messages should be fetched.
      * @param colourReplaceStrategy Strategy to use to replace the colours.
      */
-    public LocalizedMessageService(Locale locale, Path workingDirectory, UnaryOperator<String> colourReplaceStrategy) {
+    @Inject
+    public LocalizedMessageService(Locale locale, @WorkingDirectory Path workingDirectory, UnaryOperator<String> colourReplaceStrategy) {
         this.resourceBundle = initializeResourceBundle(workingDirectory, locale);
         this.colourReplaceStrategy = colourReplaceStrategy;
     }

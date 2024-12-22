@@ -1,7 +1,8 @@
 package me.harry0198.infoheads.core.event.handlers;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.elements.Element;
 import me.harry0198.infoheads.core.elements.PlayerPermissionElement;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
@@ -24,13 +25,14 @@ import java.util.concurrent.TimeUnit;
 public class InteractHandler {
 
     private final InfoHeadService infoHeadService;
-    private final LocalizedMessageService localizedMessageService;
+    private final MessageService messageService;
     private final EventDispatcher eventDispatcher;
     private final PlaceholderHandlingStrategy placeholderHandlingStrategy;
 
-    public InteractHandler(InfoHeadService infoHeadService, LocalizedMessageService localizedMessageService, PlaceholderHandlingStrategy placeholderHandlingStrategy, EventDispatcher eventDispatcher) {
+    @Inject
+    public InteractHandler(InfoHeadService infoHeadService, MessageService messageService, PlaceholderHandlingStrategy placeholderHandlingStrategy, EventDispatcher eventDispatcher) {
         this.infoHeadService = infoHeadService;
-        this.localizedMessageService = localizedMessageService;
+        this.messageService = messageService;
         this.eventDispatcher = eventDispatcher;
         this.placeholderHandlingStrategy = placeholderHandlingStrategy;
     }
@@ -87,19 +89,19 @@ public class InteractHandler {
                 // Checks if player has infohead specific perms
         String permission = infoHeadProperties.getPermission();
         if (permission != null && !onlinePlayer.hasPermission(permission)) {
-            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.NO_PERMISSION)));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, messageService.getMessage(BundleMessages.NO_PERMISSION)));
             return false;
         }
 
         // Checks if player is on cooldown
         if (infoHeadProperties.isOnCoolDown(onlinePlayer)) {
             Long coolDown = infoHeadProperties.getCoolDown(onlinePlayer);
-            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getTimeMessage(coolDown, BundleMessages.COOLDOWN_TIME)));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, messageService.getTimeMessage(coolDown, BundleMessages.COOLDOWN_TIME)));
             return false;
         }
 
         if (infoHeadProperties.isOneTimeUse() && infoHeadProperties.isExecuted(onlinePlayer)) {
-            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, localizedMessageService.getMessage(BundleMessages.ONE_TIME)));
+            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(onlinePlayer, messageService.getMessage(BundleMessages.ONE_TIME)));
             return false;
         }
 

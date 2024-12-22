@@ -1,7 +1,8 @@
 package me.harry0198.infoheads.spigot.ui.cooldown;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.model.TimePeriod;
 import me.harry0198.infoheads.core.ui.TimePeriodViewModel;
 import me.harry0198.infoheads.spigot.model.BukkitOnlinePlayer;
@@ -14,6 +15,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 
 public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
 
@@ -25,12 +28,13 @@ public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
     private static final GuiSlot PREV_PAGE_SLOT = new GuiSlot(5,5);
     private static final GuiSlot COMPLETE_SLOT = new GuiSlot(5,9);
     private final TimePeriodViewModel viewModel;
-    private final LocalizedMessageService localizedMessageService;
+    private final MessageService messageService;
 
-    public TimePeriodGui(TimePeriodViewModel viewModel, LocalizedMessageService localizedMessageService) {
-        super(viewModel, 5, localizedMessageService.getMessage(BundleMessages.COOLDOWN_TITLE));
-        this.viewModel = viewModel;
-        this.localizedMessageService = localizedMessageService;
+    @Inject
+    public TimePeriodGui(TimePeriodViewModel viewModel, MessageService messageService) {
+        super(viewModel, 5, messageService.getMessage(BundleMessages.COOLDOWN_TITLE));
+        this.viewModel = Objects.requireNonNull(viewModel);
+        this.messageService = Objects.requireNonNull(messageService);
 
         populate();
         applyBindings();
@@ -49,12 +53,12 @@ public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
         applyIncrDecrCounters(MINUTES_SLOT, TimePeriodViewModel.Field.MINUTES);
         applyIncrDecrCounters(SECONDS_SLOT, TimePeriodViewModel.Field.SECONDS);
 
-        insert(PREV_PAGE_SLOT, new GuiItem(new ItemBuilder(Material.BARRIER).name(localizedMessageService.getMessage(BundleMessages.PREVIOUS_PAGE)).glow(true).build(), event -> {
+        insert(PREV_PAGE_SLOT, new GuiItem(new ItemBuilder(Material.BARRIER).name(messageService.getMessage(BundleMessages.PREVIOUS_PAGE)).glow(true).build(), event -> {
             if (!(event.getWhoClicked() instanceof Player)) return;
 
             viewModel.navigateToPreviousPage(new BukkitOnlinePlayer((Player) event.getWhoClicked()));
         }));
-        insert(COMPLETE_SLOT, new GuiItem(new ItemBuilder(Material.EMERALD_BLOCK).name(localizedMessageService.getMessage(BundleMessages.COMPLETE_STEP)).glow(true).build(), event -> {
+        insert(COMPLETE_SLOT, new GuiItem(new ItemBuilder(Material.EMERALD_BLOCK).name(messageService.getMessage(BundleMessages.COMPLETE_STEP)).glow(true).build(), event -> {
             if (!(event.getWhoClicked() instanceof Player)) return;
 
             viewModel.saveConfiguration();
@@ -75,11 +79,11 @@ public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
     private void updateValueIndicators(TimePeriod cooldown) {
 
         // Slots 2 to 8 are Weeks, Days, Hours, Minutes and Seconds.
-        updateValueIndicator(WEEKS_SLOT, localizedMessageService.getMessage(BundleMessages.WEEKS), cooldown.weeks());
-        updateValueIndicator(DAYS_SLOT, localizedMessageService.getMessage(BundleMessages.DAYS), cooldown.days());
-        updateValueIndicator(HOURS_SLOT, localizedMessageService.getMessage(BundleMessages.HOURS), cooldown.hours());
-        updateValueIndicator(MINUTES_SLOT, localizedMessageService.getMessage(BundleMessages.MINUTES), cooldown.minutes());
-        updateValueIndicator(SECONDS_SLOT, localizedMessageService.getMessage(BundleMessages.SECONDS), cooldown.seconds());
+        updateValueIndicator(WEEKS_SLOT, messageService.getMessage(BundleMessages.WEEKS), cooldown.weeks());
+        updateValueIndicator(DAYS_SLOT, messageService.getMessage(BundleMessages.DAYS), cooldown.days());
+        updateValueIndicator(HOURS_SLOT, messageService.getMessage(BundleMessages.HOURS), cooldown.hours());
+        updateValueIndicator(MINUTES_SLOT, messageService.getMessage(BundleMessages.MINUTES), cooldown.minutes());
+        updateValueIndicator(SECONDS_SLOT, messageService.getMessage(BundleMessages.SECONDS), cooldown.seconds());
     }
 
     private void updateValueIndicator(GuiSlot valueSlot, String name, int quantity) {
@@ -92,14 +96,14 @@ public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
 
     private void applyIncrDecrCounters(GuiSlot guiSlot, TimePeriodViewModel.Field field) {
         ItemStack incrItemStack = new ItemBuilder(Material.LIME_DYE)
-                .name(localizedMessageService.getMessage(BundleMessages.INCREMENT_COOLDOWN))
-                .lore(localizedMessageService.getMessageList(BundleMessages.INCREMENT_COOLDOWN_MORE))
+                .name(messageService.getMessage(BundleMessages.INCREMENT_COOLDOWN))
+                .lore(messageService.getMessageList(BundleMessages.INCREMENT_COOLDOWN_MORE))
                 .glow(true)
                 .build();
 
         ItemStack decrItemStack = new ItemBuilder(Material.REDSTONE)
-                .name(localizedMessageService.getMessage(BundleMessages.DECREMENT_COOLDOWN))
-                .lore(localizedMessageService.getMessageList(BundleMessages.DECREMENT_COOLDOWN_MORE))
+                .name(messageService.getMessage(BundleMessages.DECREMENT_COOLDOWN))
+                .lore(messageService.getMessageList(BundleMessages.DECREMENT_COOLDOWN_MORE))
                 .glow(true)
                 .build();
 

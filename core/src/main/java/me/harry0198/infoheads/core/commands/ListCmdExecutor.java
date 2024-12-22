@@ -1,7 +1,8 @@
 package me.harry0198.infoheads.core.commands;
 
 
-import me.harry0198.infoheads.core.config.LocalizedMessageService;
+import com.google.inject.Inject;
+import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.event.types.ShowInfoHeadListEvent;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
@@ -13,14 +14,15 @@ public class ListCmdExecutor extends CmdExecutor {
     private final EventDispatcher eventDispatcher;
     private final InfoHeadService infoHeadService;
 
-    public ListCmdExecutor(LocalizedMessageService localizedMessageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
-        super(localizedMessageService, eventDispatcher, Constants.ADMIN_PERMISSION);
+    @Inject
+    public ListCmdExecutor(MessageService messageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
+        super(messageService, eventDispatcher, Constants.ADMIN_PERMISSION);
         this.infoHeadService = infoHeadService;
         this.eventDispatcher = eventDispatcher;
     }
 
     @Override
-    public boolean executeCmd(OnlinePlayer player) {
+    public boolean executeCmd(Command command, OnlinePlayer player) {
         this.eventDispatcher.dispatchEvent(new ShowInfoHeadListEvent(player, infoHeadService.getAll()));
         return true;
     }
