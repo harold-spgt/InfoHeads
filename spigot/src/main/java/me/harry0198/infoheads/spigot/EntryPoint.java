@@ -1,10 +1,10 @@
 package me.harry0198.infoheads.spigot;
 
 import com.google.inject.Guice;
-import com.google.inject.Injector;
-import me.harry0198.infoheads.core.InfoHeadsPlugin;
+import me.harry0198.infoheads.core.Plugin;
 import me.harry0198.infoheads.core.di.CoreModule;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
+import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.logging.Level;
 import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 import me.harry0198.infoheads.legacy.Converter;
@@ -28,14 +28,25 @@ import java.util.concurrent.CompletableFuture;
  */
 public final class EntryPoint extends JavaPlugin {
 
-    private final InfoHeadsPlugin infoHeadsPlugin;
+    private Plugin infoHeadsPlugin;
+    private InfoHeadService infoHeadService;
 
     public EntryPoint() {
+        // We set level to debug here because during the initialization procedure,
+        // this flag is overridden immediately by configuration options. However, if this cannot be loaded then an error
+        // has occurred and we want to be able to see why at the debug level.
         LoggerFactory.setLogger(new BukkitLogger(Level.DEBUG));
-        var injector = Guice.createInjector(new CoreModule(), new SpigotModule(this));
-        injector.injectMembers(this);
 
-        this.infoHeadsPlugin = injector.getInstance(SpigotInfoHeadsPlugin.class);
+        initialize();
+    }
+
+    /**
+     * Resets the stored instances of infoheads.
+     */
+    public void hardReload() {
+        onDisable();
+        initialize();
+        infoHeadsPlugin.onEnable();
     }
 
     @Override
@@ -55,7 +66,15 @@ public final class EntryPoint extends JavaPlugin {
         return getPlugin(EntryPoint.class);
     }
 
-    private boolean convertLegacyDataStore() {
+    private void initialize() {
+        var injector = Guice.createInjector(new CoreModule(), new SpigotModule(this));
+        injector.injectMembers(this);
+
+        this.infoHeadsPlugin = injector.getInstance(SpigotInfoHeadsPlugin.class);
+        this.infoHeadService = injector.getInstance(InfoHeadService.class);
+    }
+
+    private void convertLegacyDataStore() {
         Path legacyDataStore = Paths.get(this.getDataFolder().getAbsolutePath(), "datastore.json");
         if (legacyDataStore.toFile().exists()) {
             getLogger().info("PERFORMING DATA STORAGE AND CONFIG.YML CONVERSION. SOME WARNINGS MAY APPEAR. YOU MAY NEED TO RESTART IF ISSUES OCCUR. IF YOU " +
@@ -70,7 +89,7 @@ public final class EntryPoint extends JavaPlugin {
             Converter converter = new Converter();
             try {
                 List<InfoHeadProperties> infoHeadProperties = converter.convert(Files.readString(legacyDataStore));
-                List<CompletableFuture<Boolean>> futures = infoHeadProperties.stream().map(x -> infoHeadsPlugin.getInfoHeadService().addInfoHead(x)).toList();
+                List<CompletableFuture<Boolean>> futures = infoHeadProperties.stream().map(infoHeadService::addInfoHead).toList();
                 CompletableFuture<Void> all = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
                 all.thenRun(() -> {
                     Path renameDataStore = Paths.get(this.getDataFolder().getAbsolutePath(), "datastore-old.json");
@@ -81,12 +100,10 @@ public final class EntryPoint extends JavaPlugin {
 
             } catch (IOException e) {
                 getLogger().severe("Unable to perform legacy data store conversion. Cannot bring legacy to current version.");
-                return false;
+                return;
             }
 
             Bukkit.getScheduler().runTaskLater(this, infoHeadsPlugin::reload, 20L);
-            return true;
         }
-        return false;
     }
 }

@@ -3,35 +3,33 @@ package me.harry0198.infoheads.core.di;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import jakarta.inject.Qualifier;
-import me.harry0198.infoheads.core.InfoHeadsPlugin;
-import me.harry0198.infoheads.core.commands.CommandHandler;
+import me.harry0198.infoheads.core.commands.*;
 import me.harry0198.infoheads.core.config.Configuration;
+import me.harry0198.infoheads.core.di.annotations.*;
 import me.harry0198.infoheads.core.service.*;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
 import me.harry0198.infoheads.core.persistence.entity.InfoHeadProperties;
 import me.harry0198.infoheads.core.persistence.repository.LocalRepository;
 import me.harry0198.infoheads.core.persistence.repository.Repository;
 
-import java.lang.annotation.Retention;
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.function.UnaryOperator;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public class CoreModule extends AbstractModule {
 
     @Override
     protected void configure() {
         bind(MessageService.class).to(LocalizedMessageService.class);
-//        bind(MyService.class).to(MyServiceImpl.class);
+        bind(EventDispatcher.class).in(Singleton.class);
+        bind(CmdExecutor.class).annotatedWith(HelpCommandExecutor.class).to(HelpCmdExecutor.class);
+        bind(CmdExecutor.class).annotatedWith(ListCommandExecutor.class).to(ListCmdExecutor.class);
+        bind(CmdExecutor.class).annotatedWith(ReloadCommandExecutor.class).to(ReloadCmdExecutor.class);
+        bind(CmdExecutor.class).annotatedWith(WizardCommandExecutor.class).to(WizardCmdExecutor.class);
+        bind(CmdExecutor.class).annotatedWith(RemoveCommandExecutor.class).to(RemoveCmdExecutor.class);
+        bind(CmdExecutor.class).annotatedWith(UnknownCommandExecutor.class).to(UnknownCmdExecutor.class);
+        bind(CmdExecutor.class).annotatedWith(EditCommandExecutor.class).to(EditCmdExecutor.class);
     }
-
-    @Qualifier
-    @Retention(RUNTIME)
-    public @interface WorkingDirectory {}
 
     @Provides
     @Singleton
@@ -46,10 +44,8 @@ public class CoreModule extends AbstractModule {
 
         Locale locale;
         if (configuration.isEmpty()) {
-            //LOGGER.warn("Using default language tag en-GB - configuration was not loaded.");
             locale = Locale.forLanguageTag("en-GB");
         } else {
-//            LOGGER.debug(String.format("Using language tag (%s)", configuration.get().getLanguageTag()));
             locale = Locale.forLanguageTag(configuration.get().getLanguageTag());
         }
 
@@ -72,11 +68,5 @@ public class CoreModule extends AbstractModule {
     @Singleton
     static UserStateService provideUserStateService() {
         return new UserStateService();
-    }
-
-    @Provides
-    @Singleton
-    static EventDispatcher provideEventDispatcher() {
-        return new EventDispatcher();
     }
 }

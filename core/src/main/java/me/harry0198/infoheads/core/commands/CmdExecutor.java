@@ -32,13 +32,13 @@ public abstract class CmdExecutor {
      * @param sender {@link Player} that has requested to execute the command.
      * @return If command execution was successful or not.
      */
-    public boolean execute(OnlinePlayer sender) {
+    public boolean execute(Command command, OnlinePlayer sender) {
         if (sender.hasPermission(Constants.ADMIN_PERMISSION)) {
             eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.NO_PERMISSION)));
             return true;
         }
 
-        return executeCmd(sender);
+        return executeCmd(command, sender);
     }
 
     /**
@@ -57,5 +57,5 @@ public abstract class CmdExecutor {
         return this.messageService;
     }
 
-    public abstract boolean executeCmd(OnlinePlayer sender);
+    public abstract boolean executeCmd(Command command, OnlinePlayer sender);
 }

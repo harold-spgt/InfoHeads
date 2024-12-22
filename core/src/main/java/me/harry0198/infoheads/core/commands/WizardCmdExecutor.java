@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.core.commands;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
@@ -24,17 +25,15 @@ public class WizardCmdExecutor extends CmdExecutor {
     private final EventDispatcher eventDispatcher;
     private final UserStateService userStateService;
     private final InfoHeadService infoHeadService;
-    private final Command command;
 
+    @Inject
     public WizardCmdExecutor(
-            Command command,
             EventDispatcher eventDispatcher,
             InfoHeadService infoHeadService,
             UserStateService userStateService,
             MessageService messageService
     ) {
         super(messageService, eventDispatcher, Constants.BASE_PERMISSION + "wizard");
-        this.command = command;
         this.eventDispatcher = eventDispatcher;
         this.userStateService = userStateService;
         this.infoHeadService = infoHeadService;
@@ -50,7 +49,7 @@ public class WizardCmdExecutor extends CmdExecutor {
      * @return {@code true} if the command was successfully executed, otherwise {@code false}
      */
     @Override
-    public boolean executeCmd(OnlinePlayer sender) {
+    public boolean executeCmd(Command command, OnlinePlayer sender) {
         if (userStateService.getPlacerModeHead(sender).isPresent()) return true;
 
         // Check for args /if wizard [head id]

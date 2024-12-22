@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.spigot.ui.cooldown;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.model.TimePeriod;
@@ -14,6 +15,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 
 public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
 
@@ -27,10 +30,11 @@ public class TimePeriodGui extends InventoryGui<TimePeriodViewModel> {
     private final TimePeriodViewModel viewModel;
     private final MessageService messageService;
 
+    @Inject
     public TimePeriodGui(TimePeriodViewModel viewModel, MessageService messageService) {
         super(viewModel, 5, messageService.getMessage(BundleMessages.COOLDOWN_TITLE));
-        this.viewModel = viewModel;
-        this.messageService = messageService;
+        this.viewModel = Objects.requireNonNull(viewModel);
+        this.messageService = Objects.requireNonNull(messageService);
 
         populate();
         applyBindings();

@@ -3,29 +3,29 @@ package me.harry0198.infoheads.spigot.di;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import me.harry0198.infoheads.core.InfoHeadsPlugin;
-import me.harry0198.infoheads.core.commands.CommandHandler;
-import me.harry0198.infoheads.core.service.ConfigurationService;
-import me.harry0198.infoheads.core.service.LocalizedMessageService;
-import me.harry0198.infoheads.core.service.MessageService;
-import me.harry0198.infoheads.core.di.CoreModule;
-import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
-import me.harry0198.infoheads.core.event.handlers.*;
+
+import me.harry0198.infoheads.core.Plugin;
+import me.harry0198.infoheads.core.di.annotations.WorkingDirectory;
+import me.harry0198.infoheads.core.event.InfoHeadEventListenerRegister;
 import me.harry0198.infoheads.core.hooks.PlaceholderHandlingStrategy;
 import me.harry0198.infoheads.core.hooks.VanillaPlaceholderHandlingStrategy;
-import me.harry0198.infoheads.core.service.InfoHeadService;
 import me.harry0198.infoheads.core.utils.Constants;
 import me.harry0198.infoheads.spigot.EntryPoint;
 import me.harry0198.infoheads.spigot.SpigotInfoHeadsPlugin;
+import me.harry0198.infoheads.spigot.di.annotations.PermissionsData;
 import me.harry0198.infoheads.spigot.hooks.PAPIPlaceholderHandlingStrategy;
-import me.harry0198.infoheads.spigot.listener.BukkitEventListener;
 import me.harry0198.infoheads.spigot.listener.InfoHeadEventHandlerRegister;
 import org.bukkit.ChatColor;
+import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
+
 
 public class SpigotModule extends AbstractModule {
 
@@ -37,8 +37,15 @@ public class SpigotModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(InfoHeadsPlugin.class).to(SpigotInfoHeadsPlugin.class);
-//        bind(MyService.class).to(MyServiceImpl.class);
+        bind(Plugin.class).to(SpigotInfoHeadsPlugin.class);
+        bind(InfoHeadEventListenerRegister.class).to(InfoHeadEventHandlerRegister.class);
+    }
+
+    @Provides
+    @PermissionsData
+    @Singleton
+    ConcurrentMap<UUID, PermissionAttachment> providePermissionsData() {
+        return new ConcurrentHashMap<>();
     }
 
     @Provides
@@ -48,7 +55,7 @@ public class SpigotModule extends AbstractModule {
     }
 
     @Provides
-    @CoreModule.WorkingDirectory
+    @WorkingDirectory
     Path provideWorkingDirectory() {
         return this.entryPoint.getDataFolder().toPath();
     }
@@ -65,21 +72,8 @@ public class SpigotModule extends AbstractModule {
     }
 
     @Provides
-    BukkitEventListener provideBukkitEventListener(BreakHandler breakHandler, InteractHandler interactHandler, PlaceHandler placeHandler, PlayerJoinHandler playerJoinHandler, PlayerQuitHandler playerQuitHandler, InfoHeadEventHandlerRegister register) {
-            return new BukkitEventListener(
-                breakHandler,
-                interactHandler,
-                placeHandler,
-                playerJoinHandler,
-                playerQuitHandler,
-                register.getPermissionsMapping()
-        );
-    }
-
-    @Provides
     static PlaceholderHandlingStrategy providePlaceholderHandlingStrategy() {
         if (packagesExists("me.clip.placeholderapi.PlaceholderAPI")) {
-//            logger.info("Hook - PlaceholderAPI integration successful.");
             return new PAPIPlaceholderHandlingStrategy();
         } else {
             return new VanillaPlaceholderHandlingStrategy();

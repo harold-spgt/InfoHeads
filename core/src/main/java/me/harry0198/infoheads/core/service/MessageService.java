@@ -9,7 +9,6 @@ import java.util.*;
  */
 public interface MessageService {
 
-
     String prepare(String msg);
 
     /**

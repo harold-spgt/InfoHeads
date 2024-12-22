@@ -16,10 +16,6 @@ public class AddActionViewModel extends ViewModel {
         this.configuration = configuration;
     }
 
-    public InfoHeadProperties getConfiguration() {
-        return configuration;
-    }
-
     public void newElement(Element.InfoHeadType infoHeadType, OnlinePlayer onlinePlayer) {
         getShouldCloseProperty().setValue(true);
         switch (infoHeadType) {

@@ -18,6 +18,7 @@ public class EventDispatcher {
     }
 
     public void unregisterAll() {
+        LOGGER.info("Unregistering all event listeners");
         listenersMap.clear();
     }
 

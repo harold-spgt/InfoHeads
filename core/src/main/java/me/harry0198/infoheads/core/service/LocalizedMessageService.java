@@ -2,7 +2,7 @@ package me.harry0198.infoheads.core.service;
 
 import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
-import me.harry0198.infoheads.core.di.CoreModule;
+import me.harry0198.infoheads.core.di.annotations.WorkingDirectory;
 import me.harry0198.infoheads.core.utils.logging.Logger;
 import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 
@@ -32,7 +32,7 @@ public class LocalizedMessageService implements MessageService {
      * @param colourReplaceStrategy Strategy to use to replace the colours.
      */
     @Inject
-    public LocalizedMessageService(Locale locale, @CoreModule.WorkingDirectory Path workingDirectory, UnaryOperator<String> colourReplaceStrategy) {
+    public LocalizedMessageService(Locale locale, @WorkingDirectory Path workingDirectory, UnaryOperator<String> colourReplaceStrategy) {
         this.resourceBundle = initializeResourceBundle(workingDirectory, locale);
         this.colourReplaceStrategy = colourReplaceStrategy;
     }

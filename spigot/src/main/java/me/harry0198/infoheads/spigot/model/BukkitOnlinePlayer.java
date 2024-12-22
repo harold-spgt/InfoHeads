@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class BukkitOnlinePlayer extends OnlinePlayer {
@@ -47,6 +48,8 @@ public class BukkitOnlinePlayer extends OnlinePlayer {
 
     @Override
     public boolean hasPermission(String permission) {
+        Objects.requireNonNull(permission);
+
         return player.hasPermission(permission);
     }
 

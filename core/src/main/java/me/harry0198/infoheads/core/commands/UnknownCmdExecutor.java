@@ -1,6 +1,7 @@
 package me.harry0198.infoheads.core.commands;
 
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
@@ -16,6 +17,7 @@ public class UnknownCmdExecutor extends CmdExecutor {
     /**
      * {@inheritDoc}
      */
+    @Inject
     public UnknownCmdExecutor(MessageService messageService, EventDispatcher eventDispatcher) {
         super(messageService, eventDispatcher, null);
     }
@@ -24,7 +26,7 @@ public class UnknownCmdExecutor extends CmdExecutor {
      * {@inheritDoc}
      */
     @Override
-    public boolean executeCmd(OnlinePlayer sender) {
+    public boolean executeCmd(Command command, OnlinePlayer sender) {
         getEventDispatcher().dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.UNKNOWN_CMD)));
         return true;
     }

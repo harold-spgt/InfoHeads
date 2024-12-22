@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.spigot.ui.edit;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.elements.*;
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 
 public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
 
@@ -25,9 +27,10 @@ public final class EditInfoHeadGui extends InventoryGui<EditInfoHeadViewModel> {
      * Creates the edit menu for an InfoHead configuration.
      * @param viewModel for this view.
      */
+    @Inject
     public EditInfoHeadGui(EditInfoHeadViewModel viewModel, MessageService messageService) {
         super(viewModel, 6, messageService.getMessage(BundleMessages.EDIT_INFOHEAD_UI_TITLE));
-        this.messageService = messageService;
+        this.messageService = Objects.requireNonNull(messageService);
 
         setDefaultClickAction(event -> event.setCancelled(true));
         setCloseAction(event -> viewModel.save(new BukkitOnlinePlayer((Player) event.getPlayer())));

@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.spigot.ui.wizard;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.elements.Element;
@@ -15,6 +16,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AddActionGui extends InventoryGui<AddActionViewModel> {
     private static final GuiSlot APPEND_MSG_SLOT = new GuiSlot(2,3);
@@ -25,9 +27,11 @@ public class AddActionGui extends InventoryGui<AddActionViewModel> {
     private static final GuiSlot CANCEL_SLOT = new GuiSlot(5,5);
     private static final GuiSlot PERMISSION_SLOT = new GuiSlot(3,5);
     private final MessageService messageService;
+
+    @Inject
     public AddActionGui(AddActionViewModel viewModel, MessageService messageService) {
         super(viewModel, 5, messageService.getMessage(BundleMessages.ADD_ACTION_GUI_TITLE));
-        this.messageService = messageService;
+        this.messageService = Objects.requireNonNull(messageService);
 
         setDefaultClickAction(event -> event.setCancelled(true));
 

@@ -1,5 +1,6 @@
 package me.harry0198.infoheads.core.commands;
 
+import com.google.inject.Inject;
 import me.harry0198.infoheads.core.config.BundleMessages;
 import me.harry0198.infoheads.core.service.MessageService;
 import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
@@ -27,6 +28,7 @@ public class RemoveCmdExecutor extends CmdExecutor {
      * @param messageService Messages service.
      * @param infoHeadService the {@link InfoHeadService} instance used to manage InfoHeads
      */
+    @Inject
     public RemoveCmdExecutor(MessageService messageService, InfoHeadService infoHeadService, EventDispatcher eventDispatcher) {
         super(messageService, eventDispatcher, Constants.ADMIN_PERMISSION);
         this.infoHeadService = infoHeadService;
@@ -43,7 +45,7 @@ public class RemoveCmdExecutor extends CmdExecutor {
      */
     @SuppressWarnings("squid:S3516")
     @Override
-    public boolean executeCmd(OnlinePlayer sender) {
+    public boolean executeCmd(Command command, OnlinePlayer sender) {
         Optional<InfoHeadProperties> infoHeadPropertiesOptional = infoHeadService.getInfoHead(sender.getLookingAt().orElse(null));
 
         if (infoHeadPropertiesOptional.isEmpty()) {

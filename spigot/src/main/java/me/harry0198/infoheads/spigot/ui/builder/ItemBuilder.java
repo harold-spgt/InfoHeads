@@ -19,10 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * {@link ItemStack} utility to allow quick and easy item building in a
@@ -51,6 +48,8 @@ public class ItemBuilder {
      * @return {@link ItemBuilder}
      */
     public ItemBuilder name(String name) {
+        Objects.requireNonNull(name);
+
         itemMeta.setDisplayName(name);
         return this;
     }
@@ -73,6 +72,8 @@ public class ItemBuilder {
      * @return {@link ItemBuilder}
      */
     public ItemBuilder lore(String... lore) {
+        Objects.requireNonNull(lore);
+
         return lore(Arrays.stream(lore).toList());
     }
 
@@ -83,6 +84,8 @@ public class ItemBuilder {
      * @return {@link ItemBuilder}
      */
     public ItemBuilder lore(List<String> lore) {
+        Objects.requireNonNull(lore);
+
         itemMeta.setLore(lore);
         return this;
     }
@@ -114,7 +117,9 @@ public class ItemBuilder {
      * @return {@link ItemBuilder}
      */
     @NotNull
-    public ItemBuilder texture(@NotNull final String texture) {
+    public ItemBuilder texture(final String texture) {
+        Objects.requireNonNull(texture);
+
         if (itemStack.getType() != Material.PLAYER_HEAD) return this;
 
         final String textureUrl = getSkinUrl(texture);

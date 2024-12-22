@@ -1,16 +1,12 @@
 package me.harry0198.infoheads.core.commands;
 
 import com.google.inject.Inject;
-import me.harry0198.infoheads.core.InfoHeadsPlugin;
-import me.harry0198.infoheads.core.service.MessageService;
-import me.harry0198.infoheads.core.event.dispatcher.EventDispatcher;
+import me.harry0198.infoheads.core.di.annotations.*;
 import me.harry0198.infoheads.core.model.OnlinePlayer;
-import me.harry0198.infoheads.core.service.InfoHeadService;
-import me.harry0198.infoheads.core.service.UserStateService;
-import me.harry0198.infoheads.core.utils.logging.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Handles the command executions and maps it to the correct
@@ -26,25 +22,31 @@ public class CommandHandler {
     private static final String REMOVE_CMD_STRING = "remove";
     private static final String RELOAD_CMD_STRING = "reload";
 
-    private final MessageService messageService;
-    private final InfoHeadService infoHeadService;
-    private final UserStateService userStateService;
-    private final EventDispatcher eventDispatcher;
-    private final InfoHeadsPlugin infoHeadsPlugin;
+    private final CmdExecutor helpCmdExecutor;
+    private final CmdExecutor wizardCmdExecutor;
+    private final CmdExecutor listCmdExecutor;
+    private final CmdExecutor editCmdExecutor;
+    private final CmdExecutor removeCmdExecutor;
+    private final CmdExecutor reloadCmdExecutor;
+    private final CmdExecutor unknownCmdExecutor;
 
     @Inject
     public CommandHandler(
-            InfoHeadsPlugin infoHeadsPlugin,
-            InfoHeadService infoHeadService,
-            UserStateService userStateService,
-            MessageService messageService,
-            EventDispatcher eventDispatcher
+            @HelpCommandExecutor CmdExecutor helpCmdExecutor,
+            @WizardCommandExecutor CmdExecutor wizardCmdExecutor,
+            @ListCommandExecutor CmdExecutor listCmdExecutor,
+            @EditCommandExecutor CmdExecutor editCmdExecutor,
+            @RemoveCommandExecutor CmdExecutor removeCmdExecutor,
+            @ReloadCommandExecutor CmdExecutor reloadCmdExecutor,
+            @UnknownCommandExecutor CmdExecutor unknownCmdExecutor
     ) {
-        this.messageService = messageService;
-        this.userStateService = userStateService;
-        this.infoHeadService = infoHeadService;
-        this.infoHeadsPlugin = infoHeadsPlugin;
-        this.eventDispatcher = eventDispatcher;
+        this.helpCmdExecutor = Objects.requireNonNull(helpCmdExecutor);
+        this.wizardCmdExecutor = Objects.requireNonNull(wizardCmdExecutor);
+        this.listCmdExecutor = Objects.requireNonNull(listCmdExecutor);
+        this.editCmdExecutor = Objects.requireNonNull(editCmdExecutor);
+        this.removeCmdExecutor = Objects.requireNonNull(removeCmdExecutor);
+        this.reloadCmdExecutor = Objects.requireNonNull(reloadCmdExecutor);
+        this.unknownCmdExecutor = Objects.requireNonNull(unknownCmdExecutor);
     }
 
     /***
@@ -54,20 +56,18 @@ public class CommandHandler {
      * @return If the command execution was a success or not.
      */
     public boolean handle(Command command, OnlinePlayer player) {
-        LoggerFactory.getLogger().info("handle.");
-        LoggerFactory.getLogger().info(command.cmdString());
         // Select the command executor based on command retrieved.
         CmdExecutor cmdExecutor = switch (command.cmdString().toLowerCase()) {
-            case HELP_CMD_STRING -> new HelpCmdExecutor(messageService, eventDispatcher);
-            case WIZARD_CMD_STRING -> new WizardCmdExecutor(command, eventDispatcher, infoHeadService, userStateService, messageService);
-            case LIST_CMD_STRING -> new ListCmdExecutor(messageService, infoHeadService, eventDispatcher);
-            case EDIT_CMD_STRING -> new EditCmdExecutor(messageService, infoHeadService, eventDispatcher);
-            case REMOVE_CMD_STRING -> new RemoveCmdExecutor(messageService, infoHeadService, eventDispatcher);
-            case RELOAD_CMD_STRING -> new ReloadCmdExecutor(infoHeadsPlugin, messageService, eventDispatcher);
-            default -> new UnknownCmdExecutor(messageService, eventDispatcher);
+            case HELP_CMD_STRING -> helpCmdExecutor;
+            case WIZARD_CMD_STRING -> wizardCmdExecutor;
+            case LIST_CMD_STRING -> listCmdExecutor;
+            case EDIT_CMD_STRING -> editCmdExecutor;
+            case REMOVE_CMD_STRING -> removeCmdExecutor;
+            case RELOAD_CMD_STRING -> reloadCmdExecutor;
+            default -> unknownCmdExecutor;
         };
 
-        return cmdExecutor.execute(player);
+        return cmdExecutor.execute(command, player);
     }
 
     public List<String> getTabCompletions(Command command) {
