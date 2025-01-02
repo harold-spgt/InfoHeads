@@ -14,7 +14,7 @@ repositories {
 }
 
 val junitVersion = "5.11.3"
-val mockitoVersion = "4.5.1"
+val mockitoVersion = "5.15.2"
 val snakeYamlVersion = "2.2"
 val gsonVersion = "2.11.0"
 val slf4jVersion = "1.7.25"
