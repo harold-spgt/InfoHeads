@@ -33,12 +33,12 @@ public abstract class CmdExecutor {
      * @return If command execution was successful or not.
      */
     public boolean execute(Command command, OnlinePlayer sender) {
-        if (sender.hasPermission(Constants.ADMIN_PERMISSION)) {
-            eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.NO_PERMISSION)));
-            return true;
+        if (sender.hasPermission(Constants.ADMIN_PERMISSION) || sender.hasPermission(permission)) {
+            return executeCmd(command, sender);
         }
 
-        return executeCmd(command, sender);
+        eventDispatcher.dispatchEvent(new SendPlayerMessageEvent(sender, getLocalizedMessageService().getMessage(BundleMessages.NO_PERMISSION)));
+        return true;
     }
 
     /**
