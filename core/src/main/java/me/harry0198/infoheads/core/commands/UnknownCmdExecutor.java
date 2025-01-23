@@ -19,7 +19,7 @@ public class UnknownCmdExecutor extends CmdExecutor {
      */
     @Inject
     public UnknownCmdExecutor(MessageService messageService, EventDispatcher eventDispatcher) {
-        super(messageService, eventDispatcher, null);
+        super(messageService, eventDispatcher);
     }
 
     /**
