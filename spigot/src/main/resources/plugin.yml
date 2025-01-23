@@ -23,4 +23,4 @@ permissions:
   infoheads.use:
     default: true
   infoheads.admin:
-    default: false
+    default: op

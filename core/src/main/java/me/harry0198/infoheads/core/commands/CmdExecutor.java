@@ -9,6 +9,8 @@ import me.harry0198.infoheads.core.model.OnlinePlayer;
 import me.harry0198.infoheads.core.model.Player;
 import me.harry0198.infoheads.core.utils.Constants;
 
+import java.util.Objects;
+
 /**
  * Command executor base class.
  * Responsible for checking permissions, sender and delegating execution
@@ -20,10 +22,16 @@ public abstract class CmdExecutor {
     private final MessageService messageService;
     private final EventDispatcher eventDispatcher;
 
+    protected CmdExecutor(MessageService messageService, EventDispatcher eventDispatcher) {
+        this.messageService = Objects.requireNonNull(messageService);
+        this.eventDispatcher = Objects.requireNonNull(eventDispatcher);
+        this.permission = null;
+    }
+
     protected CmdExecutor(MessageService messageService, EventDispatcher eventDispatcher, String permission) {
+        this.messageService = Objects.requireNonNull(messageService);
+        this.eventDispatcher = Objects.requireNonNull(eventDispatcher);
         this.permission = permission;
-        this.eventDispatcher = eventDispatcher;
-        this.messageService = messageService;
     }
 
     /**
@@ -33,7 +41,7 @@ public abstract class CmdExecutor {
      * @return If command execution was successful or not.
      */
     public boolean execute(Command command, OnlinePlayer sender) {
-        if (sender.hasPermission(Constants.ADMIN_PERMISSION) || sender.hasPermission(permission)) {
+        if (sender.hasPermission(Constants.ADMIN_PERMISSION) || permission == null || sender.hasPermission(permission)) {
             return executeCmd(command, sender);
         }
 
