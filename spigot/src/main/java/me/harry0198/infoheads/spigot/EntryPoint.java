@@ -31,15 +31,6 @@ public final class EntryPoint extends JavaPlugin {
     private Plugin infoHeadsPlugin;
     private InfoHeadService infoHeadService;
 
-    public EntryPoint() {
-        // We set level to debug here because during the initialization procedure,
-        // this flag is overridden immediately by configuration options. However, if this cannot be loaded then an error
-        // has occurred and we want to be able to see why at the debug level.
-        LoggerFactory.setLogger(new BukkitLogger(Level.DEBUG));
-
-        initialize();
-    }
-
     /**
      * Resets the stored instances of infoheads.
      */
@@ -51,6 +42,9 @@ public final class EntryPoint extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        LoggerFactory.setLogger(new BukkitLogger(Level.DEBUG));
+        initialize();
+
         new Metrics(this, 4607);
         infoHeadsPlugin.onEnable();
 

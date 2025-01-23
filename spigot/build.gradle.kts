@@ -44,7 +44,7 @@ repositories {
 val spigotVersion = "1.21-R0.1-SNAPSHOT"
 val papiVersion = "2.11.6"
 val authLibVersion = "6.0.54"
-val annotationsVersion = "26.0.1"
+val annotationsVersion = "26.0.2"
 val bstatsVersion = "3.0.2"
 val guiceVersion = "7.0.0"
 
@@ -82,7 +82,7 @@ tasks.processResources {
 
 tasks.sonarlintMain {
     dependencies {
-        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:8.6.0.37351")
+        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:8.9.0.37768")
     }
     reports {
         create("xml") {

@@ -14,7 +14,7 @@ repositories {
 }
 
 val junitVersion = "5.11.4"
-val mockitoVersion = "4.5.1"
+val mockitoVersion = "5.15.2"
 val snakeYamlVersion = "2.2"
 val gsonVersion = "2.11.0"
 val slf4jVersion = "1.7.25"
@@ -36,7 +36,7 @@ dependencies {
 
 tasks.sonarlintMain {
     dependencies {
-        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:8.6.0.37351")
+        sonarlintPlugins("org.sonarsource.java:sonar-java-plugin:8.9.0.37768")
     }
     reports {
         create("xml") {
